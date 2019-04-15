@@ -12,6 +12,8 @@ class Order
 {
     const STATE_CREATED = 'created';
     const STATE_DECLINED = 'declined';
+    const STATE_SHIPPED = 'shipped';
+    const STATE_CANCELLED = 'canceled';
 
     /** @var string */
     public $id;
