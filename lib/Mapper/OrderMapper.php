@@ -49,7 +49,6 @@ class OrderMapper
     public static function arrayFromCreateOrderObject($object)
     {
         return [
-            'order_id' => (string) time(), // TODO: remove
             'debtor_person' => [
                 'salutation' => $object->debtorPerson->salution,
                 'first_name' => $object->debtorPerson->firstname,
