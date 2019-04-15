@@ -3,8 +3,14 @@
 namespace Billie\HttpClient;
 
 use Billie\Command\CreateOrder;
+use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
+use Billie\Exception\InvalidRequestException;
+use Billie\Exception\NotAllowedException;
 use Billie\Exception\OrderDeclinedException;
+use Billie\Exception\OrderNotFoundException;
+use Billie\Exception\UnexceptedServerException;
+use Billie\Exception\UserNotAuthorizedException;
 use Billie\Mapper\OrderMapper;
 use Billie\Model\Order;
 use GuzzleHttp\Client;
@@ -59,8 +65,7 @@ class BillieClient implements ClientInterface
     /**
      * @param CreateOrder $createOrderCommand
      * @return Order
-     * @throws OrderDeclinedException
-     * @throws InvalidCommandException
+     * @throws BillieException
      *
      * TODO: exceptions
      */
@@ -71,27 +76,52 @@ class BillieClient implements ClientInterface
             throw new InvalidCommandException($violations);
         }
 
-        $client = $this->getClient();
         $data = OrderMapper::arrayFromCreateOrderObject($createOrderCommand);
-        $result = [];
+        $result = $this->request('order', $data);
 
-        try {
-            $response = $client->post('order', ['body' => json_encode($data)]);
-            $result = json_decode($response->getBody()->getContents(), true);
-
-            // declined orders response with 200 (OK)
-            if ($result['state'] === Order::STATE_DECLINED) {
-                throw new OrderDeclinedException($result['reasons']);
-            }
-
-
-        } catch (ClientException $exception) {
-            /**
-             * if code === 400, throw ...
-             */
+        // declined orders response with 200 (OK)
+        if ($result['state'] === Order::STATE_DECLINED) {
+            throw new OrderDeclinedException($result['reasons']);
         }
 
         return OrderMapper::objectFromArray($result);
+    }
+
+    /**
+     * @param string $path
+     * @param array $data
+     * @return array
+     * @throws BillieException
+     */
+    private function request($path, $data)
+    {
+        $client = $this->getClient();
+
+        try {
+            $response = $client->post($path, ['body' => json_encode($data)]);
+        } catch (ClientException $exception) {
+            if ($exception->getCode() === 400) {
+                throw new InvalidRequestException($exception->getMessage());
+            }
+
+            if ($exception->getCode() === 401) {
+                throw new UserNotAuthorizedException();
+            }
+
+            if ($exception->getCode() === 403) {
+                throw new NotAllowedException();
+            }
+
+            if ($exception->getCode() === 404) {
+                throw new OrderNotFoundException($data['order_id'] ?: null);
+            }
+
+            if ($exception->getCode() === 500) {
+                throw new UnexceptedServerException();
+            }
+        }
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**

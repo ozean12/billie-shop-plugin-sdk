@@ -8,7 +8,7 @@ namespace Billie\Exception;
  * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
-class OrderDeclinedException extends \Exception
+class OrderDeclinedException extends BillieException
 {
     private $reason;
 
