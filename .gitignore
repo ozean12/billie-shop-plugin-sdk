@@ -1,5 +1,7 @@
 .idea
 bin
 vendor
+docs-md
 
+phpdoc
 phpdoc.xml
