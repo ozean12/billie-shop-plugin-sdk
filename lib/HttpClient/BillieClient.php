@@ -2,6 +2,7 @@
 
 namespace Billie\HttpClient;
 
+use Billie\Command\CancelOrder;
 use Billie\Command\CreateOrder;
 use Billie\Command\ShipOrder;
 use Billie\Exception\BillieException;
@@ -114,6 +115,21 @@ class BillieClient implements ClientInterface
         }
 
         return ShipOrderMapper::orderObjectFromArray($result);
+    }
+
+    /**
+     * @param CancelOrder $cancelOrderCommand
+     * @throws BillieException
+     *
+     */
+    public function cancelOrder(CancelOrder $cancelOrderCommand)
+    {
+        // validate input
+        if ($violations = $this->validateCommand($cancelOrderCommand)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        $this->request('order/'.$cancelOrderCommand->id.'/cancel', []);
     }
 
     /**
