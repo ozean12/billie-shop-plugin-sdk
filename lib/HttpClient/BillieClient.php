@@ -4,6 +4,7 @@ namespace Billie\HttpClient;
 
 use Billie\Command\CancelOrder;
 use Billie\Command\CreateOrder;
+use Billie\Command\RetrieveOrder;
 use Billie\Command\ShipOrder;
 use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
@@ -15,12 +16,14 @@ use Billie\Exception\OrderNotShippedException;
 use Billie\Exception\UnexceptedServerException;
 use Billie\Exception\UserNotAuthorizedException;
 use Billie\Mapper\CreateOrderMapper;
+use Billie\Mapper\RetrieveOrderMapper;
 use Billie\Mapper\ShipOrderMapper;
 use Billie\Model\Order;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 /**
  * Class BillieClient
@@ -68,6 +71,25 @@ class BillieClient implements ClientInterface
     /**
      *  TODO: add public send(Command) and in it, depending on commandinstance run method!
      */
+
+    /**
+     * @param string $orderId
+     * @return Order
+     * @throws BillieException
+     */
+    public function getOrder($orderId)
+    {
+        $retrieveOrderCommand = new RetrieveOrder($orderId);
+
+        // validate input
+        if ($violations = $this->validateCommand($retrieveOrderCommand)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        $result = $this->get('order', $orderId);
+
+        return RetrieveOrderMapper::orderObjectFromArray($result);
+    }
 
 
     /**
@@ -166,6 +188,35 @@ class BillieClient implements ClientInterface
 
     /**
      * @param string $path
+     * @param string $orderId
+     * @return array
+     * @throws BillieException
+     */
+    private function get($path, $orderId)
+    {
+        $client = $this->getClient();
+
+        try {
+            $response = $client->get($path.'/'.$orderId);
+
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (ClientException $exception) {
+            if ($exception->getCode() === 401) {
+                throw new UserNotAuthorizedException();
+            }
+
+            if ($exception->getCode() === 404) {
+                throw new OrderNotFoundException($orderId);
+            }
+
+            if ($exception->getCode() === 500) {
+                throw new UnexceptedServerException();
+            }
+        }
+    }
+
+    /**
+     * @param string $path
      * @param array $data
      * @return array
      * @throws BillieException
@@ -176,6 +227,8 @@ class BillieClient implements ClientInterface
 
         try {
             $response = $client->post($path, ['body' => json_encode($data)]);
+
+            return json_decode($response->getBody()->getContents(), true);
         } catch (ClientException $exception) {
             if ($exception->getCode() === 400) {
                 throw new InvalidRequestException($exception->getMessage());
@@ -197,7 +250,5 @@ class BillieClient implements ClientInterface
                 throw new UnexceptedServerException();
             }
         }
-
-        return json_decode($response->getBody()->getContents(), true);
     }
 }
