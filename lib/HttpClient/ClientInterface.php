@@ -10,5 +10,10 @@ namespace Billie\HttpClient;
  */
 interface ClientInterface
 {
+    /**
+     * @param string $apiKey
+     * @param boolean $sandboxMode
+     * @return BillieClient
+     */
     public static function create($apiKey, $sandboxMode);
 }
