@@ -6,6 +6,7 @@ use Billie\Command\CancelOrder;
 use Billie\Command\CreateOrder;
 use Billie\Command\RetrieveOrder;
 use Billie\Command\ShipOrder;
+use Billie\Command\ReduceOrderAmount;
 use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
 use Billie\Exception\InvalidRequestException;
@@ -18,6 +19,7 @@ use Billie\Exception\UserNotAuthorizedException;
 use Billie\Mapper\CreateOrderMapper;
 use Billie\Mapper\RetrieveOrderMapper;
 use Billie\Mapper\ShipOrderMapper;
+use Billie\Mapper\UpdateOrderMapper;
 use Billie\Model\Order;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -114,6 +116,32 @@ class BillieClient implements ClientInterface
         }
 
         return CreateOrderMapper::orderObjectFromArray($result);
+    }
+
+    /**
+     * @param ReduceOrderAmount $command
+     * @return Order
+     * @throws BillieException
+     */
+    public function reduceOrderAmount(ReduceOrderAmount $command)
+    {
+        // validate input
+        if ($violations = $this->validateCommand($command)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        // validate with order state
+        $order = $this->getOrder($command->id);
+        if ($order->state === Order::STATE_SHIPPED) {
+            if (empty($command->invoiceUrl) || empty($command->invoiceNumber)) {
+                throw new InvalidCommandException(['Since the order is marked as SHIPPED, you need to provide an invoice_url and an invoice_number!']);
+            }
+        }
+
+        $data = UpdateOrderMapper::arrayFromCommandObject($command);
+        $this->request('order/'.$command->id, $data, 'PATCH');
+
+        return $this->getOrder($command->id);
     }
 
     /**
@@ -218,19 +246,25 @@ class BillieClient implements ClientInterface
     /**
      * @param string $path
      * @param array $data
+     * @param string $method
      * @return array
      * @throws BillieException
      */
-    private function request($path, $data)
+    private function request($path, $data, $method = 'POST')
     {
         $client = $this->getClient();
 
         try {
-            $response = $client->post($path, ['body' => json_encode($data)]);
+            if ($method === 'POST') {
+                $response = $client->post($path, ['body' => json_encode($data)]);
+            } elseif ($method === 'PATCH') {
+                $response = $client->patch($path, ['body' => json_encode($data)]);
+            }
 
             return json_decode($response->getBody()->getContents(), true);
         } catch (ClientException $exception) {
             if ($exception->getCode() === 400) {
+                dump($exception->getMessage());
                 throw new InvalidRequestException($exception->getMessage());
             }
 
