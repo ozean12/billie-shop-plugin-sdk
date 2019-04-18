@@ -12,35 +12,11 @@ use Billie\Model\Order;
  * Class OrderMapper
  *
  * @package Billie\Mapper
+ * @author Marcel Barten <github@m-barten.de>
  */
-class OrderMapper
+class CreateOrderMapper
 {
-    /**
-     * @param array $orderResponse
-     * @return Order
-     */
-    public static function objectFromArray($orderResponse)
-    {
-        $object = new Order();
-        $object->id = $orderResponse['uuid'];
-        $object->externalOrderId = '';
-        $object->state = $orderResponse['state'];
-
-        $object->invoice = null;
-
-        $object->bankAccount = new BankAccount($orderResponse['bank_account']['iban'], $orderResponse['bank_account']['bic']);
-
-        $companyAddress = new Address();
-        $companyAddress->street = $orderResponse['debtor_company']['address_street'];
-        $companyAddress->houseNumber = $orderResponse['debtor_company']['address_house_number'];
-        $companyAddress->city = $orderResponse['debtor_company']['address_city'];
-        $companyAddress->postalCode = $orderResponse['debtor_company']['address_postal_code'];
-        $companyAddress->countryCode = $orderResponse['debtor_company']['address_country'];
-        $object->debtorCompany = new Company('', $orderResponse['debtor_company']['name'], $companyAddress);
-
-        return $object;
-    }
-
+    use OrderObjectFromArrayTrait;
 
     /**
      * @param CreateOrder $object

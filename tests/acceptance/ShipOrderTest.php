@@ -3,8 +3,8 @@
 namespace Billie\Tests\acceptance;
 
 use Billie\Command\CreateOrder;
+use Billie\Command\ShipOrder;
 use Billie\Exception\InvalidCommandException;
-use Billie\Exception\OrderDeclinedException;
 use Billie\HttpClient\BillieClient;
 use Billie\Model\Address;
 use Billie\Model\Amount;
@@ -20,12 +20,12 @@ use PHPUnit\Framework\TestCase;
  * @author Marcel Barten <github@m-barten.de>
  *
  */
-final class CreateOrderTest extends TestCase
+class ShipOrderTest extends TestCase
 {
     private $apiKey = 'test-ralph';
 
 
-    public function testCreateOrderWithValidAttributes()
+    public function testShipOrderWithValidAttributes()
     {
         // createOrderCommand
         $command = new CreateOrder();
@@ -53,39 +53,20 @@ final class CreateOrderTest extends TestCase
 
         $this->assertNotEmpty($order->id);
         $this->assertEquals(Order::STATE_CREATED, $order->state);
+
+        // Ship Order
+        $command = new ShipOrder();
+        $command->id = $order->id;
+        $command->externalOrderId = '123456';
+        $command->invoiceNumber = '12/122/2019';
+        $command->invoiceUrl = 'https://www.googledrive.com/somefile.pdf';
+
+        $order = $client->shipOrder($command);
+
+        $this->assertEquals(Order::STATE_SHIPPED, $order->state);
     }
 
-    public function testCreateOrderWithInvalidCommand()
-    {
-        // createOrderCommand
-        $command = new CreateOrder();
-
-        $companyAddress = new Address();
-        $companyAddress->street = 'An der Ronne';
-        $companyAddress->houseNumber = '59';
-        $companyAddress->postalCode = '504859'; //
-        $companyAddress->city = 'Köln';
-        $companyAddress->countryCode = 'DE';
-        $command->debtorCompany = new Company('ABC123', 'Ralph Krämer GmbH', $companyAddress);
-        $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
-        //$command->debtorCompany->legalForm = 'GmbH';
-
-        $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
-        $command->debtorPerson->salution = 'd';
-        $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
-        $command->amount = new Amount(100, 'WRONG_CURRENCY', 19);
-
-        $command->duration = null; // WRONG DURATION
-
-
-        // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
-
-        $this->expectException(InvalidCommandException::class);
-        $order = $client->createOrder($command);
-    }
-
-    public function testDeclinedOrder()
+    public function testShipOrderWithInvalidAttributes()
     {
         // createOrderCommand
         $command = new CreateOrder();
@@ -96,9 +77,9 @@ final class CreateOrderTest extends TestCase
         $companyAddress->postalCode = '50859';
         $companyAddress->city = 'Köln';
         $companyAddress->countryCode = 'DE';
-        $command->debtorCompany = new Company('ZYX', 'highdigital UG', $companyAddress);
+        $command->debtorCompany = new Company('ABC123', 'Ralph Krämer GmbH', $companyAddress);
         $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
-        $command->debtorCompany->legalForm = 'UG';
+        $command->debtorCompany->legalForm = 'GmbH';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
@@ -109,8 +90,19 @@ final class CreateOrderTest extends TestCase
 
         // Send Order To API
         $client = BillieClient::create($this->apiKey, true);
-
-        $this->expectException(OrderDeclinedException::class);
         $order = $client->createOrder($command);
+
+        $this->assertNotEmpty($order->id);
+        $this->assertEquals(Order::STATE_CREATED, $order->state);
+
+        // Ship Order
+        $command = new ShipOrder();
+        $command->id = $order->id;
+        $command->externalOrderId = ''; // should be filled
+        $command->invoiceNumber = '12/122/2019';
+        $command->invoiceUrl = 'https://www.googledrive.com/somefile.pdf';
+
+        $this->expectException(InvalidCommandException::class);
+        $order = $client->shipOrder($command);
     }
 }

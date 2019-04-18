@@ -3,15 +3,18 @@
 namespace Billie\HttpClient;
 
 use Billie\Command\CreateOrder;
+use Billie\Command\ShipOrder;
 use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
 use Billie\Exception\InvalidRequestException;
 use Billie\Exception\NotAllowedException;
 use Billie\Exception\OrderDeclinedException;
 use Billie\Exception\OrderNotFoundException;
+use Billie\Exception\OrderNotShippedException;
 use Billie\Exception\UnexceptedServerException;
 use Billie\Exception\UserNotAuthorizedException;
-use Billie\Mapper\OrderMapper;
+use Billie\Mapper\CreateOrderMapper;
+use Billie\Mapper\ShipOrderMapper;
 use Billie\Model\Order;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -61,13 +64,16 @@ class BillieClient implements ClientInterface
 
         return $client;
     }
+    /**
+     *  TODO: add public send(Command) and in it, depending on commandinstance run method!
+     */
+
 
     /**
      * @param CreateOrder $createOrderCommand
      * @return Order
      * @throws BillieException
      *
-     * TODO: exceptions
      */
     public function createOrder(CreateOrder $createOrderCommand)
     {
@@ -76,7 +82,7 @@ class BillieClient implements ClientInterface
             throw new InvalidCommandException($violations);
         }
 
-        $data = OrderMapper::arrayFromCreateOrderObject($createOrderCommand);
+        $data = CreateOrderMapper::arrayFromCreateOrderObject($createOrderCommand);
         $result = $this->request('order', $data);
 
         // declined orders response with 200 (OK)
@@ -84,7 +90,62 @@ class BillieClient implements ClientInterface
             throw new OrderDeclinedException($result['reasons']);
         }
 
-        return OrderMapper::objectFromArray($result);
+        return CreateOrderMapper::orderObjectFromArray($result);
+    }
+
+    /**
+     * @param ShipOrder $shipOrderCommand
+     * @return Order
+     * @throws BillieException
+     *
+     */
+    public function shipOrder(ShipOrder $shipOrderCommand)
+    {
+        // validate input
+        if ($violations = $this->validateCommand($shipOrderCommand)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        $data = ShipOrderMapper::arrayFromCommandObject($shipOrderCommand);
+        $result = $this->request('order/'.$shipOrderCommand->id.'/ship', $data);
+
+        if ($result['state'] !== Order::STATE_SHIPPED) {
+            throw new OrderNotShippedException($shipOrderCommand->id, $result['reasons']);
+        }
+
+        return ShipOrderMapper::orderObjectFromArray($result);
+    }
+
+    /**
+     * @return Client
+     */
+    private function getClient()
+    {
+        return new Client([
+            'base_uri'  => $this->apiBaseUrl,
+            'headers'   => [
+                'X-API-KEY' => $this->apiKey,
+                'Content-Type' => 'application/json'
+            ],
+            'verify'  => false // TODO: remove
+        ]);
+    }
+
+    /**
+     * @param $command
+     * @return array
+     */
+    private function validateCommand($command)
+    {
+        $errors = $this->validator->validate($command);
+        $violations = [];
+
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+            $violations[] = $errorsString;
+        }
+
+        return $violations;
     }
 
     /**
@@ -123,36 +184,4 @@ class BillieClient implements ClientInterface
 
         return json_decode($response->getBody()->getContents(), true);
     }
-
-    /**
-     * @param $command
-     * @return array
-     */
-    private function validateCommand($command)
-    {
-        $errors = $this->validator->validate($command);
-        $violations = [];
-
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-            $violations[] = $errorsString;
-        }
-
-        return $violations;
-    }
-
-    /**
-     * @return Client
-     */
-    private function getClient()
-    {
-        return new Client([
-            'base_uri'  => $this->apiBaseUrl,
-            'headers'   => [
-                'X-API-KEY' => $this->apiKey,
-                'Content-Type' => 'application/json'
-            ],
-        ]);
-    }
-
 }
