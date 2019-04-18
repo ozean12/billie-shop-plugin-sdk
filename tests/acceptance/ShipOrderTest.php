@@ -64,6 +64,10 @@ class ShipOrderTest extends TestCase
         $order = $client->shipOrder($command);
 
         $this->assertEquals(Order::STATE_SHIPPED, $order->state);
+
+        // TODAY + DURATION
+        $dueDate = new \DateTime('+14 days');
+        $this->assertEquals($dueDate->format('Y-m-d'), $order->invoice->dueDate);
     }
 
     public function testShipOrderWithInvalidAttributes()
