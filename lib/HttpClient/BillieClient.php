@@ -4,6 +4,7 @@ namespace Billie\HttpClient;
 
 use Billie\Command\CancelOrder;
 use Billie\Command\CreateOrder;
+use Billie\Command\PostponeOrderDueDate;
 use Billie\Command\RetrieveOrder;
 use Billie\Command\ShipOrder;
 use Billie\Command\ReduceOrderAmount;
@@ -142,6 +143,34 @@ class BillieClient implements ClientInterface
         $this->request('order/'.$command->id, $data, 'PATCH');
 
         return $this->getOrder($command->id);
+    }
+
+    /**
+     * @param PostponeOrderDueDate $command
+     * @return Order
+     * @throws BillieException
+     */
+    public function postponeOrderDueDate(PostponeOrderDueDate $command)
+    {
+        // validate input
+        if ($violations = $this->validateCommand($command)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        // validate with order state
+        // update duration ONLY if due date is in the future AND state = SHIPPED
+        $order = $this->getOrder($command->id);
+        if ($order->state !== Order::STATE_SHIPPED
+            || strtotime($order->invoice->dueDate . ' 00:00:00.0') < time())
+        {
+            throw new InvalidCommandException(['The duration can only be updated, if the order is shipped and the current due date is in the future.']);
+        }
+
+        $data = UpdateOrderMapper::arrayFromCommandObject($command);
+        $this->request('order/'.$command->id, $data, 'PATCH');
+
+        return $this->getOrder($command->id);
+
     }
 
     /**

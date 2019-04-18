@@ -2,6 +2,7 @@
 
 namespace Billie\Mapper;
 
+use Billie\Command\PostponeOrderDueDate;
 use Billie\Command\ReduceOrderAmount;
 
 /**
@@ -13,7 +14,7 @@ use Billie\Command\ReduceOrderAmount;
 class UpdateOrderMapper
 {
     /**
-     * @param ReduceOrderAmount $object
+     * @param ReduceOrderAmount|PostponeOrderDueDate $object
      * @return array
      */
     public static function arrayFromCommandObject($object)
@@ -29,5 +30,13 @@ class UpdateOrderMapper
                 ],
             ];
         }
+
+        if ($object instanceof PostponeOrderDueDate) {
+            return [
+                'duration' => $object->duration
+            ];
+        }
+
+        return [];
     }
 }
