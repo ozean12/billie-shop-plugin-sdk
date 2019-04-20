@@ -51,13 +51,12 @@ class PostponeOrderDueDateTest extends TestCase
         $client = BillieClient::create($this->apiKey, true);
         $order = $client->createOrder($command);
 
-        $this->assertNotEmpty($order->id);
+        $this->assertNotEmpty($order->referenceId);
         $this->assertEquals(Order::STATE_CREATED, $order->state);
 
         // Ship Order
-        $command = new ShipOrder();
-        $command->id = $order->id;
-        $command->externalOrderId = '123456';
+        $command = new ShipOrder($order->referenceId);
+        $command->orderId = '123456';
         $command->invoiceNumber = '12/122/2019';
         $command->invoiceUrl = 'https://www.googledrive.com/somefile.pdf';
 
@@ -68,8 +67,7 @@ class PostponeOrderDueDateTest extends TestCase
         $this->assertEquals($dueDate->format('Y-m-d'), $order->invoice->dueDate);
 
         // Postpone DueDate
-        $command = new PostponeOrderDueDate();
-        $command->id = $order->id;
+        $command = new PostponeOrderDueDate($order->referenceId);
         $command->duration = 30;
 
         $order = $client->postponeOrderDueDate($command);

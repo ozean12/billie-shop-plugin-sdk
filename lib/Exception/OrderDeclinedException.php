@@ -10,17 +10,17 @@ namespace Billie\Exception;
  */
 class OrderDeclinedException extends BillieException
 {
-    private $reason;
+    private $billieReason;
 
     /**
      * OrderDeclinedException constructor.
      *
-     * @param string $reason
+     * @param string $billieReason
      */
-    public function __construct($reason)
+    public function __construct($billieReason)
     {
         parent::__construct();
-        $this->reason = $reason;
+        $this->billieReason = $billieReason;
     }
 
     /**
@@ -28,7 +28,41 @@ class OrderDeclinedException extends BillieException
      */
     public function getBillieCode()
     {
-        return 'OC200';
+        return 'ORDER_DECLINED';
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillieReason()
+    {
+        return strtoupper($this->billieReason);
+    }
+
+    /**
+     * @return string
+     */
+    private function getReasonMessage()
+    {
+        switch ($this->getBillieReason()) {
+            case 'DEBTOR_ADDRESS':
+                return 'The order was declined, because the address seems to be wrong.';
+                break;
+
+            case 'DEBTOR_NOT_IDENTIFIED':
+                return 'The order was declined, because there was no match with the given information.';
+                break;
+
+            case 'RISK_POLICY':
+                return 'The order was declined by Billie due to its risk policy.';
+                break;
+
+            case 'DEBTOR_LIMIT_EXCEEDED':
+                return 'The order was declined because the maximum due amount for the debtor has been reached.';
+                break;
+            default:
+                return 'The order was declined.';
+        }
     }
 
     /**
@@ -36,7 +70,7 @@ class OrderDeclinedException extends BillieException
      */
     public function getBillieMessage()
     {
-        return sprintf('The order has been declined! (reason: %s)', $this->reason);
+        return sprintf('%s', $this->getReasonMessage());
     }
 
 }

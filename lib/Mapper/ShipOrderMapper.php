@@ -26,7 +26,7 @@ class ShipOrderMapper
     public static function arrayFromCommandObject($object)
     {
         return [
-            'external_order_id' => $object->externalOrderId,
+            'external_order_id' => $object->orderId,
             'invoice_number' => $object->invoiceNumber,
             'invoice_url' => $object->invoiceUrl,
             'shipping_document_url' => $object->shippingDocumentUrl,

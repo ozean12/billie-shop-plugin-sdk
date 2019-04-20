@@ -49,13 +49,11 @@ class CancelOrderTest extends TestCase
         $client = BillieClient::create($this->apiKey, true);
         $order = $client->createOrder($command);
 
-        $this->assertNotEmpty($order->id);
+        $this->assertNotEmpty($order->referenceId);
         $this->assertEquals(Order::STATE_CREATED, $order->state);
 
         // Cancel Order
-        $command = new CancelOrder();
-        $command->id = $order->id;
-
+        $command = new CancelOrder($order->referenceId);
         $order = $client->cancelOrder($command);
 
         $this->assertNull($order);

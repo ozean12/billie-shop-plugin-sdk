@@ -14,4 +14,14 @@ abstract class BillieException extends \Exception
     {
         parent::__construct();
     }
+
+    /**
+     * @return string
+     */
+    abstract public function getBillieMessage();
+
+    /**
+     * @return string
+     */
+    abstract public function getBillieCode();
 }

@@ -16,9 +16,9 @@ class Order
     const STATE_CANCELLED = 'canceled';
 
     /** @var string */
-    public $id;
+    public $referenceId;
     /** @var string */
-    public $externalOrderId;
+    public $orderId;
     /** @var string */
     public $state;
     /** @var BankAccount */

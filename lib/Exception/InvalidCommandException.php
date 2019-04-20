@@ -8,7 +8,7 @@ namespace Billie\Exception;
  * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
-class InvalidCommandException extends BillieException
+class InvalidCommandException extends \Exception
 {
     private $violations;
 

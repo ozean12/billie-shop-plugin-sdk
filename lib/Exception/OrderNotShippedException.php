@@ -10,19 +10,36 @@ namespace Billie\Exception;
  */
 class OrderNotShippedException extends BillieException
 {
-    private $orderId;
+    private $referenceId;
     private $reason;
 
     /**
      * OrderDeclinedException constructor.
      *
+     * @param string $referenceId
      * @param string $reason
      */
-    public function __construct($orderId, $reason)
+    public function __construct($referenceId, $reason)
     {
         parent::__construct();
-        $this->orderId = $orderId;
+        $this->referenceId = $referenceId;
         $this->reason = $reason;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillieCode()
+    {
+        return 'ORDER_NOT_SHIPPED';
     }
 
     /**
@@ -30,6 +47,6 @@ class OrderNotShippedException extends BillieException
      */
     public function getBillieMessage()
     {
-        return sprintf('The shipment of the order %s has been declined! (reason: %s)', $this->orderId, $this->reason);
+        return sprintf('The shipment of the order %s has been declined! (reason: %s)', $this->referenceId, $this->reason);
     }
 }

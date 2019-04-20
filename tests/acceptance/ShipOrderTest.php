@@ -5,6 +5,7 @@ namespace Billie\Tests\acceptance;
 use Billie\Command\CreateOrder;
 use Billie\Command\ShipOrder;
 use Billie\Exception\InvalidCommandException;
+use Billie\Exception\OrderNotShippedException;
 use Billie\HttpClient\BillieClient;
 use Billie\Model\Address;
 use Billie\Model\Amount;
@@ -51,13 +52,12 @@ class ShipOrderTest extends TestCase
         $client = BillieClient::create($this->apiKey, true);
         $order = $client->createOrder($command);
 
-        $this->assertNotEmpty($order->id);
+        $this->assertNotEmpty($order->referenceId);
         $this->assertEquals(Order::STATE_CREATED, $order->state);
 
         // Ship Order
-        $command = new ShipOrder();
-        $command->id = $order->id;
-        $command->externalOrderId = '123456';
+        $command = new ShipOrder($order->referenceId);
+        $command->orderId = '123456';
         $command->invoiceNumber = '12/122/2019';
         $command->invoiceUrl = 'https://www.googledrive.com/somefile.pdf';
 
@@ -96,17 +96,19 @@ class ShipOrderTest extends TestCase
         $client = BillieClient::create($this->apiKey, true);
         $order = $client->createOrder($command);
 
-        $this->assertNotEmpty($order->id);
+        $this->assertNotEmpty($order->referenceId);
         $this->assertEquals(Order::STATE_CREATED, $order->state);
 
         // Ship Order
-        $command = new ShipOrder();
-        $command->id = $order->id;
-        $command->externalOrderId = ''; // should be filled
+        $command = new ShipOrder($order->referenceId);
+        $command->orderId = '';
         $command->invoiceNumber = '12/122/2019';
         $command->invoiceUrl = 'https://www.googledrive.com/somefile.pdf';
 
         $this->expectException(InvalidCommandException::class);
         $order = $client->shipOrder($command);
+
+        $this->assertEquals('MY_SHOP_ORDER_ID', $order->orderId);
+        $this->assertEquals(Order::STATE_SHIPPED, $order->state);
     }
 }

@@ -11,16 +11,32 @@ namespace Billie\Exception;
 class InvalidRequestException extends BillieException
 {
 
-    private $serverMessage;
+    private $message;
 
     /**
      * InvalidRequestException constructor.
      *
-     * @param string $serverMessage
+     * @param string $message
      */
-    public function __construct($serverMessage)
+    public function __construct($message)
     {
         parent::__construct();
-        $this->serverMessage = $serverMessage;
+        $this->message = $message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillieCode()
+    {
+        return 'INVALID_REQUEST';
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillieMessage()
+    {
+        return $this->message;
     }
 }

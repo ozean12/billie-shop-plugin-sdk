@@ -3,18 +3,18 @@
 namespace Billie\Exception;
 
 /**
- * Class OrderNotFoundException
+ * Class PostponeDueDateNotAllowedException
  *
  * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
-class OrderNotFoundException extends BillieException
+class PostponeDueDateNotAllowedException extends BillieException
 {
-    private $message = 'The order with the reference id: %s does not exist.';
+    private $message = 'The duration of %s can only be updated, if the order is shipped and the current due date is in the future.';
     private $referenceId;
 
     /**
-     * OrderNotFoundException constructor.
+     * PostponeDueDateNotAllowedException constructor.
      *
      * @param string $referenceId
      */
@@ -29,11 +29,11 @@ class OrderNotFoundException extends BillieException
      */
     public function getBillieCode()
     {
-        return 'ORDER_NOT_FOUND';
+        return 'POSTPONE_DUE_DATE_NOT_ALLOWED';
     }
 
     /**
-     * @return string|void
+     * @return string
      */
     public function getBillieMessage()
     {

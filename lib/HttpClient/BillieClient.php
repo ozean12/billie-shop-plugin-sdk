@@ -13,8 +13,10 @@ use Billie\Exception\InvalidCommandException;
 use Billie\Exception\InvalidRequestException;
 use Billie\Exception\NotAllowedException;
 use Billie\Exception\OrderDeclinedException;
+use Billie\Exception\OrderNotCancelledException;
 use Billie\Exception\OrderNotFoundException;
 use Billie\Exception\OrderNotShippedException;
+use Billie\Exception\PostponeDueDateNotAllowedException;
 use Billie\Exception\UnexceptedServerException;
 use Billie\Exception\UserNotAuthorizedException;
 use Billie\Mapper\CreateOrderMapper;
@@ -78,6 +80,7 @@ class BillieClient implements ClientInterface
     /**
      * @param string $orderId
      * @return Order
+     * @throws InvalidCommandException
      * @throws BillieException
      */
     public function getOrder($orderId)
@@ -98,6 +101,7 @@ class BillieClient implements ClientInterface
     /**
      * @param CreateOrder $createOrderCommand
      * @return Order
+     * @throws InvalidCommandException
      * @throws BillieException
      *
      */
@@ -122,6 +126,7 @@ class BillieClient implements ClientInterface
     /**
      * @param ReduceOrderAmount $command
      * @return Order
+     * @throws InvalidCommandException
      * @throws BillieException
      */
     public function reduceOrderAmount(ReduceOrderAmount $command)
@@ -132,7 +137,7 @@ class BillieClient implements ClientInterface
         }
 
         // validate with order state
-        $order = $this->getOrder($command->id);
+        $order = $this->getOrder($command->referenceId);
         if ($order->state === Order::STATE_SHIPPED) {
             if (empty($command->invoiceUrl) || empty($command->invoiceNumber)) {
                 throw new InvalidCommandException(['Since the order is marked as SHIPPED, you need to provide an invoice_url and an invoice_number!']);
@@ -140,14 +145,15 @@ class BillieClient implements ClientInterface
         }
 
         $data = UpdateOrderMapper::arrayFromCommandObject($command);
-        $this->request('order/'.$command->id, $data, 'PATCH');
+        $this->request('order/'.$command->referenceId, $data, 'PATCH');
 
-        return $this->getOrder($command->id);
+        return $this->getOrder($command->referenceId);
     }
 
     /**
      * @param PostponeOrderDueDate $command
      * @return Order
+     * @throws InvalidCommandException
      * @throws BillieException
      */
     public function postponeOrderDueDate(PostponeOrderDueDate $command)
@@ -159,25 +165,25 @@ class BillieClient implements ClientInterface
 
         // validate with order state
         // update duration ONLY if due date is in the future AND state = SHIPPED
-        $order = $this->getOrder($command->id);
+        $order = $this->getOrder($command->referenceId);
         if ($order->state !== Order::STATE_SHIPPED
             || strtotime($order->invoice->dueDate . ' 00:00:00.0') < time())
         {
-            throw new InvalidCommandException(['The duration can only be updated, if the order is shipped and the current due date is in the future.']);
+            throw new PostponeDueDateNotAllowedException($order->referenceId);
         }
 
         $data = UpdateOrderMapper::arrayFromCommandObject($command);
-        $this->request('order/'.$command->id, $data, 'PATCH');
+        $this->request('order/'.$command->referenceId, $data, 'PATCH');
 
-        return $this->getOrder($command->id);
+        return $this->getOrder($command->referenceId);
 
     }
 
     /**
      * @param ShipOrder $shipOrderCommand
      * @return Order
+     * @throws InvalidCommandException
      * @throws BillieException
-     *
      */
     public function shipOrder(ShipOrder $shipOrderCommand)
     {
@@ -187,10 +193,10 @@ class BillieClient implements ClientInterface
         }
 
         $data = ShipOrderMapper::arrayFromCommandObject($shipOrderCommand);
-        $result = $this->request('order/'.$shipOrderCommand->id.'/ship', $data);
+        $result = $this->request('order/'.$shipOrderCommand->referenceId.'/ship', $data);
 
         if ($result['state'] !== Order::STATE_SHIPPED) {
-            throw new OrderNotShippedException($shipOrderCommand->id, $result['reasons']);
+            throw new OrderNotShippedException($shipOrderCommand->referenceId, $result['reasons']);
         }
 
         return ShipOrderMapper::orderObjectFromArray($result);
@@ -198,8 +204,8 @@ class BillieClient implements ClientInterface
 
     /**
      * @param CancelOrder $cancelOrderCommand
+     * @throws InvalidCommandException
      * @throws BillieException
-     *
      */
     public function cancelOrder(CancelOrder $cancelOrderCommand)
     {
@@ -208,7 +214,11 @@ class BillieClient implements ClientInterface
             throw new InvalidCommandException($violations);
         }
 
-        $this->request('order/'.$cancelOrderCommand->id.'/cancel', []);
+        try {
+            $this->request('order/' . $cancelOrderCommand->referenceId . '/cancel', []);
+        } catch (BillieException $exception) {
+            throw new OrderNotCancelledException($cancelOrderCommand->referenceId);
+        }
     }
 
     /**
@@ -270,6 +280,8 @@ class BillieClient implements ClientInterface
                 throw new UnexceptedServerException();
             }
         }
+
+        return [];
     }
 
     /**
@@ -313,5 +325,7 @@ class BillieClient implements ClientInterface
                 throw new UnexceptedServerException();
             }
         }
+
+        return [];
     }
 }

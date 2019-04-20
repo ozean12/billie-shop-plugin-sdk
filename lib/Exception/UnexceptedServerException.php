@@ -10,4 +10,21 @@ namespace Billie\Exception;
  */
 class UnexceptedServerException extends BillieException
 {
+    private $message = 'There was an unexpected server error.';
+
+    /**
+     * @return string
+     */
+    public function getBillieCode()
+    {
+        return 'SERVER_ERROR';
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillieMessage()
+    {
+        return $this->message;
+    }
 }

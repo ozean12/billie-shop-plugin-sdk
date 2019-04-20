@@ -51,7 +51,8 @@ final class CreateOrderTest extends TestCase
         $client = BillieClient::create($this->apiKey, true);
         $order = $client->createOrder($command);
 
-        $this->assertNotEmpty($order->id);
+        $this->assertNotEmpty($order->referenceId);
+        $this->assertNotEmpty($order->referenceId);
         $this->assertEquals(Order::STATE_CREATED, $order->state);
     }
 

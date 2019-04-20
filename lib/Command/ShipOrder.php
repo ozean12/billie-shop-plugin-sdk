@@ -16,11 +16,11 @@ class ShipOrder
     /**
      * @var string
      */
-    public $id;
+    public $referenceId;
     /**
      * @var string
      */
-    public $externalOrderId;
+    public $orderId;
     /**
      * @var string
      */
@@ -34,17 +34,26 @@ class ShipOrder
      */
     public $shippingDocumentUrl;
 
+    /**
+     * ShipOrder constructor.
+     *
+     * @param $referenceId
+     */
+    public function __construct($referenceId)
+    {
+        $this->referenceId = $referenceId;
+    }
 
     /**
      * @param ClassMetadata $metadata
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraints('id', [
+        $metadata->addPropertyConstraints('referenceId', [
             new Assert\Uuid(),
             new Assert\NotBlank()
         ]);
-        $metadata->addPropertyConstraint('externalOrderId', new Assert\NotBlank());
+        $metadata->addPropertyConstraint('orderId', new Assert\NotBlank());
         $metadata->addPropertyConstraint('invoiceNumber', new Assert\NotBlank());
         $metadata->addPropertyConstraints('invoiceUrl', [
             new Assert\Url(),

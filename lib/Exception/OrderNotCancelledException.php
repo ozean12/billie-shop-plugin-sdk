@@ -3,20 +3,20 @@
 namespace Billie\Exception;
 
 /**
- * Class OrderNotFoundException
+ * Class OrderNotCancelledException
  *
  * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
-class OrderNotFoundException extends BillieException
+class OrderNotCancelledException extends BillieException
 {
-    private $message = 'The order with the reference id: %s does not exist.';
+    private $message = 'The order %s has not been cancelled.';
     private $referenceId;
 
     /**
-     * OrderNotFoundException constructor.
+     * OrderNotCancelledException constructor.
      *
-     * @param string $referenceId
+     * @param $referenceId
      */
     public function __construct($referenceId)
     {
@@ -29,11 +29,11 @@ class OrderNotFoundException extends BillieException
      */
     public function getBillieCode()
     {
-        return 'ORDER_NOT_FOUND';
+        return 'ORDER_NOT_CANCELLED';
     }
 
     /**
-     * @return string|void
+     * @return string
      */
     public function getBillieMessage()
     {

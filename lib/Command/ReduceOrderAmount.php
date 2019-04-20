@@ -17,7 +17,7 @@ class ReduceOrderAmount
     /**
      * @var string
      */
-    public $id;
+    public $referenceId;
     /**
      * @var string
      */
@@ -31,13 +31,22 @@ class ReduceOrderAmount
      */
     public $amount;
 
+    /**
+     * ReduceOrderAmount constructor.
+     *
+     * @param string $referenceId
+     */
+    public function __construct($referenceId)
+    {
+        $this->referenceId = $referenceId;
+    }
 
     /**
      * @param ClassMetadata $metadata
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraints('id', [
+        $metadata->addPropertyConstraints('referenceId', [
             new Assert\Uuid(),
             new Assert\NotBlank()
         ]);

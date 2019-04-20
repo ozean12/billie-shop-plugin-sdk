@@ -23,8 +23,8 @@ trait OrderObjectFromArrayTrait
     public static function orderObjectFromArray($orderResponse)
     {
         $object = new Order();
-        $object->id = $orderResponse['uuid'];
-        $object->externalOrderId = '';
+        $object->referenceId = $orderResponse['uuid'];
+        $object->orderId = $orderResponse['order_id'];
         $object->state = $orderResponse['state'];
 
         $object->bankAccount = new BankAccount($orderResponse['bank_account']['iban'], $orderResponse['bank_account']['bic']);

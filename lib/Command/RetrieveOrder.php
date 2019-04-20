@@ -16,16 +16,16 @@ class RetrieveOrder
     /**
      * @var string
      */
-    public $id;
+    public $referenceId;
 
     /**
      * RetrieveOrder constructor.
      *
-     * @param string $orderId
+     * @param string $referenceId
      */
-    public function __construct($orderId)
+    public function __construct($referenceId)
     {
-        $this->id = $orderId;
+        $this->referenceId = $referenceId;
     }
 
     /**
@@ -33,7 +33,7 @@ class RetrieveOrder
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraints('id', [
+        $metadata->addPropertyConstraints('referenceId', [
             new Assert\Uuid(),
             new Assert\NotBlank()
         ]);

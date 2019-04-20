@@ -10,4 +10,21 @@ namespace Billie\Exception;
  */
 class NotAllowedException extends BillieException
 {
+    private $message = 'This action is not allowed.';
+
+    /**
+     * @return string
+     */
+    public function getBillieCode()
+    {
+        return 'NOT_ALLOWED';
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillieMessage()
+    {
+        return $this->message;
+    }
 }
