@@ -3,6 +3,7 @@
 namespace Billie\HttpClient;
 
 use Billie\Command\CancelOrder;
+use Billie\Command\ConfirmPayment;
 use Billie\Command\CreateOrder;
 use Billie\Command\PostponeOrderDueDate;
 use Billie\Command\RetrieveOrder;
@@ -19,6 +20,7 @@ use Billie\Exception\OrderNotShippedException;
 use Billie\Exception\PostponeDueDateNotAllowedException;
 use Billie\Exception\UnexceptedServerException;
 use Billie\Exception\UserNotAuthorizedException;
+use Billie\Mapper\ConfirmPaymentMapper;
 use Billie\Mapper\CreateOrderMapper;
 use Billie\Mapper\RetrieveOrderMapper;
 use Billie\Mapper\ShipOrderMapper;
@@ -200,6 +202,25 @@ class BillieClient implements ClientInterface
     }
 
     /**
+     * @param ConfirmPayment $command
+     * @return Order
+     * @throws BillieException
+     * @throws InvalidCommandException
+     */
+    public function confirmPayment (ConfirmPayment $command)
+    {
+        // validate input
+        if ($violations = $this->validateCommand($command)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        $data = ConfirmPaymentMapper::arrayFromCommandObject($command);
+        $this->request('order/'.$command->referenceId . '/confirm-payment', $data);
+
+        return $this->getOrder($command->referenceId);
+    }
+
+    /**
      * @param CancelOrder $cancelOrderCommand
      * @throws InvalidCommandException
      * @throws BillieException
@@ -229,7 +250,6 @@ class BillieClient implements ClientInterface
                 'X-API-KEY' => $this->apiKey,
                 'Content-Type' => 'application/json'
             ],
-            'verify'  => false // TODO: remove
         ]);
     }
 

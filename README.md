@@ -198,6 +198,26 @@ try {
 If the request was successful, the order is cancelled.
 
 
+### 6. Confirm payment
+If the customer, paid the merchant directly. The merchant can inform Billie about the amount with this call.
+
+```php
+$command = new ConfirmPayment($order->referenceId, 119);
+        
+try {
+    $client->confirmPayment($command);
+    
+} catch (Billie\Exception\BillieException $exception) {
+    $message = $exception->getBillieMessage();
+ 
+    // for custom translation
+    $messageKey = $exception->getBillieCode();   
+}
+```
+
+#### Response
+If the amount was successfully reported, the `order` Object will be returned.
+
 ## Exceptions
 Listed below, are all exceptions with their Code. This allows you to map those keys to your custom translation.
 
