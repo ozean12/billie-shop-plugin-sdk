@@ -4,7 +4,10 @@ namespace Billie\Tests\acceptance;
 
 use Billie\Command\CreateOrder;
 use Billie\Exception\InvalidCommandException;
-use Billie\Exception\OrderDeclinedException;
+use Billie\Exception\OrderDecline\DebtorAddressException;
+use Billie\Exception\OrderDecline\DebtorLimitExceededException;
+use Billie\Exception\OrderDecline\DebtorNotIdentifiedException;
+use Billie\Exception\OrderDecline\RiskPolicyDeclinedException;
 use Billie\HttpClient\BillieClient;
 use Billie\Model\Address;
 use Billie\Model\Amount;
@@ -31,17 +34,18 @@ final class CreateOrderTest extends TestCase
         $command = new CreateOrder();
 
         $companyAddress = new Address();
-        $companyAddress->street = 'An der Ronne';
-        $companyAddress->houseNumber = '59';
-        $companyAddress->postalCode = '50859';
-        $companyAddress->city = 'Köln';
+        $companyAddress->street = 'Charlottenstr.';
+        $companyAddress->houseNumber = '4';
+        $companyAddress->postalCode = '10969';
+        $companyAddress->city = 'Berlin';
         $companyAddress->countryCode = 'DE';
-        $command->debtorCompany = new Company('ABC123', 'Ralph Krämer GmbH', $companyAddress);
-        $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
+        $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
+        $command->debtorCompany->industrySector = '82.99.9';
         $command->debtorCompany->legalForm = '10001';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
+        $command->debtorPerson->phone = '+4930120111111';
         $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
         $command->amount = new Amount(100, 'EUR', 19);
 
@@ -62,21 +66,22 @@ final class CreateOrderTest extends TestCase
         $command = new CreateOrder();
 
         $companyAddress = new Address();
-        $companyAddress->street = 'An der Ronne';
-        $companyAddress->houseNumber = '59';
-        $companyAddress->postalCode = '504859'; //
-        $companyAddress->city = 'Köln';
+        $companyAddress->street = 'Charlottenstr.';
+        $companyAddress->houseNumber = '4';
+        $companyAddress->postalCode = '10969';
+        $companyAddress->city = 'Berlin';
         $companyAddress->countryCode = 'DE';
-        $command->debtorCompany = new Company('ABC123', 'Ralph Krämer GmbH', $companyAddress);
-        $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
-        //$command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
+        $command->debtorCompany->industrySector = '82.99.9';
+        $command->debtorCompany->legalForm = '10001';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
-        $command->debtorPerson->salution = 'd';
+        $command->debtorPerson->salution = 'm';
+        $command->debtorPerson->phone = '+4930120111111';
         $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
-        $command->amount = new Amount(100, 'WRONG_CURRENCY', 19);
+        $command->amount = new Amount(100, 'EUR', 19);
 
-        $command->duration = null; // WRONG DURATION
+        $command->duration = null; // WRONG
 
 
         // Send Order To API
@@ -86,23 +91,26 @@ final class CreateOrderTest extends TestCase
         $order = $client->createOrder($command);
     }
 
-    public function testDeclinedOrder()
+    public function testDeclineOrderWithDebtorNotIdentifiedException()
     {
         // createOrderCommand
         $command = new CreateOrder();
 
         $companyAddress = new Address();
-        $companyAddress->street = 'An der Ronne';
-        $companyAddress->houseNumber = '59';
-        $companyAddress->postalCode = '50859';
-        $companyAddress->city = 'Köln';
+        $companyAddress->street = 'Hauptstrasse';
+        $companyAddress->houseNumber = '777';
+        $companyAddress->postalCode = '10969';
+        $companyAddress->city = 'Berlin';
         $companyAddress->countryCode = 'DE';
-        $command->debtorCompany = new Company('ZYX', 'highdigital UG', $companyAddress);
-        $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
-        $command->debtorCompany->legalForm = '10201';
+        $command->debtorCompany = new Company('BILLIE-00000002', 'Borschella Superpower GmbH', $companyAddress);
+        $command->debtorCompany->industrySector = '82.99.9';
+        $command->debtorCompany->legalForm = '10001';
 
-        $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
+        $command->debtorPerson = new Person('johndoe@billie.io');
+        $command->debtorPerson->firstname = 'John';
+        $command->debtorPerson->lastname = 'Doe';
         $command->debtorPerson->salution = 'm';
+        $command->debtorPerson->phone = '+4930120111112';
         $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
         $command->amount = new Amount(100, 'EUR', 19);
 
@@ -111,7 +119,98 @@ final class CreateOrderTest extends TestCase
         // Send Order To API
         $client = BillieClient::create($this->apiKey, true);
 
-        $this->expectException(OrderDeclinedException::class);
+        $this->expectException(DebtorNotIdentifiedException::class);
+        $order = $client->createOrder($command);
+
+    }
+
+    public function testDeclineOrderWithDebtorAddressException()
+    {
+        // createOrderCommand
+        $command = new CreateOrder();
+
+        $companyAddress = new Address();
+        $companyAddress->street = 'Charlottenstr.';
+        $companyAddress->houseNumber = '4';
+        $companyAddress->postalCode = '77777';
+        $companyAddress->city = 'Berlin';
+        $companyAddress->countryCode = 'DE';
+        $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
+        $command->debtorCompany->industrySector = '82.99.9';
+        $command->debtorCompany->legalForm = '10001';
+
+        $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
+        $command->debtorPerson->salution = 'm';
+        $command->debtorPerson->phone = '+4930120111111';
+        $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
+        $command->amount = new Amount(100, 'EUR', 19);
+
+        $command->duration = 14;
+
+        // Send Order To API
+        $client = BillieClient::create($this->apiKey, true);
+
+        $this->expectException(DebtorAddressException::class);
+        $order = $client->createOrder($command);
+    }
+
+    public function testDeclineOrderWithRiskPolicyException()
+    {
+        // createOrderCommand
+        $command = new CreateOrder();
+
+        $companyAddress = new Address();
+        $companyAddress->street = 'Charlottenstr.';
+        $companyAddress->houseNumber = '4';
+        $companyAddress->postalCode = '77777';
+        $companyAddress->city = 'Berlin';
+        $companyAddress->countryCode = 'DE';
+        $command->debtorCompany = new Company('BILLIE-00000005', 'Billie GmbH', $companyAddress);
+        $command->debtorCompany->industrySector = 'T';
+        $command->debtorCompany->legalForm = '10001';
+
+        $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
+        $command->debtorPerson->salution = 'm';
+        $command->debtorPerson->phone = '+4930120111111';
+        $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
+        $command->amount = new Amount(100, 'EUR', 19);
+
+        $command->duration = 14;
+
+        // Send Order To API
+        $client = BillieClient::create($this->apiKey, true);
+
+        $this->expectException(RiskPolicyDeclinedException::class);
+        $order = $client->createOrder($command);
+    }
+
+    public function testDeclineOrderWithLimitExceededException()
+    {
+        // createOrderCommand
+        $command = new CreateOrder();
+
+        $companyAddress = new Address();
+        $companyAddress->street = 'Charlottenstr.';
+        $companyAddress->houseNumber = '4';
+        $companyAddress->postalCode = '10969';
+        $companyAddress->city = 'Berlin';
+        $companyAddress->countryCode = 'DE';
+        $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
+        $command->debtorCompany->industrySector = '82.99.9';
+        $command->debtorCompany->legalForm = '10001';
+
+        $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
+        $command->debtorPerson->salution = 'm';
+        $command->debtorPerson->phone = '+4930120111111';
+        $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
+        $command->amount = new Amount(3000000, 'EUR', 570000);
+
+        $command->duration = 14;
+
+        // Send Order To API
+        $client = BillieClient::create($this->apiKey, true);
+
+        $this->expectException(DebtorLimitExceededException::class);
         $order = $client->createOrder($command);
     }
 }

@@ -31,17 +31,18 @@ class PostponeOrderDueDateTest extends TestCase
         $command = new CreateOrder();
 
         $companyAddress = new Address();
-        $companyAddress->street = 'An der Ronne';
-        $companyAddress->houseNumber = '59';
-        $companyAddress->postalCode = '50859';
-        $companyAddress->city = 'Köln';
+        $companyAddress->street = 'Charlottenstr.';
+        $companyAddress->houseNumber = '4';
+        $companyAddress->postalCode = '10969';
+        $companyAddress->city = 'Berlin';
         $companyAddress->countryCode = 'DE';
-        $command->debtorCompany = new Company('ABC123', 'Ralph Krämer GmbH', $companyAddress);
-        $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
+        $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
+        $command->debtorCompany->industrySector = '82.99.9';
         $command->debtorCompany->legalForm = '10001';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
+        $command->debtorPerson->phone = '+4930120111111';
         $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
         $command->amount = new Amount(100, 'EUR', 19);
 

@@ -13,7 +13,10 @@ use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
 use Billie\Exception\InvalidRequestException;
 use Billie\Exception\NotAllowedException;
-use Billie\Exception\OrderDeclinedException;
+use Billie\Exception\OrderDecline\DebtorAddressException;
+use Billie\Exception\OrderDecline\DebtorLimitExceededException;
+use Billie\Exception\OrderDecline\DebtorNotIdentifiedException;
+use Billie\Exception\OrderDecline\RiskPolicyDeclinedException;
 use Billie\Exception\OrderNotCancelledException;
 use Billie\Exception\OrderNotFoundException;
 use Billie\Exception\OrderNotShippedException;
@@ -116,7 +119,7 @@ class BillieClient implements ClientInterface
 
         // declined orders response with 200 (OK)
         if ($result['state'] === Order::STATE_DECLINED) {
-            throw new OrderDeclinedException($result['reasons']);
+            $this->throwOrderDeclinedException($result['reasons']);
         }
 
         return CreateOrderMapper::orderObjectFromArray($result);
@@ -344,5 +347,32 @@ class BillieClient implements ClientInterface
         }
 
         return [];
+    }
+
+    /**
+     * @param $reason
+     * @throws BillieException
+     */
+    private function throwOrderDeclinedException($reason)
+    {
+        switch (strtoupper($reason)) {
+            case 'DEBTOR_ADDRESS':
+                throw new DebtorAddressException();
+                break;
+
+            case 'DEBTOR_NOT_IDENTIFIED':
+                throw new DebtorNotIdentifiedException();
+                break;
+
+            case 'RISK_POLICY':
+                throw new RiskPolicyDeclinedException();
+                break;
+
+            case 'DEBTOR_LIMIT_EXCEEDED':
+                throw new DebtorLimitExceededException();
+                break;
+            default:
+                throw new UnexceptedServerException();
+        }
     }
 }

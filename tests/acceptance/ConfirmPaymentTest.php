@@ -2,11 +2,9 @@
 
 namespace Billie\Tests\acceptance;
 
-use Billie\Command\CancelOrder;
 use Billie\Command\ConfirmPayment;
 use Billie\Command\CreateOrder;
 use Billie\Command\ShipOrder;
-use Billie\Exception\BillieException;
 use Billie\HttpClient\BillieClient;
 use Billie\Model\Address;
 use Billie\Model\Amount;
