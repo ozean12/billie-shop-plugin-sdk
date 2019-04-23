@@ -17,19 +17,19 @@ class LegalFormProviderTest extends TestCase
     {
         $allSupportedLegalForms = LegalFormProvider::all();
 
-        $this->assertArrayHasKey('UG (haftungsbeschränkt) & Co. KGaA', $allSupportedLegalForms);
+        $this->assertArrayHasKey('10001', $allSupportedLegalForms);
     }
 
     public function testCheckRegistrationNumberRequirement()
     {
-        $gmbhRegistrationNumberRequired = LegalFormProvider::isRegistrationIdRequired('Gesellschaft mit beschränkter Haftung');
+        $gmbhRegistrationNumberRequired = LegalFormProvider::isRegistrationIdRequired('10001');
 
         $this->assertTrue($gmbhRegistrationNumberRequired);
     }
 
     public function testCheckVatIdRequirement()
     {
-        $gbrVatRequired = LegalFormProvider::isVatIdRequired('Einzelunternehmer');
+        $gbrVatRequired = LegalFormProvider::isVatIdRequired('6022');
 
         $this->assertTrue($gbrVatRequired);
     }

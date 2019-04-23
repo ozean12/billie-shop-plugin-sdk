@@ -25,7 +25,7 @@ class LegalFormProvider
         $result = [];
         foreach ($data as $row) {
             $rowArray = explode(';', $row[0]);
-            $result[$rowArray[1]] = [
+            $result[$rowArray[0]] = [
                 'code' => $rowArray[0],
                 'label' => $rowArray[1],
                 'vat_id_required' => $rowArray[2] === 'Ust-ID' && $rowArray[3] === 'mandatory',
@@ -37,12 +37,27 @@ class LegalFormProvider
     }
 
     /**
-     * @param string $legalForm
+     * @param $code
+     * @return array
+     */
+    public static function get($code)
+    {
+        $allLegalForms = self::all();
+
+        if (array_key_exists($code, $allLegalForms)) {
+            return $allLegalForms[$code];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param string $legalFormCode
      * @return boolean
      */
-    public static function isVatIdRequired($legalForm)
+    public static function isVatIdRequired($legalFormCode)
     {
-        if ($result = self::getInformationFor($legalForm)) {
+        if ($result = self::get($legalFormCode)) {
             return $result['vat_id_required'];
         }
 
@@ -50,12 +65,12 @@ class LegalFormProvider
     }
 
     /**
-     * @param string $legalForm
+     * @param string $legalFormCode
      * @return boolean
      */
-    public static function isRegistrationIdRequired($legalForm)
+    public static function isRegistrationIdRequired($legalFormCode)
     {
-        if ($result = self::getInformationFor($legalForm)) {
+        if ($result = self::get($legalFormCode)) {
             return $result['registration_id_required'];
         }
 
@@ -66,7 +81,7 @@ class LegalFormProvider
      * @param string $legalForm
      * @return array
      */
-    private static function getInformationFor($legalForm)
+    public static function getInformationFor($legalForm)
     {
         $allRows = self::all();
         if (array_key_exists($legalForm, $allRows)) {

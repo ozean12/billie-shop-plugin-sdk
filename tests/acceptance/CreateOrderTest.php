@@ -38,7 +38,7 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('ABC123', 'Ralph Krämer GmbH', $companyAddress);
         $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
-        $command->debtorCompany->legalForm = 'GmbH';
+        $command->debtorCompany->legalForm = '10001';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
@@ -69,7 +69,7 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('ABC123', 'Ralph Krämer GmbH', $companyAddress);
         $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
-        //$command->debtorCompany->legalForm = 'GmbH';
+        //$command->debtorCompany->legalForm = '10001';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'd';
@@ -99,7 +99,7 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('ZYX', 'highdigital UG', $companyAddress);
         $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
-        $command->debtorCompany->legalForm = 'UG';
+        $command->debtorCompany->legalForm = '10201';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';

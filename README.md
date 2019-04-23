@@ -59,7 +59,7 @@ $companyAddress->countryCode = 'DE';
 // Company information
 $command->debtorCompany = new Billie\Model\Company('CUSTOMER_ID_1', 'Muster GmbH', $companyAddress);
 $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
-$command->debtorCompany->legalForm = 'GmbH';
+$command->debtorCompany->legalForm = '10001';
 
 // Information about the person
 $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
@@ -257,7 +257,7 @@ The SDK provides the available legal forms together with the mandatory fields:
  * returns an associative array:
  *  [
  *      ...
- *      'Gesellschaft mit beschränkter Haftung' => [
+ *      '10001' => [
  *          'code'                      => '10001'
  *          'label'                     => 'Gesellschaft mit beschränkter Haftung'
  *          'vat_id_required'           => false
@@ -267,9 +267,12 @@ The SDK provides the available legal forms together with the mandatory fields:
  *  ]
  *
  **/ 
+ 
 $allLegalForms = Billie\Util\LegalFormProvider::all();
 // or directly request information by legal form (request legal form must match the label from above)
 $gmbhInformation = Billie\Util\LegalFormProvider::getInformationFor('Gesellschaft mit beschränkter Haftung');
+// or by code
+$gmbhInformation = Billie\Util\LegalFormProvider::get('10001');
 
 ```
 

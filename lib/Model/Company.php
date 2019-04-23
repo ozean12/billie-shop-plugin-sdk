@@ -2,6 +2,7 @@
 
 namespace Billie\Model;
 
+use Billie\Util\LegalFormProvider;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -77,6 +78,14 @@ class Company
     }
 
     /**
+     * @return bool
+     */
+    public function isValidLegalForm()
+    {
+        return !empty(LegalFormProvider::get($this->legalForm));
+    }
+
+    /**
      * @param ClassMetadata $metadata
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -89,5 +98,6 @@ class Company
         ]);
         $metadata->addPropertyConstraint('industrySector', new Assert\NotBlank());
         $metadata->addPropertyConstraint('legalForm', new Assert\NotBlank());
+        $metadata->addGetterConstraint('validLegalForm', new Assert\IsTrue());
     }
 }
