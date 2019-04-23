@@ -2,6 +2,7 @@
 bin
 vendor
 docs-md
+docs
 
 phpdoc
 phpdoc.xml

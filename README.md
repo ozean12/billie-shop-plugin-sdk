@@ -253,3 +253,8 @@ $gmbhInformation = Billie\Util\LegalFormProvider::getInformationFor('Gesellschaf
 
 ```
 
+## Developer Documentation
+ _upcoming PhpDoc_
+ 
+ _upcoming Coding Guideline for Plugin Developer_
+
