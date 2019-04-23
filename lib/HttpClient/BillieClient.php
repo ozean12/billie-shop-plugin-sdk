@@ -73,9 +73,6 @@ class BillieClient implements ClientInterface
 
         return $client;
     }
-    /**
-     *  TODO: add public send(Command) and in it, depending on commandinstance run method!
-     */
 
     /**
      * @param string $orderId
