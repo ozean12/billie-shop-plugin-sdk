@@ -12,6 +12,7 @@ use Billie\Model\Company;
 use Billie\Model\Order;
 use Billie\Model\Person;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class PostponeOrderDueDateTest
@@ -57,7 +58,7 @@ class PostponeOrderDueDateTest extends TestCase
 
         // Ship Order
         $command = new ShipOrder($order->referenceId);
-        $command->orderId = '123456';
+        $command->orderId = Uuid::uuid4()->toString();
         $command->invoiceNumber = '12/122/2019';
         $command->invoiceUrl = 'https://www.googledrive.com/somefile.pdf';
 
