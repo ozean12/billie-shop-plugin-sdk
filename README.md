@@ -45,6 +45,7 @@ $client = BillieClient::create([YOUR API KEY], false);
 ### 1. Create Order
 The create order request returns either an order or a declined exception (`OrderDeclinedException`) with the reason, if provided by Billie.io. 
 
+**Important:** All amount are in cents.
 ````php
 $createOrderCommand = new Billie\Command\CreateOrder();
 
@@ -58,26 +59,26 @@ $companyAddress->countryCode = 'DE';
     
 // Company information
 $command->debtorCompany = new Billie\Model\Company('CUSTOMER_ID_1', 'Muster GmbH', $companyAddress);
-$command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
+$command->debtorCompany->industrySector = '82.99.9';
 $command->debtorCompany->legalForm = '10001';
 
 // Information about the person
-$command->debtorPerson = new Person('max.mustermann@musterfirma.de');
+$command->debtorPerson = new Billie\Model\Person('max.mustermann@musterfirma.de');
 $command->debtorPerson->salution = 'm'; // or: 'f'
 
 // Delivery Address
 $command->deliveryAddress = $companyAddress; // or: new \Billie\Model\Address();
 
 // Amount
-$command->amount = new Amount(100, 'EUR', 19); // amounts are in cent!
+$command->amount = new Billie\Model\Amount(100, 'EUR', 19); // amounts are in cent!
 
 // Define the due date in DAYS AFTER SHIPPMENT
 $command->duration = 14; // meaning: when the order is shipped on the 1st May, the due date is the 15th May
 
 // initialize Billie Client
-$client = BillieClient::create('YOUR_API_KEY', true); // SANDBOX MODE
+$client = Billie\HttpClient\BillieClient::create('YOUR_API_KEY', true); // SANDBOX MODE
 // or
-$client = BillieClient::create('YOUR_API_KEY', false); // PRODUCTION MODE
+$client = Billie\HttpClient\BillieClient::create('YOUR_API_KEY', false); // PRODUCTION MODE
 
 
 try {
@@ -85,7 +86,7 @@ try {
     $order = $client->createOrder($command);
     $ID_FOR_FURTHER_COMMUNICATION = $order->referenceId;
     
-} catch (OrderDeclinedException $exception) {
+} catch (Billie\Exception\OrderDeclinedException $exception) {
     $message = $exception->getBillieMessage();
     
     // for custom translation
@@ -106,10 +107,10 @@ If the order was declined, you receive an `OrderDeclinedException` with the a re
 
 
 ```php
-$command = new ShipOrder($order->referenceId); // th reference ID was provided by Billie in the createOrder Response.
+$command = new Billie\Command\ShipOrder($order->referenceId); // th reference ID was provided by Billie in the createOrder Response.
 $command->orderId = 'XY-12345'; // the ORDER ID of the shop, that the customer know
-$command->invoiceNumber = '12/0001/2019';
-$command->invoiceUrl = 'https://www.example.com/invoice.pdf';
+$command->invoiceNumber = '12/0001/2019'; // required, given by merchant
+$command->invoiceUrl = 'https://www.example.com/invoice.pdf'; // required, given by merchant
 $command->shippingDocumentUrl = 'https://www.example.com/shipping_document.pdf'; // (optional)
 
 try {
@@ -117,7 +118,7 @@ try {
     $order = $client->shipOrder($command);
     $dueDate = $order->invoice->dueDate;
     
-} catch (OrderNotShippedException $exception) {
+} catch (Billie\Exception\OrderNotShippedException $exception) {
     $message = $exception->getBillieMessage();
     
     // for custom translation
@@ -139,7 +140,7 @@ In case the state did not change to 'shipped', you receive an `OrderNotShippedEx
 You can move the due date into the future, if he order is already shipped and the current due date has not been reached.
 
 ```php
-$command = new PostponeOrderDueDate($order->referenceId);
+$command = new Billie\Command\PostponeOrderDueDate($order->referenceId);
 $command->duration = 30;
 
 try { 
@@ -149,7 +150,7 @@ try {
     // new Due date
     $dueDate = $order->invoice->dueDate;
     
-} catch (PostponeDueDateNotAllowedException $exception) {
+} catch (Billie\Exception\PostponeDueDateNotAllowedException $exception) {
     $message = $exception->getBillieMessage();
     
     // for custom translation
@@ -164,8 +165,8 @@ If the shipment was successful, the `order` Object will be returned.
 Until the debtor fully paid, you can reduce the amount of the order (e.g. after partial cancellation).
 
 ```php
-$command = new ReduceOrderAmount($order->referenceId);
-$command->amount = new Amount(50, 'EUR', 10);
+$command = new Billie\Command\ReduceOrderAmount($order->referenceId);
+$command->amount = new Billie\Model\Amount(50, 'EUR', 10);
 
 // ONLY if the order has been SHIPPED already, you need to provide a invoice url and invoice number
 $command->invoiceNumber = '12/0002/2019';
@@ -181,12 +182,12 @@ If the amount was successfully reduced, the `order` Object will be returned.
 You can cancel the order at any time before the customer fully paid the invoice.
 
 ```php
-$command = new CancelOrder($order->referenceId);
+$command = new Billie\Command\CancelOrder($order->referenceId);
 
 try {
     $client->cancelOrder($command);
     
-} catch (OrderNotCancelledException $exception) {
+} catch (Billie\Exception\OrderNotCancelledException $exception) {
     $message = $exception->getBillieMessage();
  
     // for custom translation
@@ -202,7 +203,7 @@ If the request was successful, the order is cancelled.
 If the customer, paid the merchant directly. The merchant can inform Billie about the amount with this call.
 
 ```php
-$command = new ConfirmPayment($order->referenceId, 119);
+$command = new Billie\Command\ConfirmPayment($order->referenceId, 119);
         
 try {
     $client->confirmPayment($command);
@@ -277,7 +278,6 @@ $gmbhInformation = Billie\Util\LegalFormProvider::get('10001');
 ```
 
 ## Developer Documentation
- _upcoming PhpDoc_
  
  _upcoming Coding Guideline for Plugin Developer_
 
