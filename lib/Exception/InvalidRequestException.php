@@ -11,7 +11,7 @@ namespace Billie\Exception;
 class InvalidRequestException extends BillieException
 {
 
-    private $message;
+    protected $message;
 
     /**
      * InvalidRequestException constructor.

@@ -10,7 +10,7 @@ namespace Billie\Exception;
  */
 class NotAllowedException extends BillieException
 {
-    private $message = 'This action is not allowed.';
+    protected $message = 'This action is not allowed.';
 
     /**
      * @return string

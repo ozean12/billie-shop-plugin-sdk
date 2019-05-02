@@ -10,7 +10,7 @@ namespace Billie\Exception;
  */
 class UserNotAuthorizedException extends BillieException
 {
-    private $message = 'The user is not authorized to perform this action.';
+    protected $message = 'The user is not authorized to perform this action.';
 
     /**
      * @return string

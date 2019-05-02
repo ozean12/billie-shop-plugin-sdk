@@ -10,7 +10,7 @@ namespace Billie\Exception;
  */
 class OrderNotFoundException extends BillieException
 {
-    private $message = 'The order with the reference id: %s does not exist.';
+    protected $message = 'The order with the reference id: %s does not exist.';
     private $referenceId;
 
     /**

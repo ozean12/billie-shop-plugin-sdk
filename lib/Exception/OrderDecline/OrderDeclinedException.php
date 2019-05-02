@@ -10,7 +10,7 @@ use Billie\Exception\BillieException;
  * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
-abstract class OrderDeclinedException extends BillieException
+class OrderDeclinedException extends BillieException
 {
     protected $message;
 

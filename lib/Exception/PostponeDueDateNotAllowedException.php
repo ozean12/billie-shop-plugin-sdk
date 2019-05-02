@@ -10,7 +10,7 @@ namespace Billie\Exception;
  */
 class PostponeDueDateNotAllowedException extends BillieException
 {
-    private $message = 'The duration of %s can only be updated, if the order is shipped and the current due date is in the future.';
+    protected $message = 'The duration of %s can only be updated, if the order is shipped and the current due date is in the future.';
     private $referenceId;
 
     /**

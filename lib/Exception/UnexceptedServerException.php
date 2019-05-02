@@ -10,7 +10,7 @@ namespace Billie\Exception;
  */
 class UnexceptedServerException extends BillieException
 {
-    private $message = 'There was an unexpected server error.';
+    protected $message = 'There was an unexpected server error.';
 
     /**
      * @return string

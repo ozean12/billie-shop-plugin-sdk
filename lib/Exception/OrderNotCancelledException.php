@@ -10,7 +10,7 @@ namespace Billie\Exception;
  */
 class OrderNotCancelledException extends BillieException
 {
-    private $message = 'The order %s has not been cancelled.';
+    protected $message = 'The order %s has not been cancelled.';
     private $referenceId;
 
     /**
