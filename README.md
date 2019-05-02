@@ -279,5 +279,5 @@ $gmbhInformation = Billie\Util\LegalFormProvider::get('10001');
 
 ## Developer Documentation
  
- _upcoming Coding Guideline for Plugin Developer_
+[Codign Guideline for Plugin Developers](CODING-GUIDELINE.md)
 
