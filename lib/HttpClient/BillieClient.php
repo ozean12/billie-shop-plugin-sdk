@@ -325,7 +325,6 @@ class BillieClient implements ClientInterface
             return json_decode($response->getBody()->getContents(), true);
         } catch (ClientException $exception) {
             if ($exception->getCode() === 400) {
-                dump($exception->getMessage());
                 throw new InvalidRequestException($exception->getMessage());
             }
 
