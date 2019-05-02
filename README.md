@@ -46,7 +46,7 @@ $client = BillieClient::create([YOUR API KEY], false);
 The create order request returns either an order or a declined exception (`OrderDeclinedException`) with the reason, if provided by Billie.io. 
 
 **Important:** All amount are in cents.
-````php
+```php
 $createOrderCommand = new Billie\Command\CreateOrder();
 
 // Address of the company
@@ -93,7 +93,7 @@ try {
     $messageKey = $exception->getBillieCode();
     $reason = $exception->getReason();
 }
-````
+```
 
 #### Response
 If the order was accepted by Billie, you receive an `order` Object with a `referenceId`. This ID is used for any further communication with Billie.
