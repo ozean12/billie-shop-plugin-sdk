@@ -122,7 +122,7 @@ class BillieClient implements ClientInterface
             $this->throwOrderDeclinedException($result['reasons']);
         }
 
-        return CreateOrderMapper::orderObjectFromArray($result);
+        return $this->getOrder($result['uuid']);
     }
 
     /**
