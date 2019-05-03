@@ -13,6 +13,9 @@ class Order
     const STATE_CREATED = 'created';
     const STATE_DECLINED = 'declined';
     const STATE_SHIPPED = 'shipped';
+    const STATE_COMPLETED = 'complete';
+    const STATE_LATE = 'late';
+    const STATE_PAID_OUT = 'paid_out';
     const STATE_CANCELLED = 'canceled';
 
     /** @var string */

@@ -224,21 +224,28 @@ class BillieClient implements ClientInterface
     }
 
     /**
-     * @param CancelOrder $cancelOrderCommand
+     * @param CancelOrder $command
      * @throws InvalidCommandException
      * @throws BillieException
      */
-    public function cancelOrder(CancelOrder $cancelOrderCommand)
+    public function cancelOrder(CancelOrder $command)
     {
         // validate input
-        if ($violations = $this->validateCommand($cancelOrderCommand)) {
+        if ($violations = $this->validateCommand($command)) {
             throw new InvalidCommandException($violations);
         }
 
+        // validate with order state
+        // cancel order only if state is not COMPLETE
+        $order = $this->getOrder($command->referenceId);
+        if ($order->state === Order::STATE_COMPLETED) {
+            throw new OrderNotCancelledException($command->referenceId);
+        }
+
         try {
-            $this->request('order/' . $cancelOrderCommand->referenceId . '/cancel', []);
+            $this->request('order/' . $command->referenceId . '/cancel', []);
         } catch (BillieException $exception) {
-            throw new OrderNotCancelledException($cancelOrderCommand->referenceId);
+            throw new OrderNotCancelledException($command->referenceId);
         }
     }
 
