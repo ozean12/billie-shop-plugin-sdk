@@ -43,14 +43,6 @@ class Company
      */
     public $registrationNumber;
     /**
-     * @var string name of the industry sector
-     */
-    public $industrySector;
-    /**
-     * @var string name of the sub-industry sector (optional)
-     */
-    public $subIndustrySector;
-    /**
      * @var integer number of employees in the company (optional)
      */
     public $countOfEmployees;
@@ -96,7 +88,6 @@ class Company
             new Assert\NotNull(),
             new Assert\Valid()
         ]);
-        $metadata->addPropertyConstraint('industrySector', new Assert\NotBlank());
         $metadata->addPropertyConstraint('legalForm', new Assert\NotBlank());
         $metadata->addGetterConstraint('validLegalForm', new Assert\IsTrue());
     }

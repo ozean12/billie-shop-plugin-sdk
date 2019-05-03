@@ -45,8 +45,8 @@ class CreateOrderMapper
                 'tax_number' => $object->debtorCompany->taxNumber,
                 'registration_court' => $object->debtorCompany->registrationCourt,
                 'registration_number' => $object->debtorCompany->registrationNumber,
-                'industry_sector' => $object->debtorCompany->industrySector,
-                'subindustry_sector' => $object->debtorCompany->subIndustrySector,
+                'industry_sector' => 'n/a',
+                'subindustry_sector' => 'n/a',
                 'employees_number' => $object->debtorCompany->countOfEmployees,
                 'legal_form' => $object->debtorCompany->legalForm,
                 'established_customer' => $object->debtorCompany->establishedCustomer

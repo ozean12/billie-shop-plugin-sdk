@@ -36,7 +36,6 @@ class ConfirmPaymentTest extends TestCase
         $companyAddress->city = 'Köln';
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('ABC123', 'Ralph Krämer GmbH', $companyAddress);
-        $command->debtorCompany->industrySector = 'Garten- und Landschaftsbau';
         $command->debtorCompany->legalForm = '10001';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');

@@ -59,7 +59,6 @@ $companyAddress->countryCode = 'DE';
     
 // Company information
 $command->debtorCompany = new Billie\Model\Company('CUSTOMER_ID_1', 'Muster GmbH', $companyAddress);
-$command->debtorCompany->industrySector = '82.99.9';
 $command->debtorCompany->legalForm = '10001';
 
 // Information about the person

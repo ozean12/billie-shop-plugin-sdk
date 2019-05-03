@@ -38,7 +38,6 @@ class PostponeOrderDueDateTest extends TestCase
         $companyAddress->city = 'Berlin';
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
-        $command->debtorCompany->industrySector = '82.99.9';
         $command->debtorCompany->legalForm = '10001';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
