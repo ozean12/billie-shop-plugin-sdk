@@ -45,7 +45,7 @@ $client = BillieClient::create([YOUR API KEY], false);
 ### 1. Create Order
 The create order request returns either an order or a declined exception (`OrderDeclinedException`) with the reason, if provided by Billie.io. 
 
-**Important:** All amount are in cents.
+**Important:** All amount are in __cents__.
 ```php
 $createOrderCommand = new Billie\Command\CreateOrder();
 
@@ -57,7 +57,7 @@ $companyAddress->postalCode = '12345';
 $companyAddress->city = 'Berlin';
 $companyAddress->countryCode = 'DE';
     
-// Company information
+// Company information, whereas 'CUSTOMER_ID_1' is the merchant's customer id (use _null_ for guest orders)
 $command->debtorCompany = new Billie\Model\Company('CUSTOMER_ID_1', 'Muster GmbH', $companyAddress);
 $command->debtorCompany->legalForm = '10001';
 
@@ -178,7 +178,7 @@ $order = $client->reduceOrderAmount($command);
 If the amount was successfully reduced, the `order` Object will be returned.
 
 ### 5. Cancel order
-You can cancel the order at any time before the customer fully paid the invoice.
+You can cancel the order at any time before the customer fully paid the invoice and the state (at Billie) is COMPLETE.
 
 ```php
 $command = new Billie\Command\CancelOrder($order->referenceId);
@@ -278,5 +278,5 @@ $gmbhInformation = Billie\Util\LegalFormProvider::get('10001');
 
 ## Developer Documentation
  
-[Codign Guideline for Plugin Developers](CODING-GUIDELINE.md)
+[Coding Guideline for Plugin Developers](CODING-GUIDELINE.md)
 
