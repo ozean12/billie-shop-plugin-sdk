@@ -7,6 +7,7 @@ use Billie\Model\Address;
 use Billie\Model\BankAccount;
 use Billie\Model\Company;
 use Billie\Model\Order;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class OrderMapper
@@ -33,7 +34,7 @@ class CreateOrderMapper
                 'email' => $object->debtorPerson->email
             ],
             'debtor_company' => [
-                'merchant_customer_id' => $object->debtorCompany->customerId,
+                'merchant_customer_id' => $object->debtorCompany->customerId ?: Uuid::uuid4()->toString(),
                 'name' => $object->debtorCompany->name,
                 'address_addition' => $object->debtorCompany->address->addition,
                 'address_house_number' => $object->debtorCompany->address->houseNumber,

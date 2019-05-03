@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class Company
 {
     /**
-     * @var string equals merchant customer ID
+     * @var string|null equals merchant customer ID
      */
     public $customerId;
     /**
@@ -58,7 +58,7 @@ class Company
     /**
      * Company constructor.
      *
-     * @param string $customerId
+     * @param string|null $customerId
      * @param string $name
      * @param Address $address
      */
@@ -82,7 +82,6 @@ class Company
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('customerId', new Assert\NotBlank());
         $metadata->addPropertyConstraint('name', new Assert\NotBlank());
         $metadata->addPropertyConstraints('address', [
             new Assert\NotNull(),
