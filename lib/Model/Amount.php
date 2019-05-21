@@ -59,8 +59,8 @@ class Amount
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('netAmount', new Assert\GreaterThanOrEqual(0));
-        $metadata->addPropertyConstraint('grossAmount', new Assert\GreaterThanOrEqual(0));
+        $metadata->addPropertyConstraint('netAmount', new Assert\GreaterThan(0));
+        $metadata->addPropertyConstraint('grossAmount', new Assert\GreaterThan(0));
         $metadata->addPropertyConstraint('taxAmount', new Assert\GreaterThanOrEqual(0));
 
         $metadata->addPropertyConstraints('currency', [
