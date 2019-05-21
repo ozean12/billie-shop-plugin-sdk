@@ -78,6 +78,22 @@ class Company
     }
 
     /**
+     * @return bool
+     */
+    public function hasValidLegalFormInformation()
+    {
+        if (empty($this->taxId) && LegalFormProvider::isVatIdRequired($this->legalForm)) {
+            return false;
+        }
+
+        if (empty($this->registrationNumber) && empty($this->registrationCourt) && LegalFormProvider::isRegistrationIdRequired($this->legalForm)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @param ClassMetadata $metadata
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -89,5 +105,6 @@ class Company
         ]);
         $metadata->addPropertyConstraint('legalForm', new Assert\NotBlank());
         $metadata->addGetterConstraint('validLegalForm', new Assert\IsTrue());
+        $metadata->addGetterConstraint('validLegalFormInformation', new Assert\IsTrue(['message' => 'Please provide required legal information.']));
     }
 }

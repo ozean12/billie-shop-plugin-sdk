@@ -60,6 +60,8 @@ $companyAddress->countryCode = 'DE';
 // Company information, whereas 'CUSTOMER_ID_1' is the merchant's customer id (use _null_ for guest orders)
 $command->debtorCompany = new Billie\Model\Company('CUSTOMER_ID_1', 'Muster GmbH', $companyAddress);
 $command->debtorCompany->legalForm = '10001';
+$command->debtorCompany->registrationNumber = '1234567'; // for GmbH (10001) the "Handelsregisternummer" is required 
+$command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
 
 // Information about the person
 $command->debtorPerson = new Billie\Model\Person('max.mustermann@musterfirma.de');

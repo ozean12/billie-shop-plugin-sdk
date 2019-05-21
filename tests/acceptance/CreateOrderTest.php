@@ -41,6 +41,9 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
+
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
@@ -72,6 +75,8 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company(null, 'Billie GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
         $command->debtorCompany->establishedCustomer = false;
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
@@ -104,6 +109,8 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
@@ -134,6 +141,8 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('BILLIE-00000002', 'Borschella Superpower GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
 
         $command->debtorPerson = new Person('johndoe@billie.io');
         $command->debtorPerson->firstname = 'John';
@@ -166,6 +175,8 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
@@ -195,6 +206,8 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'GB';
         $command->debtorCompany = new Company('BILLIE-00000005', 'Billie GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
@@ -224,6 +237,8 @@ final class CreateOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';

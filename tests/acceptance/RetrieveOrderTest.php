@@ -35,6 +35,8 @@ class RetrieveOrderTest extends TestCase
         $companyAddress->countryCode = 'DE';
         $command->debtorCompany = new Company('BILLIE-00000001', 'Billie GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
