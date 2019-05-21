@@ -542,17 +542,17 @@
     },
     {
         "name": "symfony/translation",
-        "version": "v3.4.24",
-        "version_normalized": "3.4.24.0",
+        "version": "v3.4.27",
+        "version_normalized": "3.4.27.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "629ac01240f6ebc253a621e19b84e329fe19a987"
+            "reference": "301a5d627220a1c4ee522813b0028653af6c4f54"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/629ac01240f6ebc253a621e19b84e329fe19a987",
-            "reference": "629ac01240f6ebc253a621e19b84e329fe19a987",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/301a5d627220a1c4ee522813b0028653af6c4f54",
+            "reference": "301a5d627220a1c4ee522813b0028653af6c4f54",
             "shasum": ""
         },
         "require": {
@@ -569,7 +569,9 @@
             "symfony/config": "~2.8|~3.0|~4.0",
             "symfony/dependency-injection": "~3.4|~4.0",
             "symfony/finder": "~2.8|~3.0|~4.0",
+            "symfony/http-kernel": "~3.4|~4.0",
             "symfony/intl": "^2.8.18|^3.2.5|~4.0",
+            "symfony/var-dumper": "~3.4|~4.0",
             "symfony/yaml": "~3.4|~4.0"
         },
         "suggest": {
@@ -577,7 +579,7 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2019-03-25T07:48:46+00:00",
+        "time": "2019-05-01T11:10:09+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

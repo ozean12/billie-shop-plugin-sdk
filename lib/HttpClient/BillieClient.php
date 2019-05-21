@@ -31,6 +31,7 @@ use Billie\Mapper\UpdateOrderMapper;
 use Billie\Model\Order;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -254,13 +255,31 @@ class BillieClient implements ClientInterface
      */
     private function getClient()
     {
-        return new Client([
-            'base_uri'  => $this->apiBaseUrl,
-            'headers'   => [
-                'X-API-KEY' => $this->apiKey,
-                'Content-Type' => 'application/json'
-            ],
-        ]);
+        if (method_exists(\GuzzleHttp\ClientInterface::class, 'getDefaultOption')) {
+            // Guzzle 5
+            return new Client(
+                [
+                    'base_url' => $this->apiBaseUrl,
+                    'defaults' => [
+                        'headers' => [
+                            'X-API-KEY'    => $this->apiKey,
+                            'Content-Type' => 'application/json'
+                        ]
+                    ],
+                ]
+            );
+        }
+
+        // Guzzle 6
+        return new Client(
+            [
+                'base_uri' => $this->apiBaseUrl,
+                'headers'  => [
+                    'X-API-KEY'    => $this->apiKey,
+                    'Content-Type' => 'application/json'
+                ],
+            ]
+        );
     }
 
     /**
