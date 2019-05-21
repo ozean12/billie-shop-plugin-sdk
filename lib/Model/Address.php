@@ -55,7 +55,7 @@ class Address
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('street', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('houseNumber', new Assert\NotBlank());
+        $metadata->addPropertyConstraint('houseNumber', new Assert\NotBlank(['groups' => ['company_address']]));
         $metadata->addPropertyConstraint('city', new Assert\NotBlank());
         $metadata->addPropertyConstraint('postalCode', new Assert\NotBlank());
         $metadata->addPropertyConstraint('postalCode', new Assert\Length(

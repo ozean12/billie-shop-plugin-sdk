@@ -62,6 +62,44 @@ final class CreateOrderTest extends TestCase
         $this->assertEquals(Order::STATE_CREATED, $order->state);
     }
 
+    public function testCreateOrderWithDeliverAddressWithoutHousenumber()
+    {
+        // createOrderCommand
+        $command = new CreateOrder();
+
+        $companyAddress = new Address();
+        $companyAddress->street = 'Charlottenstr.';
+        $companyAddress->houseNumber = '4';
+        $companyAddress->postalCode = '10969';
+        $companyAddress->city = 'Berlin';
+        $companyAddress->countryCode = 'DE';
+        $command->debtorCompany = new Company(null, 'Billie GmbH', $companyAddress);
+        $command->debtorCompany->legalForm = '10001';
+        $command->debtorCompany->registrationNumber = '1234567';
+        $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
+
+        $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
+        $command->debtorPerson->salution = 'm';
+        $command->debtorPerson->phone = '+4930120111111';
+
+        $command->deliveryAddress = new Address();
+        $command->deliveryAddress->street = 'Waldemarstr. 37a';
+        $command->deliveryAddress->postalCode = '10999';
+        $command->deliveryAddress->city = 'Berlin';
+        $command->deliveryAddress->countryCode = 'DE';
+
+        $command->amount = new Amount(100, 'EUR', 19);
+        $command->duration = 14;
+
+        // Send Order To API
+        $client = BillieClient::create($this->apiKey, true);
+        $order = $client->createOrder($command);
+
+        $this->assertNotEmpty($order->referenceId);
+        $this->assertNotEmpty($order->referenceId);
+        $this->assertEquals(Order::STATE_CREATED, $order->state);
+    }
+
     public function testCreateOrderWithoutCustomerIdAttributes()
     {
         // createOrderCommand

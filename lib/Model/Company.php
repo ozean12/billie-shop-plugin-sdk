@@ -97,7 +97,7 @@ class Company
         $metadata->addPropertyConstraint('name', new Assert\NotBlank());
         $metadata->addPropertyConstraints('address', [
             new Assert\NotNull(),
-            new Assert\Valid()
+            new Assert\Valid(['groups' => ['Default', 'company_address']])
         ]);
         $metadata->addPropertyConstraint('legalForm', new Assert\NotBlank());
         $metadata->addGetterConstraint('validLegalForm', new Assert\IsTrue());
