@@ -59,6 +59,7 @@ class ReduceOrderAmountTest extends TestCase
         // Update Order Amount
         $command = new ReduceOrderAmount($order->referenceId);
         $command->amount = new Amount(50, 'EUR', 10);
+        $command->invoiceUrl = 'n/a';
 
         $order = $client->reduceOrderAmount($command);
 

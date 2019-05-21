@@ -50,7 +50,8 @@ class ReduceOrderAmount
             new Assert\Uuid(),
             new Assert\NotBlank()
         ]);
-        $metadata->addPropertyConstraint('invoiceUrl', new Assert\Url());
         $metadata->addPropertyConstraint('amount', new Assert\Valid());
+
+        // invoice_url and invoice_number are checked in BillieClient, since there are only mandatory if status === SHIPPED
     }
 }
