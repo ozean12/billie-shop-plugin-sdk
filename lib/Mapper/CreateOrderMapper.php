@@ -50,7 +50,6 @@ class CreateOrderMapper
                 'subindustry_sector' => 'n/a',
                 'employees_number' => $object->debtorCompany->countOfEmployees,
                 'legal_form' => $object->debtorCompany->legalForm,
-                'established_customer' => $object->debtorCompany->establishedCustomer
             ],
             'delivery_address' => [
                 'addition' => $object->deliveryAddress->addition,

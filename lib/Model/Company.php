@@ -50,10 +50,6 @@ class Company
      * @var string legal form of the company - e.g. UG, GmbH, GbR
      */
     public $legalForm;
-    /**
-     * @var bool Has the customer ordered before?
-     */
-    public $establishedCustomer;
 
     /**
      * Company constructor.

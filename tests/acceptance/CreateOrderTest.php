@@ -77,7 +77,6 @@ final class CreateOrderTest extends TestCase
         $command->debtorCompany->legalForm = '10001';
         $command->debtorCompany->registrationNumber = '1234567';
         $command->debtorCompany->registrationCourt = 'Amtsgericht Charlottenburg';
-        $command->debtorCompany->establishedCustomer = false;
 
         $command->debtorPerson = new Person('max.mustermann@musterfirma.de');
         $command->debtorPerson->salution = 'm';
