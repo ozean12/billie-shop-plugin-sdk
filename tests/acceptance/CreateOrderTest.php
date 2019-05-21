@@ -192,7 +192,7 @@ final class CreateOrderTest extends TestCase
         $companyAddress->houseNumber = '4';
         $companyAddress->postalCode = '77777';
         $companyAddress->city = 'Berlin';
-        $companyAddress->countryCode = 'DE';
+        $companyAddress->countryCode = 'GB';
         $command->debtorCompany = new Company('BILLIE-00000005', 'Billie GmbH', $companyAddress);
         $command->debtorCompany->legalForm = '10001';
 
