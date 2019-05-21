@@ -11,25 +11,23 @@ namespace Billie\Util;
 class LegalFormProvider
 {
 
-    const PATH = '/../../assets/legal-forms.csv'; // must be UTF-8 encoded
+    const PATH = '/../../assets/legal-forms.json';
 
     /**
      * @return array
      */
     public static function all()
     {
-        $file = file(__DIR__ . self::PATH);
-        $data = array_map('str_getcsv', array_slice($file, 1));
-
+        $json = file_get_contents(__DIR__ . self::PATH);
+        $data = json_decode($json, true);
 
         $result = [];
         foreach ($data as $row) {
-            $rowArray = explode(';', $row[0]);
-            $result[$rowArray[0]] = [
-                'code' => $rowArray[0],
-                'label' => $rowArray[1],
-                'vat_id_required' => $rowArray[2] === 'Ust-ID' && $rowArray[3] === 'mandatory',
-                'registration_id_required' => $rowArray[2] === 'HR-NR' && $rowArray[3] === 'mandatory',
+            $result[$row['code']] = [
+                'code' => $row['code'],
+                'label' => $row['name'],
+                'vat_id_required' => $row['required_input'] === 'Ust-ID' && $row['required'] === 1,
+                'registration_id_required' => $row['required_input'] === 'HR-NR' && $row['required'] === 1,
             ];
         }
 
