@@ -23,11 +23,17 @@ class LegalFormProvider
 
         $result = [];
         foreach ($data as $row) {
+            if (array_key_exists('requred', $row)) {
+                $required = $row['requred'];
+            } else {
+                $required = $row['required'];
+            }
+
             $result[$row['code']] = [
                 'code' => $row['code'],
                 'label' => $row['name'],
-                'vat_id_required' => $row['required_input'] === 'Ust-ID' && $row['required'] === 1,
-                'registration_id_required' => $row['required_input'] === 'HR-NR' && $row['required'] === 1,
+                'vat_id_required' => $row['required_input'] === 'Ust-ID' && $required === 1,
+                'registration_id_required' => $row['required_input'] === 'HR-NR' && $required === 1,
             ];
         }
 
