@@ -1,92 +1,8 @@
 [
   {
-    "code": 90101,
-    "name": "AG & Co. KG",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 11001,
-    "name": "Aktiengesellschaft",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 19022,
-    "name": "Anstalt",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 19001,
-    "name": "Anstalt öffentlichen Rechts",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 90201,
-    "name": "eG & Co. KG",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 12001,
-    "name": "eingetragene Genossenschaft",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 6001,
-    "name": "Einzelfirma",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 6022,
-    "name": "Einzelunternehmer",
-    "required_input": "Ust-ID",
-    "required": 1
-  },
-  {
-    "code": 2001,
-    "name": "Freie Berufe",
-    "required_input": "Ust-ID",
-    "required": 1
-  },
-  {
-    "code": 90401,
-    "name": "GbR & Co. KG",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 90022,
-    "name": "Ges.m.b.H. & Co. KG",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 4001,
-    "name": "Gesellschaft bürgerlichen Rechts",
-    "required_input": "Ust-ID",
-    "required": 1
-  },
-  {
     "code": 10001,
-    "name": "Gesellschaft mit beschränkter Haftung",
+    "name": "GmbH (Gesellschaft mit beschränkter Haftung)",
     "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 4022,
-    "name": "Gesellschaft nach bürgerlichem Recht",
-    "required_input": "Ust-ID",
-    "required": 1
-  },
-  {
-    "code": 3001,
-    "name": "Gewerbebetrieb",
-    "required_input": "Ust-ID",
     "required": 1
   },
   {
@@ -96,80 +12,56 @@
     "required": 1
   },
   {
-    "code": 14201,
-    "name": "GmbH & Co. KGaA",
+    "code": 6022,
+    "name": "Einzelunternehmer (ohne HR-Eintrag)",
+    "required_input": "Ust-ID",
+    "required": 1
+  },
+  {
+    "code": 6001,
+    "name": "Einzelfirma (im Handelsregister eingetragen)",
     "required_input": "HR-NR",
     "required": 1
   },
   {
-    "code": 14401,
-    "name": "KG & Co. KG",
+    "code": 3001,
+    "name": "Gewerbebetrieb",
+    "required_input": "Ust-ID",
+    "required": 1
+  },
+  {
+    "code": 4001,
+    "name": "GbR (Gesellschaft bürgerlichen Rechts)",
+    "required_input": "Ust-ID",
+    "required": 1
+  },
+  {
+    "code": 10201,
+    "name": "UG (Unternehmergesellschaft haftungsbeschränkt)",
     "required_input": "HR-NR",
     "required": 1
   },
   {
-    "code": 14401,
-    "name": "KG & Co. KGaA",
+    "code": 11001,
+    "name": "AG (Aktiengesellschaft)",
+    "required_input": "HR-NR",
+    "required": 1
+  },
+  {
+    "code": 90101,
+    "name": "AG & Co. KG",
     "required_input": "HR-NR",
     "required": 1
   },
   {
     "code": 8001,
-    "name": "Kommanditgesellschaft",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 14001,
-    "name": "Kommanditgesellschaft auf Aktien",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 17001,
-    "name": "Körperschaft öffentlichen Rechts",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 10101,
-    "name": "Limited",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 91001,
-    "name": "Limited & Co. KG",
+    "name": "KG (Kommanditgesellschaft)",
     "required_input": "HR-NR",
     "required": 1
   },
   {
     "code": 7001,
-    "name": "Offene Handelsgesellschaft",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 90701,
-    "name": "OHG & Co. KG",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 4501,
-    "name": "Partnerschaftsgesellschaft",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 18122,
-    "name": "Privatstiftung",
-    "required_input": "Ust-ID",
-    "required": 1
-  },
-  {
-    "code": 20022,
-    "name": "Sparkasse",
+    "name": "OHG (Offene Handelsgesellschaft)",
     "required_input": "HR-NR",
     "required": 1
   },
@@ -180,32 +72,20 @@
     "required": 1
   },
   {
-    "code": 91201,
-    "name": "UG (haftungsbeschränkt) & Co. KG",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 91301,
-    "name": "UG (haftungsbeschränkt) & Co. KGaA",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
-    "code": 10201,
-    "name": "Unternehmergesellschaft (haftungsbeschränkt)",
-    "required_input": "HR-NR",
-    "required": 1
-  },
-  {
     "code": 13001,
-    "name": "Verein",
+    "name": "e.V. (eingetragener Verein)",
     "required_input": "HR-NR",
     "required": 1
   },
   {
-    "code": 90301,
-    "name": "Verein & Co. KG",
+    "code": 12001,
+    "name": "e.G. (eingetragene Genossenschaft)",
+    "required_input": "HR-NR",
+    "required": 1
+  },
+  {
+    "code": 10101,
+    "name": "Ltd. (Limited)",
     "required_input": "HR-NR",
     "required": 1
   },
