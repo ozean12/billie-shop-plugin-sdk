@@ -223,6 +223,8 @@ If the amount was successfully reported, the `order` Object will be returned.
 ## Exceptions
 Listed below, are all exceptions with their Code. This allows you to map those keys to your custom translation.
 
+You can request the Billie-Code by calling `getBillieCode()` on the exception.
+
 | Billie Code        | Description           | 
 | ------------- |-------------|
 | `ORDER_DECLINED` | The order was declined by Billie. Please find below possible reasons for that.
