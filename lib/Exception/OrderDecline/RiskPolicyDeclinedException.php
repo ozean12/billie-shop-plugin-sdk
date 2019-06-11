@@ -17,4 +17,12 @@ class RiskPolicyDeclinedException extends OrderDeclinedException
     {
         parent::__construct('The order was declined by Billie due to its risk policy.');
     }
+
+    /**
+     * @return string
+     */
+    public function getBillieCode()
+    {
+        return 'RISK_POLICY';
+    }
 }

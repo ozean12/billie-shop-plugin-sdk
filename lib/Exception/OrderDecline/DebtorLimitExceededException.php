@@ -17,4 +17,12 @@ class DebtorLimitExceededException extends OrderDeclinedException
     {
         parent::__construct('The order was declined because the maximum due amount for the debtor has been reached.');
     }
+
+    /**
+     * @return string
+     */
+    public function getBillieCode()
+    {
+        return 'DEBTOR_LIMIT_EXCEEDED';
+    }
 }

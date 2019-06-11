@@ -17,4 +17,12 @@ class DebtorAddressException extends OrderDeclinedException
     {
         parent::__construct('The order was declined, because the address seems to be wrong.');
     }
+
+    /**
+     * @return string
+     */
+    public function getBillieCode()
+    {
+        return 'DEBTOR_ADDRESS';
+    }
 }
