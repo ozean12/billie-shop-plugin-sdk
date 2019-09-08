@@ -22,6 +22,10 @@ class Address
      */
     public $houseNumber;
     /**
+     * @var string street name and house number combined (replaces street and houseNumber)
+     */
+    public $fullAddress;
+    /**
      * @var string
      *
      * additional address information

@@ -68,8 +68,7 @@ final class CreateOrderTest extends TestCase
         $command = new CreateOrder();
 
         $companyAddress = new Address();
-        $companyAddress->street = 'Charlottenstr.';
-        $companyAddress->houseNumber = '4';
+        $companyAddress->fullAddress = 'Charlottenstr. 4';
         $companyAddress->postalCode = '10969';
         $companyAddress->city = 'Berlin';
         $companyAddress->countryCode = 'DE';

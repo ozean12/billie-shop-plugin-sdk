@@ -51,6 +51,7 @@ $createOrderCommand = new Billie\Command\CreateOrder();
 
 // Address of the company
 $companyAddress = new Billie\Model\Address();
+$companyAddress->fullAddress = 'Musterstrasse 12'; //  if set, street and houseNumber will be overwritten
 $companyAddress->street = 'Musterstrasse';
 $companyAddress->houseNumber = '12';
 $companyAddress->postalCode = '12345';
@@ -284,3 +285,17 @@ $gmbhInformation = Billie\Util\LegalFormProvider::get('10001');
  
 [Coding Guideline for Plugin Developers](CODING-GUIDELINE.md)
 
+### Tests
+The SDK provide PhpUnit Tests, just run to test the code:
+```shell script
+vendor/bin/phpunit
+```
+
+### Publishing
+
+For some eCommerce software, there is a problem with composer. Therefore it is necessary to commit the `vendor` folder as well.
+Before committing and pushing, please run the following command:
+
+```shell script
+composer install --no-dev --no-interaction --optimize-autoloader
+```

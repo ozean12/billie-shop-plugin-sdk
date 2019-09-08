@@ -11,6 +11,7 @@ use Billie\Command\ShipOrder;
 use Billie\Command\ReduceOrderAmount;
 use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
+use Billie\Exception\InvalidFullAddressException;
 use Billie\Exception\InvalidRequestException;
 use Billie\Exception\NotAllowedException;
 use Billie\Exception\OrderDecline\DebtorAddressException;
@@ -29,6 +30,7 @@ use Billie\Mapper\RetrieveOrderMapper;
 use Billie\Mapper\ShipOrderMapper;
 use Billie\Mapper\UpdateOrderMapper;
 use Billie\Model\Order;
+use Billie\Util\AddressHelper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
@@ -110,6 +112,37 @@ class BillieClient implements ClientInterface
      */
     public function createOrder(CreateOrder $createOrderCommand)
     {
+        // set address parts from fullAddress
+        if (isset($createOrderCommand->debtorCompany->address->fullAddress)) {
+            try {
+                $addressPartial = AddressHelper::getPartsFromFullAddress(
+                    $createOrderCommand->debtorCompany->address->fullAddress
+                );
+
+                $createOrderCommand->debtorCompany->address->street = $addressPartial->street;
+                $createOrderCommand->debtorCompany->address->houseNumber = $addressPartial->houseNumber;
+            } catch (InvalidFullAddressException $exception) {
+                // what happens, if there is a strange address?
+                $createOrderCommand->debtorCompany->address->street = $createOrderCommand->debtorCompany->address->fullAddress;
+                $createOrderCommand->debtorCompany->address->houseNumber = " ";
+            }
+        }
+        if (isset($createOrderCommand->deliveryAddress->fullAddress)) {
+            try {
+                $addressPartial = AddressHelper::getPartsFromFullAddress(
+                    $createOrderCommand->deliveryAddress->fullAddress
+                );
+
+                $createOrderCommand->deliveryAddress->street = $addressPartial->street;
+                $createOrderCommand->deliveryAddress->houseNumber = $addressPartial->houseNumber;
+            } catch (InvalidFullAddressException $exception) {
+                // what happens, if there is a strange address?
+                $createOrderCommand->deliveryAddress->street = $createOrderCommand->deliveryAddress->fullAddress;
+                $createOrderCommand->deliveryAddress->houseNumber = " ";
+            }
+        }
+
+
         // validate input
         if ($violations = $this->validateCommand($createOrderCommand)) {
             throw new InvalidCommandException($violations);
