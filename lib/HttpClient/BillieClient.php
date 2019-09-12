@@ -112,6 +112,12 @@ class BillieClient implements ClientInterface
      */
     public function createOrder(CreateOrder $createOrderCommand)
     {
+        // if houseNumber is empty, set fullAddress to trigger full-address-recognition
+        if (!isset($createOrderCommand->debtorCompany->address->fullAddress)
+            && empty($createOrderCommand->debtorCompany->address->houseNumber)) {
+            $createOrderCommand->debtorCompany->address->fullAddress = $createOrderCommand->debtorCompany->address->street;
+        }
+
         // set address parts from fullAddress
         if (isset($createOrderCommand->debtorCompany->address->fullAddress)) {
             try {
@@ -127,6 +133,13 @@ class BillieClient implements ClientInterface
                 $createOrderCommand->debtorCompany->address->houseNumber = " ";
             }
         }
+
+        // if houseNumber is empty, set fullAddress to trigger full-address-recognition
+        if (!isset($createOrderCommand->deliveryAddress->fullAddress)
+            && empty($createOrderCommand->deliveryAddress->houseNumber)) {
+            $createOrderCommand->deliveryAddress->fullAddress = $createOrderCommand->deliveryAddress->street;
+        }
+
         if (isset($createOrderCommand->deliveryAddress->fullAddress)) {
             try {
                 $addressPartial = AddressHelper::getPartsFromFullAddress(
