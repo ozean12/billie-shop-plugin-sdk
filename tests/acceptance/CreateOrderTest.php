@@ -25,8 +25,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class CreateOrderTest extends TestCase
 {
-    private $apiKey = 'test-ralph';
-
+    private $consumerKey = 'bfebbc05-d1f0-4e47-be21-c99e7fd2ffcc';
+    private $consumerSecretKey = 'cv8hfihix4gso0koc0cgs8wosks4gwwwgo04cg00c4k4okggccg4wo8s88w8c4';
 
     public function testCreateOrderWithValidAttributes()
     {
@@ -54,7 +54,7 @@ final class CreateOrderTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
         $order = $client->createOrder($command);
 
         $this->assertNotEmpty($order->referenceId);
@@ -91,7 +91,7 @@ final class CreateOrderTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
         $order = $client->createOrder($command);
 
         $this->assertNotEmpty($order->referenceId);
@@ -129,7 +129,7 @@ final class CreateOrderTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
         $order = $client->createOrder($command);
 
         $this->assertNotEmpty($order->referenceId);
@@ -162,7 +162,7 @@ final class CreateOrderTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
         $order = $client->createOrder($command);
 
         $this->assertNotEmpty($order->referenceId);
@@ -196,7 +196,7 @@ final class CreateOrderTest extends TestCase
 
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
 
         $this->expectException(InvalidCommandException::class);
         $order = $client->createOrder($command);
@@ -229,7 +229,7 @@ final class CreateOrderTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
 
         $this->expectException(DebtorNotIdentifiedException::class);
         $order = $client->createOrder($command);
@@ -261,7 +261,7 @@ final class CreateOrderTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
 
         $this->expectException(DebtorAddressException::class);
         $order = $client->createOrder($command);
@@ -292,7 +292,7 @@ final class CreateOrderTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
 
         $this->expectException(RiskPolicyDeclinedException::class);
         $order = $client->createOrder($command);
@@ -323,7 +323,7 @@ final class CreateOrderTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
 
         $this->expectException(DebtorLimitExceededException::class);
         $order = $client->createOrder($command);

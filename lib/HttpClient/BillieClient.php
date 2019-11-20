@@ -3,12 +3,14 @@
 namespace Billie\HttpClient;
 
 use Billie\Command\CancelOrder;
+use Billie\Command\CheckoutSessionConfirm;
 use Billie\Command\ConfirmPayment;
 use Billie\Command\CreateOrder;
 use Billie\Command\PostponeOrderDueDate;
 use Billie\Command\RetrieveOrder;
 use Billie\Command\ShipOrder;
 use Billie\Command\ReduceOrderAmount;
+use Billie\Command\CheckoutSession;
 use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
 use Billie\Exception\InvalidFullAddressException;
@@ -36,6 +38,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use League\OAuth2\Client\Provider\GenericProvider;
 
 
 /**
@@ -50,10 +53,12 @@ class BillieClient implements ClientInterface
     const PRODUCTION_BASE_URL = 'https://paella.billie.io/api/v1/';
 
     private $apiBaseUrl;
-    private $apiKey;
 
     private $validator;
+    private $accessToken;
 
+    private $consumerKey;
+    private $consumerSecretKey;
     /**
      * BillieClient constructor.
      *
@@ -64,23 +69,89 @@ class BillieClient implements ClientInterface
         $this->validator = $validator;
     }
 
+
+
+    public function oauth($client_id,$client_secret, $sandboxMode = true){
+
+        $apiBaseUrl = $sandboxMode ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
+
+        $provider = new GenericProvider([
+            'clientId'                => $client_id,
+            'clientSecret'            => $client_secret,
+            'urlAuthorize'            => $apiBaseUrl.'/oauth/authorize',
+            'urlAccessToken'          => $apiBaseUrl.'/oauth/token',
+            'urlResourceOwnerDetails' => $apiBaseUrl.'/resource'
+        ]);
+
+        try {
+
+            // Try to get an access token using the client credentials grant.
+            $accessToken = $provider->getAccessToken('client_credentials');
+
+        } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+
+            // Failed to get the access token
+            exit($e->getMessage());
+
+        }
+
+        $this->accessToken = $accessToken;
+
+    }
+
     /**
      * @param string $apiKey
      * @param bool $sandboxMode
      * @return BillieClient
      */
-    public static function create($apiKey, $sandboxMode = true)
+    public static function create($consumerKey, $consumerSecretKey, $sandboxMode = true)
     {
         $validator = Validation::createValidatorBuilder()
                                ->addMethodMapping('loadValidatorMetadata')
                                ->getValidator();
 
         $client = new self($validator);
-        $client->apiKey = $apiKey;
+        $client->consumerKey = $consumerKey;
+        $client->consumerSecretKey = $consumerSecretKey;
+//        $client->apiKey = $apiKey;
         $client->apiBaseUrl = $sandboxMode ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
 
         return $client;
     }
+
+
+    public function checkoutSessionCreate($merchantCustomerId)
+    {
+
+        $checkoutSessionCommand = new CheckoutSession($merchantCustomerId);
+
+        // validate input
+        if ($violations = $this->validateCommand($checkoutSessionCommand)) {
+            throw new InvalidCommandException($violations);
+        }
+        $data = array('merchant_customer_id' => $merchantCustomerId);
+        $result = $this->request('checkout-session', $data );
+
+        return $result['id'];
+
+    }
+
+    public function checkoutSessionConfirm(CheckoutSessionConfirm $checkoutSessionConfirm)
+    {
+
+        // validate input
+        if ($violations = $this->validateCommand($checkoutSessionConfirm)) {
+            print_r($violations);
+            throw new InvalidCommandException($violations);
+        }
+
+        $data = CreateOrderMapper::arrayFromCreateOrderObject($checkoutSessionConfirm);
+        $result = $this->request('checkout-session/'.$checkoutSessionConfirm->uuid.'/confirm',$data , 'PUT' );
+
+        return $result['id'];
+
+    }
+
 
     /**
      * @param string $orderId
@@ -308,8 +379,10 @@ class BillieClient implements ClientInterface
                     'base_url' => $this->apiBaseUrl,
                     'defaults' => [
                         'headers' => [
-                            'X-API-KEY'    => $this->apiKey,
+//                            'X-API-KEY'    => $this->apiKey,
+                            'Authorization' => "Bearer {$this->accessToken}",
                             'Content-Type' => 'application/json'
+
                         ]
                     ],
                 ]
@@ -321,7 +394,8 @@ class BillieClient implements ClientInterface
             [
                 'base_uri' => $this->apiBaseUrl,
                 'headers'  => [
-                    'X-API-KEY'    => $this->apiKey,
+//                    'X-API-KEY'    => $this->apiKey,
+                    'Authorization' => "Bearer {$this->accessToken}",
                     'Content-Type' => 'application/json'
                 ],
             ]
@@ -385,6 +459,8 @@ class BillieClient implements ClientInterface
      */
     private function request($path, $data, $method = 'POST')
     {
+        $this->oauth($this->consumerKey, $this->consumerSecretKey);
+
         $client = $this->getClient();
 
         try {
@@ -392,6 +468,8 @@ class BillieClient implements ClientInterface
                 $response = $client->post($path, ['body' => json_encode($data)]);
             } elseif ($method === 'PATCH') {
                 $response = $client->patch($path, ['body' => json_encode($data)]);
+            } elseif ($method === 'PUT') {
+                $response = $client->put($path, ['body' => json_encode($data)]);
             }
 
             return json_decode($response->getBody()->getContents(), true);
