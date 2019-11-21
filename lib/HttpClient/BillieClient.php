@@ -7,6 +7,8 @@ use Billie\Command\CheckoutSessionConfirm;
 use Billie\Command\ConfirmPayment;
 use Billie\Command\CreateOrder;
 use Billie\Command\PostponeOrderDueDate;
+use Billie\Command\PreapproveCreateOrder;
+use Billie\Command\PreapproveConfirmOrder;
 use Billie\Command\RetrieveOrder;
 use Billie\Command\ShipOrder;
 use Billie\Command\ReduceOrderAmount;
@@ -173,6 +175,83 @@ class BillieClient implements ClientInterface
         return RetrieveOrderMapper::orderObjectFromArray($result);
     }
 
+    public function preapproveCreateOrder(PreapproveCreateOrder $preapproveCreateOrderCommand)
+    {
+        // if houseNumber is empty, set fullAddress to trigger full-address-recognition
+        if (!isset($preapproveCreateOrderCommand->debtorCompany->address->fullAddress)
+            && empty($preapproveCreateOrderCommand->debtorCompany->address->houseNumber)) {
+            $preapproveCreateOrderCommand->debtorCompany->address->fullAddress = $preapproveCreateOrderCommand->debtorCompany->address->street;
+        }
+
+        // set address parts from fullAddress
+        if (isset($preapproveCreateOrderCommand->debtorCompany->address->fullAddress)) {
+            try {
+                $addressPartial = AddressHelper::getPartsFromFullAddress(
+                    $preapproveCreateOrderCommand->debtorCompany->address->fullAddress
+                );
+
+                $preapproveCreateOrderCommand->debtorCompany->address->street = $addressPartial->street;
+                $preapproveCreateOrderCommand->debtorCompany->address->houseNumber = $addressPartial->houseNumber;
+            } catch (InvalidFullAddressException $exception) {
+                // what happens, if there is a strange address?
+                $preapproveCreateOrderCommand->debtorCompany->address->street = $preapproveCreateOrderCommand->debtorCompany->address->fullAddress;
+                $preapproveCreateOrderCommand->debtorCompany->address->houseNumber = " ";
+            }
+        }
+
+        // if houseNumber is empty, set fullAddress to trigger full-address-recognition
+        if (!isset($preapproveCreateOrderCommand->deliveryAddress->fullAddress)
+            && empty($preapproveCreateOrderCommand->deliveryAddress->houseNumber)) {
+            $preapproveCreateOrderCommand->deliveryAddress->fullAddress = $preapproveCreateOrderCommand->deliveryAddress->street;
+        }
+
+        if (isset($preapproveCreateOrderCommand->deliveryAddress->fullAddress)) {
+            try {
+                $addressPartial = AddressHelper::getPartsFromFullAddress(
+                    $preapproveCreateOrderCommand->deliveryAddress->fullAddress
+                );
+
+                $preapproveCreateOrderCommand->deliveryAddress->street = $addressPartial->street;
+                $preapproveCreateOrderCommand->deliveryAddress->houseNumber = $addressPartial->houseNumber;
+            } catch (InvalidFullAddressException $exception) {
+                // what happens, if there is a strange address?
+                $preapproveCreateOrderCommand->deliveryAddress->street = $preapproveCreateOrderCommand->deliveryAddress->fullAddress;
+                $preapproveCreateOrderCommand->deliveryAddress->houseNumber = " ";
+            }
+        }
+
+
+        // validate input
+        if ($violations = $this->validateCommand($preapproveCreateOrderCommand)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        $data = CreateOrderMapper::arrayFromCreateOrderObject($preapproveCreateOrderCommand);
+        $result = $this->request('order/pre-approve', $data);
+
+        // declined orders response with 200 (OK)
+        if ($result['state'] === Order::STATE_DECLINED) {
+            $this->throwOrderDeclinedException($result['reasons']);
+        }
+
+        return $this->getOrder($result['uuid']);
+    }
+
+
+    public function preapproveConfirmOrder(PreapproveConfirmOrder $command)
+    {
+
+        // validate input
+        if ($violations = $this->validateCommand($command)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        $data = array();
+        $result = $this->request('order/'.$command->id.'/confirm', $data );
+
+        return $this->getOrder($result['uuid']);
+
+    }
 
     /**
      * @param CreateOrder $createOrderCommand
@@ -471,7 +550,6 @@ class BillieClient implements ClientInterface
             } elseif ($method === 'PUT') {
                 $response = $client->put($path, ['body' => json_encode($data)]);
             }
-
             return json_decode($response->getBody()->getContents(), true);
         } catch (ClientException $exception) {
             if ($exception->getCode() === 400) {

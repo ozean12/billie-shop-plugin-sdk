@@ -17,6 +17,7 @@ class Order
     const STATE_LATE = 'late';
     const STATE_PAID_OUT = 'paid_out';
     const STATE_CANCELLED = 'canceled';
+    const STATE_PREAPPROVED = 'pre_approved';
 
     /** @var string */
     public $referenceId;
