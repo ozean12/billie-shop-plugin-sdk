@@ -71,11 +71,7 @@ class BillieClient implements ClientInterface
         $this->validator = $validator;
     }
 
-    /**
-     * @param $client_id
-     * @param $client_secret
-     * @param bool $sandboxMode
-     */
+
 
     public function oauth($client_id,$client_secret, $sandboxMode = true){
 
@@ -125,12 +121,7 @@ class BillieClient implements ClientInterface
         return $client;
     }
 
-    /**
-     * @param $merchantCustomerId
-     * @return Session Uuid
-     * @throws BillieException
-     * @throws InvalidCommandException
-     */
+
     public function checkoutSessionCreate($merchantCustomerId)
     {
 
@@ -147,24 +138,19 @@ class BillieClient implements ClientInterface
 
     }
 
-    /**
-     * @param CheckoutSessionConfirm $checkoutSessionConfirm
-     * @return Order
-     * @throws BillieException
-     * @throws InvalidCommandException
-     */
     public function checkoutSessionConfirm(CheckoutSessionConfirm $checkoutSessionConfirm)
     {
 
         // validate input
         if ($violations = $this->validateCommand($checkoutSessionConfirm)) {
+            print_r($violations);
             throw new InvalidCommandException($violations);
         }
 
         $data = CreateOrderMapper::arrayFromCreateOrderObject($checkoutSessionConfirm);
         $result = $this->request('checkout-session/'.$checkoutSessionConfirm->uuid.'/confirm',$data , 'PUT' );
 
-        return $this->getOrder($result['id']);
+        return $result['id'];
 
     }
 
@@ -189,12 +175,6 @@ class BillieClient implements ClientInterface
         return RetrieveOrderMapper::orderObjectFromArray($result);
     }
 
-    /**
-     * @param PreapproveCreateOrder $preapproveCreateOrderCommand
-     * @return Order
-     * @throws BillieException
-     * @throws InvalidCommandException
-     */
     public function preapproveCreateOrder(PreapproveCreateOrder $preapproveCreateOrderCommand)
     {
         // if houseNumber is empty, set fullAddress to trigger full-address-recognition
@@ -257,12 +237,6 @@ class BillieClient implements ClientInterface
         return $this->getOrder($result['uuid']);
     }
 
-    /**
-     * @param PreapproveConfirmOrder $command
-     * @return Order
-     * @throws BillieException
-     * @throws InvalidCommandException
-     */
 
     public function preapproveConfirmOrder(PreapproveConfirmOrder $command)
     {

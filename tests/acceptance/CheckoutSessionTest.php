@@ -19,7 +19,7 @@ class CheckoutSessionTest extends TestCase
     private $consumerSecretKey = 'cv8hfihix4gso0koc0cgs8wosks4gwwwgo04cg00c4k4okggccg4wo8s88w8c4';
 
 
-    public function testCheckoutSession()
+    public function testRetrieveOrderWithValidAttributes()
     {
 
         $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
@@ -28,10 +28,10 @@ class CheckoutSessionTest extends TestCase
 
         $command = new CheckoutSessionConfirm($sessionUuid);
         $command->amount = new Amount(100, 'EUR', 19);
-        $command->duration = '19';
+        $command->duration = '199';
 
-        $order = $client->checkoutSessionConfirm($command);
-        $this->assertNotEmpty($order);
-
+        $session = $client->checkoutSessionConfirm($command);
+//
+//        print_r($session);
     }
 }
