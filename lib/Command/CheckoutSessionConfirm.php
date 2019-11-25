@@ -28,7 +28,7 @@ class CheckoutSessionConfirm
     public $amount;
 
     /**
-     * RetrieveOrder constructor.
+     * CheckoutSessionConfirm constructor.
      *
      * @param string $Uuid
      */

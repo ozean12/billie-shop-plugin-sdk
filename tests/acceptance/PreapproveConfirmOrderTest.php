@@ -2,14 +2,8 @@
 
 namespace Billie\Tests\acceptance;
 
-use Billie\Command\CreateOrder;
 use Billie\Command\PreapproveConfirmOrder;
 use Billie\Command\PreapproveCreateOrder;
-use Billie\Exception\InvalidCommandException;
-use Billie\Exception\OrderDecline\DebtorAddressException;
-use Billie\Exception\OrderDecline\DebtorLimitExceededException;
-use Billie\Exception\OrderDecline\DebtorNotIdentifiedException;
-use Billie\Exception\OrderDecline\RiskPolicyDeclinedException;
 use Billie\HttpClient\BillieClient;
 use Billie\Model\Address;
 use Billie\Model\Amount;
@@ -32,7 +26,7 @@ final class PreapproveConfirmOrderTest extends TestCase
 
     public function testPreapproveConfirmOrderWithValidAttributes()
     {
-        // createOrderCommand
+        // preapprove Order Create
         $command = new PreapproveCreateOrder();
 
         $companyAddress = new Address();
@@ -60,6 +54,7 @@ final class PreapproveConfirmOrderTest extends TestCase
 
         $order = $client->preapproveCreateOrder($command);
 
+        // Preapprove Order Confirm
         $command = new PreapproveConfirmOrder($order->referenceId);
         $approvedOrder = $client->preapproveConfirmOrder($command);
         $this->assertEquals(Order::STATE_CREATED, $approvedOrder->state);
