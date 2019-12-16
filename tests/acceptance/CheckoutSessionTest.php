@@ -28,9 +28,9 @@ class CheckoutSessionTest extends TestCase
 
         $command = new CheckoutSessionConfirm($sessionUuid);
         $command->amount = new Amount(100, 'EUR', 19);
-        $command->duration = '199';
+        $command->duration = '109';
 
-        $session = $client->checkoutSessionConfirm($command);
+//        $session = $client->checkoutSessionConfirm($command);
 //
 //        print_r($session);
     }

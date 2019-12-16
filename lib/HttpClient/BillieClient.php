@@ -38,6 +38,8 @@ use Billie\Util\AddressHelper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use kamermans\OAuth2\GrantType\ClientCredentials;
+use kamermans\OAuth2\OAuth2Subscriber;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -74,30 +76,23 @@ class BillieClient implements ClientInterface
 
 
     public function oauth($client_id,$client_secret, $sandboxMode = true){
-
         $apiBaseUrl = $sandboxMode ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
 
-        $provider = new GenericProvider([
-            'clientId'                => $client_id,
-            'clientSecret'            => $client_secret,
-            'urlAuthorize'            => $apiBaseUrl.'/oauth/authorize',
-            'urlAccessToken'          => $apiBaseUrl.'/oauth/token',
-            'urlResourceOwnerDetails' => $apiBaseUrl.'/resource'
+        $reauth_client = new Client([
+            // URL for access_token request
+            'base_url' => $apiBaseUrl.'oauth/token'
         ]);
 
-        try {
 
-            // Try to get an access token using the client credentials grant.
-            $accessToken = $provider->getAccessToken('client_credentials');
+        $reauth_config = [
+            "client_id" => $client_id,
+            "client_secret" => $client_secret
+        ];
+        $grant_type = new ClientCredentials($reauth_client, $reauth_config);
 
-        } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+        $oauth = new OAuth2Subscriber($grant_type);
 
-            // Failed to get the access token
-            exit($e->getMessage());
-
-        }
-
-        $this->accessToken = $accessToken;
+        $this->accessToken = $oauth->getAccessToken();
 
     }
 
@@ -143,7 +138,6 @@ class BillieClient implements ClientInterface
 
         // validate input
         if ($violations = $this->validateCommand($checkoutSessionConfirm)) {
-            print_r($violations);
             throw new InvalidCommandException($violations);
         }
 
