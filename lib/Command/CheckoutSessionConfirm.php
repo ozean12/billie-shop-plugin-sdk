@@ -18,10 +18,12 @@ class CheckoutSessionConfirm
      * @var string
      */
     public $uuid;
+
     /**
      * @var integer
      */
     public $duration;
+
     /**
      * @var Amount
      */

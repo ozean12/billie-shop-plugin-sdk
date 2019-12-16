@@ -19,13 +19,13 @@ class CheckoutSession
     public $merchantCustomerId;
 
     /**
-     * RetrieveOrder constructor.
+     * CheckoutSession constructor.
      *
      * @param string $merchantCustomerId
      */
-    public function __construct($merchant_customer_id)
+    public function __construct($merchantCustomerId)
     {
-        $this->merchantCustomerId = $merchant_customer_id;
+        $this->merchantCustomerId = $merchantCustomerId;
     }
 
     /**

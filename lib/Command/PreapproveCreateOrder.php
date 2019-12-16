@@ -38,7 +38,7 @@ class PreapproveCreateOrder
      *
      * Number of days, the debtor has to pay the invoice (e.g. 14)
      */
-    public $duration = 14;
+    public $duration;
     /**
      * @var string
      *
