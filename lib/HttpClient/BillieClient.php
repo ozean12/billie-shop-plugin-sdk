@@ -38,8 +38,10 @@ use Billie\Util\AddressHelper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\HandlerStack;
 use kamermans\OAuth2\GrantType\ClientCredentials;
 use kamermans\OAuth2\OAuth2Subscriber;
+use kamermans\OAuth2\OAuth2Middleware;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -75,26 +77,6 @@ class BillieClient implements ClientInterface
 
 
 
-    public function oauth($client_id,$client_secret, $sandboxMode = true){
-        $apiBaseUrl = $sandboxMode ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
-
-        $reauth_client = new Client([
-            // URL for access_token request
-            'base_url' => $apiBaseUrl.'oauth/token'
-        ]);
-
-
-        $reauth_config = [
-            "client_id" => $client_id,
-            "client_secret" => $client_secret
-        ];
-        $grant_type = new ClientCredentials($reauth_client, $reauth_config);
-
-        $oauth = new OAuth2Subscriber($grant_type);
-
-        $this->accessToken = $oauth->getAccessToken();
-
-    }
 
     /**
      * @param string $apiKey
@@ -104,8 +86,8 @@ class BillieClient implements ClientInterface
     public static function create($consumerKey, $consumerSecretKey, $sandboxMode = true)
     {
         $validator = Validation::createValidatorBuilder()
-                               ->addMethodMapping('loadValidatorMetadata')
-                               ->getValidator();
+            ->addMethodMapping('loadValidatorMetadata')
+            ->getValidator();
 
         $client = new self($validator);
         $client->consumerKey = $consumerKey;
@@ -443,16 +425,33 @@ class BillieClient implements ClientInterface
     /**
      * @return Client
      */
-    private function getClient()
+    private function getClient($client_id, $client_secret, $sandboxMode = true, $data)
     {
+        $apiBaseUrl = $sandboxMode ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
+
+        $reauth_client = new Client([
+            // URL for access_token request
+            'base_url' => $apiBaseUrl.'oauth/token'
+        ]);
+
+
+        $reauth_config = [
+            "client_id" => $client_id,
+            "client_secret" => $client_secret
+        ];
+        $grant_type = new ClientCredentials($reauth_client, $reauth_config);
+
         if (method_exists(\GuzzleHttp\ClientInterface::class, 'getDefaultOption')) {
             // Guzzle 5
+
+            $oauth = new OAuth2Subscriber($grant_type);
+
+            $this->accessToken = $oauth->getAccessToken();
             return new Client(
                 [
                     'base_url' => $this->apiBaseUrl,
                     'defaults' => [
                         'headers' => [
-//                            'X-API-KEY'    => $this->apiKey,
                             'Authorization' => "Bearer {$this->accessToken}",
                             'Content-Type' => 'application/json'
 
@@ -460,19 +459,30 @@ class BillieClient implements ClientInterface
                     ],
                 ]
             );
+
+        } else {
+            // Guzzle 6
+
+            $oauth = new OAuth2Middleware($grant_type);
+
+            $stack = HandlerStack::create();
+            $stack->push($oauth);
+
+            $client = new Client([
+                'base_uri' => $apiBaseUrl,
+                'handler' => $stack,
+                'auth'    => 'oauth',
+                'verify' => false,
+                'body' => json_encode($data)
+            ]);
+
+
+            $response = $client->post('oauth/token');
+//            print_r($response);
+//            $this->accessToken = $stack->getAccessToken();
+
         }
 
-        // Guzzle 6
-        return new Client(
-            [
-                'base_uri' => $this->apiBaseUrl,
-                'headers'  => [
-//                    'X-API-KEY'    => $this->apiKey,
-                    'Authorization' => "Bearer {$this->accessToken}",
-                    'Content-Type' => 'application/json'
-                ],
-            ]
-        );
     }
 
     /**
@@ -523,6 +533,7 @@ class BillieClient implements ClientInterface
         return [];
     }
 
+
     /**
      * @param string $path
      * @param array $data
@@ -532,10 +543,7 @@ class BillieClient implements ClientInterface
      */
     private function request($path, $data, $method = 'POST')
     {
-        $this->oauth($this->consumerKey, $this->consumerSecretKey);
-
-        $client = $this->getClient();
-
+        $client = $this->getClient($this->consumerKey, $this->consumerSecretKey);
         try {
             if ($method === 'POST') {
                 $response = $client->post($path, ['body' => json_encode($data)]);
