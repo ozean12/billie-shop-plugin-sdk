@@ -42,6 +42,7 @@ use GuzzleHttp\HandlerStack;
 use kamermans\OAuth2\GrantType\ClientCredentials;
 use kamermans\OAuth2\OAuth2Subscriber;
 use kamermans\OAuth2\OAuth2Middleware;
+use kamermans\OAuth2\Utils\Helper;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -425,15 +426,13 @@ class BillieClient implements ClientInterface
     /**
      * @return Client
      */
-    private function getClient($client_id, $client_secret, $sandboxMode = true, $data)
+    private function getClient($client_id, $client_secret)
     {
-        $apiBaseUrl = $sandboxMode ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
 
         $reauth_client = new Client([
             // URL for access_token request
-            'base_url' => $apiBaseUrl.'oauth/token'
+            'base_uri' => $this->apiBaseUrl.'oauth/token'
         ]);
-
 
         $reauth_config = [
             "client_id" => $client_id,
@@ -464,22 +463,15 @@ class BillieClient implements ClientInterface
             // Guzzle 6
 
             $oauth = new OAuth2Middleware($grant_type);
-
             $stack = HandlerStack::create();
             $stack->push($oauth);
 
             $client = new Client([
-                'base_uri' => $apiBaseUrl,
+                'base_uri' => $this->apiBaseUrl,
                 'handler' => $stack,
-                'auth'    => 'oauth',
-                'verify' => false,
-                'body' => json_encode($data)
+                'auth'    => 'oauth'
             ]);
-
-
-            $response = $client->post('oauth/token');
-//            print_r($response);
-//            $this->accessToken = $stack->getAccessToken();
+            return $client;
 
         }
 
@@ -510,7 +502,7 @@ class BillieClient implements ClientInterface
      */
     private function get($path, $orderId)
     {
-        $client = $this->getClient();
+        $client = $this->getClient($this->consumerKey, $this->consumerSecretKey);
 
         try {
             $response = $client->get($path.'/'.$orderId);
