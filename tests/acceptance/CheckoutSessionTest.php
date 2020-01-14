@@ -30,8 +30,8 @@ class CheckoutSessionTest extends TestCase
         $command->amount = new Amount(100, 'EUR', 19);
         $command->duration = '109';
 
-//        $session = $client->checkoutSessionConfirm($command);
-//
-//        print_r($session);
+        $session = $client->checkoutSessionConfirm($command);
+
+        print_r($session);
     }
 }

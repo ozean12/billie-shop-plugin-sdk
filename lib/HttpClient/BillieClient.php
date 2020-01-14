@@ -33,6 +33,7 @@ use Billie\Mapper\CreateOrderMapper;
 use Billie\Mapper\RetrieveOrderMapper;
 use Billie\Mapper\ShipOrderMapper;
 use Billie\Mapper\UpdateOrderMapper;
+use Billie\Mapper\CheckoutSessionConfirmMapper;
 use Billie\Model\Order;
 use Billie\Util\AddressHelper;
 use GuzzleHttp\Client;
@@ -124,7 +125,7 @@ class BillieClient implements ClientInterface
             throw new InvalidCommandException($violations);
         }
 
-        $data = CreateOrderMapper::arrayFromCreateOrderObject($checkoutSessionConfirm);
+        $data = CheckoutSessionConfirmMapper::arrayFromCommandObject($checkoutSessionConfirm);
         $result = $this->request('checkout-session/'.$checkoutSessionConfirm->uuid.'/confirm',$data , 'PUT' );
 
         return $result['uuid'];
@@ -431,7 +432,8 @@ class BillieClient implements ClientInterface
 
         $reauth_client = new Client([
             // URL for access_token request
-            'base_uri' => $this->apiBaseUrl.'oauth/token'
+            'base_uri' => $this->apiBaseUrl.'oauth/token',
+            'base_url' => $this->apiBaseUrl.'oauth/token'
         ]);
 
         $reauth_config = [
