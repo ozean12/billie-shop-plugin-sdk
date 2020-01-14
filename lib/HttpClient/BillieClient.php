@@ -127,7 +127,7 @@ class BillieClient implements ClientInterface
         $data = CreateOrderMapper::arrayFromCreateOrderObject($checkoutSessionConfirm);
         $result = $this->request('checkout-session/'.$checkoutSessionConfirm->uuid.'/confirm',$data , 'PUT' );
 
-        return $result['id'];
+        return $result['uuid'];
 
     }
 
