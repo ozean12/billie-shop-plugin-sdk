@@ -22,7 +22,11 @@ class CheckoutSessionConfirmMapper
     {
         return [
             'duration' => $object->duration,
-            'amount' => $object->amount
+            'amount' => [
+                'net' => (double) ($object->amount->netAmount / 100),
+                'gross' => (double) ($object->amount->grossAmount / 100),
+                'tax' => (double) ($object->amount->taxAmount / 100)
+            ]
         ];
     }
 

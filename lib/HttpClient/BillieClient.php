@@ -126,6 +126,7 @@ class BillieClient implements ClientInterface
         }
 
         $data = CheckoutSessionConfirmMapper::arrayFromCommandObject($checkoutSessionConfirm);
+
         $result = $this->request('checkout-session/'.$checkoutSessionConfirm->uuid.'/confirm',$data , 'PUT' );
 
         return $result['uuid'];
@@ -451,6 +452,7 @@ class BillieClient implements ClientInterface
             return new Client(
                 [
                     'base_url' => $this->apiBaseUrl,
+                    'base_uri' => $this->apiBaseUrl,
                     'defaults' => [
                         'headers' => [
                             'Authorization' => "Bearer {$this->accessToken}",
@@ -469,6 +471,7 @@ class BillieClient implements ClientInterface
             $stack->push($oauth);
 
             $client = new Client([
+                'base_url' => $this->apiBaseUrl,
                 'base_uri' => $this->apiBaseUrl,
                 'handler' => $stack,
                 'auth'    => 'oauth'
