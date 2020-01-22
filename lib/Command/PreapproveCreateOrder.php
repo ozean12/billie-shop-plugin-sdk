@@ -62,7 +62,7 @@ class PreapproveCreateOrder
         $metadata->addPropertyConstraint('amount', new Assert\Valid());
         $metadata->addPropertyConstraints('duration',[
             new Assert\Range([
-                'min' => 1,
+                'min' => 7,
                 'max' => 120
             ])]);
     }

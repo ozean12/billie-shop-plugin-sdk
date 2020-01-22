@@ -50,7 +50,7 @@ class CheckoutSessionConfirm
         ]);
         $metadata->addPropertyConstraints('duration',[
             new Assert\Range([
-                'min' => 1,
+                'min' => 7,
                 'max' => 120
         ])]);
         $metadata->addPropertyConstraint('amount', new Assert\Valid());
