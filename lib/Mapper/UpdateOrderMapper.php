@@ -21,6 +21,7 @@ class UpdateOrderMapper
     {
         if ($object instanceof ReduceOrderAmount) {
             return [
+                'order_id' => $object->orderId,
                 'invoice_number' => $object->invoiceNumber,
                 'invoice_url' => $object->invoiceUrl,
                 'amount' => [
