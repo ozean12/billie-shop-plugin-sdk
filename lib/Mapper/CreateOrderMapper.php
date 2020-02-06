@@ -10,7 +10,7 @@ use Billie\Model\Order;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class OrderMapper
+ * Class CreateOrderMapper
  *
  * @package Billie\Mapper
  * @author Marcel Barten <github@m-barten.de>

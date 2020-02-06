@@ -10,11 +10,12 @@ use Billie\Model\Company;
 use Billie\Model\Order;
 
 /**
- * Class OrderMapper
+ * Class ShipOrderMapper
  *
  * @package Billie\Mapper
  * @author Marcel Barten <github@m-barten.de>
  */
+
 class ShipOrderMapper
 {
     use OrderObjectFromArrayTrait;

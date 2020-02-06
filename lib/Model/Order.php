@@ -33,4 +33,10 @@ class Order
     public $invoice;
     /** @var string */
     public $reasons;
+    /** @var float */
+    public $amount;
+    /** @var float */
+    public $amountTax;
+    /** @var float */
+    public $amountNet;
 }

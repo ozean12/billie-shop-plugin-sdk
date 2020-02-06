@@ -5,7 +5,7 @@ namespace Billie\Mapper;
 use Billie\Command\CheckoutSessionConfirm;
 
 /**
- * Class OrderMapper
+ * Class CheckoutSessionConfirmMapper
  *
  * @package Billie\Mapper
  * @author Marcel Barten <github@m-barten.de>
@@ -15,7 +15,7 @@ class CheckoutSessionConfirmMapper
     use OrderObjectFromArrayTrait;
 
     /**
-     * @param ShipOrder $object
+     * @param $object
      * @return array
      */
     public static function arrayFromCommandObject($object)
