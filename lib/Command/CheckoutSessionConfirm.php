@@ -3,6 +3,7 @@
 namespace Billie\Command;
 
 use Billie\Model\Amount;
+use Billie\Model\DebtorCompany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -30,6 +31,10 @@ class CheckoutSessionConfirm
     public $amount;
 
     /**
+     * @var debtorCompany
+     */
+    public $debtorCompany;
+    /**
      * RetrieveOrder constructor.
      *
      * @param string $Uuid
@@ -54,5 +59,6 @@ class CheckoutSessionConfirm
                 'max' => 120
         ])]);
         $metadata->addPropertyConstraint('amount', new Assert\Valid());
+        $metadata->addPropertyConstraint('debtorCompany', new Assert\Valid());
     }
 }

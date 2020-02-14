@@ -564,7 +564,7 @@ class BillieClient implements ClientInterface
             }
 
             if ($exception->getCode() === 404) {
-                throw new OrderNotFoundException($data['order_id'] ?: null);
+                throw new OrderNotFoundException(array_key_exists('order_id',$data)?$data['order_id']: null);
             }
 
             if ($exception->getCode() === 500) {

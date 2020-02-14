@@ -4,6 +4,7 @@ namespace Billie\Tests\acceptance;
 
 use Billie\Command\CheckoutSessionConfirm;
 use Billie\HttpClient\BillieClient;
+use Billie\Model\DebtorCompany;
 use PHPUnit\Framework\TestCase;
 use Billie\Model\Amount;
 
@@ -29,6 +30,13 @@ class CheckoutSessionTest extends TestCase
         $command = new CheckoutSessionConfirm($sessionUuid);
         $command->amount = new Amount(100, 'EUR', 19);
         $command->duration = '109';
+        $command->debtorCompany = new DebtorCompany();
+        $command->debtorCompany->name = 'test_company_1';
+        $command->debtorCompany->addressStreet = 'Musterstraße';
+        $command->debtorCompany->addressPostalCode = '10909';
+        $command->debtorCompany->addressCity = 'Berlin';
+        $command->debtorCompany->addressCountry = 'DE';
+
 
         $session = $client->checkoutSessionConfirm($command);
 
