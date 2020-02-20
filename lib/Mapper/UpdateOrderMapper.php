@@ -4,6 +4,7 @@ namespace Billie\Mapper;
 
 use Billie\Command\PostponeOrderDueDate;
 use Billie\Command\ReduceOrderAmount;
+use Billie\Command\UpdateOrder;
 
 /**
  * Class UpdateOrderMapper
@@ -14,30 +15,34 @@ use Billie\Command\ReduceOrderAmount;
 class UpdateOrderMapper
 {
     /**
-     * @param ReduceOrderAmount|PostponeOrderDueDate $object
+     * @param $object
      * @return array
      */
     public static function arrayFromCommandObject($object)
     {
-        if ($object instanceof ReduceOrderAmount) {
-            return [
-                'order_id' => $object->orderId,
-                'invoice_number' => $object->invoiceNumber,
-                'invoice_url' => $object->invoiceUrl,
-                'amount' => [
-                    'net' => (double) ($object->amount->netAmount / 100),
-                    'gross' => (double) ($object->amount->grossAmount / 100),
-                    'tax' => (double) ($object->amount->taxAmount / 100)
-                ],
+        $mapperObject = [];
+
+        if(isset($object->orderId)){
+            $mapperObject['order_id'] = $object->orderId;
+        }
+        if(isset($object->invoiceNumber)){
+            $mapperObject['invoice_number'] = $object->invoiceNumber;
+        }
+        if(isset($object->invoiceUrl)){
+            $mapperObject['invoice_url'] = $object->invoiceUrl;
+        }
+        if(isset($object->amount)){
+            $mapperObject['amount'] = [
+                'net' => (double) ($object->amount->netAmount / 100),
+                'gross' => (double) ($object->amount->grossAmount / 100),
+                'tax' => (double) ($object->amount->taxAmount / 100)
             ];
         }
-
-        if ($object instanceof PostponeOrderDueDate) {
-            return [
-                'duration' => $object->duration
-            ];
+        if(isset($object->duration)){
+            $mapperObject['duration'] = $object->duration;
         }
 
-        return [];
+        return $mapperObject;
+
     }
 }

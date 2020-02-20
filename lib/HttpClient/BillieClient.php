@@ -13,6 +13,7 @@ use Billie\Command\RetrieveOrder;
 use Billie\Command\ShipOrder;
 use Billie\Command\ReduceOrderAmount;
 use Billie\Command\CheckoutSession;
+use Billie\Command\UpdateOrder;
 use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
 use Billie\Exception\InvalidFullAddressException;
@@ -299,6 +300,28 @@ class BillieClient implements ClientInterface
         }
 
         return $this->getOrder($result['uuid']);
+    }
+
+    /**
+     * @param UpdateOrder $command
+     * @return Order
+     * @throws BillieException
+     * @throws InvalidCommandException
+     */
+    public function updateOrder(UpdateOrder $command)
+    {
+        // validate input
+        if ($violations = $this->validateCommand($command)) {
+            throw new InvalidCommandException($violations);
+        }
+
+        // validate with order state
+        $order = $this->getOrder($command->referenceId);
+
+        $data = UpdateOrderMapper::arrayFromCommandObject($command);
+        $this->request('order/'.$command->referenceId, $data, 'PATCH');
+
+        return $this->getOrder($command->referenceId);
     }
 
     /**
