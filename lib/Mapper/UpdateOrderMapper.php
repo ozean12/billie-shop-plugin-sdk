@@ -2,8 +2,6 @@
 
 namespace Billie\Mapper;
 
-use Billie\Command\PostponeOrderDueDate;
-use Billie\Command\ReduceOrderAmount;
 use Billie\Command\UpdateOrder;
 
 /**

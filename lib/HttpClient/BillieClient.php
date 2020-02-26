@@ -130,7 +130,7 @@ class BillieClient implements ClientInterface
 
         $result = $this->request('checkout-session/'.$checkoutSessionConfirm->uuid.'/confirm',$data , 'PUT' );
 
-        return $result['uuid'];
+        return $result;
 
     }
 
