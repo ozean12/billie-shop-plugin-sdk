@@ -386,14 +386,14 @@ class BillieClient implements ClientInterface
      * @throws InvalidCommandException
      * @throws BillieException
      */
-    public function shipOrder(ShipOrder $shipOrderCommand)
+    public function shipOrder(ShipOrder $shipOrderCommand, $submitExternalOrderId = false)
     {
         // validate input
         if ($violations = $this->validateCommand($shipOrderCommand)) {
             throw new InvalidCommandException($violations);
         }
 
-        $data = ShipOrderMapper::arrayFromCommandObject($shipOrderCommand);
+        $data = ShipOrderMapper::arrayFromCommandObject($shipOrderCommand, $submitExternalOrderId);
         $result = $this->request('order/'.$shipOrderCommand->referenceId.'/ship', $data);
 
         if ($result['state'] !== Order::STATE_SHIPPED) {

@@ -53,11 +53,5 @@ class ShipOrder
             new Assert\Uuid(),
             new Assert\NotBlank()
         ]);
-        $metadata->addPropertyConstraint('orderId', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('invoiceNumber', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('invoiceUrl', new Assert\NotBlank());
-        $metadata->addPropertyConstraints('shippingDocumentUrl', [
-            new Assert\Url(),
-        ]);
     }
 }

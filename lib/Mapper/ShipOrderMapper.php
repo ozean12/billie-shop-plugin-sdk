@@ -20,14 +20,16 @@ class ShipOrderMapper
 {
     use OrderObjectFromArrayTrait;
 
+
     /**
-     * @param ShipOrder $object
+     * @param $object
+     * @param $submitExternalOrderId
      * @return array
      */
-    public static function arrayFromCommandObject($object)
+    public static function arrayFromCommandObject($object, $submitExternalOrderId)
     {
         return [
-            'external_order_id' => $object->orderId,
+            'external_order_id' => ($submitExternalOrderId?$object->orderId:''),
             'invoice_number' => $object->invoiceNumber,
             'invoice_url' => $object->invoiceUrl,
             'shipping_document_url' => $object->shippingDocumentUrl,
