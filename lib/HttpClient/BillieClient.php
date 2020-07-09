@@ -112,6 +112,8 @@ class BillieClient implements ClientInterface
             throw new InvalidCommandException($violations);
         }
         $data = array('merchant_customer_id' => $merchantCustomerId);
+        print_r($data);die();
+
         $result = $this->request('checkout-session', $data );
 
         return $result['id'];
