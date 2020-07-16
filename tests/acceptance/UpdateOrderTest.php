@@ -2,8 +2,9 @@
 
 namespace Billie\Tests\acceptance;
 
-use Billie\Command\CancelOrder;
 use Billie\Command\CreateOrder;
+use Billie\Command\UpdateOrder;
+use Billie\Command\ShipOrder;
 use Billie\HttpClient\BillieClient;
 use Billie\Model\Address;
 use Billie\Model\Amount;
@@ -11,20 +12,21 @@ use Billie\Model\Company;
 use Billie\Model\Order;
 use Billie\Model\Person;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 /**
- * Class CancelOrderTest
+ * Class UpdateOrderTest
  *
  * @package Billie\Tests\acceptance
  * @author Marcel Barten <github@m-barten.de>
  */
-class CancelOrderTest extends TestCase
+class UpdateOrderTest extends TestCase
 {
     private $consumerKey = 'bfebbc05-d1f0-4e47-be21-c99e7fd2ffcc';
     private $consumerSecretKey = 'cv8hfihix4gso0koc0cgs8wosks4gwwwgo04cg00c4k4okggccg4wo8s88w8c4';
 
 
-    public function testCancelOrderWithValidAttributes()
+    public function testUpdateOrderWithValidAttributes()
     {
         // createOrderCommand
         $command = new CreateOrder();
@@ -55,10 +57,12 @@ class CancelOrderTest extends TestCase
         $this->assertNotEmpty($order->referenceId);
         $this->assertEquals(Order::STATE_CREATED, $order->state);
 
-        // Cancel Order
-        $command = new CancelOrder($order->referenceId);
-        $order = $client->cancelOrder($command);
 
-        $this->assertNull($order);
+        // Update Order_id
+        $command = new UpdateOrder($order->referenceId);
+        $command->orderId = '1233445677';
+
+        $client->updateOrder($command);
+
     }
 }

@@ -5,7 +5,7 @@ namespace Billie\Mapper;
 use Billie\Command\ConfirmPayment;
 
 /**
- * Class ConfirmOrderMapper
+ * Class ConfirmPaymentMapper
  *
  * @package Billie\Mapper
  * @author Marcel Barten <github@m-barten.de>

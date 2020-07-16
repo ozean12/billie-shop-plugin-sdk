@@ -2,25 +2,31 @@
 
 namespace Billie\Command;
 
+use Billie\Model\Amount;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
- * Class ShipOrder
+ * Class UpdateOrder
  *
  * @package Billie\Command
  * @author Marcel Barten <github@m-barten.de>
  */
-class ShipOrder
+class UpdateOrder
 {
+
     /**
      * @var string
      */
     public $referenceId;
     /**
-     * @var string
+     * @var int
      */
-    public $orderId;
+    public $duration;
+    /**
+     * @var Amount
+     */
+    public $amount;
     /**
      * @var string
      */
@@ -30,14 +36,14 @@ class ShipOrder
      */
     public $invoiceUrl;
     /**
-     * @var string|null
+     * @var string
      */
-    public $shippingDocumentUrl;
+    public $orderId;
 
     /**
-     * ShipOrder constructor.
+     * ReduceOrderAmount constructor.
      *
-     * @param $referenceId
+     * @param string $referenceId
      */
     public function __construct($referenceId)
     {
@@ -53,5 +59,6 @@ class ShipOrder
             new Assert\Uuid(),
             new Assert\NotBlank()
         ]);
+
     }
 }

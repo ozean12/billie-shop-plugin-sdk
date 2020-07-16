@@ -30,6 +30,10 @@ class ReduceOrderAmount
      * @var Amount
      */
     public $amount;
+    /**
+     * @var string
+     */
+    public $orderId;
 
     /**
      * ReduceOrderAmount constructor.

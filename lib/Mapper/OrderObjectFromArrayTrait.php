@@ -35,6 +35,10 @@ trait OrderObjectFromArrayTrait
 
         $object->state = $orderResponse['state'];
 
+        $object->amount = $orderResponse['amount'];
+        $object->amountTax = $orderResponse['amount_tax'];
+        $object->amountNet = $orderResponse['amount_net'];
+
         $object->bankAccount = new BankAccount($orderResponse['bank_account']['iban'], $orderResponse['bank_account']['bic']);
 
         $companyAddress = new Address();

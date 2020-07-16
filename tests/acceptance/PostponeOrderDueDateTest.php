@@ -22,8 +22,8 @@ use Ramsey\Uuid\Uuid;
  */
 class PostponeOrderDueDateTest extends TestCase
 {
-
-    private $apiKey = 'test-ralph';
+    private $consumerKey = 'bfebbc05-d1f0-4e47-be21-c99e7fd2ffcc';
+    private $consumerSecretKey = 'cv8hfihix4gso0koc0cgs8wosks4gwwwgo04cg00c4k4okggccg4wo8s88w8c4';
 
 
     public function testPostponeOrderDueDateWithValidAttributes()
@@ -51,7 +51,7 @@ class PostponeOrderDueDateTest extends TestCase
         $command->duration = 14;
 
         // Send Order To API
-        $client = BillieClient::create($this->apiKey, true);
+        $client = BillieClient::create($this->consumerKey, $this->consumerSecretKey,  true);
         $order = $client->createOrder($command);
 
         $this->assertNotEmpty($order->referenceId);
