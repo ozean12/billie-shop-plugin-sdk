@@ -1,6 +1,6 @@
 <?php
 
-namespace Billie\Exception\OrderDecline;
+namespace Billie\Sdk\Exception\OrderDecline;
 
 use Billie\Exception\BillieException;
 

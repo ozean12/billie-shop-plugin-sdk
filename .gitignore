@@ -1,7 +1,4 @@
 .idea
-bin
-docs-md
-docs
-
-phpdoc
-phpdoc.xml
+composer.lock
+vendor
+phpunit.xml

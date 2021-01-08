@@ -1,6 +1,6 @@
 <?php
 
-namespace Billie\Exception;
+namespace Billie\Sdk\Exception;
 
 /**
  * Class NotAllowedException

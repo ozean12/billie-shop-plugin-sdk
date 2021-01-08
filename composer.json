@@ -14,23 +14,17 @@
     "php": "^5.6 || ^7.1",
     "ext-curl": "*",
     "ext-json": "*",
-    "ext-mbstring": "*",
-    "guzzlehttp/guzzle": "5.* || ^6.3",
-    "symfony/validator": "3.4.24",
-    "symfony/intl": "3.4.24",
-    "kamermans/guzzle-oauth2-subscriber": "^1.0"
+    "ext-mbstring": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5",
-    "squizlabs/php_codesniffer": "^3.4",
-    "friendsofphp/php-cs-fixer": "^2.14",
-    "symfony/var-dumper": "^3.4",
-    "ramsey/uuid": "^3.8"
+    "phpunit/phpunit": "^5.7",
+    "squizlabs/php_codesniffer": "^3.5",
+    "friendsofphp/php-cs-fixer": "^2.17"
   },
   "autoload": {
-    "psr-4": { "Billie\\" : "lib/" }
+    "psr-4": { "Billie\\Sdk\\" : "src/" }
   },
   "autoload-dev": {
-    "psr-4": { "Billie\\Tests\\" : "tests/" }
+    "psr-4": { "Billie\\Sdk\\Tests\\" : "tests/" }
   }
 }
