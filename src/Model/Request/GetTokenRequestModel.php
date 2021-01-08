@@ -5,8 +5,6 @@ namespace Billie\Sdk\Model\Request;
 
 
 /**
- * @link https://developers.billie.io/#operation/oauth_token_create
- *
  * @method self setClientId(string $clientId)
  * @method string getClientId()
  * @method self setClientSecret(string $clientSecret)

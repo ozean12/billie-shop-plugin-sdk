@@ -8,6 +8,8 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Response\ValidateTokenResponse;
 
 /**
+ * @link https://developers.billie.io/#operation/oauth_token_validate
+ *
  * @method ValidateTokenResponse execute(AbstractRequestModel $requestModel)
  */
 class ValidateTokenRequest extends AbstractRequest

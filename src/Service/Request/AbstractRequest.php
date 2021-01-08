@@ -7,7 +7,6 @@ namespace Billie\Sdk\Service\Request;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Response\AbstractResponseModel;
-use Billie\Sdk\Service\BillieClientFactory;
 use Exception;
 
 abstract class AbstractRequest
