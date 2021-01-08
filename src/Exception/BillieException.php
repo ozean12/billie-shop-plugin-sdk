@@ -8,20 +8,20 @@ namespace Billie\Exception;
  * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
-abstract class BillieException extends \Exception
+class BillieException extends \Exception
 {
-    public function __construct()
-    {
-        parent::__construct();
+    /**
+     * @return string
+     * @deprecated
+     */
+    public function getBillieMessage() {
+        return $this->message ? : 'Unknown Error';
     }
 
     /**
      * @return string
      */
-    abstract public function getBillieMessage();
-
-    /**
-     * @return string
-     */
-    abstract public function getBillieCode();
+    public function getBillieCode() {
+        return '000';
+    }
 }

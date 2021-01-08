@@ -3,16 +3,16 @@
 namespace Billie\HttpClient;
 
 use Billie\Command\CancelOrder;
+use Billie\Command\CreateCheckoutSession;
 use Billie\Command\CheckoutSessionConfirm;
 use Billie\Command\ConfirmPayment;
 use Billie\Command\CreateOrder;
 use Billie\Command\PostponeOrderDueDate;
-use Billie\Command\PreapproveCreateOrder;
 use Billie\Command\PreapproveConfirmOrder;
+use Billie\Command\PreapproveCreateOrder;
+use Billie\Command\ReduceOrderAmount;
 use Billie\Command\RetrieveOrder;
 use Billie\Command\ShipOrder;
-use Billie\Command\ReduceOrderAmount;
-use Billie\Command\CheckoutSession;
 use Billie\Command\UpdateOrder;
 use Billie\Exception\BillieException;
 use Billie\Exception\InvalidCommandException;
@@ -27,85 +27,64 @@ use Billie\Exception\OrderNotCancelledException;
 use Billie\Exception\OrderNotFoundException;
 use Billie\Exception\OrderNotShippedException;
 use Billie\Exception\PostponeDueDateNotAllowedException;
-use Billie\Exception\UnexceptedServerException;
+use Billie\Exception\UnexpectedServerException;
 use Billie\Exception\UserNotAuthorizedException;
+use Billie\Mapper\CheckoutSessionConfirmMapper;
 use Billie\Mapper\ConfirmPaymentMapper;
 use Billie\Mapper\CreateOrderMapper;
 use Billie\Mapper\RetrieveOrderMapper;
 use Billie\Mapper\ShipOrderMapper;
 use Billie\Mapper\UpdateOrderMapper;
-use Billie\Mapper\CheckoutSessionConfirmMapper;
 use Billie\Model\Order;
+use Billie\Model\Request\AbstractRequestModel;
+use Billie\Model\Request\GetTokenRequestModel;
+use Billie\Model\Response\AbstractResponseModel;
+use Billie\Service\Request\GetTokenRequest;
 use Billie\Util\AddressHelper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\HandlerStack;
 use kamermans\OAuth2\GrantType\ClientCredentials;
-use kamermans\OAuth2\OAuth2Subscriber;
 use kamermans\OAuth2\OAuth2Middleware;
+use kamermans\OAuth2\OAuth2Subscriber;
 use kamermans\OAuth2\Utils\Helper;
+use League\OAuth2\Client\Provider\GenericProvider;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use League\OAuth2\Client\Provider\GenericProvider;
 
 
-/**
- * Class BillieClient
- *
- * @package Billie\HttpClient
- * @author Marcel Barten <github@m-barten.de>
- */
-class BillieClient implements ClientInterface
+class BillieClient
 {
+    const METHOD_POST = 'POST';
+    const METHOD_GET = 'GET';
+    const METHOD_PUT = 'PUT';
+    const METHOD_PATCH = 'PATCH';
+//    const METHOD_DELETE = 'DELETE'; // not implemented
+
     const SANDBOX_BASE_URL = 'https://paella-sandbox.billie.io/api/v1/';
     const PRODUCTION_BASE_URL = 'https://paella.billie.io/api/v1/';
 
+    private static $instances = [];
     private $apiBaseUrl;
 
     private $validator;
-    private $accessToken;
 
-    private $consumerKey;
-    private $consumerSecretKey;
-    /**
-     * BillieClient constructor.
-     *
-     * @param ValidatorInterface $validator
-     */
-    public function __construct(ValidatorInterface $validator)
+    /** @var string */
+    private $authToken;
+
+
+    public function __construct($authToken = null, $isSandbox = false)
     {
-        $this->validator = $validator;
-    }
-
-
-
-
-    /**
-     * @param string $apiKey
-     * @param bool $sandboxMode
-     * @return BillieClient
-     */
-    public static function create($consumerKey, $consumerSecretKey, $sandboxMode = true)
-    {
-        $validator = Validation::createValidatorBuilder()
-            ->addMethodMapping('loadValidatorMetadata')
-            ->getValidator();
-
-        $client = new self($validator);
-        $client->consumerKey = $consumerKey;
-        $client->consumerSecretKey = $consumerSecretKey;
-//        $client->apiKey = $apiKey;
-        $client->apiBaseUrl = $sandboxMode ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
-
-        return $client;
+        $this->authToken = $authToken;
+        $this->apiBaseUrl = $isSandbox ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
     }
 
 
     public function checkoutSessionCreate($merchantCustomerId)
     {
 
-        $checkoutSessionCommand = new CheckoutSession($merchantCustomerId);
+        $checkoutSessionCommand = new CreateCheckoutSession($merchantCustomerId);
 
         // validate input
         if ($violations = $this->validateCommand($checkoutSessionCommand)) {
@@ -113,7 +92,7 @@ class BillieClient implements ClientInterface
         }
         $data = array('merchant_customer_id' => $merchantCustomerId);
 
-        $result = $this->request('checkout-session', $data );
+        $result = $this->request('checkout-session', $data);
 
         return $result['id'];
 
@@ -129,7 +108,7 @@ class BillieClient implements ClientInterface
 
         $data = CheckoutSessionConfirmMapper::arrayFromCommandObject($checkoutSessionConfirm);
 
-        $result = $this->request('checkout-session/'.$checkoutSessionConfirm->uuid.'/confirm',$data , 'PUT' );
+        $result = $this->request('checkout-session/' . $checkoutSessionConfirm->uuid . '/confirm', $data, 'PUT');
 
         return $result;
 
@@ -228,7 +207,7 @@ class BillieClient implements ClientInterface
         }
 
         $data = array();
-        $result = $this->request('order/'.$command->id.'/confirm', $data );
+        $result = $this->request('order/' . $command->id . '/confirm', $data);
 
         return $this->getOrder($result['uuid']);
 
@@ -320,7 +299,7 @@ class BillieClient implements ClientInterface
         $order = $this->getOrder($command->referenceId);
 
         $data = UpdateOrderMapper::arrayFromCommandObject($command);
-        $this->request('order/'.$command->referenceId, $data, 'PATCH');
+        $this->request('order/' . $command->referenceId, $data, 'PATCH');
 
         return $this->getOrder($command->referenceId);
     }
@@ -347,7 +326,7 @@ class BillieClient implements ClientInterface
         }
 
         $data = UpdateOrderMapper::arrayFromCommandObject($command);
-        $this->request('order/'.$command->referenceId, $data, 'PATCH');
+        $this->request('order/' . $command->referenceId, $data, 'PATCH');
 
         return $this->getOrder($command->referenceId);
     }
@@ -369,13 +348,12 @@ class BillieClient implements ClientInterface
         // update duration ONLY if due date is in the future AND state = SHIPPED
         $order = $this->getOrder($command->referenceId);
         if ($order->state !== Order::STATE_SHIPPED
-            || strtotime($order->invoice->dueDate . ' 00:00:00.0') < time())
-        {
+            || strtotime($order->invoice->dueDate . ' 00:00:00.0') < time()) {
             throw new PostponeDueDateNotAllowedException($order->referenceId);
         }
 
         $data = UpdateOrderMapper::arrayFromCommandObject($command);
-        $this->request('order/'.$command->referenceId, $data, 'PATCH');
+        $this->request('order/' . $command->referenceId, $data, 'PATCH');
 
         return $this->getOrder($command->referenceId);
 
@@ -395,7 +373,7 @@ class BillieClient implements ClientInterface
         }
 
         $data = ShipOrderMapper::arrayFromCommandObject($shipOrderCommand, $submitExternalOrderId);
-        $result = $this->request('order/'.$shipOrderCommand->referenceId.'/ship', $data);
+        $result = $this->request('order/' . $shipOrderCommand->referenceId . '/ship', $data);
 
         if ($result['state'] !== Order::STATE_SHIPPED) {
             throw new OrderNotShippedException($shipOrderCommand->referenceId, $result['reasons']);
@@ -410,7 +388,7 @@ class BillieClient implements ClientInterface
      * @throws BillieException
      * @throws InvalidCommandException
      */
-    public function confirmPayment (ConfirmPayment $command)
+    public function confirmPayment(ConfirmPayment $command)
     {
         // validate input
         if ($violations = $this->validateCommand($command)) {
@@ -418,7 +396,7 @@ class BillieClient implements ClientInterface
         }
 
         $data = ConfirmPaymentMapper::arrayFromCommandObject($command);
-        $this->request('order/'.$command->referenceId . '/confirm-payment', $data);
+        $this->request('order/' . $command->referenceId . '/confirm-payment', $data);
 
         return $this->getOrder($command->referenceId);
     }
@@ -450,63 +428,6 @@ class BillieClient implements ClientInterface
     }
 
     /**
-     * @return Client
-     */
-    private function getClient($client_id, $client_secret)
-    {
-
-        $reauth_client = new Client([
-            // URL for access_token request
-            'base_uri' => $this->apiBaseUrl.'oauth/token',
-            'base_url' => $this->apiBaseUrl.'oauth/token'
-        ]);
-
-        $reauth_config = [
-            "client_id" => $client_id,
-            "client_secret" => $client_secret
-        ];
-        $grant_type = new ClientCredentials($reauth_client, $reauth_config);
-
-        if (method_exists(\GuzzleHttp\ClientInterface::class, 'getDefaultOption')) {
-            // Guzzle 5
-
-            $oauth = new OAuth2Subscriber($grant_type);
-
-            $this->accessToken = $oauth->getAccessToken();
-            return new Client(
-                [
-                    'base_url' => $this->apiBaseUrl,
-                    'base_uri' => $this->apiBaseUrl,
-                    'defaults' => [
-                        'headers' => [
-                            'Authorization' => "Bearer {$this->accessToken}",
-                            'Content-Type' => 'application/json'
-
-                        ]
-                    ],
-                ]
-            );
-
-        } else {
-            // Guzzle 6
-
-            $oauth = new OAuth2Middleware($grant_type);
-            $stack = HandlerStack::create();
-            $stack->push($oauth);
-
-            $client = new Client([
-                'base_url' => $this->apiBaseUrl,
-                'base_uri' => $this->apiBaseUrl,
-                'handler' => $stack,
-                'auth'    => 'oauth'
-            ]);
-            return $client;
-
-        }
-
-    }
-
-    /**
      * @param $command
      * @return array
      */
@@ -516,7 +437,7 @@ class BillieClient implements ClientInterface
         $violations = [];
 
         if (count($errors) > 0) {
-            $errorsString = (string) $errors;
+            $errorsString = (string)$errors;
             $violations[] = $errorsString;
         }
 
@@ -524,79 +445,90 @@ class BillieClient implements ClientInterface
     }
 
     /**
-     * @param string $path
-     * @param string $orderId
-     * @return array
-     * @throws BillieException
-     */
-    private function get($path, $orderId)
-    {
-        $client = $this->getClient($this->consumerKey, $this->consumerSecretKey);
-
-        try {
-            $response = $client->get($path.'/'.$orderId);
-
-            return json_decode($response->getBody()->getContents(), true);
-        } catch (ClientException $exception) {
-            if ($exception->getCode() === 401) {
-                throw new UserNotAuthorizedException();
-            }
-
-            if ($exception->getCode() === 404) {
-                throw new OrderNotFoundException($orderId);
-            }
-
-            if ($exception->getCode() === 500) {
-                throw new UnexceptedServerException();
-            }
-        }
-
-        return [];
-    }
-
-
-    /**
-     * @param string $path
-     * @param array $data
+     * @param $url
+     * @param $data
      * @param string $method
+     * @param bool $addAuthorisationHeader
      * @return array
      * @throws BillieException
      */
-    private function request($path, $data, $method = 'POST')
+    public function request($url, $data = [], $method = self::METHOD_GET, $addAuthorisationHeader = true)
     {
-        $client = $this->getClient($this->consumerKey, $this->consumerSecretKey);
-        try {
-            if ($method === 'POST') {
-                $response = $client->post($path, ['body' => json_encode($data)]);
-            } elseif ($method === 'PATCH') {
-                $response = $client->patch($path, ['body' => json_encode($data)]);
-            } elseif ($method === 'PUT') {
-                $response = $client->put($path, ['body' => json_encode($data)]);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->apiBaseUrl.$url);
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        $requestHeaders = [
+            'Content-Type: application/json; charset=UTF-8',
+            'Accept: application/json',
+            'Cache-Control: no-cache',
+            'Pragma: no-cache',
+            'Connection: keep-alive',
+        ];
+        if ($addAuthorisationHeader) {
+            if($this->authToken === null) {
+                throw new \RuntimeException('no auth-token has been provided in constructor');
             }
-            return json_decode($response->getBody()->getContents(), true);
-        } catch (ClientException $exception) {
-            if ($exception->getCode() === 400) {
-                throw new InvalidRequestException($exception->getMessage());
-            }
+            $requestHeaders[] = 'Authorization: Bearer ' . $this->authToken;
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $requestHeaders);
 
-            if ($exception->getCode() === 401) {
-                throw new UserNotAuthorizedException();
-            }
-
-            if ($exception->getCode() === 403) {
-                throw new NotAllowedException();
-            }
-
-            if ($exception->getCode() === 404) {
-                throw new OrderNotFoundException(array_key_exists('order_id',$data)?$data['order_id']: null);
-            }
-
-            if ($exception->getCode() === 500) {
-                throw new UnexceptedServerException();
-            }
+        switch ($method) {
+            case self::METHOD_POST:
+                curl_setopt($ch, CURLOPT_POST, 1);
+                break;
+            case self::METHOD_PATCH:
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+                break;
+            case self::METHOD_PUT:
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+                break;
         }
 
-        return [];
+        if(count($data) > 0) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        }
+
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+//        // the number of milliseconds to wait while trying to connect
+//        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $connectionTimeout);
+//        // the maximum number of milliseconds to allow cURL functions to execute
+//        curl_setopt($ch, CURLOPT_TIMEOUT_MS, $executionTimeout);
+
+        // use tls v1.2
+        curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+
+        $response = curl_exec($ch);
+        if($response) {
+            $response = json_decode($response, true);
+        }
+        $errno = curl_errno($ch);
+        $curlInfo = curl_getinfo($ch);
+
+        // close connection
+        curl_close($ch);
+
+
+        switch ($curlInfo['http_code']) {
+            case 200:
+            case 204:
+                return $response;
+            case 400:
+                throw new InvalidRequestException(json_encode($response));
+            case 401:
+                throw new UserNotAuthorizedException();
+            case 403:
+                throw new NotAllowedException();
+            case 404:
+                // TODO parameters
+                throw new OrderNotFoundException(array_key_exists('order_id', $data) ? $data['order_id'] : null);
+            //case 500:
+            default:
+                throw new UnexpectedServerException(isset($response['message']) ? $response['message']: 'Unknown error', isset($response['error']) ? : null);
+
+        }
     }
 
     /**
@@ -622,7 +554,7 @@ class BillieClient implements ClientInterface
                 throw new DebtorLimitExceededException();
                 break;
             default:
-                throw new UnexceptedServerException();
+                throw new UnexpectedServerException();
         }
     }
 }
