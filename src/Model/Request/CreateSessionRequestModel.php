@@ -13,15 +13,7 @@ class CreateSessionRequestModel extends AbstractRequestModel
      */
     public $merchantCustomerId;
 
-    /**
-     * @param string $merchantCustomerId
-     */
-    public function __construct($merchantCustomerId)
-    {
-        $this->merchantCustomerId = $merchantCustomerId;
-    }
-
-    public function getFieldValidations()
+    public static function getFieldValidations()
     {
         return [
             'merchantCustomerId' => 'string'

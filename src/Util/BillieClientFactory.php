@@ -28,10 +28,11 @@ class BillieClientFactory
     {
         $requestService = new GetTokenRequest($isSandbox);
 
-        $response = $requestService->execute(new GetTokenRequestModel(
-            $clientId,
-            $clientSecret
-        ));
+        $response = $requestService->execute(
+            (new GetTokenRequestModel())
+            ->setClientId($clientId)
+            ->setClientSecret($clientSecret)
+        );
 
         return $response->getAccessToken();
     }

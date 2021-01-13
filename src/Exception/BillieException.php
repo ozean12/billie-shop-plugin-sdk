@@ -2,26 +2,24 @@
 
 namespace Billie\Sdk\Exception;
 
-/**
- * Class BillieException
- *
- * @package Billie\Exception
- * @author Marcel Barten <github@m-barten.de>
- */
 class BillieException extends \Exception
 {
     /**
-     * @return string
-     * @deprecated
+     * @var string
      */
-    public function getBillieMessage() {
-        return $this->message ? : 'Unknown Error';
+    protected $billieCode;
+
+    public function __construct($message = "", $code = '000', \Throwable $previous = null)
+    {
+        parent::__construct($message, null, $previous);
+        $this->billieCode = $code;
     }
 
     /**
      * @return string
      */
-    public function getBillieCode() {
-        return '000';
+    public function getBillieCode()
+    {
+        return $this->billieCode;
     }
 }

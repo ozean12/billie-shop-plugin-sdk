@@ -24,17 +24,6 @@ class GetTokenRequestModel extends AbstractRequestModel
     protected $clientSecret;
 
     /**
-     * RequestTokenModel constructor.
-     * @param string $clientId
-     * @param string $clientSecret
-     */
-    public function __construct($clientId, $clientSecret)
-    {
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
-    }
-
-    /**
      * @return string[]
      */
     public function toArray()
@@ -46,7 +35,7 @@ class GetTokenRequestModel extends AbstractRequestModel
         ];
     }
 
-    public function getFieldValidations()
+    public static function getFieldValidations()
     {
         return [
             'clientId' => 'string',

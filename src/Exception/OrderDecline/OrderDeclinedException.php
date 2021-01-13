@@ -2,43 +2,48 @@
 
 namespace Billie\Sdk\Exception\OrderDecline;
 
-use Billie\Exception\BillieException;
 
-/**
- * Class OrderDeclinedException
- *
- * @package Billie\Exception
- * @author Marcel Barten <github@m-barten.de>
- */
+use Billie\Sdk\Exception\BillieException;
+use Billie\Sdk\Model\Order;
+use Billie\Sdk\Model\Request\CreateOrderRequestModel;
+
 class OrderDeclinedException extends BillieException
 {
-    protected $message;
+    /**
+     * @var CreateOrderRequestModel
+     */
+    private $requestModel;
 
     /**
-     * OrderDeclinedException constructor.
-     *
-     * @param $message
+     * @var Order
      */
-    public function __construct($message)
+    private $declinedOrder;
+
+    public function __construct(
+        CreateOrderRequestModel $requestModel,
+        Order $declinedOrder,
+        $message,
+        $code = 'ORDER_DECLINED'
+    )
     {
-        parent::__construct();
-        $this->message = $message;
+        parent::__construct($message, $code);
+        $this->requestModel = $requestModel;
+        $this->declinedOrder = $declinedOrder;
     }
 
     /**
-     * @return string
+     * @return CreateOrderRequestModel
      */
-    public function getBillieCode()
+    public function getRequestModel()
     {
-        return 'ORDER_DECLINED';
+        return $this->requestModel;
     }
 
     /**
-     * @return string
+     * @return Order
      */
-    public function getBillieMessage()
+    public function getDeclinedOrder()
     {
-        return sprintf('%s', $this->message);
+        return $this->declinedOrder;
     }
-
 }

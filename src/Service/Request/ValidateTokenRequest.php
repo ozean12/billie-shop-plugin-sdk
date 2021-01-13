@@ -17,7 +17,7 @@ class ValidateTokenRequest extends AbstractRequest
 
     protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
     {
-        return (new ValidateTokenResponse())->fromArray($responseData);
+        return new ValidateTokenResponse($responseData);
     }
 
     protected function getPath(AbstractRequestModel $requestModel)

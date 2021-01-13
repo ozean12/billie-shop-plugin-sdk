@@ -1,56 +1,77 @@
 <?php
 
-namespace Billie\Model;
+namespace Billie\Sdk\Model;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 
 /**
- * Class Person
- *
- * @package Billie\Model
- * @author Marcel Barten <github@m-barten.de>
+ * @method self setSalutation(string $salutation)
+ * @method string getSalutation(string $salutation)
+ * @method self setFirstname(string $firstname)
+ * @method string getFirstname(string $firstname)
+ * @method self setLastname(string $lastname)
+ * @method string getLastname(string $lastname)
+ * @method self setPhone(string $phone)
+ * @method string getPhone(string $phone)
+ * @method self setMail(string $mail)
+ * @method string getMail(string $mail)
  */
-class Person
+class Person extends AbstractModel
 {
     /**
-     * @var string gender ('m' or 'f')
+     * @var string
      */
-    public $salution;
-    public $firstname;
-    public $lastname;
+    protected $salutation;
+
     /**
-     * @var string telephone number (e.g. +49 30 1234567)
+     * @var string
      */
-    public $phone;
+    protected $firstname;
+
+    /**
+     * @var string
+     */
+    protected $lastname;
+
+    /**
+     * @var string
+     */
+    protected $phone;
 
     /**
      * @var string email
      */
-    public $email;
+    protected $mail;
 
-    /**
-     * @param string $email
-     */
-    public function __construct($email)
+
+    public static function getFieldValidations()
     {
-        $this->email = $email;
+        return [
+            'salutation' => static function (self $object, $value) {
+                if (in_array($value, ['m', 'f'], true) === false) {
+                    throw new InvalidFieldValueException('the field value of `salutation` must be one of these: `m`, `f`');
+                }
+            },
+            'firstname' => '?string',
+            'lastname' => '?string',
+            'phone' => '?string',
+            'mail' => '?string',
+        ];
     }
 
-    /**
-     * @param ClassMetadata $metadata
-     */
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public function toArray()
     {
-        $metadata->addPropertyConstraints('salution', [
-                new Assert\Choice(['m', 'f']),
-                new Assert\NotBlank()
-            ]
-        );
-        $metadata->addPropertyConstraints('email', [
-                new Assert\NotBlank(),
-                new Assert\Email()
-            ]
-        );
+        return [
+            'email' => $this->mail,
+            'salutation' => $this->salutation,
+            'first_name' => $this->firstname,
+            'last_name' => $this->lastname,
+            'phone_number' => $this->phone,
+        ];
+    }
+
+    public function fromArray($data)
+    {
+        // TODO: Implement fromArray() method.
     }
 }

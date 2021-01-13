@@ -1,74 +1,86 @@
 <?php
 
-namespace Billie\Model;
+namespace Billie\Sdk\Model;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
+use Billie\Sdk\Util\ResponseHelper;
 
 /**
- * Class Address
- *
- * @package Billie/Model
- * @author Marcel Barten <github@m-barten.de>
+ * @method string getStreet()
+ * @method self setStreet(string $street)
+ * @method null|string getHouseNumber()
+ * @method self setHouseNumber(?string $houseNumber)
+ * @method null|string getAddition()
+ * @method self setAddition(?string $addition)
+ * @method string getCity()
+ * @method self setCity(string $city)
+ * @method string getPostalCode()
+ * @method self setPostalCode(string $postalCode)
+ * @method string getCountryCode()
+ * @method self setCountryCode(string $countryCode)
  */
-class Address
+class Address extends AbstractModel
 {
-    /**
-     * @var string name of the street - e.g. Friedrichstrasse
-     */
-    public $street;
-    /**
-     * @var string house number - e.g. 14b
-     */
-    public $houseNumber;
-    /**
-     * @var string street name and house number combined (replaces street and houseNumber)
-     */
-    public $fullAddress;
-    /**
-     * @var string
-     *
-     * additional address information
-     * @example c/o MYCOMPANY
-     */
-    public $addition;
-    /**
-     * @var string
-     *
-     * Name of the city
-     */
-    public $city;
-    /**
-     * @var string
-     *
-     * the postal code
-     * @example 10999
-     */
-    public $postalCode;
-    /**
-     * @var string two-letter country code according to ISO-3166-1
-     *
-     * @link https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes
-     */
-    public $countryCode;
+    /** @var string */
+    protected $street;
 
+    /** @var string */
+    protected $houseNumber;
 
-    /**
-     * @param ClassMetadata $metadata
-     */
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    /** @var string */
+    protected $addition;
+
+    /** @var string */
+    protected $city;
+
+    /** @var string */
+    protected $postalCode;
+
+    /** @var string */
+    protected $countryCode;
+
+    public function fromArray($data)
     {
-        $metadata->addPropertyConstraint('street', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('houseNumber', new Assert\NotBlank(['groups' => ['company_address']]));
-        $metadata->addPropertyConstraint('city', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('postalCode', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('postalCode', new Assert\Length(
-            [
-                'min' => 5,
-                'max' => 5
-            ]
-        ));
-        $metadata->addPropertyConstraint('countryCode', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('countryCode', new Assert\Country());
+        $this->street = ResponseHelper::getValue($data, 'street');
+        $this->houseNumber = ResponseHelper::getValue($data, 'house_number');
+        $this->addition = ResponseHelper::getValue($data, 'addition');
+        $this->city = ResponseHelper::getValue($data, 'city');
+        $this->postalCode = ResponseHelper::getValue($data, 'postal_code');
+        $this->countryCode = ResponseHelper::getValue($data, 'country');
+        return $this;
+    }
+
+    public function toArray()
+    {
+        return [
+            'street' => $this->street,
+            'house_number' => $this->houseNumber,
+            'addition' => $this->addition,
+            'city' => $this->city,
+            'postal_code' => $this->postalCode,
+            'country' => $this->countryCode
+        ];
+    }
+
+    public static function getFieldValidations()
+    {
+        return [
+            'street' => 'string',
+            'houseNumber' => '?string',
+            'addition' => '?string',
+            'city' => 'string',
+            'postalCode' => static function (self $object, $value) {
+                if (is_numeric($value) === false || strlen($value) !== 5) {
+                    throw new InvalidFieldValueException('The field `postalCode` must be 5 chars long. (german postcode format)');
+                }
+                return 'integer';
+            },
+            'countryCode' => static function (self $object, $value) {
+                if (strlen($value) !== 2) {
+                    throw new InvalidFieldValueException('The field `countryCode` must be 2 chars long. (ISO-3166-1)');
+                }
+                return 'string';
+            },
+        ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Billie\Sdk\Tests\acceptance\Service\Request;
+namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Request\ValidateTokenRequestModel;
 use Billie\Sdk\Model\Response\ValidateTokenResponse;

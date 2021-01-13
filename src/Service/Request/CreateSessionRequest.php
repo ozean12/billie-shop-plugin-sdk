@@ -17,7 +17,7 @@ class CreateSessionRequest extends AbstractRequest
 
     protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
     {
-        return (new CreateSessionResponseModel())->fromArray($responseData);
+        return new CreateSessionResponseModel($responseData);
     }
 
     protected function getPath(AbstractRequestModel $requestModel)

@@ -4,6 +4,8 @@
 namespace Billie\Sdk\Model;
 
 
+use Billie\Sdk\Util\ResponseHelper;
+
 class LegalForm extends AbstractModel
 {
 
@@ -26,10 +28,10 @@ class LegalForm extends AbstractModel
 
     public function fromArray($data)
     {
-        $this->code = $data['code'];
-        $this->name = $data['name'];
-        $this->requiredField = $data['required_input'];
-        $this->required = $data['required'];
+        $this->code = ResponseHelper::getValue($data, 'code');
+        $this->name = ResponseHelper::getValue($data, 'name');
+        $this->requiredField = ResponseHelper::getValue($data, 'required_input');
+        $this->required = ResponseHelper::getValue($data, 'required');
         return $this;
     }
 

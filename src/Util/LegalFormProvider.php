@@ -1,6 +1,6 @@
 <?php
 
-namespace Billie\Util;
+namespace Billie\Sdk\Util;
 
 /**
  * Class LegalFormProvider
@@ -41,18 +41,13 @@ class LegalFormProvider
     }
 
     /**
-     * @param $code
-     * @return array
+     * @param string $code
+     * @return string
      */
     public static function get($code)
     {
         $allLegalForms = self::all();
-
-        if (array_key_exists($code, $allLegalForms)) {
-            return $allLegalForms[$code];
-        }
-
-        return [];
+        return isset($allLegalForms[$code]) ? $allLegalForms[$code] : null;
     }
 
     /**

@@ -28,6 +28,8 @@ abstract class AbstractRequest
     final public function execute(AbstractRequestModel $requestModel)
     {
         try {
+            $requestModel->validateFields();
+
             $response = $this->client->request(
                 $this->getPath($requestModel),
                 $requestModel->toArray(),

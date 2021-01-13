@@ -17,7 +17,7 @@ class GetLegalFormsRequest extends AbstractRequest
 
     protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
     {
-        return (new GetLegalFormsResponseModel())->fromArray($responseData);
+        return new GetLegalFormsResponseModel($responseData);
     }
 
     protected function getPath(AbstractRequestModel $requestModel)

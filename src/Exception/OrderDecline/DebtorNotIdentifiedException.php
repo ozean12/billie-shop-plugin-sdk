@@ -2,27 +2,19 @@
 
 namespace Billie\Sdk\Exception\OrderDecline;
 
-/**
- * Class DebtorNotIdentifiedException
- *
- * @package Billie\Exception\OrderDecline
- * @author Marcel Barten <github@m-barten.de>
- */
+use Billie\Sdk\Model\Order;
+use Billie\Sdk\Model\Request\CreateOrderRequestModel;
+
 class DebtorNotIdentifiedException extends OrderDeclinedException
 {
-    /**
-     * DebtorNotIdentifiedException constructor.
-     */
-    public function __construct()
+    public function __construct(CreateOrderRequestModel $requestModel, Order $declinedOrder)
     {
-        parent::__construct('The order was declined, because there was no match with the given information.');
+        parent::__construct(
+            $requestModel,
+            $declinedOrder,
+            'The order was declined, because there was no match with the given information.',
+            'DEBTOR_NOT_IDENTIFIED'
+        );
     }
 
-    /**
-     * @return string
-     */
-    public function getBillieCode()
-    {
-        return 'DEBTOR_NOT_IDENTIFIED';
-    }
 }

@@ -4,6 +4,7 @@
 namespace Billie\Sdk\Model\Response;
 
 
+use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
 
 /**
@@ -32,9 +33,9 @@ class GetTokenResponseModel extends AbstractResponseModel
 
     public function fromArray($data)
     {
-        $this->tokenType = $data['token_type'];
+        $this->tokenType = ResponseHelper::getValue($data, 'token_type');
         $this->expires = (new \DateTime())->modify('+' . $data['expires_in'] . ' seconds');
-        $this->accessToken = $data['access_token'];
+        $this->accessToken = ResponseHelper::getValue($data, 'access_token');
         return $this;
     }
 }

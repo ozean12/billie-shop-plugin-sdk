@@ -2,6 +2,8 @@
 
 namespace Billie\Sdk\Model\Response;
 
+use Billie\Sdk\Util\ResponseHelper;
+
 /**
  * @method string getCheckoutSessionId()
  */
@@ -14,7 +16,7 @@ class CreateSessionResponseModel extends AbstractResponseModel
 
     public function fromArray($data)
     {
-        $this->checkoutSessionId = $data['id'];
+        $this->checkoutSessionId = ResponseHelper::getValue($data, 'id');
         return $this;
     }
 

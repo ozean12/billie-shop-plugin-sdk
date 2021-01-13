@@ -5,10 +5,46 @@ namespace Billie\Sdk\Model;
 
 
 use BadMethodCallException;
+use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\Exception\Validation\InvalidFieldException;
+use Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException;
+use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 
 abstract class AbstractModel
 {
+
+    protected $readOnly;
+
+    /**
+     * AbstractModel constructor.
+     * @param array $data
+     * @param boolean $readOnly
+     */
+    public function __construct($data = [], $readOnly = false)
+    {
+        $this->readOnly = $readOnly;
+        if (count($data)) {
+            $this->fromArray($data);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return self
+     */
+    public function fromArray($data)
+    {
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [];
+    }
+
     /**
      * @param string $name
      * @return mixed
@@ -33,5 +69,94 @@ abstract class AbstractModel
             return call_user_func_array([$this, 'get'], array_merge([$field], $arguments));
         }
         throw new BadMethodCallException('Method `' . $name . '` does not exists on `' . self::class . '`');
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return self
+     * @throws BillieException
+     */
+    private function set($name, $value)
+    {
+        if ($this->readOnly) {
+            throw new \BadMethodCallException('the model `' . get_class($this) . '` is read only');
+        }
+
+        if (property_exists($this, $name)) {
+            $this->validateFieldValue($name, $value);
+            $this->{$name} = $value;
+            return $this;
+        }
+        throw new InvalidFieldException($name, $this);
+    }
+
+    public static function getFieldValidations()
+    {
+        return [];
+    }
+
+    /**
+     * @throws InvalidFieldValueCollectionException
+     */
+    final public function validateFields()
+    {
+        $errorCollection = new InvalidFieldValueCollectionException();
+        foreach (get_object_vars($this) as $field => $value) {
+            try {
+                $this->validateFieldValue($field, $value);
+            } catch (InvalidFieldValueException $e) {
+                $errorCollection->addError($field, $e);
+            }
+        }
+        if (count($errorCollection->getErrors())) {
+            throw $errorCollection;
+        }
+    }
+
+    /**
+     * @param string $field the field-name to validate
+     * @param mixed $value the value to validate
+     * @throws InvalidFieldValueException
+     */
+    private function validateFieldValue($field, $value)
+    {
+        $validations = static::getFieldValidations();
+        if (isset($validations[$field]) === false) {
+            return;
+        }
+        $type = $validations[$field];
+        if ($type === null) {
+            return;
+        }
+
+        if (is_callable($type)) {
+            $type = $type($this, $value);
+        }
+
+        if (is_string($type)) {
+            if (strpos($type, '?') === 0) {
+                $type = substr($type, 1);
+                if ($value === null) {
+                    return;
+                }
+            }
+            $typeErrorMessage = sprintf('The field %s of the model %s has an invalid value. Expected type: %s. Given type: %s', $field, get_class($this), $type, is_object($value) ? get_class($value) : gettype($value));
+
+            $allowedFloatTypes = ['integer', 'double'];
+            if (class_exists($type)) {
+                if (!is_object($value) || $value instanceof $type === false) {
+                    throw new InvalidFieldValueException($typeErrorMessage);
+                }
+            } else if (gettype($value) !== $type && ($type !== 'float' || !in_array(gettype($value), $allowedFloatTypes, true))) {
+                throw new InvalidFieldValueException($typeErrorMessage);
+            }
+
+        }
+    }
+
+    private function types()
+    {
+
     }
 }

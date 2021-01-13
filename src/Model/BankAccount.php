@@ -1,33 +1,45 @@
 <?php
 
-namespace Billie\Model;
+namespace Billie\Sdk\Model;
+
+use Billie\Sdk\Model\Response\AbstractResponseModel;
+use Billie\Sdk\Util\ResponseHelper;
 
 /**
- * Class BankAccount
- *
- * @package Billie/Model
- * @author Marcel Barten <github@m-barten.de>
+ * @method self setIban(string $iban)
+ * @method string getIban()
+ * @method self setBic(string $bic)
+ * @method string getBic()
  */
-class BankAccount
+class BankAccount extends AbstractResponseModel
 {
-    /**
-     * @var string IBAN number of the virtual account
-     */
-    public $iban;
-    /**
-     * @var string BIC of the virtual account
-     */
-    public $bic;
 
-    /**
-     * BankAccount constructor.
-     *
-     * @param string $iban
-     * @param string $bic
-     */
-    public function __construct($iban, $bic)
+    /** @var string */
+    protected $iban;
+
+    /** @var string */
+    protected $bic;
+
+    public function fromArray($data)
     {
-        $this->iban = $iban;
-        $this->bic = $bic;
+        $this->iban = ResponseHelper::getValue($data, 'iban');
+        $this->bic = ResponseHelper::getValue($data, 'bic');
+        return $this;
+    }
+
+    public function toArray()
+    {
+        return [
+            'iban' => $this->iban,
+            'bic' => $this->bic,
+        ];
+    }
+
+    public static function getFieldValidations()
+    {
+        return [
+            'iban' => 'string',
+            'bic' => 'string',
+        ];
     }
 }

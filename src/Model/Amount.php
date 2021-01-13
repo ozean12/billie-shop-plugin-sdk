@@ -1,73 +1,83 @@
 <?php
 
-namespace Billie\Model;
+namespace Billie\Sdk\Model;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
+use Billie\Sdk\Util\ResponseHelper;
+use RuntimeException;
 
 /**
- * Class Amount
- *
- * @package Billie/Model
- * @author Marcel Barten <github@m-barten.de>
+ * @method self setNet(float $net)
+ * @method float getNet()
+ * @method self setGross(float $gross)
+ * @method float getGross()
+ * @method self setTax(float $tax)
+ * @method float getTax()
  */
-class Amount
+class Amount extends AbstractModel
 {
-    /**
-     * @var int
-     */
-    public $netAmount;
-    /**
-     * @var int
-     */
-    public $grossAmount;
-    /**
-     * @var int
-     */
-    public $taxAmount;
-    /**
-     * @var string
-     */
-    public $currency = 'EUR';
+    /** @var float */
+    protected $net;
 
+    /** @var float */
+    protected $gross;
+
+    /** @var float */
+    protected $tax;
 
     /**
-     * @return bool
+     * @param float $taxRate
+     * @return self
+     * @throws InvalidFieldValueException
      */
-    public function hasValidNumbers()
+    public function setTaxRate($taxRate)
     {
-        return $this->grossAmount === $this->taxAmount + $this->netAmount;
+        if ($this->net) {
+            $this->tax = $this->net * ($taxRate / 100);
+
+            $gross = $this->net + $this->tax;
+            if ($this->gross === null) {
+                $this->gross = $gross;
+            } else if ($this->gross !== $gross) {
+                throw new InvalidFieldValueException('the set value of `gross` does not match the calculated value of ' . $gross . '. Please do net set the `gross` value, of set the correct value');
+            }
+        } else if ($this->gross) {
+            $this->tax = $this->gross - ($this->gross / ($taxRate / 100 + 1));
+
+            $net = $this->gross - $this->tax;
+            if ($this->net === null) {
+                $this->net = $net;
+            } else if ($this->net !== $net) {
+                throw new InvalidFieldValueException('the set value of `net` does not match the calculated value of ' . $net . '. Please do net set the `net` value, of set the correct value');
+            }
+        } else {
+            throw new RuntimeException('please set the `net` or `gross` value first.');
+        }
+        return $this;
     }
 
-    /**
-     * Amount constructor.
-     *
-     * @param int $netAmount
-     * @param int $currency
-     * @param int $taxAmount
-     */
-    public function __construct($netAmount, $currency, $taxAmount)
+
+    public static function getFieldValidations()
     {
-        $this->netAmount = $netAmount;
-        $this->taxAmount = $taxAmount;
-        $this->grossAmount = $netAmount + $taxAmount;
-        $this->currency = $currency;
+        return [
+            'net' => 'float',
+            'gross' => 'float',
+        ];
     }
 
-    /**
-     * @param ClassMetadata $metadata
-     */
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public function toArray()
     {
-        $metadata->addPropertyConstraint('netAmount', new Assert\GreaterThan(0));
-        $metadata->addPropertyConstraint('grossAmount', new Assert\GreaterThan(0));
-        $metadata->addPropertyConstraint('taxAmount', new Assert\GreaterThanOrEqual(0));
+        return [
+            'net' => round($this->net, 2),
+            'gross' => round($this->gross, 2),
+            'tax' => round($this->gross - $this->net, 2)
+        ];
+    }
 
-        $metadata->addPropertyConstraints('currency', [
-            new Assert\NotBlank(),
-            new Assert\Currency()
-        ]);
-
-        $metadata->addGetterConstraint('validNumbers', new Assert\IsTrue());
+    public function fromArray($data)
+    {
+        $this->net = ResponseHelper::getValue($data, 'net');
+        $this->gross = ResponseHelper::getValue($data, 'gross');
+        $this->tax = ResponseHelper::getValue($data, 'tax');
     }
 }

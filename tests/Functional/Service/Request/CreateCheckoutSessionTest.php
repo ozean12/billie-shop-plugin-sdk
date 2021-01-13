@@ -1,6 +1,6 @@
 <?php
 
-namespace Billie\Sdk\Tests\acceptance\Service\Request;
+namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Request\CreateSessionRequestModel;
 use Billie\Sdk\Model\Response\CreateSessionResponseModel;
@@ -15,7 +15,10 @@ class CreateCheckoutSessionTest extends TestCase
     {
         $requestService = new CreateSessionRequest(BillieClientHelper::getClient());
 
-        $responseModel = $requestService->execute(new CreateSessionRequestModel('test-merchant-id'));
+        $responseModel = $requestService->execute(
+            (new CreateSessionRequestModel())
+                ->setMerchantCustomerId('test-merchant-id')
+        );
 
         self::assertInstanceOf(CreateSessionResponseModel::class, $responseModel);
         self::assertInternalType('string', $responseModel->getCheckoutSessionId());

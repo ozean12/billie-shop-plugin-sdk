@@ -1,6 +1,6 @@
 <?php
 
-namespace Billie\Sdk\Tests\acceptance\Service\Request;
+namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Exception\UserNotAuthorizedException;
 use Billie\Sdk\Model\Request\GetTokenRequestModel;
@@ -16,10 +16,11 @@ class RequestTokenTest extends TestCase
     {
         $tokenRequestService = new GetTokenRequest(true);
 
-        $responseModel = $tokenRequestService->execute(new GetTokenRequestModel(
-            BillieClientHelper::getClientId(),
-            BillieClientHelper::getClientSecret()
-        ));
+        $responseModel = $tokenRequestService->execute(
+            (new GetTokenRequestModel())
+                ->setClientId(BillieClientHelper::getClientId())
+                ->setClientSecret(BillieClientHelper::getClientSecret())
+        );
 
         self::assertInstanceOf(GetTokenResponseModel::class, $responseModel);
         self::assertEquals('Bearer', $responseModel->getTokenType());
@@ -32,9 +33,10 @@ class RequestTokenTest extends TestCase
         $tokenRequestService = new GetTokenRequest(true);
 
         $this->expectException(UserNotAuthorizedException::class);
-        $tokenRequestService->execute(new GetTokenRequestModel(
-            'invalid',
-            'invalid'
-        ));
+        $tokenRequestService->execute(
+            (new GetTokenRequestModel())
+                ->setClientId('invalid')
+                ->setClientSecret('invalid')
+        );
     }
 }

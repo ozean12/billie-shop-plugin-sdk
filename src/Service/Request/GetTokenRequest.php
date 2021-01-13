@@ -28,7 +28,7 @@ class GetTokenRequest extends AbstractRequest
 
     protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
     {
-        return (new GetTokenResponseModel())->fromArray($responseData);
+        return new GetTokenResponseModel($responseData);
     }
 
     protected function getPath(AbstractRequestModel $requestModel)

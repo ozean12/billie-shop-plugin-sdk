@@ -12,14 +12,15 @@ class GetLegalFormsResponseModel extends AbstractResponseModel
     /**
      * @var LegalForm[]
      */
-    private $items;
-
+    protected $items;
 
     public function fromArray($data)
     {
         $this->items = [];
-        foreach ($data['items'] as $item) {
-            $this->items[] = (new LegalForm())->fromArray($item);
+        if (isset($data['items'])) {
+            foreach ($data['items'] as $item) {
+                $this->items[] = (new LegalForm())->fromArray($item);
+            }
         }
         return $this;
     }
