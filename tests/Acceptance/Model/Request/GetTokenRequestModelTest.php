@@ -5,9 +5,9 @@ namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 
 use Billie\Sdk\Model\Request\GetTokenRequestModel;
-use PHPUnit\Framework\TestCase;
+use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
-class GetTokenRequestModelTest extends TestCase
+class GetTokenRequestModelTest extends AbstractModelTestCase
 {
 
     public function testToArray()

@@ -5,9 +5,9 @@ namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 
 use Billie\Sdk\Model\Request\CreateSessionRequestModel;
-use PHPUnit\Framework\TestCase;
+use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
-class CreateSessionRequestModelTest extends TestCase
+class CreateSessionRequestModelTest extends AbstractModelTestCase
 {
 
     public function testToArray()

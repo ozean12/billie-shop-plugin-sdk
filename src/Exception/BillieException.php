@@ -9,7 +9,7 @@ class BillieException extends \Exception
      */
     protected $billieCode;
 
-    public function __construct($message = "", $code = '000', \Throwable $previous = null)
+    public function __construct($message = "", $code = '000', $previous = null)
     {
         parent::__construct($message, null, $previous);
         $this->billieCode = $code;

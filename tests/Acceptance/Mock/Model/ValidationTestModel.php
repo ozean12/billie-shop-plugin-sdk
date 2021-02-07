@@ -36,7 +36,12 @@ class ValidationTestModel extends AbstractRequestModel
      */
     public $validateThrowCallbackReturnValueField;
 
-    public static function getFieldValidations()
+    /**
+     * @var string
+     */
+    public $validateUrlField;
+
+    public function getFieldValidations()
     {
         return [
             'requiredField' => 'string',
@@ -49,7 +54,8 @@ class ValidationTestModel extends AbstractRequestModel
             },
             'validateThrowCallbackReturnValueField' => static function (self $object, $value) {
                 return stdClass::class;
-            }
+            },
+            'validateUrlField' => '?url'
         ];
     }
 }

@@ -44,7 +44,7 @@ class Person extends AbstractModel
     protected $mail;
 
 
-    public static function getFieldValidations()
+    public function getFieldValidations()
     {
         return [
             'salutation' => static function (self $object, $value) {

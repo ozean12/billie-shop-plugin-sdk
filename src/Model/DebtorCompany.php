@@ -27,4 +27,12 @@ class DebtorCompany extends AbstractModel
         $this->name = ResponseHelper::getValue($data, 'name');
         $this->address = (new Address(ArrayHelper::replaceKeyString($data, 'address_', ''), $this->readOnly));
     }
+
+    public function toArray()
+    {
+        $addressData = ArrayHelper::prefixArrayKeysWithString($this->getAddress()->toArray(), 'address_');
+        return array_merge([
+            'name' => $this->getName(),
+        ], $addressData);
+    }
 }

@@ -57,7 +57,7 @@ class Amount extends AbstractModel
     }
 
 
-    public static function getFieldValidations()
+    public function getFieldValidations()
     {
         return [
             'net' => 'float',

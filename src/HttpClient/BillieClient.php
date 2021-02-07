@@ -6,7 +6,7 @@ use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\Exception\InvalidRequestException;
 use Billie\Sdk\Exception\NotAllowedException;
 use Billie\Sdk\Exception\OrderNotFoundException;
-use Billie\Sdk\Exception\UnexpectedServerException;
+use Billie\Sdk\Exception\UnexpectedServerResponse;
 use Billie\Sdk\Exception\UserNotAuthorizedException;
 
 class BillieClient
@@ -43,7 +43,7 @@ class BillieClient
     public function request($url, $data = [], $method = self::METHOD_GET, $addAuthorisationHeader = true)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->apiBaseUrl.$url);
+        curl_setopt($ch, CURLOPT_URL, $this->apiBaseUrl . $url);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         $requestHeaders = [
             'Content-Type: application/json; charset=UTF-8',
@@ -53,7 +53,7 @@ class BillieClient
             'Connection: keep-alive',
         ];
         if ($addAuthorisationHeader) {
-            if($this->authToken === null) {
+            if ($this->authToken === null) {
                 throw new \RuntimeException('no auth-token has been provided in constructor');
             }
             $requestHeaders[] = 'Authorization: Bearer ' . $this->authToken;
@@ -72,7 +72,7 @@ class BillieClient
                 break;
         }
 
-        if(count($data) > 0) {
+        if (count($data) > 0) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         }
 
@@ -89,7 +89,7 @@ class BillieClient
         curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
 
         $response = curl_exec($ch);
-        if($response) {
+        if ($response) {
             $response = json_decode($response, true);
         }
         $errno = curl_errno($ch);
@@ -104,18 +104,16 @@ class BillieClient
             case 204:
                 return $response;
             case 400:
-                throw new InvalidRequestException(json_encode($response));
+                throw new InvalidRequestException('Invalid request', $curlInfo['http_code'], $response);
             case 401:
-                throw new UserNotAuthorizedException();
+                throw new UserNotAuthorizedException($curlInfo['http_code'], $response);
             case 403:
-                throw new NotAllowedException();
+                throw new NotAllowedException($curlInfo['http_code'], $response);
             case 404:
-                // TODO parameters
-                throw new OrderNotFoundException(array_key_exists('order_id', $data) ? $data['order_id'] : null);
-            //case 500:
+                preg_match('/order\/(.[^\/]*)\/?/', $url, $matches);
+                throw new OrderNotFoundException($matches && count($matches) === 2 ? $matches[1] : null, $curlInfo['http_code'], $response);
             default:
-                throw new UnexpectedServerException(isset($response['message']) ? $response['message']: 'Unknown error', isset($response['error']) ? : null);
-
+                throw new UnexpectedServerResponse($curlInfo['http_code'], $response);
         }
     }
 

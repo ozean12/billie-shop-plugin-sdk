@@ -35,7 +35,7 @@ class BankAccount extends AbstractResponseModel
         ];
     }
 
-    public static function getFieldValidations()
+    public function getFieldValidations()
     {
         return [
             'iban' => 'string',

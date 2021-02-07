@@ -2,15 +2,13 @@
 
 namespace Billie\Sdk\Exception;
 
-/**
- * Class NotAllowedException
- *
- * @package Billie\Exception
- * @author Marcel Barten <github@m-barten.de>
- */
-class NotAllowedException extends BillieException
+class NotAllowedException extends GatewayException
 {
-    protected $message = 'This action is not allowed.';
+
+    public function __construct($httpCode, $responseData = [])
+    {
+        parent::__construct('This action is not allowed.', $httpCode, $responseData);
+    }
 
     /**
      * @return string
@@ -18,13 +16,5 @@ class NotAllowedException extends BillieException
     public function getBillieCode()
     {
         return 'NOT_ALLOWED';
-    }
-
-    /**
-     * @return string
-     */
-    public function getBillieMessage()
-    {
-        return $this->message;
     }
 }

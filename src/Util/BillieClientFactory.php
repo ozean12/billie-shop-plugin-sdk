@@ -16,7 +16,7 @@ class BillieClientFactory
 
     public static function getBillieClientInstance($clientId, $clientSecret, $isSandbox)
     {
-        $key = md5(implode([$clientId, $clientSecret, $isSandbox ? '1' : '0']));
+        $key = md5(implode('+', [$clientId, $clientSecret, $isSandbox ? '1' : '0']));
         if (isset(self::$instances[$key]) === false) {
             $authToken = self::getAuthToken($clientId, $clientSecret, $isSandbox);
             self::$instances[$key] = new BillieClient($authToken, $isSandbox);

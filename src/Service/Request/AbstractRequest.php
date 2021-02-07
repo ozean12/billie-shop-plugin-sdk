@@ -25,6 +25,12 @@ abstract class AbstractRequest
         $this->client = $billieClient;
     }
 
+    /**
+     * @param AbstractRequestModel $requestModel
+     * @return AbstractResponseModel|boolean
+     * @throws \Billie\Sdk\Exception\BillieException
+     * @throws \Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException
+     */
     final public function execute(AbstractRequestModel $requestModel)
     {
         try {
@@ -57,7 +63,7 @@ abstract class AbstractRequest
     /**
      * @param AbstractRequestModel $requestModel
      * @param array|null $responseData
-     * @return AbstractResponseModel
+     * @return AbstractResponseModel|boolean
      */
     abstract protected function processSuccess(AbstractRequestModel $requestModel, $responseData);
 

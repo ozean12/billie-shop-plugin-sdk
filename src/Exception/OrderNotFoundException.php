@@ -2,26 +2,25 @@
 
 namespace Billie\Sdk\Exception;
 
-/**
- * Class OrderNotFoundException
- *
- * @package Billie\Exception
- * @author Marcel Barten <github@m-barten.de>
- */
-class OrderNotFoundException extends BillieException
+class OrderNotFoundException extends GatewayException
 {
-    protected $message = 'The order with the reference id: %s does not exist.';
-    private $referenceId;
+    /**
+     * @var string
+     */
+    private $orderId;
+
+    public function __construct($orderId, $httpCode, $responseData = [])
+    {
+        parent::__construct(sprintf('The order with the reference id: %s does not exist.', $orderId), $httpCode, $responseData);
+        $this->orderId = $orderId;
+    }
 
     /**
-     * OrderNotFoundException constructor.
-     *
-     * @param string $referenceId
+     * @return string
      */
-    public function __construct($referenceId)
+    public function getOrderId()
     {
-        parent::__construct();
-        $this->referenceId = $referenceId;
+        return $this->orderId;
     }
 
     /**
@@ -32,11 +31,4 @@ class OrderNotFoundException extends BillieException
         return 'ORDER_NOT_FOUND';
     }
 
-    /**
-     * @return string|void
-     */
-    public function getBillieMessage()
-    {
-        return sprintf($this->message, $this->referenceId);
-    }
 }

@@ -62,7 +62,7 @@ class Address extends AbstractModel
         ];
     }
 
-    public static function getFieldValidations()
+    public function getFieldValidations()
     {
         return [
             'street' => 'string',

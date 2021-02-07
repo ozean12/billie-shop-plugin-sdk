@@ -6,9 +6,8 @@ namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Model\Address;
-use PHPUnit\Framework\TestCase;
 
-class AddressTest extends TestCase
+class AddressTest extends AbstractModelTestCase
 {
 
     public function testToArray()

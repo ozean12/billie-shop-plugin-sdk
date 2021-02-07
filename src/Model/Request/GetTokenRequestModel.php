@@ -35,7 +35,7 @@ class GetTokenRequestModel extends AbstractRequestModel
         ];
     }
 
-    public static function getFieldValidations()
+    public function getFieldValidations()
     {
         return [
             'clientId' => 'string',

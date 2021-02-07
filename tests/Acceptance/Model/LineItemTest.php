@@ -5,16 +5,15 @@ namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\LineItem;
-use PHPUnit\Framework\TestCase;
 
-class LineItemTest extends TestCase
+class LineItemTest extends AbstractModelTestCase
 {
 
     public function testToArray()
     {
         $data = (new LineItem())
             ->setExternalId('external-product-id')
-            ->setAmount(new Amount())
+            ->setAmount($this->createMock(Amount::class))
             ->setBrand('brand-name')
             ->setCategory('category-name')
             ->setDescription('description text')
@@ -34,5 +33,6 @@ class LineItemTest extends TestCase
         self::assertEquals('gtin-value', $data['gtin']);
         self::assertEquals('mpn-value', $data['mpn']);
     }
+
 
 }

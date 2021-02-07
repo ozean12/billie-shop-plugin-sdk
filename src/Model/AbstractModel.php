@@ -42,7 +42,12 @@ abstract class AbstractModel
      */
     public function toArray()
     {
-        return [];
+        return array_map(static function ($value) {
+            if ($value instanceof AbstractModel) {
+                $value = $value->toArray();
+            }
+            return $value;
+        }, get_object_vars($this));
     }
 
     /**
@@ -91,7 +96,7 @@ abstract class AbstractModel
         throw new InvalidFieldException($name, $this);
     }
 
-    public static function getFieldValidations()
+    public function getFieldValidations()
     {
         return [];
     }
@@ -121,7 +126,7 @@ abstract class AbstractModel
      */
     private function validateFieldValue($field, $value)
     {
-        $validations = static::getFieldValidations();
+        $validations = $this->getFieldValidations();
         if (isset($validations[$field]) === false) {
             return;
         }
@@ -148,15 +153,16 @@ abstract class AbstractModel
                 if (!is_object($value) || $value instanceof $type === false) {
                     throw new InvalidFieldValueException($typeErrorMessage);
                 }
+                if ($value instanceof AbstractModel) {
+                    $value->validateFields();
+                }
+            } else if ($type === 'url') {
+                if(!filter_var($value, FILTER_VALIDATE_URL)) {
+                    throw new InvalidFieldValueException(sprintf('The field %s of the model %s has an invalid value. The value must be a url. Given value: %s', $field, get_class($this), is_object($value) ? get_class($value) : gettype($value)));
+                }
             } else if (gettype($value) !== $type && ($type !== 'float' || !in_array(gettype($value), $allowedFloatTypes, true))) {
                 throw new InvalidFieldValueException($typeErrorMessage);
             }
-
         }
-    }
-
-    private function types()
-    {
-
     }
 }

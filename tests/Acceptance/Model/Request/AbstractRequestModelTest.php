@@ -6,10 +6,10 @@ namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException;
 use Billie\Sdk\Tests\Acceptance\Mock\Model\ValidationTestModel;
-use PHPUnit\Framework\TestCase;
+use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 use stdClass;
 
-class AbstractRequestModelTest extends TestCase
+class AbstractRequestModelTest extends AbstractModelTestCase
 {
 
     public function testValidEntity()
@@ -93,13 +93,27 @@ class AbstractRequestModelTest extends TestCase
         }
     }
 
-    private function getValidModel() {
+    public function testInvalidUrl()
+    {
+        $model = $this->getValidModel();
+        $model->validateUrlField = 'invalid-value';
+        try {
+            $model->validateFields();
+            self::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
+        } catch (InvalidFieldValueCollectionException $e) {
+            self::assertArrayHasKey('validateUrlField', $e->getErrors());
+        }
+    }
+
+    private function getValidModel()
+    {
         $model = new ValidationTestModel();
         $model->requiredField = 'valid-value';
         $model->expectedClassField = new stdClass();
         $model->nullableField = null;
         $model->validateThruSimpleCallbackField = 'valid-value';
         $model->validateThrowCallbackReturnValueField = new stdClass();
+        $model->validateUrlField = 'https://www.domain.com/path/to/a/file.png?param1=value1&param2[]=abc&param2[]=def';
         return $model;
     }
 

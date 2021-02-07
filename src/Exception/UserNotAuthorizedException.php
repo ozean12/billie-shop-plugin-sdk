@@ -2,15 +2,12 @@
 
 namespace Billie\Sdk\Exception;
 
-/**
- * Class UserNotAuthorizedException
- *
- * @package Billie\Exception
- * @author Marcel Barten <github@m-barten.de>
- */
-class UserNotAuthorizedException extends BillieException
+class UserNotAuthorizedException extends GatewayException
 {
-    protected $message = 'The user is not authorized to perform this action.';
+    public function __construct($httpCode, $responseData = [])
+    {
+        parent::__construct('The user is not authorized to perform this action.', $httpCode, $responseData);
+    }
 
     /**
      * @return string
@@ -18,13 +15,5 @@ class UserNotAuthorizedException extends BillieException
     public function getBillieCode()
     {
         return 'NOT_AUTHORIZED';
-    }
-
-    /**
-     * @return string
-     */
-    public function getBillieMessage()
-    {
-        return $this->message;
     }
 }

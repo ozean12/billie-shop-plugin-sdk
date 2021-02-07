@@ -80,7 +80,7 @@ class CreateOrderRequestModel extends AbstractRequestModel
         ];
     }
 
-    public static function getFieldValidations()
+    public function getFieldValidations()
     {
         return [
             'amount' => Amount::class,

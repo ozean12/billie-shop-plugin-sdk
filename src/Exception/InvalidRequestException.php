@@ -2,13 +2,7 @@
 
 namespace Billie\Sdk\Exception;
 
-/**
- * Class InvalidRequestException
- *
- * @package Billie\Exception
- * @author Marcel Barten <github@m-barten.de>
- */
-class InvalidRequestException extends BillieException
+class InvalidRequestException extends GatewayException
 {
 
     /**

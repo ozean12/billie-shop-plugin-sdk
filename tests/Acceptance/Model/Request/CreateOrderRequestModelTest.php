@@ -9,26 +9,23 @@ use Billie\Sdk\Model\LineItem;
 use Billie\Sdk\Model\Person;
 use Billie\Sdk\Model\Request\CreateOrder\Company;
 use Billie\Sdk\Model\Request\CreateOrderRequestModel;
-use PHPUnit\Framework\TestCase;
+use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
-class CreateOrderRequestModelTest extends TestCase
+class CreateOrderRequestModelTest extends AbstractModelTestCase
 {
 
     public function testToArray()
     {
         $data = (new CreateOrderRequestModel())
-            ->setAmount(new Amount())
+            ->setAmount($this->createMock(Amount::class))
             ->setDuration(12)
-            ->setCompany(
-                (new Company())
-                    ->setAddress(new Address())
-            )
-            ->setPerson(new Person())
+            ->setCompany($this->createMock(Company::class))
+            ->setPerson($this->createMock(Person::class))
             ->setComment('test-comment')
             ->setOrderId('test-order-id')
-            ->setDeliveryAddress(new Address())
-            ->setBillingAddress(new Address())
-            ->setLineItems([(new LineItem())->setAmount(new Amount()), (new LineItem())->setAmount(new Amount())])
+            ->setDeliveryAddress($this->createMock(Address::class))
+            ->setBillingAddress($this->createMock(Address::class))
+            ->setLineItems([$this->createMock(LineItem::class), $this->createMock(LineItem::class)])
             ->toArray();
 
         self::assertInternalType('array', $data['amount']);

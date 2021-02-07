@@ -1,7 +1,10 @@
 <phpunit>
     <testsuites>
-        <testsuite name="billie-sdk">
-            <directory>tests</directory>
+        <testsuite name="acceptance">
+            <directory>tests/Acceptance/Model</directory>
+        </testsuite>
+        <testsuite name="functional">
+            <directory>tests/Functional/Service</directory>
         </testsuite>
     </testsuites>
 

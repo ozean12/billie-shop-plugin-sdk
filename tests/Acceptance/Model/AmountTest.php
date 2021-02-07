@@ -5,10 +5,9 @@ namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Model\Amount;
-use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-class AmountTest extends TestCase
+class AmountTest extends AbstractModelTestCase
 {
 
     public function testToArray()

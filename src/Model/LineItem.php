@@ -56,7 +56,7 @@ class LineItem extends AbstractModel
     /** @var Amount */
     protected $amount;
 
-    public static function getFieldValidations()
+    public function getFieldValidations()
     {
         return [
             'externalId' => 'string',

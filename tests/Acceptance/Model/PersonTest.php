@@ -5,9 +5,8 @@ namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Model\Person;
-use PHPUnit\Framework\TestCase;
 
-class PersonTest extends TestCase
+class PersonTest extends AbstractModelTestCase
 {
 
     public function testToArray()
@@ -27,7 +26,8 @@ class PersonTest extends TestCase
         self::assertEquals('m', $data['salutation']);
     }
 
-    public function testInvalidSalutation() {
+    public function testInvalidSalutation()
+    {
 
         $this->expectException(InvalidFieldValueException::class);
 
