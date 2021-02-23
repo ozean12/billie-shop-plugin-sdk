@@ -101,6 +101,7 @@ class BillieClient
 
         switch ($curlInfo['http_code']) {
             case 200:
+            case 202:
             case 204:
                 return $response;
             case 400:

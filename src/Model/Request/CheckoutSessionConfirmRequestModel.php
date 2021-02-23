@@ -73,7 +73,7 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
             'amount' => $this->getAmount()->toArray(),
             'duration' => $this->getDuration(),
             'debtor_company' => $this->getCompany()->toArray(),
-            'delivery_address' => $this->deliveryAddress->toArray(),
+            'delivery_address' => $this->deliveryAddress ? $this->deliveryAddress->toArray() : null,
             'order_id' => $this->getOrderId()
         ];
     }

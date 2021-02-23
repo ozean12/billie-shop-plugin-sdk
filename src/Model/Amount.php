@@ -68,9 +68,9 @@ class Amount extends AbstractModel
     public function toArray()
     {
         return [
-            'net' => round($this->net, 2),
-            'gross' => round($this->gross, 2),
-            'tax' => round($this->gross - $this->net, 2)
+            'net' => (float) round($this->net, 2),
+            'gross' => (float) round($this->gross, 2),
+            'tax' => (float) round($this->gross - $this->net, 2)
         ];
     }
 

@@ -15,6 +15,8 @@ abstract class AbstractModel
 
     protected $readOnly;
 
+    private $validateOnSet = true;
+
     /**
      * AbstractModel constructor.
      * @param array $data
@@ -89,7 +91,9 @@ abstract class AbstractModel
         }
 
         if (property_exists($this, $name)) {
-            $this->validateFieldValue($name, $value);
+            if($this->validateOnSet) {
+                $this->validateFieldValue($name, $value);
+            }
             $this->{$name} = $value;
             return $this;
         }
@@ -157,12 +161,28 @@ abstract class AbstractModel
                     $value->validateFields();
                 }
             } else if ($type === 'url') {
-                if(!filter_var($value, FILTER_VALIDATE_URL)) {
+                if (!filter_var($value, FILTER_VALIDATE_URL)) {
                     throw new InvalidFieldValueException(sprintf('The field %s of the model %s has an invalid value. The value must be a url. Given value: %s', $field, get_class($this), is_object($value) ? get_class($value) : gettype($value)));
                 }
             } else if (gettype($value) !== $type && ($type !== 'float' || !in_array(gettype($value), $allowedFloatTypes, true))) {
                 throw new InvalidFieldValueException($typeErrorMessage);
             }
         }
+    }
+
+    public function enableValidateOnSet()
+    {
+        return $this->setValidateOnSet(true);
+    }
+
+    public function disableValidateOnSet()
+    {
+        return $this->setValidateOnSet(false);
+    }
+
+    public function setValidateOnSet($flag)
+    {
+        $this->validateOnSet = $flag;
+        return $this;
     }
 }

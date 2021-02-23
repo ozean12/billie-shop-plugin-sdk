@@ -6,15 +6,15 @@ use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 
 /**
  * @method self setSalutation(string $salutation)
- * @method string getSalutation(string $salutation)
+ * @method string getSalutation()
  * @method self setFirstname(string $firstname)
- * @method string getFirstname(string $firstname)
+ * @method string getFirstname()
  * @method self setLastname(string $lastname)
- * @method string getLastname(string $lastname)
+ * @method string getLastname()
  * @method self setPhone(string $phone)
- * @method string getPhone(string $phone)
+ * @method string getPhone()
  * @method self setMail(string $mail)
- * @method string getMail(string $mail)
+ * @method string getMail()
  */
 class Person extends AbstractModel
 {
