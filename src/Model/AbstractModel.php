@@ -25,7 +25,7 @@ abstract class AbstractModel
     public function __construct($data = [], $readOnly = false)
     {
         $this->readOnly = $readOnly;
-        if (count($data)) {
+        if ($data && count($data)) {
             $this->fromArray($data);
         }
     }

@@ -70,10 +70,9 @@ class Address extends AbstractModel
             'addition' => '?string',
             'city' => 'string',
             'postalCode' => static function (self $object, $value) {
-                if (is_string($value) === false || strlen($value) !== 5) {
+                if (strlen($value) !== 5) {
                     throw new InvalidFieldValueException('The field `postalCode` must be 5 chars long. (german postcode format)');
                 }
-                return 'string';
             },
             'countryCode' => static function (self $object, $value) {
                 if (strlen($value) !== 2) {
