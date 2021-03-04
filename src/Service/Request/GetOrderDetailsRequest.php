@@ -8,6 +8,8 @@ use Billie\Sdk\Model\Request\OrderRequestModel;
 use InvalidArgumentException;
 
 /**
+ * @see https://developers.billie.io/#operation/order_get_details
+ *
  * @method Order execute(OrderRequestModel $requestModel)
  */
 class GetOrderDetailsRequest extends AbstractRequest

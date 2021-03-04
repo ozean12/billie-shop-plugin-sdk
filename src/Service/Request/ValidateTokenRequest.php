@@ -3,12 +3,13 @@
 namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\Model\Request\AbstractRequestModel;
+use Billie\Sdk\Model\Request\ValidateTokenRequestModel;
 use Billie\Sdk\Model\Response\ValidateTokenResponse;
 
 /**
  * @see https://developers.billie.io/#operation/oauth_token_validate
  *
- * @method ValidateTokenResponse execute(AbstractRequestModel $requestModel)
+ * @method ValidateTokenResponse execute(ValidateTokenRequestModel $requestModel)
  */
 class ValidateTokenRequest extends AbstractRequest
 {

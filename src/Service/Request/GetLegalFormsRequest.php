@@ -3,12 +3,13 @@
 namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\Model\Request\AbstractRequestModel;
+use Billie\Sdk\Model\Request\GetLegalFormsRequestModel;
 use Billie\Sdk\Model\Response\GetLegalFormsResponseModel;
 
 /**
- * @see https://developers.billie.io/#operation/order_create
+ * @see https://developers.billie.io/#operation/get_legal_forms
  *
- * @method GetLegalFormsResponseModel execute(AbstractRequestModel $requestModel)
+ * @method GetLegalFormsResponseModel execute(GetLegalFormsRequestModel $requestModel)
  */
 class GetLegalFormsRequest extends AbstractRequest
 {

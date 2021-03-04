@@ -8,6 +8,7 @@ use Billie\Sdk\Model\Request\ConfirmPaymentRequestModel;
 use InvalidArgumentException;
 
 /**
+ * @see https://developers.billie.io/#operation/order_payment_confirm
  * @method bool execute(ConfirmPaymentRequestModel $requestModel)
  */
 class ConfirmPaymentRequest extends AbstractRequest
@@ -18,11 +19,6 @@ class ConfirmPaymentRequest extends AbstractRequest
             return 'order/' . $requestModel->getId() . '/confirm-payment';
         }
         throw new InvalidArgumentException('argument must be instance of ' . ConfirmPaymentRequestModel::class);
-    }
-
-    protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
-    {
-        return true;
     }
 
     protected function getMethod(AbstractRequestModel $requestModel)

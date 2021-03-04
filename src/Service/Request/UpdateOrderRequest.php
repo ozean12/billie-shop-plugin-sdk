@@ -8,6 +8,8 @@ use Billie\Sdk\Model\Request\UpdateOrderRequestModel;
 use InvalidArgumentException;
 
 /**
+ * @see https://developers.billie.io/#operation/order_update
+ *
  * @method bool execute(UpdateOrderRequestModel $requestModel)
  */
 class UpdateOrderRequest extends AbstractRequest
@@ -18,12 +20,6 @@ class UpdateOrderRequest extends AbstractRequest
             return 'order/' . $requestModel->getId();
         }
         throw new InvalidArgumentException('argument must be instance of ' . UpdateOrderRequestModel::class);
-    }
-
-    protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
-    {
-        // there is only a HTTP Code 204 response
-        return true;
     }
 
     protected function getMethod(AbstractRequestModel $requestModel)

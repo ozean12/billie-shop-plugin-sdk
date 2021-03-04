@@ -8,6 +8,8 @@ use Billie\Sdk\Model\Request\OrderRequestModel;
 use InvalidArgumentException;
 
 /**
+ * @see https://developers.billie.io/#operation/order_cancel
+ *
  * @method bool execute(OrderRequestModel $requestModel)
  */
 class CancelOrderRequest extends AbstractRequest
@@ -18,12 +20,6 @@ class CancelOrderRequest extends AbstractRequest
             return 'order/' . $requestModel->getId() . '/cancel';
         }
         throw new InvalidArgumentException('argument must be instance of ' . OrderRequestModel::class);
-    }
-
-    protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
-    {
-        // there is only a HTTP Code 204 response
-        return true;
     }
 
     protected function getMethod(AbstractRequestModel $requestModel)

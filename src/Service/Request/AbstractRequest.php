@@ -2,10 +2,13 @@
 
 namespace Billie\Sdk\Service\Request;
 
+use Billie\Sdk\Exception\BillieException;
+use Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Response\AbstractResponseModel;
 use Exception;
+use InvalidArgumentException;
 
 abstract class AbstractRequest
 {
@@ -23,14 +26,26 @@ abstract class AbstractRequest
     }
 
     /**
-     * @throws \Billie\Sdk\Exception\BillieException
-     * @throws \Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException
-     *
-     * @return AbstractResponseModel|bool
+     * @param BillieClient $client
      */
-    final public function execute(AbstractRequestModel $requestModel)
+    final public function setClient(BillieClient $client): void
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * @param AbstractRequestModel $requestModel
+     * @return AbstractResponseModel|bool
+     * @throws BillieException
+     * @throws InvalidFieldValueCollectionException
+     */
+    public function execute(AbstractRequestModel $requestModel)
     {
         try {
+            if ($this->client === null) {
+                throw new InvalidArgumentException('please set a BillieClient instance to this request-service. Use the parameter in the constructor or use the function `setClient` to set the client-instance.');
+            }
+
             $requestModel->validateFields();
 
             $response = $this->loadFromCache($requestModel);
@@ -105,7 +120,10 @@ abstract class AbstractRequest
      *
      * @return AbstractResponseModel|bool
      */
-    abstract protected function processSuccess(AbstractRequestModel $requestModel, $responseData);
+    protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
+    {
+        return true;
+    }
 
     protected function processFailed(AbstractRequestModel $requestModel, Exception $exception)
     {

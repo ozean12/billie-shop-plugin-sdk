@@ -4,24 +4,28 @@ namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
+use Billie\Sdk\Model\Request\GetTokenRequestModel;
 use Billie\Sdk\Model\Response\GetTokenResponseModel;
 
 /**
  * @see https://developers.billie.io/#operation/oauth_token_create
  *
- * @method GetTokenResponseModel execute(AbstractRequestModel $requestModel)
+ * @method GetTokenResponseModel execute(GetTokenRequestModel $requestModel)
  */
 class GetTokenRequest extends AbstractRequest
 {
     /**
-     * @noinspection MagicMethodsValidityInspection
-     * @noinspection PhpMissingParentConstructorInspection
-     *
      * @param bool $isSandbox
      */
-    public function __construct($isSandbox)
+    public function __construct($isSandbox = false)
     {
-        $this->client = new BillieClient(null, $isSandbox);
+        parent::__construct();
+        $this->setSandbox($isSandbox);
+    }
+
+    public function setSandbox($isSandbox)
+    {
+        $this->setClient(new BillieClient(null, $isSandbox));
     }
 
     protected function processSuccess(AbstractRequestModel $requestModel, $responseData)

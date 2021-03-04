@@ -13,7 +13,7 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\CreateOrderRequestModel;
 
 /**
- * @see https://developers.billie.io/#tag/Back-end-Order-Creation
+ * @see https://developers.billie.io/#operation/order_create
  *
  * @method Order execute(CreateOrderRequestModel $requestModel)
  */

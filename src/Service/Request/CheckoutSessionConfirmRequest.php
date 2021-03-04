@@ -9,6 +9,7 @@ use Billie\Sdk\Model\Request\CheckoutSessionConfirmRequestModel;
 use InvalidArgumentException;
 
 /**
+ * @see https://developers.billie.io/#operation/checkout_session_confirm
  * @method Order execute(CheckoutSessionConfirmRequestModel $requestModel)
  */
 class CheckoutSessionConfirmRequest extends AbstractRequest

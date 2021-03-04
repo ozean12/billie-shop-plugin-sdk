@@ -10,7 +10,9 @@ use Billie\Sdk\Model\Request\ShipOrderRequestModel;
 use InvalidArgumentException;
 
 /**
- * @method Order execute(OrderRequestModel $requestModel)
+ * @see https://developers.billie.io/#operation/order_ship
+ *
+ * @method Order execute(ShipOrderRequestModel $requestModel)
  */
 class ShipOrderRequest extends AbstractRequest
 {
