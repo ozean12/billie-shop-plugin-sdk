@@ -1,0 +1,9 @@
+parameters:
+    level: 0
+    paths:
+        - %currentWorkingDirectory%/src
+
+    reportUnmatchedIgnoredErrors: false
+    tipsOfTheDay: false
+    bootstrapFiles:
+        - ./vendor/autoload.php
