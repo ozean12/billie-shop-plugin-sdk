@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Model\Response;
-
 
 use Billie\Sdk\Util\ResponseHelper;
 
@@ -11,7 +9,6 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class GetBankDataResponseModel extends AbstractResponseModel
 {
-
     /**
      * @var array
      */
@@ -20,6 +17,7 @@ class GetBankDataResponseModel extends AbstractResponseModel
     public function setItems(array $items)
     {
         $this->items = $items;
+
         return $this;
     }
 
@@ -33,6 +31,7 @@ class GetBankDataResponseModel extends AbstractResponseModel
 
     /**
      * @param $bic
+     *
      * @return string|null
      */
     public function getBankName($bic)
@@ -42,12 +41,14 @@ class GetBankDataResponseModel extends AbstractResponseModel
                 return $item['Name'];
             }
         }
+
         return null;
     }
 
     public function fromArray($data)
     {
         $this->items = ResponseHelper::getValue($data, 'items');
+
         return $this;
     }
 }

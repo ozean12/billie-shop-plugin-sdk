@@ -9,6 +9,7 @@ use InvalidArgumentException;
 
 /**
  * @see https://developers.billie.io/#operation/order_payment_confirm
+ *
  * @method bool execute(ConfirmPaymentRequestModel $requestModel)
  */
 class ConfirmPaymentRequest extends AbstractRequest

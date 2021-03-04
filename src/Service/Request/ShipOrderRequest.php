@@ -5,7 +5,6 @@ namespace Billie\Sdk\Service\Request;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
-use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Model\Request\ShipOrderRequestModel;
 use InvalidArgumentException;
 

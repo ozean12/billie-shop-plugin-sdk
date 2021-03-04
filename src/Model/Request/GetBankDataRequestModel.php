@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Model\Request;
-
 
 /**
  * @internal Please note, that this model will vary in the future

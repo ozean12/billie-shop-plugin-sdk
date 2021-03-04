@@ -25,19 +25,16 @@ abstract class AbstractRequest
         $this->client = $billieClient;
     }
 
-    /**
-     * @param BillieClient $client
-     */
     final public function setClient(BillieClient $client): void
     {
         $this->client = $client;
     }
 
     /**
-     * @param AbstractRequestModel $requestModel
-     * @return AbstractResponseModel|bool
      * @throws BillieException
      * @throws InvalidFieldValueCollectionException
+     *
+     * @return AbstractResponseModel|bool
      */
     public function execute(AbstractRequestModel $requestModel)
     {
@@ -78,6 +75,7 @@ abstract class AbstractRequest
                 if (filemtime($file) + $this->cacheTtl > time()) {
                     try {
                         $content = unserialize(file_get_contents($file), ['allowed_classes' => false]);
+
                         return is_array($content) ? $content : null;
                     } catch (Exception $exception) {
                         return null;
@@ -87,6 +85,7 @@ abstract class AbstractRequest
                 }
             }
         }
+
         return null;
     }
 
@@ -107,6 +106,7 @@ abstract class AbstractRequest
     protected function getCacheFileName(AbstractRequestModel $requestModel)
     {
         $cacheFile = get_class($this) . '_' . md5(serialize($requestModel->toArray())) . '.txt';
+
         return str_replace('\\', '_', $cacheFile);
     }
 

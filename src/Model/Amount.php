@@ -27,9 +27,9 @@ class Amount extends AbstractModel
     /**
      * @param float $taxRate
      *
-     * @return self
      * @throws InvalidFieldValueException
      *
+     * @return self
      */
     public function setTaxRate($taxRate)
     {
@@ -77,9 +77,9 @@ class Amount extends AbstractModel
     public function toArray()
     {
         return [
-            'net' => (float)round($this->getNet(), 2),
-            'gross' => (float)round($this->getGross(), 2),
-            'tax' => (float)round($this->getTax(), 2),
+            'net' => (float) round($this->getNet(), 2),
+            'gross' => (float) round($this->getGross(), 2),
+            'tax' => (float) round($this->getTax(), 2),
         ];
     }
 

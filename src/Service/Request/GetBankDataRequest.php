@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Service\Request;
-
 
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\GetBankDataRequestModel;
@@ -13,11 +11,11 @@ use Billie\Sdk\Model\Response\GetBankDataResponseModel;
  * Bank data will be provided by a static file in the SDK
  *
  * @method GetBankDataResponseModel execute(GetBankDataRequestModel $requestModel)
+ *
  * @internal Please note, that this request will vary in the future
  */
 class GetBankDataRequest extends AbstractRequest
 {
-
     /**
      * @var array
      */
@@ -34,6 +32,7 @@ class GetBankDataRequest extends AbstractRequest
             $bankData = $this->parseCsv(__DIR__ . '/../../../assets/bankdata.csv');
             $this->_cache = (new GetBankDataResponseModel())->setItems($bankData);
         }
+
         return $this->_cache;
     }
 
@@ -44,6 +43,7 @@ class GetBankDataRequest extends AbstractRequest
 
     /**
      * @param $fileName string file to parse
+     *
      * @return array
      */
     protected function parseCsv($fileName)
@@ -58,6 +58,7 @@ class GetBankDataRequest extends AbstractRequest
             }
             fclose($handle);
         }
+
         return $data;
     }
 }

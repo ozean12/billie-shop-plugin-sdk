@@ -2,10 +2,8 @@
 
 namespace Billie\Sdk\Model\Request\CreateOrder;
 
-use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
-use Billie\Sdk\Util\LegalFormProvider;
 
 /**
  * @method self    setMerchantCustomerId(string $merchantCustomerId)
