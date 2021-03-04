@@ -14,7 +14,10 @@ abstract class AbstractRequest
      */
     protected $client;
 
-    public function __construct(BillieClient $billieClient)
+    protected $cacheable = false;
+    protected $cacheTtl = 3600;
+
+    public function __construct(BillieClient $billieClient = null)
     {
         $this->client = $billieClient;
     }
@@ -30,12 +33,15 @@ abstract class AbstractRequest
         try {
             $requestModel->validateFields();
 
-            $response = $this->client->request(
+            $response = $this->loadFromCache($requestModel);
+
+            $response = $response ?: $this->client->request(
                 $this->getPath($requestModel),
                 $requestModel->toArray(),
                 $this->getMethod($requestModel),
                 $this->isAuthorisationRequired($requestModel)
             );
+            $this->writeToCache($requestModel, $response);
         } catch (Exception $exception) {
             $this->processFailed($requestModel, $exception);
 //            throw new BillieException(
@@ -47,6 +53,46 @@ abstract class AbstractRequest
         }
 
         return $this->processSuccess($requestModel, $response);
+    }
+
+    protected function loadFromCache(AbstractRequestModel $requestModel)
+    {
+        if ($this->cacheable) {
+            $file = sys_get_temp_dir() . '/' . $this->getCacheFileName($requestModel);
+            if (file_exists($file)) {
+                if (filemtime($file) + $this->cacheTtl > time()) {
+                    try {
+                        $content = unserialize(file_get_contents($file), ['allowed_classes' => false]);
+                        return is_array($content) ? $content : null;
+                    } catch (Exception $exception) {
+                        return null;
+                    }
+                } else {
+                    unlink($file);
+                }
+            }
+        }
+        return null;
+    }
+
+    protected function writeToCache(AbstractRequestModel $requestModel, array $data)
+    {
+        if ($this->cacheable) {
+            $file = sys_get_temp_dir() . '/' . $this->getCacheFileName($requestModel);
+            if (file_exists($file) === false) {
+                try {
+                    $content = serialize($data);
+                    file_put_contents($file, $content);
+                } catch (Exception $exception) {
+                }
+            }
+        }
+    }
+
+    protected function getCacheFileName(AbstractRequestModel $requestModel)
+    {
+        $cacheFile = get_class($this) . '_' . md5(serialize($requestModel->toArray())) . '.txt';
+        return str_replace('\\', '_', $cacheFile);
     }
 
     /**

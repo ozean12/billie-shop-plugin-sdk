@@ -12,6 +12,9 @@ use Billie\Sdk\Model\Response\GetLegalFormsResponseModel;
  */
 class GetLegalFormsRequest extends AbstractRequest
 {
+
+    protected $cacheable = true;
+
     protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
     {
         return new GetLegalFormsResponseModel($responseData);
