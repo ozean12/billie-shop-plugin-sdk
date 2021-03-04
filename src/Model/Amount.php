@@ -12,7 +12,6 @@ use RuntimeException;
  * @method self  setGross(float $gross)
  * @method float getGross()
  * @method self  setTax(float $tax)
- * @method float getTax()
  */
 class Amount extends AbstractModel
 {
@@ -28,9 +27,9 @@ class Amount extends AbstractModel
     /**
      * @param float $taxRate
      *
+     * @return self
      * @throws InvalidFieldValueException
      *
-     * @return self
      */
     public function setTaxRate($taxRate)
     {
@@ -59,6 +58,14 @@ class Amount extends AbstractModel
         return $this;
     }
 
+    /**
+     * @return float
+     */
+    public function getTax()
+    {
+        return $this->tax ?: ($this->gross - $this->net);
+    }
+
     public function getFieldValidations()
     {
         return [
@@ -70,9 +77,9 @@ class Amount extends AbstractModel
     public function toArray()
     {
         return [
-            'net' => (float) round($this->net, 2),
-            'gross' => (float) round($this->gross, 2),
-            'tax' => (float) round($this->gross - $this->net, 2),
+            'net' => (float)round($this->getNet(), 2),
+            'gross' => (float)round($this->getGross(), 2),
+            'tax' => (float)round($this->getTax(), 2),
         ];
     }
 
