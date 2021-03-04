@@ -126,27 +126,7 @@ class Company extends AbstractRequestModel
             'subIndustrySector' => '?string',
             'countOfEmployees' => '?string',
             'establishedCustomer' => '?string',
-            'legalForm' => static function (self $object, $value) {
-                if (empty($value) || LegalFormProvider::get($value) === null) {
-                    throw new InvalidFieldValueException('The field `legalForm` has an invalid value');
-                }
-            },
+            'legalForm' => '?integer',
         ];
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasValidLegalFormInformation()
-    {
-        if (empty($this->taxId) && LegalFormProvider::isVatIdRequired($this->legalForm)) {
-            return false;
-        }
-
-        if (empty($this->registrationNumber) && empty($this->registrationCourt) && LegalFormProvider::isRegistrationIdRequired($this->legalForm)) {
-            return false;
-        }
-
-        return true;
     }
 }
