@@ -75,7 +75,7 @@ abstract class AbstractRequest
         return null;
     }
 
-    protected function writeToCache(AbstractRequestModel $requestModel, array $data)
+    protected function writeToCache(AbstractRequestModel $requestModel, $data)
     {
         if ($this->cacheable) {
             $file = sys_get_temp_dir() . '/' . $this->getCacheFileName($requestModel);
