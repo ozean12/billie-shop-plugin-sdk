@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Billie\Sdk\Exception\Validation;
-
 
 use Billie\Sdk\Exception\BillieException;
 
 class InvalidFieldValueCollectionException extends BillieException
 {
-
     protected $errors = [];
 
     public function addError($field, InvalidFieldValueException $fieldException)
@@ -24,5 +21,4 @@ class InvalidFieldValueCollectionException extends BillieException
     {
         return $this->errors;
     }
-
 }

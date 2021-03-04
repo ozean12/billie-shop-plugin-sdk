@@ -7,11 +7,11 @@ use Billie\Sdk\Util\ResponseHelper;
 use RuntimeException;
 
 /**
- * @method self setNet(float $net)
+ * @method self  setNet(float $net)
  * @method float getNet()
- * @method self setGross(float $gross)
+ * @method self  setGross(float $gross)
  * @method float getGross()
- * @method self setTax(float $tax)
+ * @method self  setTax(float $tax)
  * @method float getTax()
  */
 class Amount extends AbstractModel
@@ -27,8 +27,10 @@ class Amount extends AbstractModel
 
     /**
      * @param float $taxRate
-     * @return self
+     *
      * @throws InvalidFieldValueException
+     *
+     * @return self
      */
     public function setTaxRate($taxRate)
     {
@@ -38,24 +40,24 @@ class Amount extends AbstractModel
             $gross = $this->net + $this->tax;
             if ($this->gross === null) {
                 $this->gross = $gross;
-            } else if ($this->gross !== $gross) {
+            } elseif ($this->gross !== $gross) {
                 throw new InvalidFieldValueException('the set value of `gross` does not match the calculated value of ' . $gross . '. Please do net set the `gross` value, of set the correct value');
             }
-        } else if ($this->gross) {
+        } elseif ($this->gross) {
             $this->tax = $this->gross - ($this->gross / ($taxRate / 100 + 1));
 
             $net = $this->gross - $this->tax;
             if ($this->net === null) {
                 $this->net = $net;
-            } else if ($this->net !== $net) {
+            } elseif ($this->net !== $net) {
                 throw new InvalidFieldValueException('the set value of `net` does not match the calculated value of ' . $net . '. Please do net set the `net` value, of set the correct value');
             }
         } else {
             throw new RuntimeException('please set the `net` or `gross` value first.');
         }
+
         return $this;
     }
-
 
     public function getFieldValidations()
     {
@@ -70,7 +72,7 @@ class Amount extends AbstractModel
         return [
             'net' => (float) round($this->net, 2),
             'gross' => (float) round($this->gross, 2),
-            'tax' => (float) round($this->gross - $this->net, 2)
+            'tax' => (float) round($this->gross - $this->net, 2),
         ];
     }
 

@@ -1,20 +1,17 @@
 <?php
 
-
 namespace Billie\Sdk\Service\Request;
-
 
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Response\GetLegalFormsResponseModel;
 
 /**
- * @link https://developers.billie.io/#operation/order_create
+ * @see https://developers.billie.io/#operation/order_create
  *
  * @method GetLegalFormsResponseModel execute(AbstractRequestModel $requestModel)
  */
 class GetLegalFormsRequest extends AbstractRequest
 {
-
     protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
     {
         return new GetLegalFormsResponseModel($responseData);

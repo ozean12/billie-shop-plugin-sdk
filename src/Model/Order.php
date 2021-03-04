@@ -7,22 +7,22 @@ use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
 
 /**
- * @method string getOrderId()
- * @method string getUuid()
- * @method string getState()
- * @method string getDeclineReason()
- * @method Amount getAmount()
- * @method int getDuration()
- * @method string getDunningStatus()
+ * @method string        getOrderId()
+ * @method string        getUuid()
+ * @method string        getState()
+ * @method string        getDeclineReason()
+ * @method Amount        getAmount()
+ * @method int           getDuration()
+ * @method string        getDunningStatus()
  * @method DebtorCompany getCompany()
- * @method BankAccount getBankAccount()
- * @method array getExternalData()
- * @method Address getDeliveryAddress()
- * @method Address getBillingAddress()
- * @method DateTime getCreatedAt()
- * @method DateTime getShippedAt()
- * @method string getDebtorUuid()
- * @method Invoice getInvoice()
+ * @method BankAccount   getBankAccount()
+ * @method array         getExternalData()
+ * @method Address       getDeliveryAddress()
+ * @method Address       getBillingAddress()
+ * @method DateTime      getCreatedAt()
+ * @method DateTime      getShippedAt()
+ * @method string        getDebtorUuid()
+ * @method Invoice       getInvoice()
  */
 class Order extends AbstractResponseModel
 {
@@ -41,7 +41,6 @@ class Order extends AbstractResponseModel
     const DECLINED_REASON_INVALID_ADDRESS = 'debtor_address';
     const DECLINED_REASON_DEBTOR_LIMIT_EXCEEDED = 'debtor_limit_exceeded';
 
-
     /** @var string */
     protected $orderId;
 
@@ -57,7 +56,7 @@ class Order extends AbstractResponseModel
     /** @var Amount */
     protected $amount;
 
-    /** @var integer */
+    /** @var int */
     protected $duration;
 
     /** @var string */
@@ -90,7 +89,6 @@ class Order extends AbstractResponseModel
     /** @var Invoice */
     protected $invoice;
 
-
     public function fromArray($data)
     {
         $this->orderId = ResponseHelper::getValue($data, 'order_id');
@@ -101,7 +99,7 @@ class Order extends AbstractResponseModel
             [
                 'net' => $data['amount_net'],
                 'gross' => $data['amount'],
-                'tax' => $data['amount_tax']
+                'tax' => $data['amount_tax'],
             ],
             $this->readOnly
         )) : null;
@@ -116,6 +114,7 @@ class Order extends AbstractResponseModel
         $this->shippedAt = ResponseHelper::getDateTime($data, 'shipped_at');
         $this->debtorUuid = ResponseHelper::getValue($data, 'debtor_uuid');
         $this->invoice = ResponseHelper::getObject($data, 'invoice', Invoice::class, true);
+
         return $this;
     }
 }

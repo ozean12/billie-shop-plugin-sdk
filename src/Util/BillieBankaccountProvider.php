@@ -5,12 +5,10 @@ namespace Billie\Util;
 /**
  * Class BillieBankaccountProvider
  *
- * @package Billie\util
  * @author Marcel Barten <github@m-barten.de>
  */
 class BillieBankaccountProvider
 {
-
     const PATH = '/../../assets/billie_bankaccount.json';
 
     /**
@@ -23,10 +21,9 @@ class BillieBankaccountProvider
 
         $result = [];
         foreach ($data as $row) {
-
             $result[$row['bic']] = [
                 'bic' => $row['bic'],
-                'label' => $row['institution']
+                'label' => $row['institution'],
             ];
         }
 
@@ -35,6 +32,7 @@ class BillieBankaccountProvider
 
     /**
      * @param $bic
+     *
      * @return array
      */
     public static function get($bic)
@@ -47,5 +45,4 @@ class BillieBankaccountProvider
 
         return [];
     }
-
 }

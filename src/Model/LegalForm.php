@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Billie\Sdk\Model;
-
 
 use Billie\Sdk\Util\ResponseHelper;
 
 class LegalForm extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -32,6 +29,7 @@ class LegalForm extends AbstractModel
         $this->name = ResponseHelper::getValue($data, 'name');
         $this->requiredField = ResponseHelper::getValue($data, 'required_input');
         $this->required = ResponseHelper::getValue($data, 'required');
+
         return $this;
     }
 

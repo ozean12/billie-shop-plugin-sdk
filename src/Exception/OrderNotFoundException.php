@@ -30,5 +30,4 @@ class OrderNotFoundException extends GatewayException
     {
         return 'ORDER_NOT_FOUND';
     }
-
 }

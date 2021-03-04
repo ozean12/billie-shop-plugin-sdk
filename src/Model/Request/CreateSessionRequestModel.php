@@ -3,7 +3,7 @@
 namespace Billie\Sdk\Model\Request;
 
 /**
- * @method self setMerchantCustomerId(string $merchantCustomerId)
+ * @method self   setMerchantCustomerId(string $merchantCustomerId)
  * @method string getMerchantCustomerId()
  */
 class CreateSessionRequestModel extends AbstractRequestModel
@@ -16,14 +16,14 @@ class CreateSessionRequestModel extends AbstractRequestModel
     public function getFieldValidations()
     {
         return [
-            'merchantCustomerId' => 'string'
+            'merchantCustomerId' => 'string',
         ];
     }
 
     public function toArray()
     {
         return [
-            'merchant_customer_id' => $this->merchantCustomerId
+            'merchant_customer_id' => $this->merchantCustomerId,
         ];
     }
 }

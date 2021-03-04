@@ -6,14 +6,13 @@ use Billie\Sdk\Model\Response\AbstractResponseModel;
 use Billie\Sdk\Util\ResponseHelper;
 
 /**
- * @method self setIban(string $iban)
+ * @method self   setIban(string $iban)
  * @method string getIban()
- * @method self setBic(string $bic)
+ * @method self   setBic(string $bic)
  * @method string getBic()
  */
 class BankAccount extends AbstractResponseModel
 {
-
     /** @var string */
     protected $iban;
 
@@ -24,6 +23,7 @@ class BankAccount extends AbstractResponseModel
     {
         $this->iban = ResponseHelper::getValue($data, 'iban');
         $this->bic = ResponseHelper::getValue($data, 'bic');
+
         return $this;
     }
 

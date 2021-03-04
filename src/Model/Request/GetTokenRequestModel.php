@@ -1,18 +1,15 @@
 <?php
 
-
 namespace Billie\Sdk\Model\Request;
 
-
 /**
- * @method self setClientId(string $clientId)
+ * @method self   setClientId(string $clientId)
  * @method string getClientId()
- * @method self setClientSecret(string $clientSecret)
+ * @method self   setClientSecret(string $clientSecret)
  * @method string getClientSecret()
  */
 class GetTokenRequestModel extends AbstractRequestModel
 {
-
     /**
      * @var string
      */
@@ -31,7 +28,7 @@ class GetTokenRequestModel extends AbstractRequestModel
         return [
             'grant_type' => 'client_credentials',
             'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret
+            'client_secret' => $this->clientSecret,
         ];
     }
 

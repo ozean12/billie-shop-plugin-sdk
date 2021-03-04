@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Service\Request;
-
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
@@ -10,11 +8,10 @@ use Billie\Sdk\Model\Request\UpdateOrderRequestModel;
 use InvalidArgumentException;
 
 /**
- * @method boolean execute(UpdateOrderRequestModel $requestModel)
+ * @method bool execute(UpdateOrderRequestModel $requestModel)
  */
 class UpdateOrderRequest extends AbstractRequest
 {
-
     protected function getPath(AbstractRequestModel $requestModel)
     {
         if ($requestModel instanceof UpdateOrderRequestModel) {

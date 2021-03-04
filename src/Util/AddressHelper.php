@@ -2,31 +2,28 @@
 
 namespace Billie\Util;
 
-use Billie\Exception\InvalidFullAddressException;
-use Billie\Model\AddressPartial;
-
 class AddressHelper
 {
-    /**
-     * @param $fullAddress
-     * @return AddressPartial
-     * @throws InvalidFullAddressException
-     */
-    public static function getPartsFromFullAddress($fullAddress)
+    const STREETNUMBER_REGEX = '/^([a-zäöüß\s\d.,-]+?)\s*([\d]+(?:\s?[a-z])?(?:\s?[-|+\/]{1}\s?\d*)?\s*[a-z]?)$/iu';
+
+    public static function getStreetName($addressWithNumber)
     {
-        $parts = self::getParts($fullAddress);
+        $matches = self::regexMatchAddress($addressWithNumber);
 
-        if (!isset($parts[1]) || !isset($parts[2])) {
-            throw new InvalidFullAddressException('The full address cannot be resolved.');
-        }
-
-        return new AddressPartial($parts[1], $parts[2]);
+        return isset($matches[2]) ? $matches[2] : null;
     }
 
-    private static function getParts($fullAddress)
+    public static function getHouseNumber($addressWithNumber)
     {
-        $pattern = '/^([a-zäöüß\s\d.,-]+?)\s*([\d]+(?:\s?[a-z])?(?:\s?[-|+\/]{1}\s?\d*)?\s*[a-z]?)$/i';
-        preg_match($pattern, $fullAddress, $matches);
+        $matches = self::regexMatchAddress($addressWithNumber);
+
+        return isset($matches[1]) ? $matches[1] : null;
+    }
+
+    private static function regexMatchAddress($addressWithNumber)
+    {
+        preg_match(self::STREETNUMBER_REGEX, $addressWithNumber, $matches);
+
         return $matches;
     }
 }

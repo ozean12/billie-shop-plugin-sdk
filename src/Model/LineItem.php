@@ -1,41 +1,38 @@
 <?php
 
-
 namespace Billie\Sdk\Model;
-
 
 use Billie\Sdk\Util\ResponseHelper;
 
 /**
- * @method self setExternalId(string $externalId)
+ * @method self   setExternalId(string $externalId)
  * @method string getExternalId()
- * @method self setTitle(string $title)
+ * @method self   setTitle(string $title)
  * @method string getTitle()
- * @method self setQuantity(int $quantity)
- * @method int getQuantity()
- * @method self setDescription(string $description)
+ * @method self   setQuantity(int $quantity)
+ * @method int    getQuantity()
+ * @method self   setDescription(string $description)
  * @method string getDescription()
- * @method self setCategory(string $category)
+ * @method self   setCategory(string $category)
  * @method string getCategory()
- * @method self setBrand(string $brand)
+ * @method self   setBrand(string $brand)
  * @method string getBrand()
- * @method self setGtin(string $gtin)
+ * @method self   setGtin(string $gtin)
  * @method string getGtin()
- * @method self setMpn(string $mpn)
+ * @method self   setMpn(string $mpn)
  * @method string getMpn()
- * @method self setAmount(Amount $amount)
+ * @method self   setAmount(Amount $amount)
  * @method Amount getAmount()
  */
 class LineItem extends AbstractModel
 {
-
     /** @var string */
     protected $externalId;
 
     /** @var string */
     protected $title;
 
-    /** @var integer */
+    /** @var int */
     protected $quantity;
 
     /** @var string */
@@ -82,6 +79,7 @@ class LineItem extends AbstractModel
         $this->gtin = ResponseHelper::getValue($data, 'gtin');
         $this->mpn = ResponseHelper::getValue($data, 'mpn');
         $this->amount = ResponseHelper::getObject($data, 'external_id', Amount::class, $this->readOnly);
+
         return $this;
     }
 

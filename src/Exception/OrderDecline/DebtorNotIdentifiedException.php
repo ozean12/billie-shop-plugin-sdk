@@ -16,5 +16,4 @@ class DebtorNotIdentifiedException extends OrderDeclinedException
             'DEBTOR_NOT_IDENTIFIED'
         );
     }
-
 }

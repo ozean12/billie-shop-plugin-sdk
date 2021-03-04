@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Service\Request;
-
 
 use Billie\Sdk\Exception\OrderDecline\DebtorLimitExceededException;
 use Billie\Sdk\Exception\OrderDecline\DebtorNotIdentifiedException;
@@ -15,7 +13,7 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\CreateOrderRequestModel;
 
 /**
- * @link https://developers.billie.io/#tag/Back-end-Order-Creation
+ * @see https://developers.billie.io/#tag/Back-end-Order-Creation
  *
  * @method Order execute(CreateOrderRequestModel $requestModel)
  */
@@ -32,10 +30,11 @@ class CreateOrderRequest extends AbstractRequest
     }
 
     /**
-     * @param AbstractRequestModel $requestModel
      * @param array|null $responseData
-     * @return Order
+     *
      * @throws OrderDeclinedException
+     *
+     * @return Order
      */
     protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
     {
@@ -61,6 +60,7 @@ class CreateOrderRequest extends AbstractRequest
             $this->processFailed($requestModel, $exception);
             throw $exception;
         }
+
         return $model;
     }
 }

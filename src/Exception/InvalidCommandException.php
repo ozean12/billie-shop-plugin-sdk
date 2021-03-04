@@ -5,7 +5,6 @@ namespace Billie\Sdk\Exception;
 /**
  * Class InvalidCommandException
  *
- * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
 class InvalidCommandException extends \Exception

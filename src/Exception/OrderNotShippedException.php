@@ -5,7 +5,6 @@ namespace Billie\Sdk\Exception;
 /**
  * Class OrderNotShippedException
  *
- * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
 class OrderNotShippedException extends BillieException

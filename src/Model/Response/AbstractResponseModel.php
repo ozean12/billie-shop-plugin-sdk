@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Model\Response;
-
 
 use Billie\Sdk\Model\AbstractModel;
 

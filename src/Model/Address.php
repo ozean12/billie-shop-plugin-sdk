@@ -6,18 +6,18 @@ use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Util\ResponseHelper;
 
 /**
- * @method string getStreet()
- * @method self setStreet(string $street)
- * @method null|string getHouseNumber()
- * @method self setHouseNumber(?string $houseNumber)
- * @method null|string getAddition()
- * @method self setAddition(?string $addition)
- * @method string getCity()
- * @method self setCity(string $city)
- * @method string getPostalCode()
- * @method self setPostalCode(string $postalCode)
- * @method string getCountryCode()
- * @method self setCountryCode(string $countryCode)
+ * @method string      getStreet()
+ * @method self        setStreet(string $street)
+ * @method string|null getHouseNumber()
+ * @method self        setHouseNumber(?string $houseNumber)
+ * @method string|null getAddition()
+ * @method self        setAddition(?string $addition)
+ * @method string      getCity()
+ * @method self        setCity(string $city)
+ * @method string      getPostalCode()
+ * @method self        setPostalCode(string $postalCode)
+ * @method string      getCountryCode()
+ * @method self        setCountryCode(string $countryCode)
  */
 class Address extends AbstractModel
 {
@@ -47,6 +47,7 @@ class Address extends AbstractModel
         $this->city = ResponseHelper::getValue($data, 'city');
         $this->postalCode = ResponseHelper::getValue($data, 'postal_code');
         $this->countryCode = ResponseHelper::getValue($data, 'country');
+
         return $this;
     }
 
@@ -58,7 +59,7 @@ class Address extends AbstractModel
             'addition' => $this->addition,
             'city' => $this->city,
             'postal_code' => $this->postalCode,
-            'country' => $this->countryCode
+            'country' => $this->countryCode,
         ];
     }
 
@@ -78,6 +79,7 @@ class Address extends AbstractModel
                 if (strlen($value) !== 2) {
                     throw new InvalidFieldValueException('The field `countryCode` must be 2 chars long. (ISO-3166-1)');
                 }
+
                 return 'string';
             },
         ];

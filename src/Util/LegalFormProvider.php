@@ -5,12 +5,10 @@ namespace Billie\Sdk\Util;
 /**
  * Class LegalFormProvider
  *
- * @package Billie\util
  * @author Marcel Barten <github@m-barten.de>
  */
 class LegalFormProvider
 {
-
     const PATH = '/../../assets/legal-forms.json';
 
     /**
@@ -42,17 +40,20 @@ class LegalFormProvider
 
     /**
      * @param string $code
+     *
      * @return string
      */
     public static function get($code)
     {
         $allLegalForms = self::all();
+
         return isset($allLegalForms[$code]) ? $allLegalForms[$code] : null;
     }
 
     /**
      * @param string $legalFormCode
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isVatIdRequired($legalFormCode)
     {
@@ -65,7 +66,8 @@ class LegalFormProvider
 
     /**
      * @param string $legalFormCode
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isRegistrationIdRequired($legalFormCode)
     {
@@ -78,6 +80,7 @@ class LegalFormProvider
 
     /**
      * @param string $legalForm
+     *
      * @return array
      */
     public static function getInformationFor($legalForm)

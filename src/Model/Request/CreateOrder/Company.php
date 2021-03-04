@@ -8,32 +8,30 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Util\LegalFormProvider;
 
 /**
- * @method self setMerchantCustomerId(string $merchantCustomerId)
- * @method self getMerchantCustomerId()
- * @method self setName(string $name)
- * @method string getName()
- * @method self setAddress(Address $address)
+ * @method self    setMerchantCustomerId(string $merchantCustomerId)
+ * @method self    getMerchantCustomerId()
+ * @method self    setName(string $name)
+ * @method string  getName()
+ * @method self    setAddress(Address $address)
  * @method Address getAddress()
- * @method self setTaxId(string $taxId)
- * @method string getTaxId()
- * @method self setTaxNumber(string $taxNumber)
- * @method string getTaxNumber()
- * @method self setRegistrationCourt(string $registrationCourt)
- * @method string getRegistrationCourt()
- * @method self setRegistrationNumber(string $registrationNumber)
- * @method string getRegistrationNumber()
- * @method self setIndustrySector(string $industrySector)
- * @method string getIndustrySector()
- * @method self setSubIndustrySector(string $subIndustrySector)
- * @method string getSubIndustrySector()
- * @method self setCountOfEmployees(int $countOfEmployees)
- * @method int getCountOfEmployees()
- * @method self setEstablishedCustomer(string $establishedCustomer)
- * @method string getEstablishedCustomer()
- * @method self setLegalForm(string $subIndustrySector)
- * @method string getLegalForm()
- *
- *
+ * @method self    setTaxId(string $taxId)
+ * @method string  getTaxId()
+ * @method self    setTaxNumber(string $taxNumber)
+ * @method string  getTaxNumber()
+ * @method self    setRegistrationCourt(string $registrationCourt)
+ * @method string  getRegistrationCourt()
+ * @method self    setRegistrationNumber(string $registrationNumber)
+ * @method string  getRegistrationNumber()
+ * @method self    setIndustrySector(string $industrySector)
+ * @method string  getIndustrySector()
+ * @method self    setSubIndustrySector(string $subIndustrySector)
+ * @method string  getSubIndustrySector()
+ * @method self    setCountOfEmployees(int $countOfEmployees)
+ * @method int     getCountOfEmployees()
+ * @method self    setEstablishedCustomer(string $establishedCustomer)
+ * @method string  getEstablishedCustomer()
+ * @method self    setLegalForm(string $subIndustrySector)
+ * @method string  getLegalForm()
  */
 class Company extends AbstractRequestModel
 {
@@ -79,7 +77,7 @@ class Company extends AbstractRequestModel
     protected $subIndustrySector;
 
     /**
-     * @var integer number of employees in the company (optional)
+     * @var int number of employees in the company (optional)
      */
     protected $countOfEmployees;
 
@@ -90,7 +88,6 @@ class Company extends AbstractRequestModel
      * @var string legal form of the company - e.g. UG, GmbH, GbR
      */
     protected $legalForm;
-
 
     public function toArray()
     {
@@ -133,7 +130,7 @@ class Company extends AbstractRequestModel
                 if (empty($value) || LegalFormProvider::get($value) === null) {
                     throw new InvalidFieldValueException('The field `legalForm` has an invalid value');
                 }
-            }
+            },
         ];
     }
 
@@ -152,5 +149,4 @@ class Company extends AbstractRequestModel
 
         return true;
     }
-
 }

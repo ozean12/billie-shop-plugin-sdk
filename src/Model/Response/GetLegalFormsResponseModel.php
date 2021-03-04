@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Billie\Sdk\Model\Response;
-
 
 use Billie\Sdk\Model\LegalForm;
 
 class GetLegalFormsResponseModel extends AbstractResponseModel
 {
-
     /**
      * @var LegalForm[]
      */
@@ -22,6 +19,7 @@ class GetLegalFormsResponseModel extends AbstractResponseModel
                 $this->items[] = (new LegalForm())->fromArray($item);
             }
         }
+
         return $this;
     }
 

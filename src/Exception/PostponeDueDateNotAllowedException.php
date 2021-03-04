@@ -5,7 +5,6 @@ namespace Billie\Sdk\Exception;
 /**
  * Class PostponeDueDateNotAllowedException
  *
- * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
 class PostponeDueDateNotAllowedException extends BillieException

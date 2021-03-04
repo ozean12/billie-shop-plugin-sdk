@@ -1,30 +1,27 @@
 <?php
 
-
 namespace Billie\Sdk\Model\Request;
-
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\DebtorCompany;
 
 /**
- * @method string getSessionUuid()
- * @method self setSessionUuid(string $sessionUuid)
- * @method Amount getAmount()
- * @method self setAmount(Amount $amount)
- * @method int getDuration()
- * @method self setDuration(int $duration)
+ * @method string        getSessionUuid()
+ * @method self          setSessionUuid(string $sessionUuid)
+ * @method Amount        getAmount()
+ * @method self          setAmount(Amount $amount)
+ * @method int           getDuration()
+ * @method self          setDuration(int $duration)
  * @method DebtorCompany getCompany()
- * @method self setCompany(DebtorCompany $company)
- * @method Address getDeliveryAddress()
- * @method self setDeliveryAddress(Address $deliveryAddress)
- * @method string getOrderId()
- * @method self setOrderId(string $orderId)
+ * @method self          setCompany(DebtorCompany $company)
+ * @method Address       getDeliveryAddress()
+ * @method self          setDeliveryAddress(Address $deliveryAddress)
+ * @method string        getOrderId()
+ * @method self          setOrderId(string $orderId)
  */
 class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 {
-
     /**
      * @var string
      */
@@ -36,7 +33,7 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
     protected $amount;
 
     /**
-     * @var  int
+     * @var int
      */
     protected $duration;
 
@@ -74,8 +71,7 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
             'duration' => $this->getDuration(),
             'debtor_company' => $this->getCompany()->toArray(),
             'delivery_address' => $this->deliveryAddress ? $this->deliveryAddress->toArray() : null,
-            'order_id' => $this->getOrderId()
+            'order_id' => $this->getOrderId(),
         ];
     }
-
 }

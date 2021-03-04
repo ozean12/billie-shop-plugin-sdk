@@ -5,7 +5,6 @@ namespace Billie\Sdk\Exception;
 /**
  * Class OrderNotCancelledException
  *
- * @package Billie\Exception
  * @author Marcel Barten <github@m-barten.de>
  */
 class OrderNotCancelledException extends BillieException

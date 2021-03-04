@@ -16,5 +16,4 @@ class DebtorLimitExceededException extends OrderDeclinedException
             'DEBTOR_LIMIT_EXCEEDED'
         );
     }
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Exception;
-
 
 class GatewayException extends BillieException
 {

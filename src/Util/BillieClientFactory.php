@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Util;
-
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\GetTokenRequestModel;
@@ -10,9 +8,7 @@ use Billie\Sdk\Service\Request\GetTokenRequest;
 
 class BillieClientFactory
 {
-
     private static $instances = [];
-
 
     public static function getBillieClientInstance($clientId, $clientSecret, $isSandbox)
     {
@@ -21,6 +17,7 @@ class BillieClientFactory
             $authToken = self::getAuthToken($clientId, $clientSecret, $isSandbox);
             self::$instances[$key] = new BillieClient($authToken, $isSandbox);
         }
+
         return self::$instances[$key];
     }
 
@@ -36,5 +33,4 @@ class BillieClientFactory
 
         return $response->getAccessToken();
     }
-
 }

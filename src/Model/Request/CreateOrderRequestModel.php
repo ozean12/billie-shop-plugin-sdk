@@ -9,23 +9,23 @@ use Billie\Sdk\Model\Person;
 use Billie\Sdk\Model\Request\CreateOrder\Company;
 
 /**
- * @method self setAmount(Amount $amount)
- * @method Amount getAmount()
- * @method self setDuration(int $duration)
- * @method int getDuration()
- * @method self setCompany(Company $company)
- * @method Company getCompany()
- * @method self setPerson(Person $person)
- * @method Person getPerson()
- * @method self setComment(string $comment)
- * @method string getComment()
- * @method self setOrderId(string $orderId)
- * @method string getOrderId()
- * @method self setDeliveryAddress(Address $deliveryAddress)
- * @method Address getDeliveryAddress()
- * @method self setBillingAddress(Address $billingAddress)
- * @method Address getBillingAddress()
- * @method self setLineItems(LineItem[] $lineItems)
+ * @method self       setAmount(Amount $amount)
+ * @method Amount     getAmount()
+ * @method self       setDuration(int $duration)
+ * @method int        getDuration()
+ * @method self       setCompany(Company $company)
+ * @method Company    getCompany()
+ * @method self       setPerson(Person $person)
+ * @method Person     getPerson()
+ * @method self       setComment(string $comment)
+ * @method string     getComment()
+ * @method self       setOrderId(string $orderId)
+ * @method string     getOrderId()
+ * @method self       setDeliveryAddress(Address $deliveryAddress)
+ * @method Address    getDeliveryAddress()
+ * @method self       setBillingAddress(Address $billingAddress)
+ * @method Address    getBillingAddress()
+ * @method self       setLineItems(LineItem[] $lineItems)
  * @method LineItem[] getLineItems()
  */
 class CreateOrderRequestModel extends AbstractRequestModel
@@ -60,6 +60,7 @@ class CreateOrderRequestModel extends AbstractRequestModel
     public function addLineItem(LineItem $lineItem)
     {
         $this->lineItems[] = $lineItem;
+
         return $this;
     }
 
@@ -91,8 +92,7 @@ class CreateOrderRequestModel extends AbstractRequestModel
             'orderId' => '?string',
             'deliveryAddress' => '?' . Address::class,
             'billingAddress' => '?' . Address::class,
-            'lineItems' => '?array'
+            'lineItems' => '?array',
         ];
     }
-
 }

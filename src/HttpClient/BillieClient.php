@@ -25,7 +25,6 @@ class BillieClient
     /** @var string */
     private $authToken;
 
-
     public function __construct($authToken = null, $isSandbox = false)
     {
         $this->authToken = $authToken;
@@ -36,9 +35,11 @@ class BillieClient
      * @param $url
      * @param $data
      * @param string $method
-     * @param bool $addAuthorisationHeader
-     * @return array
+     * @param bool   $addAuthorisationHeader
+     *
      * @throws BillieException
+     *
+     * @return array
      */
     public function request($url, $data = [], $method = self::METHOD_GET, $addAuthorisationHeader = true)
     {
@@ -98,7 +99,6 @@ class BillieClient
         // close connection
         curl_close($ch);
 
-
         switch ($curlInfo['http_code']) {
             case 200:
             case 202:
@@ -117,5 +117,4 @@ class BillieClient
                 throw new UnexpectedServerResponse($curlInfo['http_code'], $response);
         }
     }
-
 }

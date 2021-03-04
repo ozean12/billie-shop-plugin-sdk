@@ -1,16 +1,13 @@
 <?php
 
-
 namespace Billie\Sdk\Model\Request;
-
 
 /**
  * @method self setNumberOfDays(int $numberOfDays)
- * @method int getNumberOfDays()
+ * @method int  getNumberOfDays()
  */
 class PauseOrderDunningProcessRequestModel extends OrderRequestModel
 {
-
     /**
      * @var int
      */
@@ -29,5 +26,4 @@ class PauseOrderDunningProcessRequestModel extends OrderRequestModel
             'number_of_days' => $this->getNumberOfDays(),
         ]);
     }
-
 }

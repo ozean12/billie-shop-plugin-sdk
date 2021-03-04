@@ -1,24 +1,22 @@
 <?php
 
-
 namespace Billie\Sdk\Service\Request;
-
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Response\GetTokenResponseModel;
 
 /**
- * @link https://developers.billie.io/#operation/oauth_token_create
+ * @see https://developers.billie.io/#operation/oauth_token_create
  *
  * @method GetTokenResponseModel execute(AbstractRequestModel $requestModel)
  */
 class GetTokenRequest extends AbstractRequest
 {
-
     /**
      * @noinspection MagicMethodsValidityInspection
      * @noinspection PhpMissingParentConstructorInspection
+     *
      * @param bool $isSandbox
      */
     public function __construct($isSandbox)

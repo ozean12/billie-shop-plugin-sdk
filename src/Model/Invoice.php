@@ -2,24 +2,21 @@
 
 namespace Billie\Sdk\Model;
 
-use Billie\Sdk\Model\Response\AbstractResponseModel;
 use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
 
 /**
- * @method string getNumber()
- * @method float getPayoutAmount()
- * @method float getOutstandingAmount()
- * @method float getPendingMerchantPaymentAmount()
- * @method float getPendingCancellationAmount()
- * @method float getFeeAmount()
- * @method float getFeeRate()
+ * @method string   getNumber()
+ * @method float    getPayoutAmount()
+ * @method float    getOutstandingAmount()
+ * @method float    getPendingMerchantPaymentAmount()
+ * @method float    getPendingCancellationAmount()
+ * @method float    getFeeAmount()
+ * @method float    getFeeRate()
  * @method DateTime getDueDate()
- *
  */
 class Invoice extends AbstractModel
 {
-
     /** @var string */
     protected $number;
 
@@ -44,7 +41,6 @@ class Invoice extends AbstractModel
     /** @var DateTime */
     protected $dueDate;
 
-
     public function fromArray($data)
     {
         $this->number = ResponseHelper::getValue($data, 'invoice_number');
@@ -55,6 +51,7 @@ class Invoice extends AbstractModel
         $this->feeAmount = ResponseHelper::getValue($data, 'fee_amount');
         $this->feeRate = ResponseHelper::getValue($data, 'fee_rate');
         $this->dueDate = ResponseHelper::getDate($data, 'due_date');
+
         return $this;
     }
 }

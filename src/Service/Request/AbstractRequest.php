@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Service\Request;
-
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
@@ -11,25 +9,21 @@ use Exception;
 
 abstract class AbstractRequest
 {
-
     /**
      * @var BillieClient
      */
     protected $client;
 
-    /**
-     * @param BillieClient $billieClient
-     */
     public function __construct(BillieClient $billieClient)
     {
         $this->client = $billieClient;
     }
 
     /**
-     * @param AbstractRequestModel $requestModel
-     * @return AbstractResponseModel|boolean
      * @throws \Billie\Sdk\Exception\BillieException
      * @throws \Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException
+     *
+     * @return AbstractResponseModel|bool
      */
     final public function execute(AbstractRequestModel $requestModel)
     {
@@ -51,32 +45,27 @@ abstract class AbstractRequest
 //            );
             throw $exception;
         }
+
         return $this->processSuccess($requestModel, $response);
     }
 
     /**
-     * @param AbstractRequestModel $requestModel
      * @return string
      */
     abstract protected function getPath(AbstractRequestModel $requestModel);
 
     /**
-     * @param AbstractRequestModel $requestModel
      * @param array|null $responseData
-     * @return AbstractResponseModel|boolean
+     *
+     * @return AbstractResponseModel|bool
      */
     abstract protected function processSuccess(AbstractRequestModel $requestModel, $responseData);
 
-    /**
-     * @param AbstractRequestModel $requestModel
-     * @param Exception $exception
-     */
     protected function processFailed(AbstractRequestModel $requestModel, Exception $exception)
     {
     }
 
     /**
-     * @param AbstractRequestModel $requestModel
      * @return string
      */
     protected function getMethod(AbstractRequestModel $requestModel)
@@ -85,12 +74,10 @@ abstract class AbstractRequest
     }
 
     /**
-     * @param AbstractRequestModel $requestModel
      * @return bool
      */
     protected function isAuthorisationRequired(AbstractRequestModel $requestModel)
     {
         return true;
     }
-
 }

@@ -4,7 +4,6 @@ namespace Billie\Sdk\Exception;
 
 class InvalidRequestException extends GatewayException
 {
-
     /**
      * @return string
      */
@@ -12,5 +11,4 @@ class InvalidRequestException extends GatewayException
     {
         return 'INVALID_REQUEST';
     }
-
 }

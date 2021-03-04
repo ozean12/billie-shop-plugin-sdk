@@ -17,7 +17,7 @@ class CreateSessionResponseModel extends AbstractResponseModel
     public function fromArray($data)
     {
         $this->checkoutSessionId = ResponseHelper::getValue($data, 'id');
+
         return $this;
     }
-
 }

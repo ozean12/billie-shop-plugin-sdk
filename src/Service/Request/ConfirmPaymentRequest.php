@@ -1,11 +1,8 @@
 <?php
 
-
 namespace Billie\Sdk\Service\Request;
 
-
 use Billie\Sdk\HttpClient\BillieClient;
-use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\ConfirmPaymentRequestModel;
 use InvalidArgumentException;
@@ -15,7 +12,6 @@ use InvalidArgumentException;
  */
 class ConfirmPaymentRequest extends AbstractRequest
 {
-
     protected function getPath(AbstractRequestModel $requestModel)
     {
         if ($requestModel instanceof ConfirmPaymentRequestModel) {

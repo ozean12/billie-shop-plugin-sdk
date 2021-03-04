@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Service\Request;
-
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
@@ -10,11 +8,10 @@ use Billie\Sdk\Model\Request\PauseOrderDunningProcessRequestModel;
 use InvalidArgumentException;
 
 /**
- * @method boolean execute(PauseOrderDunningProcessRequestModel $requestModel)
+ * @method bool execute(PauseOrderDunningProcessRequestModel $requestModel)
  */
 class PauseOrderDunningProcessRequest extends AbstractRequest
 {
-
     protected function getPath(AbstractRequestModel $requestModel)
     {
         if ($requestModel instanceof PauseOrderDunningProcessRequestModel) {
