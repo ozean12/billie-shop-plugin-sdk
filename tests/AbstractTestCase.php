@@ -22,6 +22,9 @@ abstract class AbstractTestCase extends TestCase
                 self::assertArrayHasKey($expectedKey, $actualArray);
                 if (is_array($expectedValue)) {
                     $this->compareArrays($expectedValue, $actualArray[$expectedKey]);
+                } else if($expectedValue instanceof \DateTime) {
+                    // TODO add PHP 8.0 support (self::assertEqualsWithDelta)
+                    self::assertEquals($expectedValue, $actualArray[$expectedKey], null, 10);
                 } else {
                     self::assertEquals($expectedValue, $actualArray[$expectedKey]);
                 }

@@ -124,7 +124,7 @@ class Company extends AbstractRequestModel
             'subIndustrySector' => '?string',
             'countOfEmployees' => '?string',
             'establishedCustomer' => '?string',
-            'legalForm' => '?integer',
+            'legalForm' => '?string',
         ];
     }
 }

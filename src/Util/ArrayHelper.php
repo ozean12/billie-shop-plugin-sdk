@@ -11,7 +11,7 @@ class ArrayHelper
      *
      * @return array
      */
-    public static function replaceKeyString($array, $find, $replace)
+    public static function replacePrefixFromKeys($array, $find, $replace)
     {
         $newArray = [];
         foreach ($array as $key => $value) {
@@ -23,11 +23,22 @@ class ArrayHelper
 
     /**
      * @param array  $array
-     * @param string $prefix
+     * @param string $prefix prefix to remove
      *
      * @return array
      */
-    public static function prefixArrayKeysWithString($array, $prefix)
+    public static function removePrefixFromKeys($array, $prefix)
+    {
+        return self::replacePrefixFromKeys($array, $prefix, '');
+    }
+
+    /**
+     * @param array  $array
+     * @param string $prefix prefix to add
+     *
+     * @return array
+     */
+    public static function addPrefixToKeys($array, $prefix)
     {
         $newArray = [];
         foreach ($array as $key => $value) {

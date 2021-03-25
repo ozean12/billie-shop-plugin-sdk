@@ -22,12 +22,12 @@ class DebtorCompany extends AbstractModel
     public function fromArray($data)
     {
         $this->name = ResponseHelper::getValue($data, 'name');
-        $this->address = (new Address(ArrayHelper::replaceKeyString($data, 'address_', ''), $this->readOnly));
+        $this->address = (new Address(ArrayHelper::removePrefixFromKeys($data, 'address_'), $this->readOnly));
     }
 
     public function toArray()
     {
-        $addressData = ArrayHelper::prefixArrayKeysWithString($this->getAddress()->toArray(), 'address_');
+        $addressData = ArrayHelper::addPrefixToKeys($this->getAddress()->toArray(), 'address_');
 
         return array_merge([
             'name' => $this->getName(),

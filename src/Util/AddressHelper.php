@@ -1,6 +1,6 @@
 <?php
 
-namespace Billie\Util;
+namespace Billie\Sdk\Util;
 
 class AddressHelper
 {
@@ -10,14 +10,14 @@ class AddressHelper
     {
         $matches = self::regexMatchAddress($addressWithNumber);
 
-        return isset($matches[2]) ? $matches[2] : null;
+        return isset($matches[1]) ? $matches[1] : null;
     }
 
     public static function getHouseNumber($addressWithNumber)
     {
         $matches = self::regexMatchAddress($addressWithNumber);
 
-        return isset($matches[1]) ? $matches[1] : null;
+        return isset($matches[2]) ? $matches[2] : null;
     }
 
     private static function regexMatchAddress($addressWithNumber)

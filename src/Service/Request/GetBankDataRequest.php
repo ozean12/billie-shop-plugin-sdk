@@ -21,11 +21,6 @@ class GetBankDataRequest extends AbstractRequest
      */
     private $_cache;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function execute(AbstractRequestModel $requestModel)
     {
         if ($this->_cache === null) {
