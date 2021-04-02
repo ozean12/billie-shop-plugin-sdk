@@ -11,7 +11,11 @@ class InvalidFieldValueCollectionException extends BillieException
     public function addError($field, InvalidFieldValueException $fieldException)
     {
         $this->errors[$field] = $fieldException;
-        $this->message = implode(', ', array_keys($this->errors));
+
+        $this->message = 'Field validation errors: ';
+        foreach ($this->errors as $_field => $error) {
+            $this->message .= "\n" . $_field . ': ' . $error->getMessage();
+        }
     }
 
     /**
