@@ -40,7 +40,7 @@ class Amount extends AbstractModel
             if ($this->gross === null) {
                 $this->gross = $gross;
             } elseif ($this->gross !== $gross) {
-                throw new InvalidFieldValueException('the set value of `gross` does not match the calculated value of ' . $gross . '. Please do net set the `gross` value, of set the correct value');
+                throw new InvalidFieldValueException('the set value of `gross` does not match the calculated value of ' . $gross . '. Please do net set the `gross` value, or set the correct value');
             }
         } elseif ($this->gross) {
             $this->tax = $this->gross - ($this->gross / ($taxRate / 100 + 1));
@@ -49,7 +49,7 @@ class Amount extends AbstractModel
             if ($this->net === null) {
                 $this->net = $net;
             } elseif ($this->net !== $net) {
-                throw new InvalidFieldValueException('the set value of `net` does not match the calculated value of ' . $net . '. Please do net set the `net` value, of set the correct value');
+                throw new InvalidFieldValueException('the set value of `net` does not match the calculated value of ' . $net . '. Please do net set the `net` value, or set the correct value');
             }
         } else {
             throw new RuntimeException('please set the `net` or `gross` value first.');
