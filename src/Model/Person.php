@@ -3,6 +3,7 @@
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
+use Billie\Sdk\Util\ResponseHelper;
 
 /**
  * @method self   setSalutation(string $salutation)
@@ -71,6 +72,11 @@ class Person extends AbstractModel
 
     public function fromArray($data)
     {
-        // TODO: Implement fromArray() method.
+        $this->mail = ResponseHelper::getValue($data, 'email');
+        $this->salutation = ResponseHelper::getValue($data, 'salutation');
+        $this->firstname = ResponseHelper::getValue($data, 'first_name');
+        $this->lastname = ResponseHelper::getValue($data, 'last_name');
+        $this->phone = ResponseHelper::getValue($data, 'phone');
+        return $this;
     }
 }
