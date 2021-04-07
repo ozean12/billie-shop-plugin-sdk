@@ -3,8 +3,8 @@
 namespace Billie\Sdk\Model\Request;
 
 /**
- * @method string getPaidAmount()
- * @method self   setPaidAmount(float $paidAmount)
+ * @method string|null getPaidAmount()
+ * @method self        setPaidAmount(?float $paidAmount)
  */
 class ConfirmPaymentRequestModel extends OrderRequestModel
 {

@@ -5,16 +5,16 @@ namespace Billie\Sdk\Model\Request;
 use Billie\Sdk\Model\Amount;
 
 /**
- * @method int    getDuration()
- * @method self   setDuration(int $duration)
- * @method string getInvoiceNumber()
- * @method self   setInvoiceNumber(string $invoiceNumber)
- * @method string getInvoiceUrl()
- * @method self   setInvoiceUrl(string $invoiceUrl)
- * @method string getOrderId()
- * @method self   setOrderId(string $orderId)
- * @method Amount getAmount()
- * @method self   setAmount(Amount $amount)
+ * @method int|null    getDuration()
+ * @method self        setDuration(?int $duration)
+ * @method string|null getInvoiceNumber()
+ * @method self        setInvoiceNumber(?string $invoiceNumber)
+ * @method string|null getInvoiceUrl()
+ * @method self        setInvoiceUrl(?string $invoiceUrl)
+ * @method string|null getOrderId()
+ * @method self        setOrderId(?string $orderId)
+ * @method Amount|null getAmount()
+ * @method self        setAmount(?Amount $amount)
  */
 class UpdateOrderRequestModel extends OrderRequestModel
 {

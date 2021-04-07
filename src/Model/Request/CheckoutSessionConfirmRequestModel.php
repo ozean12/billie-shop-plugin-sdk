@@ -15,10 +15,10 @@ use Billie\Sdk\Model\DebtorCompany;
  * @method self          setDuration(int $duration)
  * @method DebtorCompany getCompany()
  * @method self          setCompany(DebtorCompany $company)
- * @method Address       getDeliveryAddress()
- * @method self          setDeliveryAddress(Address $deliveryAddress)
- * @method string        getOrderId()
- * @method self          setOrderId(string $orderId)
+ * @method Address|null  getDeliveryAddress()
+ * @method self          setDeliveryAddress(?Address $deliveryAddress)
+ * @method string|null   getOrderId()
+ * @method self          setOrderId(?string $orderId)
  */
 class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 {

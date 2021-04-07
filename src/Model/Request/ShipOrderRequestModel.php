@@ -3,14 +3,14 @@
 namespace Billie\Sdk\Model\Request;
 
 /**
- * @method string getInvoiceUrl()
- * @method self   setInvoiceUrl(string $invoiceNumber)
- * @method string getShippingDocumentUrl()
- * @method self   setShippingDocumentUrl(string $shippingDocumentUrl)
- * @method string getExternalOrderId()
- * @method self   setExternalOrderId(string $externalOrderId)
- * @method string getInvoiceNumber()
- * @method self   setInvoiceNumber(string $invoiceNumber)
+ * @method string      getInvoiceUrl()
+ * @method self        setInvoiceUrl(string $invoiceNumber)
+ * @method string|null getShippingDocumentUrl()
+ * @method self        setShippingDocumentUrl(?string $shippingDocumentUrl)
+ * @method string|null getExternalOrderId()
+ * @method self        setExternalOrderId(?string $externalOrderId)
+ * @method string|null getInvoiceNumber()
+ * @method self        setInvoiceNumber(string $invoiceNumber)
  */
 class ShipOrderRequestModel extends OrderRequestModel
 {
