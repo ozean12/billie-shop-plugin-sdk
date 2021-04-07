@@ -77,6 +77,7 @@ class Person extends AbstractModel
         $this->firstname = ResponseHelper::getValue($data, 'first_name');
         $this->lastname = ResponseHelper::getValue($data, 'last_name');
         $this->phone = ResponseHelper::getValue($data, 'phone');
+
         return $this;
     }
 }
