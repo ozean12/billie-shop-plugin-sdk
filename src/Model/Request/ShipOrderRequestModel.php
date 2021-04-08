@@ -3,29 +3,29 @@
 namespace Billie\Sdk\Model\Request;
 
 /**
- * @method string      getInvoiceUrl()
- * @method self        setInvoiceUrl(string $invoiceNumber)
+ * @method string|null getInvoiceUrl()
+ * @method self        setInvoiceUrl(?string $invoiceNumber)
  * @method string|null getShippingDocumentUrl()
  * @method self        setShippingDocumentUrl(?string $shippingDocumentUrl)
  * @method string|null getExternalOrderId()
  * @method self        setExternalOrderId(?string $externalOrderId)
- * @method string|null getInvoiceNumber()
+ * @method string      getInvoiceNumber()
  * @method self        setInvoiceNumber(string $invoiceNumber)
  */
 class ShipOrderRequestModel extends OrderRequestModel
 {
     /**
-     * @var string
+     * @var ?string
      */
     protected $invoiceUrl;
 
     /**
-     * @var string
+     * @var ?string
      */
     protected $shippingDocumentUrl;
 
     /**
-     * @var string
+     * @var ?string
      */
     protected $externalOrderId;
 
@@ -40,10 +40,10 @@ class ShipOrderRequestModel extends OrderRequestModel
             //            'invoiceUrl' => 'url',
             //            'shippingDocumentUrl' => '?url',
             // The gateway accepts any string
-            'invoiceUrl' => 'string',
+            'invoiceUrl' => '?string',
             'shippingDocumentUrl' => '?string',
             'externalOrderId' => '?string',
-            'invoiceNumber' => '?string',
+            'invoiceNumber' => 'string',
         ]);
     }
 
