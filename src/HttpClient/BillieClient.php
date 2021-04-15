@@ -44,7 +44,7 @@ class BillieClient
     public function request($url, $data = [], $method = self::METHOD_GET, $addAuthorisationHeader = true)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->apiBaseUrl . $url);
+        curl_setopt($ch, CURLOPT_URL, $this->apiBaseUrl . trim($url, '/'));
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         $requestHeaders = [
             'Content-Type: application/json; charset=UTF-8',
