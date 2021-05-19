@@ -105,16 +105,16 @@ class BillieClient
             case 204:
                 return $response;
             case 400:
-                throw new InvalidRequestException('Invalid request', $curlInfo['http_code'], $response);
+                throw new InvalidRequestException('Invalid request', $curlInfo['http_code'], $response, $data);
             case 401:
-                throw new UserNotAuthorizedException($curlInfo['http_code'], $response);
+                throw new UserNotAuthorizedException($curlInfo['http_code'], $response, $data);
             case 403:
-                throw new NotAllowedException($curlInfo['http_code'], $response);
+                throw new NotAllowedException($curlInfo['http_code'], $response, $data);
             case 404:
                 preg_match('/order\/(.[^\/]*)\/?/', $url, $matches);
-                throw new OrderNotFoundException($matches && count($matches) === 2 ? $matches[1] : null, $curlInfo['http_code'], $response);
+                throw new OrderNotFoundException($matches && count($matches) === 2 ? $matches[1] : null, $curlInfo['http_code'], $response, $data);
             default:
-                throw new UnexpectedServerResponse($curlInfo['http_code'], $response);
+                throw new UnexpectedServerResponse($curlInfo['http_code'], $response, $data);
         }
     }
 }

@@ -9,9 +9,14 @@ class OrderNotFoundException extends GatewayException
      */
     private $orderId;
 
-    public function __construct($orderId, $httpCode, $responseData = [])
+    public function __construct($orderId, $httpCode, $responseData = [], $requestData = [])
     {
-        parent::__construct(sprintf('The order with the reference id: %s does not exist.', $orderId), $httpCode, $responseData);
+        parent::__construct(
+            sprintf('The order with the reference id: %s does not exist.', $orderId),
+            $httpCode,
+            $responseData,
+            $requestData
+        );
         $this->orderId = $orderId;
     }
 

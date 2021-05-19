@@ -9,10 +9,16 @@ class GatewayException extends BillieException
      */
     private $responseData;
 
-    public function __construct($defaultMessage, $httpCode, $responseData = [])
+    /**
+     * @var array
+     */
+    private $requestData;
+
+    public function __construct($defaultMessage, $httpCode, $responseData = [], $requestData = [])
     {
         parent::__construct($defaultMessage, $httpCode);
         $this->responseData = $responseData;
+        $this->requestData = $requestData;
 
         if (isset($responseData['errors']) && count($responseData['errors']) === 1) {
             $messages = [];
@@ -38,5 +44,13 @@ class GatewayException extends BillieException
     public function getResponseData()
     {
         return $this->responseData;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequestData()
+    {
+        return $this->requestData;
     }
 }

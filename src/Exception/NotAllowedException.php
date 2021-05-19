@@ -4,9 +4,9 @@ namespace Billie\Sdk\Exception;
 
 class NotAllowedException extends GatewayException
 {
-    public function __construct($httpCode, $responseData = [])
+    public function __construct($httpCode, $responseData = [], $requestData = [])
     {
-        parent::__construct('This action is not allowed.', $httpCode, $responseData);
+        parent::__construct('This action is not allowed.', $httpCode, $responseData, $requestData);
     }
 
     /**
