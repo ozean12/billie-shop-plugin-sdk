@@ -8,6 +8,9 @@ class InvalidFieldException extends BillieException
 {
     public function __construct($fieldName, $object)
     {
-        parent::__construct(sprintf('The field %s does not exist on object %s.', $fieldName, get_class($object)));
+        parent::__construct(
+            sprintf('The field %s does not exist on object %s.', $fieldName, get_class($object)),
+            'VALIDATION_ERROR'
+        );
     }
 }

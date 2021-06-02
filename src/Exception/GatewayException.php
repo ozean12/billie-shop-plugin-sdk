@@ -30,7 +30,7 @@ class GatewayException extends BillieException
                     $message = $error['source'] . ': ' . $message;
                 }
                 $messages[] = $message;
-                $codes[] = $error['title'];
+                $codes[] = $error['code'];
             }
 
             $this->message = implode(', ', $messages);
