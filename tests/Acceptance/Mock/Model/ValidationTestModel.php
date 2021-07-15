@@ -41,6 +41,9 @@ class ValidationTestModel extends AbstractRequestModel
      */
     public $validateUrlField;
 
+    /**
+     * @inheritDoc
+     */
     public function getFieldValidations()
     {
         return [

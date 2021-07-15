@@ -57,6 +57,9 @@ class CreateOrderRequestModel extends AbstractRequestModel
     /** @var LineItem[] */
     protected $lineItems = [];
 
+    /**
+     * @return $this
+     */
     public function addLineItem(LineItem $lineItem)
     {
         $this->lineItems[] = $lineItem;
@@ -64,10 +67,13 @@ class CreateOrderRequestModel extends AbstractRequestModel
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return [
-            'amount' => $this->amount ? $this->amount->toArray() : null,
+            'amount' => $this->amount->toArray(),
             'duration' => $this->duration,
             'debtor_company' => $this->company->toArray(),
             'debtor_person' => $this->person->toArray(),
@@ -81,6 +87,9 @@ class CreateOrderRequestModel extends AbstractRequestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [

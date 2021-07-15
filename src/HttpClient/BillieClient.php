@@ -20,11 +20,20 @@ class BillieClient
     const SANDBOX_BASE_URL = 'https://paella-sandbox.billie.io/api/v1/';
     const PRODUCTION_BASE_URL = 'https://paella.billie.io/api/v1/';
 
+    /**
+     * @var string
+     */
     private $apiBaseUrl;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $authToken;
 
+    /**
+     * @param string $authToken
+     * @param bool   $isSandbox
+     */
     public function __construct($authToken = null, $isSandbox = false)
     {
         $this->authToken = $authToken;
@@ -32,8 +41,8 @@ class BillieClient
     }
 
     /**
-     * @param $url
-     * @param $data
+     * @param string $url
+     * @param array  $data
      * @param string $method
      * @param bool   $addAuthorisationHeader
      *

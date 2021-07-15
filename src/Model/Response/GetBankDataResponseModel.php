@@ -14,6 +14,9 @@ class GetBankDataResponseModel extends AbstractResponseModel
      */
     private $items;
 
+    /**
+     * @return $this
+     */
     public function setItems(array $items)
     {
         $this->items = $items;
@@ -30,7 +33,7 @@ class GetBankDataResponseModel extends AbstractResponseModel
     }
 
     /**
-     * @param $bic
+     * @param string $bic
      *
      * @return string|null
      */

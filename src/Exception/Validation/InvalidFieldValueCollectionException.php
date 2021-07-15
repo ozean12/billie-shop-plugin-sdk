@@ -6,8 +6,16 @@ use Billie\Sdk\Exception\BillieException;
 
 class InvalidFieldValueCollectionException extends BillieException
 {
+    /**
+     * @var array<InvalidFieldValueException>
+     */
     protected $errors = [];
 
+    /**
+     * @param string $field
+     *
+     * @return void
+     */
     public function addError($field, InvalidFieldValueException $fieldException)
     {
         $this->errors[$field] = $fieldException;

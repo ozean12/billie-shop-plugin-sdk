@@ -8,8 +8,18 @@ use Billie\Sdk\Service\Request\GetTokenRequest;
 
 class BillieClientFactory
 {
+    /**
+     * @var array<BillieClient>
+     */
     private static $instances = [];
 
+    /**
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param bool   $isSandbox
+     *
+     * @return \Billie\Sdk\HttpClient\BillieClient
+     */
     public static function getBillieClientInstance($clientId, $clientSecret, $isSandbox)
     {
         $key = md5(implode('+', [$clientId, $clientSecret, $isSandbox ? '1' : '0']));
@@ -21,6 +31,15 @@ class BillieClientFactory
         return self::$instances[$key];
     }
 
+    /**
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param bool   $isSandbox
+     *
+     * @throws \Billie\Sdk\Exception\BillieException
+     *
+     * @return string
+     */
     public static function getAuthToken($clientId, $clientSecret, $isSandbox)
     {
         $requestService = new GetTokenRequest($isSandbox);

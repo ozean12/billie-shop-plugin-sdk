@@ -68,7 +68,7 @@ class Order extends AbstractResponseModel
     /** @var BankAccount */
     protected $bankAccount;
 
-    //TODO
+    /** @var array */
     protected $externalData;
 
     /** @var Address */

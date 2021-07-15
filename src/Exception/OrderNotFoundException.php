@@ -9,6 +9,12 @@ class OrderNotFoundException extends GatewayException
      */
     private $orderId;
 
+    /**
+     * @param string $orderId
+     * @param int    $httpCode
+     * @param array  $responseData
+     * @param array  $requestData
+     */
     public function __construct($orderId, $httpCode, $responseData = [], $requestData = [])
     {
         parent::__construct(

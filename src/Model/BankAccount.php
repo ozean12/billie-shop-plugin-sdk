@@ -19,6 +19,9 @@ class BankAccount extends AbstractResponseModel
     /** @var string */
     protected $bic;
 
+    /**
+     * {@inheritDoc}
+     */
     public function fromArray($data)
     {
         $this->iban = ResponseHelper::getValue($data, 'iban');
@@ -27,6 +30,9 @@ class BankAccount extends AbstractResponseModel
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return [
@@ -35,6 +41,9 @@ class BankAccount extends AbstractResponseModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [

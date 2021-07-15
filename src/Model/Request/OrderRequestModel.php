@@ -24,6 +24,9 @@ class OrderRequestModel extends AbstractRequestModel
         $this->setId($uuid);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [
@@ -31,6 +34,9 @@ class OrderRequestModel extends AbstractRequestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return [];

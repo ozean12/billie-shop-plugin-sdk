@@ -17,7 +17,7 @@ use Billie\Sdk\Model\Response\GetBankDataResponseModel;
 class GetBankDataRequest extends AbstractRequest
 {
     /**
-     * @var array
+     * @var GetBankDataResponseModel
      */
     private $_cache;
 
@@ -33,11 +33,11 @@ class GetBankDataRequest extends AbstractRequest
 
     protected function getPath(AbstractRequestModel $requestModel)
     {
-        return null;
+        return ''; // api route not implemented yet
     }
 
     /**
-     * @param $fileName string file to parse
+     * @param string $fileName file to parse
      *
      * @return array
      */

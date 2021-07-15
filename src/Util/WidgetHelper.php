@@ -8,7 +8,7 @@ class WidgetHelper
     const PRODUCTION_URL = 'https://static.billie.io/checkout/billie-checkout.js';
 
     /**
-     * @param $sandbox boolean
+     * @param bool $sandbox
      *
      * @return string
      */

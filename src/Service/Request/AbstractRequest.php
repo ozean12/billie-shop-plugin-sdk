@@ -17,7 +17,14 @@ abstract class AbstractRequest
      */
     protected $client;
 
+    /**
+     * @var bool
+     */
     protected $cacheable = false;
+
+    /**
+     * @var int
+     */
     protected $cacheTtl = 3600;
 
     public function __construct(BillieClient $billieClient = null)
@@ -25,7 +32,10 @@ abstract class AbstractRequest
         $this->client = $billieClient;
     }
 
-    final public function setClient(BillieClient $client): void
+    /**
+     * @return void
+     */
+    final public function setClient(BillieClient $client)
     {
         $this->client = $client;
     }
@@ -67,6 +77,9 @@ abstract class AbstractRequest
         return $this->processSuccess($requestModel, $response);
     }
 
+    /**
+     * @return array|null
+     */
     protected function loadFromCache(AbstractRequestModel $requestModel)
     {
         if ($this->cacheable) {
@@ -89,6 +102,11 @@ abstract class AbstractRequest
         return null;
     }
 
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
     protected function writeToCache(AbstractRequestModel $requestModel, $data)
     {
         if ($this->cacheable) {
@@ -103,6 +121,9 @@ abstract class AbstractRequest
         }
     }
 
+    /**
+     * @return string
+     */
     protected function getCacheFileName(AbstractRequestModel $requestModel)
     {
         $cacheFile = get_class($this) . '_' . md5(serialize($requestModel->toArray())) . '.txt';
@@ -125,6 +146,9 @@ abstract class AbstractRequest
         return true;
     }
 
+    /**
+     * @return void
+     */
     protected function processFailed(AbstractRequestModel $requestModel, Exception $exception)
     {
     }

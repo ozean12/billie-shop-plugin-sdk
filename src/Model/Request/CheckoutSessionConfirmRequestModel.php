@@ -38,12 +38,12 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
     protected $duration;
 
     /**
-     * @var DebtorCompany
+     * @var DebtorCompany|null
      */
     protected $company;
 
     /**
-     * @var Address
+     * @var Address|null
      */
     protected $deliveryAddress;
 
@@ -52,6 +52,9 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
      */
     protected $orderId;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [
@@ -64,6 +67,9 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return [

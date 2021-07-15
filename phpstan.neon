@@ -1,5 +1,5 @@
 parameters:
-    level: 0
+    level: 6
     paths:
         - %currentWorkingDirectory%/src
 
@@ -7,3 +7,6 @@ parameters:
     tipsOfTheDay: false
     bootstrapFiles:
         - ./vendor/autoload.php
+
+    ignoreErrors:
+        - '#type specified in iterable type array.#'

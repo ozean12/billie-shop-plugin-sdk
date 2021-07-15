@@ -23,6 +23,11 @@ class GetTokenRequest extends AbstractRequest
         $this->setSandbox($isSandbox);
     }
 
+    /**
+     * @param bool $isSandbox
+     *
+     * @return void
+     */
     public function setSandbox($isSandbox)
     {
         $this->setClient(new BillieClient(null, $isSandbox));

@@ -9,13 +9,18 @@ namespace Billie\Sdk\Exception;
  */
 class OrderNotCancelledException extends BillieException
 {
+    /**
+     * @var string
+     */
     protected $message = 'The order %s has not been cancelled.';
+
+    /**
+     * @var string
+     */
     private $referenceId;
 
     /**
-     * OrderNotCancelledException constructor.
-     *
-     * @param $referenceId
+     * @param string $referenceId
      */
     public function __construct($referenceId)
     {

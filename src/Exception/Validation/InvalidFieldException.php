@@ -6,6 +6,12 @@ use Billie\Sdk\Exception\BillieException;
 
 class InvalidFieldException extends BillieException
 {
+    /**
+     * InvalidFieldException constructor.
+     *
+     * @param string                          $fieldName
+     * @param \Billie\Sdk\Model\AbstractModel $object
+     */
     public function __construct($fieldName, $object)
     {
         parent::__construct(

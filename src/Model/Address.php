@@ -63,6 +63,9 @@ class Address extends AbstractModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [

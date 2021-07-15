@@ -13,6 +13,9 @@ class PauseOrderDunningProcessRequestModel extends OrderRequestModel
      */
     protected $numberOfDays;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return array_merge(parent::getFieldValidations(), [
@@ -20,6 +23,9 @@ class PauseOrderDunningProcessRequestModel extends OrderRequestModel
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return array_merge(parent::toArray(), [

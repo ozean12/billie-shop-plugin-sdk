@@ -10,8 +10,14 @@ use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 
 abstract class AbstractModel
 {
+    /**
+     * @var bool
+     */
     protected $readOnly;
 
+    /**
+     * @var bool
+     */
     private $validateOnSet = true;
 
     /**
@@ -23,11 +29,14 @@ abstract class AbstractModel
     public function __construct($data = [], $readOnly = false)
     {
         $this->readOnly = $readOnly;
-        if ($data && count($data)) {
+        if (count($data)) {
             $this->fromArray($data);
         }
     }
 
+    /**
+     * @param string $name
+     */
     public function __call($name, $arguments)
     {
         $field = lcfirst(substr($name, 3));
@@ -44,7 +53,7 @@ abstract class AbstractModel
     /**
      * @param array $data
      *
-     * @return self
+     * @return $this
      */
     public function fromArray($data)
     {
@@ -65,6 +74,9 @@ abstract class AbstractModel
         }, get_object_vars($this));
     }
 
+    /**
+     * @return array
+     */
     public function getFieldValidations()
     {
         return [];
@@ -72,6 +84,8 @@ abstract class AbstractModel
 
     /**
      * @throws InvalidFieldValueCollectionException
+     *
+     * @return void
      */
     final public function validateFields()
     {
@@ -88,16 +102,27 @@ abstract class AbstractModel
         }
     }
 
+    /**
+     * @return $this
+     */
     public function enableValidateOnSet()
     {
         return $this->setValidateOnSet(true);
     }
 
+    /**
+     * @return $this
+     */
     public function disableValidateOnSet()
     {
         return $this->setValidateOnSet(false);
     }
 
+    /**
+     * @param bool $flag
+     *
+     * @return $this
+     */
     public function setValidateOnSet($flag)
     {
         $this->validateOnSet = $flag;
@@ -109,6 +134,8 @@ abstract class AbstractModel
      * @param string $name
      *
      * @throws InvalidFieldException
+     *
+     * @return mixed|null
      */
     private function get($name)
     {
@@ -123,7 +150,7 @@ abstract class AbstractModel
      *
      * @throws BillieException
      *
-     * @return self
+     * @return $this
      */
     private function set($name, $value)
     {
@@ -147,6 +174,8 @@ abstract class AbstractModel
      * @param mixed  $value the value to validate
      *
      * @throws InvalidFieldValueException
+     *
+     * @return void
      */
     private function validateFieldValue($field, $value)
     {
@@ -155,9 +184,6 @@ abstract class AbstractModel
             return;
         }
         $type = $validations[$field];
-        if ($type === null) {
-            return;
-        }
 
         if (is_callable($type)) {
             $type = $type($this, $value);

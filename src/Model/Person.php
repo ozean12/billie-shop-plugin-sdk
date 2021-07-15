@@ -44,6 +44,9 @@ class Person extends AbstractModel
      */
     protected $mail;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [
@@ -59,6 +62,9 @@ class Person extends AbstractModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return [
@@ -70,6 +76,9 @@ class Person extends AbstractModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function fromArray($data)
     {
         $this->mail = ResponseHelper::getValue($data, 'email');

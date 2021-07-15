@@ -66,6 +66,9 @@ class Amount extends AbstractModel
         return $this->tax ?: ($this->gross - $this->net);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [
@@ -88,5 +91,7 @@ class Amount extends AbstractModel
         $this->net = ResponseHelper::getValue($data, 'net');
         $this->gross = ResponseHelper::getValue($data, 'gross');
         $this->tax = ResponseHelper::getValue($data, 'tax');
+
+        return $this;
     }
 }

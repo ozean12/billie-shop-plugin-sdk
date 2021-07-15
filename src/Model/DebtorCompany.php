@@ -23,6 +23,8 @@ class DebtorCompany extends AbstractModel
     {
         $this->name = ResponseHelper::getValue($data, 'name');
         $this->address = (new Address(ArrayHelper::removePrefixFromKeys($data, 'address_'), $this->readOnly));
+
+        return $this;
     }
 
     public function toArray()

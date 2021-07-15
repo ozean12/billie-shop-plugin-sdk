@@ -2,16 +2,23 @@
 
 namespace Billie\Sdk\Exception;
 
-class BillieException extends \Exception
+use Exception;
+
+class BillieException extends Exception
 {
     /**
      * @var string
      */
     protected $billieCode;
 
+    /**
+     * @param string     $message
+     * @param string     $code
+     * @param \Exception $previous
+     */
     public function __construct($message = '', $code = '000', $previous = null)
     {
-        parent::__construct($message, null, $previous);
+        parent::__construct($message, 0, $previous);
         $this->billieCode = $code;
     }
 

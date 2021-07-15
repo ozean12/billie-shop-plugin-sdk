@@ -31,7 +31,7 @@ class BillieBankaccountProvider
     }
 
     /**
-     * @param $bic
+     * @param string $bic
      *
      * @return array
      */

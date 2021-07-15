@@ -14,9 +14,15 @@ class GatewayException extends BillieException
      */
     private $requestData;
 
+    /**
+     * @param string $defaultMessage
+     * @param int    $httpCode
+     * @param array  $responseData
+     * @param array  $requestData
+     */
     public function __construct($defaultMessage, $httpCode, $responseData = [], $requestData = [])
     {
-        parent::__construct($defaultMessage, $httpCode);
+        parent::__construct($defaultMessage, (string) $httpCode);
         $this->responseData = $responseData;
         $this->requestData = $requestData;
 

@@ -2,7 +2,6 @@
 
 namespace Billie\Sdk\Util;
 
-use Billie\Sdk\Model\AbstractModel;
 use DateTime;
 
 class ResponseHelper
@@ -46,12 +45,14 @@ class ResponseHelper
     }
 
     /**
-     * @param array  $data     the response-data
-     * @param string $key      the key to get
-     * @param string $class    the class to instantiate
-     * @param bool   $readOnly true if the model should be read only
+     * @template T
      *
-     * @return AbstractModel|null
+     * @param array           $data     the response-data
+     * @param string          $key      the key to get
+     * @param class-string<T> $class    the class to instantiate
+     * @param bool            $readOnly true if the model should be read only
+     *
+     * @return T|null
      */
     public static function getObject($data, $key, $class, $readOnly = true)
     {

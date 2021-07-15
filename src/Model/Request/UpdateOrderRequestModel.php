@@ -43,6 +43,9 @@ class UpdateOrderRequestModel extends OrderRequestModel
      */
     protected $amount;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return array_merge(parent::getFieldValidations(), [
@@ -54,6 +57,9 @@ class UpdateOrderRequestModel extends OrderRequestModel
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return array_merge(parent::toArray(), [

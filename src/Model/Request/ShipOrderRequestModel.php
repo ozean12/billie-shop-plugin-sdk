@@ -34,6 +34,9 @@ class ShipOrderRequestModel extends OrderRequestModel
      */
     protected $invoiceNumber;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return array_merge(parent::getFieldValidations(), [
@@ -47,6 +50,9 @@ class ShipOrderRequestModel extends OrderRequestModel
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return array_merge(parent::toArray(), [

@@ -87,6 +87,9 @@ class Company extends AbstractRequestModel
      */
     protected $legalForm;
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return [
@@ -110,6 +113,9 @@ class Company extends AbstractRequestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [

@@ -21,7 +21,7 @@ class GetTokenRequestModel extends AbstractRequestModel
     protected $clientSecret;
 
     /**
-     * @return string[]
+     * {@inheritDoc}
      */
     public function toArray()
     {
@@ -32,6 +32,9 @@ class GetTokenRequestModel extends AbstractRequestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [

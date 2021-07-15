@@ -9,7 +9,7 @@ abstract class AbstractRequestModel extends AbstractModel
 {
     public function __construct()
     {
-        parent::__construct(null, false);
+        parent::__construct([], false);
     }
 
     public function fromArray($data)

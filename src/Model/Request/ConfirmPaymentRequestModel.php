@@ -13,6 +13,9 @@ class ConfirmPaymentRequestModel extends OrderRequestModel
      */
     protected $paidAmount;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return array_merge(parent::getFieldValidations(), [
@@ -20,6 +23,9 @@ class ConfirmPaymentRequestModel extends OrderRequestModel
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return array_merge(parent::toArray(), [

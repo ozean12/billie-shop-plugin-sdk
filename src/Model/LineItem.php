@@ -53,6 +53,9 @@ class LineItem extends AbstractModel
     /** @var Amount */
     protected $amount;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [
@@ -68,6 +71,9 @@ class LineItem extends AbstractModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function fromArray($data)
     {
         $this->externalId = ResponseHelper::getValue($data, 'external_id');
@@ -83,6 +89,9 @@ class LineItem extends AbstractModel
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return [

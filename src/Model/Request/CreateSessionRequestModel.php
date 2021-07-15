@@ -13,6 +13,9 @@ class CreateSessionRequestModel extends AbstractRequestModel
      */
     public $merchantCustomerId;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFieldValidations()
     {
         return [
@@ -20,6 +23,9 @@ class CreateSessionRequestModel extends AbstractRequestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
         return [
