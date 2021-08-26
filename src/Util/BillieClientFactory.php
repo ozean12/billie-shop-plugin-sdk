@@ -18,6 +18,8 @@ class BillieClientFactory
      * @param string $clientSecret
      * @param bool   $isSandbox
      *
+     * @throws \Billie\Sdk\Exception\BillieException
+     *
      * @return \Billie\Sdk\HttpClient\BillieClient
      */
     public static function getBillieClientInstance($clientId, $clientSecret, $isSandbox)
