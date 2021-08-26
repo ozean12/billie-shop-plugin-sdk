@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Model\Amount;
@@ -8,7 +7,6 @@ use Billie\Sdk\Model\LineItem;
 
 class LineItemTest extends AbstractModelTestCase
 {
-
     public function testToArray()
     {
         $data = (new LineItem())
@@ -23,16 +21,14 @@ class LineItemTest extends AbstractModelTestCase
             ->setTitle('title-value')
             ->toArray();
 
-        self::assertEquals('external-product-id', $data['external_id']);
-        self::assertInternalType('array', $data['amount']);
-        self::assertEquals('title-value', $data['title']);
-        self::assertEquals(123, $data['quantity']);
-        self::assertEquals('description text', $data['description']);
-        self::assertEquals('category-name', $data['category']);
-        self::assertEquals('brand-name', $data['brand']);
-        self::assertEquals('gtin-value', $data['gtin']);
-        self::assertEquals('mpn-value', $data['mpn']);
+        static::assertEquals('external-product-id', $data['external_id']);
+        static::assertIsArray($data['amount']);
+        static::assertEquals('title-value', $data['title']);
+        static::assertEquals(123, $data['quantity']);
+        static::assertEquals('description text', $data['description']);
+        static::assertEquals('category-name', $data['category']);
+        static::assertEquals('brand-name', $data['brand']);
+        static::assertEquals('gtin-value', $data['gtin']);
+        static::assertEquals('mpn-value', $data['mpn']);
     }
-
-
 }

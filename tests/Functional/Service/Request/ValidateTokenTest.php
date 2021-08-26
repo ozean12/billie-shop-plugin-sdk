@@ -15,8 +15,8 @@ class ValidateTokenTest extends TestCase
         $validateTokenRequest = new ValidateTokenRequest(BillieClientHelper::getClient());
         $responseModel = $validateTokenRequest->execute(new ValidateTokenRequestModel());
 
-        self::assertInstanceOf(ValidateTokenResponse::class, $responseModel);
-        self::assertEquals(BillieClientHelper::getClientId(), $responseModel->getClientId());
-        self::assertInternalType('array', $responseModel->getScopes());
+        static::assertInstanceOf(ValidateTokenResponse::class, $responseModel);
+        static::assertEquals(BillieClientHelper::getClientId(), $responseModel->getClientId());
+        static::assertIsArray($responseModel->getScopes());
     }
 }

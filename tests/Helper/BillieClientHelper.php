@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Helper;
-
 
 use Billie\Sdk\Util\BillieClientFactory;
 
 class BillieClientHelper
 {
-
     public static function getClient()
     {
         return BillieClientFactory::getBillieClientInstance(self::getClientId(), self::getClientSecret(), true);

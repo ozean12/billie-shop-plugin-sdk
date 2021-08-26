@@ -16,16 +16,15 @@ use PHPUnit\Framework\TestCase;
 
 class CreateOrderTest extends TestCase
 {
-
     public function testCreateOrderWithValidAttributes()
     {
         $model = OrderHelper::createValidOrderModel();
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
         $response = $requestService->execute($model);
 
-        self::assertInstanceOf(Order::class, $response);
-        self::assertNotNull($response->getUuid());
-        self::assertEquals(Order::STATE_CREATED, $response->getState());
+        static::assertInstanceOf(Order::class, $response);
+        static::assertNotNull($response->getUuid());
+        static::assertEquals(Order::STATE_CREATED, $response->getState());
     }
 
     public function testCreateOrderDeclined()
@@ -36,13 +35,13 @@ class CreateOrderTest extends TestCase
 
         try {
             $requestService->execute($model);
-            self::fail('expected Exception of type ' . DebtorNotIdentifiedException::class);
+            static::fail('expected Exception of type ' . DebtorNotIdentifiedException::class);
             // we will not test every single declined-reason. Just the main functionality of throwing the exceptions
         } catch (OrderDeclinedException $exception) {
-            self::assertNotNull($exception->getRequestModel());
-            self::assertNotNull($exception->getDeclinedOrder());
-            self::assertNotNull($exception->getDeclinedOrder()->getDeclineReason());
-            self::assertEquals(Order::STATE_DECLINED, $exception->getDeclinedOrder()->getState());
+            static::assertNotNull($exception->getRequestModel());
+            static::assertNotNull($exception->getDeclinedOrder());
+            static::assertNotNull($exception->getDeclinedOrder()->getDeclineReason());
+            static::assertEquals(Order::STATE_DECLINED, $exception->getDeclinedOrder()->getState());
         }
     }
 
@@ -53,7 +52,7 @@ class CreateOrderTest extends TestCase
 
         $billieClient = $this->createMock(BillieClient::class);
         $billieClient->method('request')->willReturn([
-            'decline_reason' => Order::DECLINED_REASON_DEBTOR_NOT_IDENTIFIED
+            'decline_reason' => Order::DECLINED_REASON_DEBTOR_NOT_IDENTIFIED,
         ]);
         $requestService = new CreateOrderRequest($billieClient);
 
@@ -70,7 +69,7 @@ class CreateOrderTest extends TestCase
 
         $billieClient = $this->createMock(BillieClient::class);
         $billieClient->method('request')->willReturn([
-            'decline_reason' => Order::DECLINED_REASON_INVALID_ADDRESS
+            'decline_reason' => Order::DECLINED_REASON_INVALID_ADDRESS,
         ]);
         $requestService = new CreateOrderRequest($billieClient);
 
@@ -87,7 +86,7 @@ class CreateOrderTest extends TestCase
 
         $billieClient = $this->createMock(BillieClient::class);
         $billieClient->method('request')->willReturn([
-            'decline_reason' => Order::DECLINED_REASON_RISK_POLICY
+            'decline_reason' => Order::DECLINED_REASON_RISK_POLICY,
         ]);
         $requestService = new CreateOrderRequest($billieClient);
 
@@ -104,7 +103,7 @@ class CreateOrderTest extends TestCase
 
         $billieClient = $this->createMock(BillieClient::class);
         $billieClient->method('request')->willReturn([
-            'decline_reason' => Order::DECLINED_REASON_DEBTOR_LIMIT_EXCEEDED
+            'decline_reason' => Order::DECLINED_REASON_DEBTOR_LIMIT_EXCEEDED,
         ]);
         $requestService = new CreateOrderRequest($billieClient);
 

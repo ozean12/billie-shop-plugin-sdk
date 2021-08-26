@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Acceptance\Model\Request;
-
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
@@ -12,7 +10,6 @@ use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CheckoutSessionConfirmRequestModelTest extends AbstractModelTestCase
 {
-
     public function testToArray()
     {
         $data = (new CheckoutSessionConfirmRequestModel())
@@ -24,11 +21,11 @@ class CheckoutSessionConfirmRequestModelTest extends AbstractModelTestCase
             ->setOrderId('test-order-id')
             ->toArray();
 
-        self::assertCount(5, $data); // session-uuid should not be in the data array
-        self::assertInternalType('array', $data['amount']);
-        self::assertInternalType('array', $data['debtor_company']);
-        self::assertInternalType('array', $data['delivery_address']);
-        self::assertEquals(12, $data['duration']);
-        self::assertEquals('test-order-id', $data['order_id']);
+        static::assertCount(5, $data); // session-uuid should not be in the data array
+        static::assertIsArray($data['amount']);
+        static::assertIsArray($data['debtor_company']);
+        static::assertIsArray($data['delivery_address']);
+        static::assertEquals(12, $data['duration']);
+        static::assertEquals('test-order-id', $data['order_id']);
     }
 }

@@ -8,8 +8,8 @@
         </testsuite>
     </testsuites>
 
-<!--    <php>-->
-<!--        <env name="BILLIE_CLIENT_ID" value="<< INSERT YOUR CLIENT ID >>" force="true" />-->
-<!--        <env name="BILLIE_CLIENT_SECRET" value="<< INSERT YOUR CLIENT SECRET >>" force="true" />-->
-<!--    </php>-->
+    <php>
+        <env name="BILLIE_CLIENT_ID" value="cec7cc6b-167d-4829-9ad3-cb6c169b2a7c" force="true" />
+        <env name="BILLIE_CLIENT_SECRET" value="bzgyqliznwo40wswckg4o0sk00sc4wk0oc04s00gksoo8kgkwo8c4s880k4wg4" force="true" />
+    </php>
 </phpunit>

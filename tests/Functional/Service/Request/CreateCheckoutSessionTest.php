@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class CreateCheckoutSessionTest extends TestCase
 {
-
     public function testRetrieveOrderWithValidAttributes()
     {
         $requestService = new CreateSessionRequest(BillieClientHelper::getClient());
@@ -20,8 +19,7 @@ class CreateCheckoutSessionTest extends TestCase
                 ->setMerchantCustomerId('test-merchant-id')
         );
 
-        self::assertInstanceOf(CreateSessionResponseModel::class, $responseModel);
-        self::assertInternalType('string', $responseModel->getCheckoutSessionId());
-
+        static::assertInstanceOf(CreateSessionResponseModel::class, $responseModel);
+        static::assertIsString($responseModel->getCheckoutSessionId());
     }
 }

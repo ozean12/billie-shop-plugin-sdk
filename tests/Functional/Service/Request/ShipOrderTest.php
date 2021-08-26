@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Functional\Service\Request;
-
 
 use Billie\Sdk\Model\Invoice;
 use Billie\Sdk\Model\Order;
@@ -20,7 +18,7 @@ class ShipOrderTest extends AbstractTestCase
      */
     private $createdOrderModel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
             ->execute(OrderHelper::createValidOrderModel());
@@ -39,11 +37,10 @@ class ShipOrderTest extends AbstractTestCase
                 ->setInvoiceNumber($invoiceNumber)
         );
 
-        self::assertEquals(Order::STATE_SHIPPED, $order->getState());
-        self::assertInstanceOf(Invoice::class, $order->getInvoice());
-        self::assertEquals($invoiceNumber, $order->getInvoice()->getNumber());
-        self::assertEquals($this->createdOrderModel->getAmount()->getGross(), $order->getInvoice()->getOutstandingAmount());
-        self::assertNotNull($order->getShippedAt());
+        static::assertEquals(Order::STATE_SHIPPED, $order->getState());
+        static::assertInstanceOf(Invoice::class, $order->getInvoice());
+        static::assertEquals($invoiceNumber, $order->getInvoice()->getNumber());
+        static::assertEquals($this->createdOrderModel->getAmount()->getGross(), $order->getInvoice()->getOutstandingAmount());
+        static::assertNotNull($order->getShippedAt());
     }
-
 }

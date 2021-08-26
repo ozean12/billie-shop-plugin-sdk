@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Helper;
-
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
@@ -13,7 +11,6 @@ use Billie\Sdk\Model\Request\CreateOrderRequestModel;
 
 class OrderHelper
 {
-
     public static function createValidOrderModel()
     {
         $orderId = uniqid('order-id-', true);
@@ -84,5 +81,4 @@ class OrderHelper
                     )
             );
     }
-
 }

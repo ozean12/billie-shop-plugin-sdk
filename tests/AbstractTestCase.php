@@ -6,10 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTestCase extends TestCase
 {
-
     protected function compareArrays($expectedArray, $actualArray)
     {
-        self::assertInternalType('array', $actualArray);
+        static::assertIsArray($actualArray);
         if (is_array($actualArray)) {
             // we will only continue testing, if it is a array.
 
@@ -19,17 +18,15 @@ abstract class AbstractTestCase extends TestCase
                     // seems to be a bug, and has been already reported.
                     continue;
                 }
-                self::assertArrayHasKey($expectedKey, $actualArray);
+                static::assertArrayHasKey($expectedKey, $actualArray);
                 if (is_array($expectedValue)) {
                     $this->compareArrays($expectedValue, $actualArray[$expectedKey]);
-                } else if($expectedValue instanceof \DateTime) {
-                    // TODO add PHP 8.0 support (self::assertEqualsWithDelta)
-                    self::assertEquals($expectedValue, $actualArray[$expectedKey], null, 10);
+                } elseif ($expectedValue instanceof \DateTime) {
+                    static::assertEqualsWithDelta($expectedValue, $actualArray[$expectedKey], 10);
                 } else {
-                    self::assertEquals($expectedValue, $actualArray[$expectedKey]);
+                    static::assertEquals($expectedValue, $actualArray[$expectedKey]);
                 }
             }
         }
     }
-
 }

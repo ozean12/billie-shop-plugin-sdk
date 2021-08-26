@@ -22,10 +22,10 @@ class RequestTokenTest extends TestCase
                 ->setClientSecret(BillieClientHelper::getClientSecret())
         );
 
-        self::assertInstanceOf(GetTokenResponseModel::class, $responseModel);
-        self::assertEquals('Bearer', $responseModel->getTokenType());
-        self::assertInstanceOf(DateTime::class, $responseModel->getExpires());
-        self::assertNotNull($responseModel->getAccessToken());
+        static::assertInstanceOf(GetTokenResponseModel::class, $responseModel);
+        static::assertEquals('Bearer', $responseModel->getTokenType());
+        static::assertInstanceOf(DateTime::class, $responseModel->getExpires());
+        static::assertNotNull($responseModel->getAccessToken());
     }
 
     public function testInvalid()

@@ -1,17 +1,14 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Acceptance\Model\Request;
-
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException;
 use Billie\Sdk\Tests\Acceptance\Mock\Model\ValidationTestModel;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 use stdClass;
 
-class AbstractRequestModelTest extends AbstractModelTestCase
+abstract class AbstractRequestModelTest extends AbstractModelTestCase
 {
-
     public function testValidEntity()
     {
         $this->getValidModel()->validateFields();
@@ -24,9 +21,9 @@ class AbstractRequestModelTest extends AbstractModelTestCase
 
         try {
             $model->validateFields();
-            self::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
+            static::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
         } catch (InvalidFieldValueCollectionException $e) {
-            self::assertArrayHasKey('requiredField', $e->getErrors());
+            static::assertArrayHasKey('requiredField', $e->getErrors());
         }
     }
 
@@ -44,9 +41,9 @@ class AbstractRequestModelTest extends AbstractModelTestCase
         $model->nullableField = new stdClass(); // string is expected
         try {
             $model->validateFields();
-            self::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
+            static::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
         } catch (InvalidFieldValueCollectionException $e) {
-            self::assertArrayHasKey('nullableField', $e->getErrors());
+            static::assertArrayHasKey('nullableField', $e->getErrors());
         }
     }
 
@@ -57,18 +54,18 @@ class AbstractRequestModelTest extends AbstractModelTestCase
 
         try {
             $model->validateFields();
-            self::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
+            static::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
         } catch (InvalidFieldValueCollectionException $e) {
-            self::assertArrayHasKey('validateThruSimpleCallbackField', $e->getErrors());
+            static::assertArrayHasKey('validateThruSimpleCallbackField', $e->getErrors());
         }
 
         $model = new ValidationTestModel();
         $model->validateThrowCallbackReturnValueField = false; // expected type is a string
         try {
             $model->validateFields();
-            self::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
+            static::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
         } catch (InvalidFieldValueCollectionException $e) {
-            self::assertArrayHasKey('validateThrowCallbackReturnValueField', $e->getErrors());
+            static::assertArrayHasKey('validateThrowCallbackReturnValueField', $e->getErrors());
         }
     }
 
@@ -78,18 +75,18 @@ class AbstractRequestModelTest extends AbstractModelTestCase
         $model->expectedClassField = new ValidationTestModel();
         try {
             $model->validateFields();
-            self::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
+            static::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
         } catch (InvalidFieldValueCollectionException $e) {
-            self::assertArrayHasKey('expectedClassField', $e->getErrors());
+            static::assertArrayHasKey('expectedClassField', $e->getErrors());
         }
 
         $model = $this->getValidModel();
         $model->requiredField = new ValidationTestModel();
         try {
             $model->validateFields();
-            self::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
+            static::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
         } catch (InvalidFieldValueCollectionException $e) {
-            self::assertArrayHasKey('requiredField', $e->getErrors());
+            static::assertArrayHasKey('requiredField', $e->getErrors());
         }
     }
 
@@ -99,9 +96,9 @@ class AbstractRequestModelTest extends AbstractModelTestCase
         $model->validateUrlField = 'invalid-value';
         try {
             $model->validateFields();
-            self::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
+            static::fail('exception of type `' . InvalidFieldValueCollectionException::class . '` was expected');
         } catch (InvalidFieldValueCollectionException $e) {
-            self::assertArrayHasKey('validateUrlField', $e->getErrors());
+            static::assertArrayHasKey('validateUrlField', $e->getErrors());
         }
     }
 
@@ -114,7 +111,7 @@ class AbstractRequestModelTest extends AbstractModelTestCase
         $model->validateThruSimpleCallbackField = 'valid-value';
         $model->validateThrowCallbackReturnValueField = new stdClass();
         $model->validateUrlField = 'https://www.domain.com/path/to/a/file.png?param1=value1&param2[]=abc&param2[]=def';
+
         return $model;
     }
-
 }

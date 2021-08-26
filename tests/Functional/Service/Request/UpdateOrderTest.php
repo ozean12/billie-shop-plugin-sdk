@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Functional\Service\Request;
-
 
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\ShipOrderRequestModel;
@@ -16,13 +14,12 @@ use Billie\Sdk\Tests\Helper\OrderHelper;
 
 class UpdateOrderTest extends AbstractTestCase
 {
-
     /**
      * @var Order
      */
     private $createdOrderModel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
             ->execute(OrderHelper::createValidOrderModel());
@@ -50,7 +47,6 @@ class UpdateOrderTest extends AbstractTestCase
                 ->setDuration(40)
         );
 
-        self::assertTrue($result);
+        static::assertTrue($result);
     }
-
 }

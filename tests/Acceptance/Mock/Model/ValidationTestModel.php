@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Acceptance\Mock\Model;
-
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
@@ -10,7 +8,6 @@ use stdClass;
 
 class ValidationTestModel extends AbstractRequestModel
 {
-
     /**
      * @var string
      */
@@ -42,7 +39,7 @@ class ValidationTestModel extends AbstractRequestModel
     public $validateUrlField;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getFieldValidations()
     {
@@ -58,7 +55,7 @@ class ValidationTestModel extends AbstractRequestModel
             'validateThrowCallbackReturnValueField' => static function (self $object, $value) {
                 return stdClass::class;
             },
-            'validateUrlField' => '?url'
+            'validateUrlField' => '?url',
         ];
     }
 }

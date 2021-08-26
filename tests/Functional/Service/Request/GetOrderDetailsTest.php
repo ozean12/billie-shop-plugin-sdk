@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Functional\Service\Request;
-
 
 use Billie\Sdk\Exception\OrderNotFoundException;
 use Billie\Sdk\Model\Order;
@@ -20,7 +18,7 @@ class GetOrderDetailsTest extends AbstractTestCase
      */
     private $createdOrderModel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
             ->execute(OrderHelper::createValidOrderModel());

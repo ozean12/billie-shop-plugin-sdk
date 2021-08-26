@@ -1,10 +1,7 @@
 <?php
 
-
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
-
-use Billie\Sdk\Model\Invoice;
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\ConfirmPaymentRequestModel;
 use Billie\Sdk\Model\Request\ShipOrderRequestModel;
@@ -22,7 +19,7 @@ class ConfirmPaymentTest extends AbstractTestCase
      */
     private $createdOrderModel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
             ->execute(OrderHelper::createValidOrderModel());
@@ -41,7 +38,6 @@ class ConfirmPaymentTest extends AbstractTestCase
             (new ConfirmPaymentRequestModel($this->createdOrderModel->getUuid()))
                 ->setPaidAmount($this->createdOrderModel->getAmount()->getGross())
         );
-        self::assertTrue($response);
+        static::assertTrue($response);
     }
-
 }
