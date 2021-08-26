@@ -11,16 +11,16 @@ class BillieClientHelper
 
     public static function getClient()
     {
-        return BillieClientFactory::getBillieClientInstance($_ENV['BILLIE_CLIENT_ID'], $_ENV['BILLIE_CLIENT_SECRET'], true);
+        return BillieClientFactory::getBillieClientInstance(self::getClientId(), self::getClientSecret(), true);
     }
 
     public static function getClientId()
     {
-        return $_ENV['BILLIE_CLIENT_ID'];
+        return getenv('BILLIE_CLIENT_ID');
     }
 
     public static function getClientSecret()
     {
-        return $_ENV['BILLIE_CLIENT_SECRET'];
+        return getenv('BILLIE_CLIENT_SECRET');
     }
 }

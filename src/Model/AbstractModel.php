@@ -36,6 +36,9 @@ abstract class AbstractModel
 
     /**
      * @param string $name
+     * @param array  $arguments
+     *
+     * @return mixed|null
      */
     public function __call($name, $arguments)
     {
@@ -146,7 +149,8 @@ abstract class AbstractModel
     }
 
     /**
-     * @param string $name
+     * @param string     $name
+     * @param mixed|null $value
      *
      * @throws BillieException
      *

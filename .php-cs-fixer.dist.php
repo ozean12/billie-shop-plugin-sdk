@@ -10,14 +10,13 @@ while (!file_exists($dir . '/composer.json') || !is_dir($dir . '/vendor')) {
 
 require $dir . '/vendor/autoload.php';
 
-use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
-$finder = Finder::create()
+$finder = (new Finder())
     ->in([__DIR__ . '/src'])
     ->name('*.php');
 
-return Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
     ->setRules([
@@ -48,5 +47,6 @@ return Config::create()
         'strict_param' => true,
         'array_indentation' => true,
         'compact_nullable_typehint' => true,
+        'visibility_required' => false,
     ])
     ->setFinder($finder);

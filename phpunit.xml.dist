@@ -8,8 +8,8 @@
         </testsuite>
     </testsuites>
 
-    <php>
-        <env name="BILLIE_CLIENT_ID" value="<< INSERT YOUR CLIENT ID >>" force="true" />
-        <env name="BILLIE_CLIENT_SECRET" value="<< INSERT YOUR CLIENT SECRET >>" force="true" />
-    </php>
+<!--    <php>-->
+<!--        <env name="BILLIE_CLIENT_ID" value="<< INSERT YOUR CLIENT ID >>" force="true" />-->
+<!--        <env name="BILLIE_CLIENT_SECRET" value="<< INSERT YOUR CLIENT SECRET >>" force="true" />-->
+<!--    </php>-->
 </phpunit>
