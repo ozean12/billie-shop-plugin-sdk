@@ -1,15 +1,9 @@
 {
   "name": "billie/api-php-sdk",
-  "license": "proprietary",
+  "license": "MIT",
   "type": "project",
   "description": "SDK PHP for Billie.io API",
   "homepage": "https://www.billie.io/",
-  "authors": [
-    {
-      "name": "Marcel Barten",
-      "email": "github@m-barten.de"
-    }
-  ],
   "require": {
     "php": "^5.6 || ^7.0 || ^8.0",
     "ext-curl": "*",
