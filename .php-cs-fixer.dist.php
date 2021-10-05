@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 $dir = $vendorDir = __DIR__;
 while (!file_exists($dir . '/composer.json') || !is_dir($dir . '/vendor')) {
