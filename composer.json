@@ -1,7 +1,7 @@
 {
   "name": "billie/api-php-sdk",
   "license": "MIT",
-  "type": "project",
+  "type": "library",
   "description": "SDK PHP for Billie.io API",
   "homepage": "https://www.billie.io/",
   "require": {
