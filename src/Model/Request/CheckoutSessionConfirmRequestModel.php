@@ -59,7 +59,6 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
     {
         return [
             'sessionUuid' => 'string',
-            'amount' => Amount::class,
             'duration' => 'integer',
             'company' => DebtorCompany::class,
             'deliveryAddress' => '?' . Address::class,
