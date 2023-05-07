@@ -22,7 +22,7 @@ class CancelOrderRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'order/' . $requestModel->getId() . '/cancel';
+        return 'orders/' . $requestModel->getId() . '/cancel';
     }
 
     protected function getMethod($requestModel): string
