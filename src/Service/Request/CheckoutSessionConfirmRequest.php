@@ -23,7 +23,7 @@ class CheckoutSessionConfirmRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'checkout-session/' . $requestModel->getSessionUuid() . '/confirm';
+        return 'checkout-sessions/' . $requestModel->getSessionUuid() . '/confirm';
     }
 
     protected function processSuccess($requestModel, ?array $responseData = null): Order

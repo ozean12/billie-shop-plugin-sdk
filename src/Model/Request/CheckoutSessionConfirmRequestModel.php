@@ -12,7 +12,8 @@ namespace Billie\Sdk\Model\Request;
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
-use Billie\Sdk\Model\DebtorCompany;
+use Billie\Sdk\Model\Debtor;
+use Billie\Sdk\Util\ValidationConstants;
 
 /**
  * @method string        getSessionUuid()
@@ -21,12 +22,12 @@ use Billie\Sdk\Model\DebtorCompany;
  * @method self          setAmount(Amount $amount)
  * @method int           getDuration()
  * @method self          setDuration(int $duration)
- * @method DebtorCompany getCompany()
- * @method self          setCompany(DebtorCompany $company)
+ * @method Debtor        getDebtor()
+ * @method self          setDebtor(Debtor $debtor)
  * @method Address|null  getDeliveryAddress()
  * @method self          setDeliveryAddress(?Address $deliveryAddress)
- * @method string|null   getOrderId()
- * @method self          setOrderId(?string $orderId)
+ * @method string|null   getExternalCode()
+ * @method self          setExternalCode(?string $externalCode)
  */
 class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 {
@@ -36,21 +37,21 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 
     protected ?int $duration = null;
 
-    protected ?DebtorCompany $company = null;
+    protected ?Debtor $debtor = null;
 
     protected ?Address $deliveryAddress = null;
 
-    protected ?string $orderId = null;
+    protected ?string $externalCode = null;
 
     public function getFieldValidations(): array
     {
         return [
-            'sessionUuid' => 'string',
+            'sessionUuid' => ValidationConstants::TYPE_STRING_REQUIRED,
             'amount' => Amount::class,
-            'duration' => 'integer',
-            'company' => DebtorCompany::class,
+            'duration' => ValidationConstants::TYPE_INT_REQUIRED,
+            'debtor' => Debtor::class,
             'deliveryAddress' => '?' . Address::class,
-            'orderId' => '?string',
+            'externalCode' => ValidationConstants::TYPE_STRING_OPTIONAL,
         ];
     }
 
@@ -59,9 +60,17 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
         return [
             'amount' => $this->getAmount()->toArray(),
             'duration' => $this->getDuration(),
-            'debtor_company' => $this->getCompany()->toArray(),
+            'debtor' => $this->getDebtor()->toArray(),
             'delivery_address' => $this->deliveryAddress instanceof Address ? $this->deliveryAddress->toArray() : null,
-            'order_id' => $this->getOrderId(),
+            'external_code' => $this->getExternalCode(),
+        ];
+    }
+
+    protected function getDeprecations(): array
+    {
+        return [
+            'company' => 'debtor',
+            'orderId' => 'externalCode',
         ];
     }
 }
