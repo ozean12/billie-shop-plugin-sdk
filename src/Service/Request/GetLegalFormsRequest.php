@@ -37,12 +37,8 @@ class GetLegalFormsRequest extends AbstractRequest
         return '/legal-forms';
     }
 
-    /**
-     * @noinspection SenselessMethodDuplicationInspection
-     */
     protected function isAuthorisationRequired($requestModel): bool
     {
-        // NOTE: the documentation says that no authentication is needed. But it is needed. (2020-12-29)
-        return true;
+        return false;
     }
 }
