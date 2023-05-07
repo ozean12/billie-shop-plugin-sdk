@@ -32,6 +32,6 @@ class CreateSessionRequest extends AbstractRequest
 
     protected function getPath($requestModel): string
     {
-        return '/checkout-session';
+        return '/checkout-sessions';
     }
 }
