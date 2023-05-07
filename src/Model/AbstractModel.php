@@ -55,13 +55,18 @@ abstract class AbstractModel
 
     public function toArray(): array
     {
-        return array_map(static function ($value) {
+        $data = array_map(static function ($value) {
             if ($value instanceof self) {
                 $value = $value->toArray();
             }
 
             return $value;
         }, get_object_vars($this));
+
+        unset($data['readOnly']);
+        unset($data['validateOnSet']);
+
+        return $data;
     }
 
     public function getFieldValidations(): array
