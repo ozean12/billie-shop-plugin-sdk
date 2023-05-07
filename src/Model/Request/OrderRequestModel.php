@@ -19,26 +19,17 @@ class OrderRequestModel extends AbstractRequestModel
     /**
      * Uuid or the order-id
      */
-    protected ?string $id = null;
+    protected string $id;
 
-    /**
-     * @param string $uuid
-     */
-    public function __construct($uuid)
+    public function __construct(string $uuid)
     {
         parent::__construct();
         $this->setId($uuid);
     }
 
-    public function getFieldValidations(): array
-    {
-        return [
-            'id' => 'string',
-        ];
-    }
-
     public function toArray(): array
     {
+        // this request does not have any body-parameters
         return [];
     }
 }
