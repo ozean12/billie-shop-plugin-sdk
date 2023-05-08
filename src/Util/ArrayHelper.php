@@ -13,13 +13,9 @@ namespace Billie\Sdk\Util;
 class ArrayHelper
 {
     /**
-     * @param array  $array
-     * @param string $find
-     * @param string $replace
-     *
      * @return array<string, mixed>
      */
-    public static function replacePrefixFromKeys($array, $find, $replace): array
+    public static function replacePrefixFromKeys(array $array, string $find, string $replace): array
     {
         $newArray = [];
         foreach ($array as $key => $value) {
@@ -30,21 +26,19 @@ class ArrayHelper
     }
 
     /**
-     * @param array  $array
      * @param string $prefix prefix to remove
      */
-    public static function removePrefixFromKeys($array, $prefix): array
+    public static function removePrefixFromKeys(array $array, string $prefix): array
     {
         return self::replacePrefixFromKeys($array, $prefix, '');
     }
 
     /**
-     * @param array  $array
      * @param string $prefix prefix to add
      *
      * @return array<string, mixed>
      */
-    public static function addPrefixToKeys($array, $prefix): array
+    public static function addPrefixToKeys(array $array, string $prefix): array
     {
         $newArray = [];
         foreach ($array as $key => $value) {
