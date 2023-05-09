@@ -442,31 +442,6 @@ if ($requestService->execute($requestModel)) {
 }
 ```
 
-#### ShipOrderRequest
-
-| 	                 | 	                                                          |
-|-------------------|------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/order_ship) |
-| Request service   | `\Billie\Sdk\Service\Request\ShipOrderRequest`             |
-| Request model     | `\Billie\Sdk\Model\Request\ShipOrderRequestModel`          |
-| Response model    | `\Billie\Sdk\Model\Order`                                  |
-
-Use this service to mark the order as shipped.
-
-__Usage__
-
-```php
-/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
-
-$requestService = new \Billie\Sdk\Service\Request\ShipOrderRequest($billieClient);
-$requestModel = new \Billie\Sdk\Model\Request\ShipOrderRequestModel('REFERENCE-ID');
-$requestModel
-    ->setInvoiceUrl('https://domain.com/invoice.pdf');
-
-/** @var \Billie\Sdk\Model\Order $responseModel */
-$responseModel = $requestService->execute($requestModel); // you will get the updated order model
-```
-
 #### ConfirmPaymentRequest
 
 | 	                 | 	                                                                     |
@@ -714,7 +689,6 @@ register the request services in your `services.xml` (or yaml)
         <service id="Billie\Sdk\Service\Request\CreateOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\GetLegalFormsRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\GetOrderRequest" autowire="true"/>
-        <service id="Billie\Sdk\Service\Request\ShipOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\UpdateOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\ConfirmPaymentRequest" autowire="true"/>
     </services>
