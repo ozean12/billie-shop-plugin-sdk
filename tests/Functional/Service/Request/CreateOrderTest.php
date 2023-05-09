@@ -20,15 +20,15 @@ use Billie\Sdk\Model\Order;
 use Billie\Sdk\Service\Request\CreateOrderRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
-use PHPUnit\Framework\TestCase;
 
-class CreateOrderTest extends TestCase
+class CreateOrderTest extends AbstractOrderRequest
 {
     public function testCreateOrderWithValidAttributes(): void
     {
-        $model = OrderHelper::createValidOrderModel();
+        $model = OrderHelper::createValidOrderModel($this->getName());
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
         $response = $requestService->execute($model);
+        $this->orderIds[] = $response->getUuid(); // house-keeping
 
         static::assertInstanceOf(Order::class, $response);
         static::assertNotNull($response->getUuid());
@@ -42,7 +42,8 @@ class CreateOrderTest extends TestCase
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
 
         try {
-            $requestService->execute($model);
+            $response = $requestService->execute($model);
+            $this->orderIds[] = $response->getUuid(); // house-keeping
             static::fail('expected Exception of type ' . DebtorNotIdentifiedException::class);
             // we will not test every single declined-reason. Just the main functionality of throwing the exceptions
         } catch (OrderDeclinedException $orderDeclinedException) {
