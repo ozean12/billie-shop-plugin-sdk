@@ -50,11 +50,18 @@ class ResponseHelper
         return (bool) $value;
     }
 
-    public static function getArray(array $data, string $key): ?array
+    public static function getArray(array $data, string $key, string $itemClass = null, bool $itemReadOnly = true): ?array
     {
         $value = self::getValue($data, $key);
 
-        return is_array($value) ? $value : null;
+        $values = is_array($value) ? $value : null;
+        if ($values !== null && $itemClass !== null) {
+            foreach ($values as $i => $e) {
+                $values[$i] = new $itemClass($e, $itemReadOnly);
+            }
+        }
+
+        return $values;
     }
 
     public static function getDateTime(array $data, string $key, string $format = DateTimeInterface::ATOM): ?DateTime
