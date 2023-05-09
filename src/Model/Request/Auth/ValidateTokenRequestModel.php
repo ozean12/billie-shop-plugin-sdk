@@ -8,7 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Request;
+namespace Billie\Sdk\Model\Request\Auth;
+
+use Billie\Sdk\Model\Request\AbstractRequestModel;
 
 class ValidateTokenRequestModel extends AbstractRequestModel
 {

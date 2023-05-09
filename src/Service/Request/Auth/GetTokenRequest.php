@@ -8,12 +8,13 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Service\Request;
+namespace Billie\Sdk\Service\Request\Auth;
 
 use Billie\Sdk\Exception\InvalidResponseException;
 use Billie\Sdk\HttpClient\BillieClient;
-use Billie\Sdk\Model\Request\GetTokenRequestModel;
-use Billie\Sdk\Model\Response\GetTokenResponseModel;
+use Billie\Sdk\Model\Request\Auth\GetTokenRequestModel;
+use Billie\Sdk\Model\Response\Auth\GetTokenResponseModel;
+use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
  * @see https://developers.billie.io/#operation/oauth_token_create

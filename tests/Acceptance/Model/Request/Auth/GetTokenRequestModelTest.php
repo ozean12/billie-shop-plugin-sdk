@@ -8,9 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Acceptance\Model\Request;
+namespace Billie\Sdk\Tests\Acceptance\Model\Request\Auth;
 
-use Billie\Sdk\Model\Request\GetTokenRequestModel;
+use Billie\Sdk\Model\Request\Auth\GetTokenRequestModel;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class GetTokenRequestModelTest extends AbstractModelTestCase

@@ -114,9 +114,9 @@ each request, and the main usage.
 | 	                 | 	                                                           |
 |-------------------|-------------------------------------------------------------|
 | Api documentation | [Link](https://docs.billie.io/reference/oauth_token_create) |
-| Request service   | `\Billie\Sdk\Service\Request\GetTokenRequest`               |
-| Request model     | `\Billie\Sdk\Model\Request\GetTokenRequestModel`            |
-| Response model    | `\Billie\Sdk\Model\Response\GetTokenResponseModel`          |
+| Request service   | `\Billie\Sdk\Service\Request\Auth\GetTokenRequest`               |
+| Request model     | `\Billie\Sdk\Model\Request\Auth\GetTokenRequestModel`            |
+| Response model    | `\Billie\Sdk\Model\Response\Auth\GetTokenResponseModel`          |
 
 With this service you can create an new auth-token for your credentials.
 
@@ -128,14 +128,14 @@ __Usage__
 
 ```php
 $isSandbox = true;
-$tokenRequestService = new \Billie\Sdk\Service\Request\GetTokenRequest($isSandbox);
+$tokenRequestService = new \Billie\Sdk\Service\Request\Auth\GetTokenRequest($isSandbox);
 
-$requestModel = new \Billie\Sdk\Model\Request\GetTokenRequestModel();
+$requestModel = new \Billie\Sdk\Model\Request\Auth\GetTokenRequestModel();
 $requestModel
     ->setClientId('YOUR-CLIENT-ID')
     ->setClientSecret('YOUR-SECRET-ID');
     
-/** @var \Billie\Sdk\Model\Response\GetTokenResponseModel */
+/** @var \Billie\Sdk\Model\Response\Auth\GetTokenResponseModel */
 $responseModel = $tokenRequestService->execute($requestModel);
 $accessToken = $responseModel->getAccessToken(); // use this token for further requests.
 ```
@@ -145,9 +145,9 @@ $accessToken = $responseModel->getAccessToken(); // use this token for further r
 | 	                 | 	                                                             |
 |-------------------|---------------------------------------------------------------|
 | Api documentation | [Link](https://docs.billie.io/reference/oauth_token_validate) |
-| Request service   | `\Billie\Sdk\Service\Request\ValidateTokenRequest`            |
-| Request model     | `\Billie\Sdk\Model\Request\ValidateTokenRequestModel`         |
-| Response model    | `\Billie\Sdk\Model\Response\ValidateTokenResponse`            |
+| Request service   | `\Billie\Sdk\Service\Request\Auth\ValidateTokenRequest`            |
+| Request model     | `\Billie\Sdk\Model\Request\Auth\ValidateTokenRequestModel`         |
+| Response model    | `\Billie\Sdk\Model\Response\Auth\ValidateTokenResponse`            |
 
 Use this service to verify if your token is still valid. If the token is not valid anymore, you have to request an new
 auth-token.
@@ -160,10 +160,10 @@ __Usage__
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$validateTokenRequest = new \Billie\Sdk\Service\Request\ValidateTokenRequest($billieClient);
+$validateTokenRequest = new \Billie\Sdk\Service\Request\Auth\ValidateTokenRequest($billieClient);
 
-/** @var \Billie\Sdk\Model\Response\ValidateTokenResponse $responseModel */
-$responseModel = $validateTokenRequest->execute(new \Billie\Sdk\Model\Request\ValidateTokenRequestModel());
+/** @var \Billie\Sdk\Model\Response\Auth\ValidateTokenResponse $responseModel */
+$responseModel = $validateTokenRequest->execute(new \Billie\Sdk\Model\Request\Auth\ValidateTokenRequestModel());
 ```
 
 Note: the request model does not have any content. Don't be confused.

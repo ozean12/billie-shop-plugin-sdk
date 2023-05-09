@@ -8,11 +8,12 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Service\Request;
+namespace Billie\Sdk\Service\Request\Auth;
 
 use Billie\Sdk\Exception\InvalidResponseException;
-use Billie\Sdk\Model\Request\ValidateTokenRequestModel;
-use Billie\Sdk\Model\Response\ValidateTokenResponse;
+use Billie\Sdk\Model\Request\Auth\ValidateTokenRequestModel;
+use Billie\Sdk\Model\Response\Auth\ValidateTokenResponse;
+use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
  * @see https://developers.billie.io/#operation/oauth_token_validate

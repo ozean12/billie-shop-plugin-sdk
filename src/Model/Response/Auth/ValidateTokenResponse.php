@@ -8,8 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Response;
+namespace Billie\Sdk\Model\Response\Auth;
 
+use Billie\Sdk\Model\Response\AbstractResponseModel;
 use Billie\Sdk\Util\ResponseHelper;
 
 /**

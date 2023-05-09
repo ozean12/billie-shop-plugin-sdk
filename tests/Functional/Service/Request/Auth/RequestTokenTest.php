@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Functional\Service\Request;
+namespace Billie\Sdk\Tests\Functional\Service\Request\Auth;
 
 use Billie\Sdk\Exception\UserNotAuthorizedException;
-use Billie\Sdk\Model\Request\GetTokenRequestModel;
-use Billie\Sdk\Model\Response\GetTokenResponseModel;
-use Billie\Sdk\Service\Request\GetTokenRequest;
+use Billie\Sdk\Model\Request\Auth\GetTokenRequestModel;
+use Billie\Sdk\Model\Response\Auth\GetTokenResponseModel;
+use Billie\Sdk\Service\Request\Auth\GetTokenRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use DateTime;
 use PHPUnit\Framework\TestCase;

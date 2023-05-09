@@ -12,8 +12,8 @@ namespace Billie\Sdk\Util;
 
 use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\HttpClient\BillieClient;
-use Billie\Sdk\Model\Request\GetTokenRequestModel;
-use Billie\Sdk\Service\Request\GetTokenRequest;
+use Billie\Sdk\Model\Request\Auth\GetTokenRequestModel;
+use Billie\Sdk\Service\Request\Auth\GetTokenRequest;
 
 class BillieClientFactory
 {
