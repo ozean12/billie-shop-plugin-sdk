@@ -513,31 +513,6 @@ $requestModel = new \Billie\Sdk\Model\Request\OrderRequestModel('REFERENCE-ID');
 $success = $requestService->execute($requestModel);
 ```
 
-#### PauseOrderDunningProcessRequest
-
-| 	                 | 	                                                                   |
-|-------------------|---------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/order_pause_dunning) |
-| Request service   | `\Billie\Sdk\Service\Request\PauseOrderDunningProcessRequest`       |
-| Request model     | `\Billie\Sdk\Model\Request\PauseOrderDunningProcessRequestModel`    |
-| Response model    | `true`                                                              |
-
-Use this request to pause the dunning process for a few days
-
-__Usage__
-
-```php
-/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
-
-$requestService = new \Billie\Sdk\Service\Request\PauseOrderDunningProcessRequest($billieClient);
-$requestModel = new \Billie\Sdk\Model\Request\PauseOrderDunningProcessRequestModel('REFERENCE-ID');
-$requestModel
-    ->setNumberOfDays(10);
-
-/** @var true $success */
-$success = $requestService->execute($requestModel);
-```
-
 #### GetLegalFormsRequest
 
 | 	                 | 	                                                               |
@@ -741,7 +716,6 @@ register the request services in your `services.xml` (or yaml)
         <service id="Billie\Sdk\Service\Request\GetOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\ShipOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\UpdateOrderRequest" autowire="true"/>
-        <service id="Billie\Sdk\Service\Request\PauseOrderDunningProcessRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\ConfirmPaymentRequest" autowire="true"/>
     </services>
 </container>
