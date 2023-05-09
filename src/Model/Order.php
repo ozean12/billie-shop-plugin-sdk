@@ -152,7 +152,7 @@ class Order extends AbstractResponseModel
         $this->deliveryAddress = ResponseHelper::getObjectNN($data, 'delivery_address', Address::class, true);
         $this->createdAt = ResponseHelper::getDateTimeNN($data, 'created_at', 'Y-m-d H:i:s');
         $this->invoices = ResponseHelper::getArray($data, 'invoices', Invoice::class, true) ?? [];
-        $this->selectedPaymentMethod = ResponseHelper::getStringNN($data, 'selected_payment_method');
+        $this->selectedPaymentMethod = ResponseHelper::getString($data, 'selected_payment_method') ?? ''; // may be null on declined orders
         $this->paymentMethods = ResponseHelper::getArray($data, 'payment_methods', OrderPaymentMethod::class, true) ?? [];
 
         return $this;

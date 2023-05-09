@@ -23,26 +23,20 @@ class OrderDeclinedException extends BillieException
     public function __construct(
         CreateOrderRequestModel $requestModel,
         Order $declinedOrder,
-        $message,
-        $code = 'ORDER_DECLINED'
+        string $message,
+        string $code = 'ORDER_DECLINED'
     ) {
         parent::__construct($message, $code);
         $this->requestModel = $requestModel;
         $this->declinedOrder = $declinedOrder;
     }
 
-    /**
-     * @return CreateOrderRequestModel
-     */
-    public function getRequestModel()
+    public function getRequestModel(): CreateOrderRequestModel
     {
         return $this->requestModel;
     }
 
-    /**
-     * @return Order
-     */
-    public function getDeclinedOrder()
+    public function getDeclinedOrder(): Order
     {
         return $this->declinedOrder;
     }

@@ -14,7 +14,7 @@ use Billie\Sdk\Model\Response\AbstractResponseModel;
 use Billie\Sdk\Util\ResponseHelper;
 
 /**
- * @method string  getName()
+ * @method string getName()
  * @method Address getCompanyAddress()
  * @method Address|null getBillingAddress()
  * @method DebtorExternalData|null getExternalData()
@@ -31,8 +31,8 @@ class Debtor extends AbstractResponseModel
 
     public function fromArray(array $data): self
     {
-        $this->name = ResponseHelper::getStringNN($data, 'name');
-        $this->companyAddress = ResponseHelper::getObjectNN($data, 'company_address', Address::class, true);
+        $this->name = ResponseHelper::getString($data, 'name') ?? ''; // may be null on declined orders
+        $this->companyAddress = ResponseHelper::getObjectNN($data, 'company_address', Address::class, true, true);
         $this->billingAddress = ResponseHelper::getObject($data, 'billing_address', Address::class, true);
         $this->externalData = ResponseHelper::getObject($data, 'external_data', DebtorExternalData::class, true);
 

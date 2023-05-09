@@ -52,7 +52,6 @@ class CreateOrderTest extends AbstractOrderRequest
 
     public function testCreateOrderDeclined(): void
     {
-        // TODO currently this tests fails cause missing response data. VERIFY
         $model = OrderHelper::createValidOrderModel($this->getName());
         $model->getDebtor()->setName('invalid company name');
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
@@ -65,6 +64,7 @@ class CreateOrderTest extends AbstractOrderRequest
         } catch (OrderDeclinedException $orderDeclinedException) {
             static::assertNotNull($orderDeclinedException->getRequestModel());
             static::assertNotNull($orderDeclinedException->getDeclinedOrder());
+            static::assertEmpty($orderDeclinedException->getDeclinedOrder()->getDebtor()->getName());
             static::assertNotNull($orderDeclinedException->getDeclinedOrder()->getDeclineReason());
             static::assertEquals(Order::STATE_DECLINED, $orderDeclinedException->getDeclinedOrder()->getState());
         }

@@ -104,9 +104,9 @@ class ResponseHelper
      * @param class-string<T> $class the class to instantiate
      * @return T|null
      */
-    public static function getObject(array $data, string $key, string $class, bool $readOnly = true)
+    public static function getObject(array $data, string $key, string $class, bool $readOnly = true, bool $createEmptyObjectOnNull = false)
     {
-        return isset($data[$key]) ? new $class($data[$key], $readOnly) : null;
+        return isset($data[$key]) ? new $class($data[$key], $readOnly) : ($createEmptyObjectOnNull ? new $class() : null);
     }
 
     /**
