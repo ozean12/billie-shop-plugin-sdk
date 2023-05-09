@@ -19,18 +19,12 @@ class UpdateOrderRequestModelTest extends AbstractModelTestCase
     public function testToArray(): void
     {
         $data = (new UpdateOrderRequestModel('uuid'))
-            ->setInvoiceNumber('123456789')
-            ->setInvoiceUrl('https://domain.com/path/invoice.pdf')
-            ->setOrderId('order-id')
-            ->setDuration(123)
+            ->setExternalCode('order-id')
             ->setAmount($this->createMock(Amount::class))
             ->toArray();
 
-        static::assertCount(5, $data); // uuid should not be returned
-        static::assertEquals('123456789', $data['invoice_number']);
-        static::assertEquals('https://domain.com/path/invoice.pdf', $data['invoice_url']);
-        static::assertEquals('order-id', $data['order_id']);
-        static::assertEquals(123, $data['duration']);
+        static::assertCount(2, $data); // uuid should not be returned
+        static::assertEquals('order-id', $data['external_code']);
         static::assertIsArray($data['amount']);
     }
 }

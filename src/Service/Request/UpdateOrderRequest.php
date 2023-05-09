@@ -22,11 +22,11 @@ class UpdateOrderRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'order/' . $requestModel->getId();
+        return 'orders/' . $requestModel->getId();
     }
 
     protected function getMethod($requestModel): string
     {
-        return BillieClient::METHOD_PATCH;
+        return BillieClient::METHOD_POST;
     }
 }

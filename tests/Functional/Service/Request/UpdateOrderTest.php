@@ -10,47 +10,56 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
+use Billie\Sdk\HttpClient\BillieClient;
+use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\Order;
-use Billie\Sdk\Model\Request\ShipOrderRequestModel;
+use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Model\Request\UpdateOrderRequestModel;
 use Billie\Sdk\Service\Request\CreateOrderRequest;
-use Billie\Sdk\Service\Request\ShipOrderRequest;
+use Billie\Sdk\Service\Request\Order\GetOrderRequest;
 use Billie\Sdk\Service\Request\UpdateOrderRequest;
-use Billie\Sdk\Tests\AbstractTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
 
-class UpdateOrderTest extends AbstractTestCase
+class UpdateOrderTest extends AbstractOrderRequest
 {
     private Order $createdOrderModel;
 
+    private BillieClient $client;
+
     protected function setUp(): void
     {
-        $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
-            ->execute(OrderHelper::createValidOrderModel());
-
-        $this->createdOrderModel = (new ShipOrderRequest(BillieClientHelper::getClient()))
+        $this->client = BillieClientHelper::getClient();
+        $this->createdOrderModel = (new CreateOrderRequest($this->client))
             ->execute(
-                (new ShipOrderRequestModel($this->createdOrderModel->getUuid()))
-                    ->setInvoiceUrl('https://old.domain.com/invoice.pdf')
-                    ->setInvoiceNumber(uniqid('invoice-number-', true))
+                OrderHelper::createValidOrderModel()
+                    ->setExternalCode(null)
             );
+        $this->orderIds[] = $this->createdOrderModel->getUuid();
     }
 
-    public function testUpdate(): void
+    public function testUpdateOrder(): void
     {
-        $invoiceNumber = uniqid('updated-invoice-number-', true);
-        $requestService = new UpdateOrderRequest(BillieClientHelper::getClient());
+        $externalCode = OrderHelper::getUniqueOrderNumber($this->getName()) . '-updated';
+        $requestService = new UpdateOrderRequest($this->client);
         $result = $requestService->execute(
             (new UpdateOrderRequestModel($this->createdOrderModel->getUuid()))
-                ->setInvoiceUrl('https://www.domain.com/invoice.pdf')
-                ->setInvoiceNumber($invoiceNumber)
-// TODO this two values will be declined by the gateway. issue has been already reported.
-//                ->setOrderId($orderId)
-//                ->setAmount((new Amount())->setGross(20)->setTaxRate(10))
-                ->setDuration(40)
+                ->setExternalCode($externalCode)
+                ->setAmount(
+                    (new Amount())
+                        ->setGross(119)
+                        ->setTaxRate(19)
+                )
         );
 
         static::assertTrue($result);
+
+        $fetchedOrder = (new GetOrderRequest($this->client))
+            ->execute(new OrderRequestModel($this->createdOrderModel->getUuid()));
+
+        static::assertEquals($externalCode, $fetchedOrder->getExternalCode());
+        static::assertEquals(119, $fetchedOrder->getAmount()->getGross());
+        static::assertEquals(100, $fetchedOrder->getAmount()->getNet());
+        static::assertEquals(19, $fetchedOrder->getAmount()->getTax());
     }
 }

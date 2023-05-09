@@ -19,9 +19,9 @@ use Billie\Sdk\Model\Request\CreateOrderRequestModel;
 
 class OrderHelper
 {
-    public static function createValidOrderModel(): CreateOrderRequestModel
+    public static function createValidOrderModel(string $nameOfTest = 'unit-test'): CreateOrderRequestModel
     {
-        $orderId = uniqid('order-id-', true);
+        $orderId = self::getUniqueOrderNumber($nameOfTest);
         $addressModel = (new Address())
             ->setStreet('Charlottenstr.')
             ->setHouseNumber('4')
@@ -87,5 +87,10 @@ class OrderHelper
                             ->setTaxRate(19.00)
                     )
             );
+    }
+
+    public static function getUniqueOrderNumber(string $nameOfTest): string
+    {
+        return $nameOfTest . '-' . microtime(true);
     }
 }

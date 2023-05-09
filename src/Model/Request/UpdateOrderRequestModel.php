@@ -11,50 +11,43 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model\Request;
 
 use Billie\Sdk\Model\Amount;
+use Billie\Sdk\Util\ValidationConstants;
 
 /**
- * @method int|null    getDuration()
- * @method self        setDuration(?int $duration)
- * @method string|null getInvoiceNumber()
- * @method self        setInvoiceNumber(?string $invoiceNumber)
- * @method string|null getInvoiceUrl()
- * @method self        setInvoiceUrl(?string $invoiceUrl)
- * @method string|null getOrderId()
- * @method self        setOrderId(?string $orderId)
+ * @method string|null getExternalCode()
+ * @method self        setExternalCode(?string $externalCode)
  * @method Amount|null getAmount()
  * @method self        setAmount(?Amount $amount)
  */
 class UpdateOrderRequestModel extends OrderRequestModel
 {
-    protected ?string $invoiceUrl = null;
-
-    protected ?string $invoiceNumber = null;
-
-    protected ?string $orderId = null;
-
-    protected ?int $duration = null;
+    protected ?string $externalCode = null;
 
     protected ?Amount $amount = null;
 
     public function getFieldValidations(): array
     {
         return array_merge(parent::getFieldValidations(), [
-            'duration' => '?integer',
             'amount' => '?' . Amount::class,
-            'invoiceNumber' => '?string',
-            'invoiceUrl' => '?url',
-            'orderId' => '?string',
+            'externalCode' => ValidationConstants::TYPE_STRING_OPTIONAL,
         ]);
     }
 
     public function toArray(): array
     {
-        return array_merge(parent::toArray(), [
-            'duration' => $this->getDuration(),
+        return [
             'amount' => $this->getAmount() instanceof Amount ? $this->getAmount()->toArray() : null,
-            'invoice_number' => $this->getInvoiceNumber(),
-            'invoice_url' => $this->getInvoiceUrl(),
-            'order_id' => $this->getOrderId(),
-        ]);
+            'external_code' => $this->getExternalCode(),
+        ];
+    }
+
+    protected function getDeprecations(): array
+    {
+        return [
+            'duration' => null,
+            'invoiceNumber' => null,
+            'invoiceUrl' => null,
+            'orderId' => 'externalCode',
+        ];
     }
 }
