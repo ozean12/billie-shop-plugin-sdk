@@ -566,53 +566,6 @@ $responseModel = $requestService->execute($requestModel);
 
 Note: the request model does not have any content. Don't be confused.
 
-#### GetBankDataRequest
-
-| 	                 | 	                                                     |
-|-------------------|-------------------------------------------------------|
-| Api documentation | ---                                                   |
-| Request service   | `\Billie\Sdk\Service\Request\GetBankDataRequest`      |
-| Request model     | `\Billie\Sdk\Model\Request\GetBankDataRequestModel`   |
-| Response model    | `\Billie\Sdk\Model\Response\GetBankDataResponseModel` |
-
-Use this request to get all bank names.
-
-__Note:__ This is not a real request. This api endpoint is currently in development. Bank data will be provided by a
-static file in the SDK.
-
-But can already use it, but beware of it, that this service, its models and the response will be changed in the future,
-if the api endpoint has been developed.
-
-__Usage__
-
-```php
-$requestService = new \Billie\Sdk\Service\Request\GetBankDataRequest();
-$requestModel = new \Billie\Sdk\Model\Request\GetBankDataRequestModel();
-
-/** @var \Billie\Sdk\Model\Response\GetBankDataResponseModel $responseModel */
-$responseModel = $requestService->execute($requestModel);
-
-$bankName = $responseModel->getBankName('AABSDE31XXX'); // will return the bank name for the bic - in this case: "Aachener Bausparkasse"
-$items = $responseModel->getItems(); // will return an array of all bank items 
-```
-
-The array of the bank items are in this structure:
-
-```
-[
-    0 => [
-      "BIC" => "ABCDEF123XXX",
-      "Name" => "bank name 1"
-    ],
-    1 => [
-      "BIC" => "GHIJKL456XXX",
-      "Name" => "bank name 2"
-    ]
-]
-```
-
-Note: the request model does not have any content. Don't be confused.
-
 ## Integration utilities
 
 ### AddressHelper
