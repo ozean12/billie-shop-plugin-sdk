@@ -44,12 +44,12 @@ class BillieClient
     /**
      * @var string
      */
-    public const SANDBOX_BASE_URL = 'https://paella-sandbox.billie.io/api/v1/';
+    public const SANDBOX_BASE_URL = 'https://paella-sandbox.billie.io/api/v2/';
 
     /**
      * @var string
      */
-    public const PRODUCTION_BASE_URL = 'https://paella.billie.io/api/v1/';
+    public const PRODUCTION_BASE_URL = 'https://paella.billie.io/api/v2/';
 
     private ?string $apiBaseUrl;
 
