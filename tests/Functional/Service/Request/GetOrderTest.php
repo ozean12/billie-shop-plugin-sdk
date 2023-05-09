@@ -38,8 +38,9 @@ class GetOrderTest extends AbstractTestCase
 
     public function testNotFound(): void
     {
+        $referenceId = uniqid('invalid-order-id-', false);
         $requestService = new GetOrderRequest(BillieClientHelper::getClient());
         $this->expectException(OrderNotFoundException::class);
-        $requestService->execute(new OrderRequestModel(uniqid('invalid-order-id-', false)));
+        $requestService->execute(new OrderRequestModel($referenceId));
     }
 }

@@ -13,10 +13,10 @@ namespace Billie\Sdk\Tests\Functional\Service\Request;
 use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Service\Request\CancelOrderRequest;
+use Billie\Sdk\Tests\AbstractTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
-use PHPUnit\Framework\TestCase;
 
-abstract class AbstractOrderRequest extends TestCase
+abstract class AbstractOrderRequest extends AbstractTestCase
 {
     /**
      * @var string[]

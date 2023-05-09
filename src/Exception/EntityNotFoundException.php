@@ -10,10 +10,6 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Exception;
 
-class OrderNotFoundException extends EntityNotFoundException
+abstract class EntityNotFoundException extends NotFoundException
 {
-    public function getBillieCode(): string
-    {
-        return 'ORDER_NOT_FOUND';
-    }
 }

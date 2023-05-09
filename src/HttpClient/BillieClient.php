@@ -13,7 +13,7 @@ namespace Billie\Sdk\HttpClient;
 use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\Exception\InvalidRequestException;
 use Billie\Sdk\Exception\NotAllowedException;
-use Billie\Sdk\Exception\OrderNotFoundException;
+use Billie\Sdk\Exception\NotFoundException;
 use Billie\Sdk\Exception\UnexpectedServerResponse;
 use Billie\Sdk\Exception\UserNotAuthorizedException;
 use RuntimeException;
@@ -139,8 +139,7 @@ class BillieClient
             case 403:
                 throw new NotAllowedException($curlInfo['http_code'], $response, $data);
             case 404:
-                preg_match('/order\/(.[^\/]*)\/?/', $url, $matches);
-                throw new OrderNotFoundException((string) ($matches && count($matches) === 2 ? $matches[1] : null), $curlInfo['http_code'], $response, $data);
+                throw new NotFoundException('', $curlInfo['http_code'], $response, $data);
             default:
                 throw new UnexpectedServerResponse($curlInfo['http_code'], $response, $data);
         }

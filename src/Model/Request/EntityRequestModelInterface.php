@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Exception;
+namespace Billie\Sdk\Model\Request;
 
-class OrderNotFoundException extends EntityNotFoundException
+interface EntityRequestModelInterface
 {
-    public function getBillieCode(): string
-    {
-        return 'ORDER_NOT_FOUND';
-    }
+    /**
+     * @internal
+     */
+    public function getBillieEntityId(): string;
 }

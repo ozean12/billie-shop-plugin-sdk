@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Billie\Sdk\Service\Request\Order;
 
 use Billie\Sdk\Exception\InvalidResponseException;
+use Billie\Sdk\Exception\OrderNotFoundException;
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
@@ -33,5 +34,10 @@ class GetOrderRequest extends AbstractRequest
         }
 
         return new Order($responseData);
+    }
+
+    protected function getNotFoundExceptionClass(): ?string
+    {
+        return OrderNotFoundException::class;
     }
 }

@@ -11,29 +11,19 @@ declare(strict_types=1);
 namespace Billie\Sdk\Exception;
 
 use Exception;
+use Throwable;
 
 class BillieException extends Exception
 {
-    /**
-     * @var string
-     */
-    protected $billieCode;
+    protected string $billieCode;
 
-    /**
-     * @param string     $message
-     * @param string     $code
-     * @param \Exception $previous
-     */
-    public function __construct($message = '', $code = '000', $previous = null)
+    public function __construct(string $message = '', string $code = '000', Throwable $previous = null)
     {
         parent::__construct($message, 0, $previous);
         $this->billieCode = $code;
     }
 
-    /**
-     * @return string
-     */
-    public function getBillieCode()
+    public function getBillieCode(): string
     {
         return $this->billieCode;
     }

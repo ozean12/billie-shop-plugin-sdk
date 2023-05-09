@@ -11,12 +11,16 @@ declare(strict_types=1);
 namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\Exception\BillieException;
+use Billie\Sdk\Exception\EntityNotFoundException;
+use Billie\Sdk\Exception\NotFoundException;
 use Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\AbstractModel;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
+use Billie\Sdk\Model\Request\EntityRequestModelInterface;
 use Exception;
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * @template T_RequestModel of AbstractRequestModel
@@ -65,6 +69,10 @@ abstract class AbstractRequest
             );
             $this->writeToCache($requestModel, $response);
         } catch (Exception $exception) {
+            if ($exception instanceof NotFoundException) {
+                $this->processNotFound($requestModel, $exception);
+            }
+
             $this->processFailed($requestModel, $exception);
             //            throw new BillieException(
             //                'An error occurred during the API request to the Billie gateway.',
@@ -141,6 +149,36 @@ abstract class AbstractRequest
      */
     protected function processFailed($requestModel, Exception $exception): void
     {
+    }
+
+    /**
+     * @param T_RequestModel $requestModel
+     * @throws EntityNotFoundException
+     */
+    protected function processNotFound($requestModel, NotFoundException $exception): void
+    {
+        if ($requestModel instanceof EntityRequestModelInterface) {
+            $exceptionClass = $this->getNotFoundExceptionClass();
+            if ($exceptionClass === null) {
+                return;
+            }
+
+            if (!is_subclass_of($exceptionClass, EntityNotFoundException::class)) {
+                throw new RuntimeException(sprintf('%s needs to be an subclass of %s', $exceptionClass, EntityNotFoundException::class));
+            }
+
+            throw new $exceptionClass(
+                $requestModel->getBillieEntityId(),
+                $exception->getCode(),
+                $exception->getResponseData(),
+                $exception->getRequestData()
+            );
+        }
+    }
+
+    protected function getNotFoundExceptionClass(): ?string
+    {
+        return null;
     }
 
     /**
