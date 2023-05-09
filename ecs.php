@@ -11,11 +11,11 @@ use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ECSConfig $ecsConfig): void {
-    /*$ecsConfig->ruleWithConfiguration(HeaderCommentFixer::class, ['header' => 'Copyright (c) Billie GmbH
+    $ecsConfig->ruleWithConfiguration(HeaderCommentFixer::class, ['header' => 'Copyright (c) Billie GmbH
 
 For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.', 'separate' => 'bottom', 'location' => 'after_declare_strict', 'comment_type' => 'comment']);
-*/
+file that was distributed with this source code.', 'separate' => 'bottom', 'location' => 'after_open', 'comment_type' => 'comment']);
+
     $ecsConfig->sets([
         SetList::CLEAN_CODE,
         SetList::COMMON,
