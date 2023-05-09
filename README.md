@@ -111,12 +111,12 @@ each request, and the main usage.
 
 #### GetTokenRequest
 
-| 	                 | 	                                                                  |
-|-------------------|--------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/oauth_token_create) |
-| Request service   | `\Billie\Sdk\Service\Request\GetTokenRequest`                      |
-| Request model     | `\Billie\Sdk\Model\Request\GetTokenRequestModel`                   |
-| Response model    | `\Billie\Sdk\Model\Response\GetTokenResponseModel`                 |
+| 	                 | 	                                                           |
+|-------------------|-------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/oauth_token_create) |
+| Request service   | `\Billie\Sdk\Service\Request\GetTokenRequest`               |
+| Request model     | `\Billie\Sdk\Model\Request\GetTokenRequestModel`            |
+| Response model    | `\Billie\Sdk\Model\Response\GetTokenResponseModel`          |
 
 With this service you can create an new auth-token for your credentials.
 
@@ -142,12 +142,12 @@ $accessToken = $responseModel->getAccessToken(); // use this token for further r
 
 #### ValidateTokenRequest
 
-| 	                 | 	                                                                    |
-|-------------------|----------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/oauth_token_validate) |
-| Request service   | `\Billie\Sdk\Service\Request\ValidateTokenRequest`                   |
-| Request model     | `\Billie\Sdk\Model\Request\ValidateTokenRequestModel`                |
-| Response model    | `\Billie\Sdk\Model\Response\ValidateTokenResponse`                   |
+| 	                 | 	                                                             |
+|-------------------|---------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/oauth_token_validate) |
+| Request service   | `\Billie\Sdk\Service\Request\ValidateTokenRequest`            |
+| Request model     | `\Billie\Sdk\Model\Request\ValidateTokenRequestModel`         |
+| Response model    | `\Billie\Sdk\Model\Response\ValidateTokenResponse`            |
 
 Use this service to verify if your token is still valid. If the token is not valid anymore, you have to request an new
 auth-token.
