@@ -326,6 +326,48 @@ $requestModel = new \Billie\Sdk\Model\Request\OrderRequestModel('REFERENCE-ID');
 $responseModel = $requestService->execute($requestModel);
 ```
 
+#### CreateInvoiceRequest
+
+| 	                 | 	                                                       |
+|-------------------|---------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/invoice_create) |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\CreateInvoiceRequest`      |
+| Request model     | `\Billie\Sdk\Model\Request\Invoice\CreateInvoiceRequestModel`   |
+| Response model    | `\Billie\Sdk\Model\Response\CreateInvoiceResponseModel` |
+
+Use this service to retriev all order information
+
+__Usage__
+
+```php
+/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
+
+$requestService = new \Billie\Sdk\Service\Request\Invoice\CreateInvoiceRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\Invoice\CreateInvoiceRequestModel();
+$requestModel
+    ->setOrders(['REFERENCE-ID']) // use this method to set Billie reference-id or merchants order-number
+    ->setOrderUuId('REFERENCE-UD') // use this method to set Billie reference-id
+    ->setOrderExternalCode('MERCHANT_ORDER_ID') // use this method to set merchants order-number
+    // to keep your code clean, only use one of the above methods
+    ->setInvoiceNumber('merchant-invoice-number')
+    ->setInvoiceUrl('https://public-url.com/to/to/merchant-invoice.pdf')
+    ->setAmount(
+        (new Amount())
+            ->setGross(100)
+            ->setTaxRate(19.00)
+    )
+    // optional parameters:
+    ->setLineItems([
+        new \Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem('merchant-product-id-2', 1),
+        new \Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem('merchant-product-id-1', 2)  
+    ])
+    ->setShippingInformation(new \Billie\Sdk\Model\ShippingInformation())
+
+/** @var \Billie\Sdk\Model\Response\CreateInvoiceResponseModel $responseModel */
+$responseModel = $requestService->execute($requestModel);
+$uuid = $responseModel->getUuid(); // uuid of the invoice
+```
+
 #### ShipOrderRequest
 
 | 	                 | 	                                                          |
