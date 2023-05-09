@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
-use Billie\Sdk\Model\Request\CreateSessionRequestModel;
+use Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CreateSessionRequestModelTest extends AbstractModelTestCase

@@ -8,12 +8,13 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Service\Request;
+namespace Billie\Sdk\Service\Request\CheckoutSession;
 
 use Billie\Sdk\Exception\InvalidResponseException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Order;
-use Billie\Sdk\Model\Request\CheckoutSessionConfirmRequestModel;
+use Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel;
+use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
  * @see https://developers.billie.io/#operation/checkout_session_confirm

@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
-use Billie\Sdk\Model\Request\CreateSessionRequestModel;
+use Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel;
 use Billie\Sdk\Model\Response\CreateSessionResponseModel;
-use Billie\Sdk\Service\Request\CreateSessionRequest;
+use Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use PHPUnit\Framework\TestCase;
 

@@ -8,7 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Request;
+namespace Billie\Sdk\Model\Request\CheckoutSession;
+
+use Billie\Sdk\Model\Request\AbstractRequestModel;
 
 /**
  * @method self   setMerchantCustomerId(string $merchantCustomerId)

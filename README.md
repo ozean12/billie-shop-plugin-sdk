@@ -173,8 +173,8 @@ Note: the request model does not have any content. Don't be confused.
 | 	                 | 	                                                                       |
 |-------------------|-------------------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/checkout_session_create) |
-| Request service   | `\Billie\Sdk\Service\Request\CreateSessionRequest`                      |
-| Request model     | `\Billie\Sdk\Model\Request\CreateSessionRequestModel`                   |
+| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest`                      |
+| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel`                   |
 | Response model    | `\Billie\Sdk\Model\Response\CreateSessionResponseModel`                 |
 
 Use this service to create a new checkout session on the gateway for the customer.
@@ -184,9 +184,9 @@ __Usage__
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$requestService = new \Billie\Sdk\Service\Request\CreateSessionRequest($billieClient);
+$requestService = new \Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest($billieClient);
 
-$requestModel = new \Billie\Sdk\Model\Request\CreateSessionRequestModel();
+$requestModel = new \Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel();
 $requestModel->setMerchantCustomerId('THE-NUMBER-OR-ID-OF-THE-CUSTOMER');
 
 /** @var \Billie\Sdk\Model\Response\CreateSessionResponseModel $responseModel */
@@ -200,8 +200,8 @@ $checkoutSessionId = $responseModel->getCheckoutSessionId(); // use this session
 | 	                 | 	                                                                        |
 |-------------------|--------------------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/checkout_session_confirm) |
-| Request service   | `\Billie\Sdk\Service\Request\CheckoutSessionConfirmRequest`              |
-| Request model     | `\Billie\Sdk\Model\Request\CheckoutSessionConfirmRequestModel`           |
+| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CheckoutSessionConfirmRequest`              |
+| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel`           |
 | Response model    | `\Billie\Sdk\Model\Order`                                                |
 
 If the user has confirmed the payment (throuh the widget), you can confirm the order.
@@ -216,8 +216,8 @@ __Usage__
 
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$requestService = new \Billie\Sdk\Service\Request\CheckoutSessionConfirmRequest($billieClient);
-$requestModel = new \Billie\Sdk\Model\Request\CheckoutSessionConfirmRequestModel();
+$requestService = new \Billie\Sdk\Service\Request\CheckoutSession\CheckoutSessionConfirmRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel();
 $requestModel
   ->setSessionUuid('CHECKOUT-SESSION-ID')
   ->setCompany(new \Billie\Sdk\Model\Debtor())
@@ -683,9 +683,9 @@ register the request services in your `services.xml` (or yaml)
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="Billie\Sdk\Service\Request\CreateSessionRequest" autowire="true"/>
+        <service id="Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\Order\CancelOrderRequest" autowire="true"/>
-        <service id="Billie\Sdk\Service\Request\CheckoutSessionConfirmRequest" autowire="true"/>
+        <service id="Billie\Sdk\Service\Request\CheckoutSession\CheckoutSessionConfirmRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\Order\CreateOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\GetLegalFormsRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\GetOrderRequest" autowire="true"/>

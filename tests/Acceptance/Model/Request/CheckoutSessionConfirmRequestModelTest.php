@@ -13,7 +13,7 @@ namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\Debtor;
-use Billie\Sdk\Model\Request\CheckoutSessionConfirmRequestModel;
+use Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CheckoutSessionConfirmRequestModelTest extends AbstractModelTestCase
