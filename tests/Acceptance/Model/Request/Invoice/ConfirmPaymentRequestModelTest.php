@@ -8,9 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Acceptance\Model\Request;
+namespace Billie\Sdk\Tests\Acceptance\Model\Request\Invoice;
 
-use Billie\Sdk\Model\Request\ConfirmPaymentRequestModel;
+use Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class ConfirmPaymentRequestModelTest extends AbstractModelTestCase

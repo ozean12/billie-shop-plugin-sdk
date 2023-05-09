@@ -448,8 +448,8 @@ $responseModel = $requestService->execute($requestModel); // you will get the up
 | 	                 | 	                                                                     |
 |-------------------|-----------------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/order_payment_confirm) |
-| Request service   | `\Billie\Sdk\Service\Request\ConfirmPaymentRequest`                   |
-| Request model     | `\Billie\Sdk\Model\Request\ConfirmPaymentRequestModel`                |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest`                   |
+| Request model     | `\Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel`                |
 | Response model    | `true`                                                                |
 
 Use this request to notify the gateway about a received payment.
@@ -459,8 +459,8 @@ __Usage__
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$requestService = new \Billie\Sdk\Service\Request\ConfirmPaymentRequest($billieClient);
-$requestModel = new \Billie\Sdk\Model\Request\ConfirmPaymentRequestModel('REFERENCE-ID');
+$requestService = new \Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel('INVOICE-UUID');
 $requestModel
     ->setPaidAmount(250);
 

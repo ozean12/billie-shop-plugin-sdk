@@ -8,22 +8,17 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Request;
+namespace Billie\Sdk\Model\Request\Invoice;
+
+use Billie\Sdk\Model\Request\InvoiceRequestModel;
 
 /**
  * @method string|null getPaidAmount()
- * @method self        setPaidAmount(?float $paidAmount)
+ * @method self        setPaidAmount(float $paidAmount)
  */
-class ConfirmPaymentRequestModel extends OrderRequestModel
+class ConfirmPaymentRequestModel extends InvoiceRequestModel
 {
-    protected ?float $paidAmount = null;
-
-    protected function getFieldValidations(): array
-    {
-        return array_merge(parent::getFieldValidations(), [
-            'paidAmount' => '?float',
-        ]);
-    }
+    protected float $paidAmount;
 
     protected function _toArray(): array
     {

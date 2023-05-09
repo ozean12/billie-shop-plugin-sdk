@@ -8,25 +8,31 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Service\Request;
+namespace Billie\Sdk\Service\Request\Invoice;
 
+use Billie\Sdk\Exception\InvoiceNotFoundException;
 use Billie\Sdk\HttpClient\BillieClient;
-use Billie\Sdk\Model\Request\ConfirmPaymentRequestModel;
+use Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel;
+use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://developers.billie.io/#operation/order_payment_confirm
- *
+ * @see https://docs.billie.io/reference/invoice_payment_confirm
  * @extends AbstractRequest<ConfirmPaymentRequestModel, bool>
  */
 class ConfirmPaymentRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'order/' . $requestModel->getUuid() . '/confirm-payment';
+        return 'invoices/' . $requestModel->getUuid() . '/confirm-payment';
     }
 
     protected function getMethod($requestModel): string
     {
         return BillieClient::METHOD_POST;
+    }
+
+    protected function getNotFoundExceptionClass(): ?string
+    {
+        return InvoiceNotFoundException::class;
     }
 }
