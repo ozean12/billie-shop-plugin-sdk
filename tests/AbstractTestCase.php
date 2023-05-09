@@ -19,12 +19,6 @@ abstract class AbstractTestCase extends TestCase
     {
         static::assertIsArray($actualArray);
         foreach ($expectedArray as $expectedKey => $expectedValue) {
-            if ($expectedKey === 'debtorUuid') {
-                // TODO: currently the api will not return the debtor_uuid on order-create
-                // seems to be a bug, and has been already reported.
-                continue;
-            }
-
             static::assertArrayHasKey($expectedKey, $actualArray);
             if (is_array($expectedValue)) {
                 $this->compareArrays($expectedValue, $actualArray[$expectedKey]);

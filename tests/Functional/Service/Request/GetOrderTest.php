@@ -14,12 +14,12 @@ use Billie\Sdk\Exception\OrderNotFoundException;
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Service\Request\CreateOrderRequest;
-use Billie\Sdk\Service\Request\GetOrderDetailsRequest;
+use Billie\Sdk\Service\Request\Order\GetOrderRequest;
 use Billie\Sdk\Tests\AbstractTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
 
-class GetOrderDetailsTest extends AbstractTestCase
+class GetOrderTest extends AbstractTestCase
 {
     private Order $createdOrderModel;
 
@@ -31,14 +31,14 @@ class GetOrderDetailsTest extends AbstractTestCase
 
     public function testGetOrderDetails(): void
     {
-        $requestService = new GetOrderDetailsRequest(BillieClientHelper::getClient());
+        $requestService = new GetOrderRequest(BillieClientHelper::getClient());
         $order = $requestService->execute(new OrderRequestModel($this->createdOrderModel->getUuid()));
         $this->compareArrays($this->createdOrderModel->toArray(), $order->toArray());
     }
 
     public function testNotFound(): void
     {
-        $requestService = new GetOrderDetailsRequest(BillieClientHelper::getClient());
+        $requestService = new GetOrderRequest(BillieClientHelper::getClient());
         $this->expectException(OrderNotFoundException::class);
         $requestService->execute(new OrderRequestModel(uniqid('invalid-order-id-', false)));
     }

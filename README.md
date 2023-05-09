@@ -303,23 +303,23 @@ $requestModel
 $success = $requestService->execute($requestModel); // true if successful
 ```
 
-#### GetOrderDetailsRequest
+#### GetOrderRequest
 
-| 	                 | 	                                                                 |
-|-------------------|-------------------------------------------------------------------|
+| 	                 | 	                                                          |
+|-------------------|------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/order_get_details) |
-| Request service   | `\Billie\Sdk\Service\Request\GetOrderDetailsRequest`              |
-| Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`                     |
-| Response model    | `\Billie\Sdk\Model\Order`                                         |
+| Request service   | `\Billie\Sdk\Service\Request\GetOrderRequest`              |
+| Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`              |
+| Response model    | `\Billie\Sdk\Model\Order`                                  |
 
-Use this service to retriev all order information
+Use this service to retrieve all order information
 
 __Usage__
 
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$requestService = new \Billie\Sdk\Service\Request\GetOrderDetailsRequest($billieClient);
+$requestService = new \Billie\Sdk\Service\Request\GetOrderRequest($billieClient);
 $requestModel = new \Billie\Sdk\Model\Request\OrderRequestModel('REFERENCE-ID');
 
 /** @var \Billie\Sdk\Model\Order $responseModel */
@@ -669,7 +669,7 @@ register the request services in your `services.xml` (or yaml)
         <service id="Billie\Sdk\Service\Request\CheckoutSessionConfirmRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\CreateOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\GetLegalFormsRequest" autowire="true"/>
-        <service id="Billie\Sdk\Service\Request\GetOrderDetailsRequest" autowire="true"/>
+        <service id="Billie\Sdk\Service\Request\GetOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\ShipOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\UpdateOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\PauseOrderDunningProcessRequest" autowire="true"/>

@@ -8,21 +8,22 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Service\Request;
+namespace Billie\Sdk\Service\Request\Order;
 
+use Billie\Sdk\Service\Request\AbstractRequest;
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\OrderRequestModel;
 use RuntimeException;
 
 /**
- * @see https://developers.billie.io/#operation/order_get_details
+ * @see https://docs.billie.io/reference/order_get_details
  * @extends AbstractRequest<OrderRequestModel, Order>
  */
-class GetOrderDetailsRequest extends AbstractRequest
+class GetOrderRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'order/' . $requestModel->getId();
+        return 'orders/' . $requestModel->getId();
     }
 
     protected function processSuccess($requestModel, ?array $responseData = null): Order
