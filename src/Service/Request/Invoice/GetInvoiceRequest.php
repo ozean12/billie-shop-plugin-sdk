@@ -11,33 +11,39 @@ declare(strict_types=1);
 namespace Billie\Sdk\Service\Request\Invoice;
 
 use Billie\Sdk\Exception\InvalidResponseException;
+use Billie\Sdk\Exception\InvoiceNotFoundException;
 use Billie\Sdk\HttpClient\BillieClient;
-use Billie\Sdk\Model\Request\Invoice\CreateInvoiceRequestModel;
-use Billie\Sdk\Model\Response\CreateInvoiceResponseModel;
+use Billie\Sdk\Model\Invoice;
+use Billie\Sdk\Model\Request\InvoiceRequestModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://docs.billie.io/reference/invoice_create
- * @extends AbstractRequest<CreateInvoiceRequestModel, CreateInvoiceResponseModel>
+ * @see https://docs.billie.io/reference/get_invoice
+ * @extends AbstractRequest<InvoiceRequestModel, Invoice>
  */
-class CreateInvoiceRequest extends AbstractRequest
+class GetInvoiceRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'invoices';
+        return 'invoices/' . $requestModel->getUuid();
     }
 
-    protected function processSuccess($requestModel, ?array $responseData = null): CreateInvoiceResponseModel
+    protected function processSuccess($requestModel, ?array $responseData = null): Invoice
     {
         if ($responseData === null) {
             throw new InvalidResponseException('got no response from gateway. A response was expected.');
         }
 
-        return new CreateInvoiceResponseModel($responseData);
+        return new Invoice($responseData);
+    }
+
+    protected function getNotFoundExceptionClass(): ?string
+    {
+        return InvoiceNotFoundException::class;
     }
 
     protected function getMethod($requestModel): string
     {
-        return BillieClient::METHOD_POST;
+        return BillieClient::METHOD_GET;
     }
 }

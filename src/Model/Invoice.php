@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Model;
 
+use Billie\Sdk\Model\Response\AbstractResponseModel;
 use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
 
@@ -27,7 +28,7 @@ use DateTime;
  * @method DateTime getDueDate()
  * @method DateTime getCreatedAt()
  */
-class Invoice extends AbstractModel
+class Invoice extends AbstractResponseModel
 {
     protected ?string $uuid = null;
 

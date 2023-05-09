@@ -368,6 +368,29 @@ $responseModel = $requestService->execute($requestModel);
 $uuid = $responseModel->getUuid(); // uuid of the invoice
 ```
 
+#### GetInvoiceRequest
+
+| 	                 | 	                                                       |
+|-------------------|---------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/invoice_create) |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest` |
+| Request model     | `\Billie\Sdk\Model\Request\InvoiceRequestModel`         |
+| Response model    | `\Billie\Sdk\Model\Response\CreateInvoiceResponseModel` |
+
+Use this service to fetch an invoice.
+
+__Usage__
+
+```php
+/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
+
+$requestService = new \Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\InvoiceRequestModel('INVOICE-UUID');
+
+/** @var \Billie\Sdk\Model\Invoice $responseModel */
+$responseModel = $requestService->execute($requestModel);
+```
+
 #### ShipOrderRequest
 
 | 	                 | 	                                                          |
