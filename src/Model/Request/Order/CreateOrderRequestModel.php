@@ -8,13 +8,14 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Request;
+namespace Billie\Sdk\Model\Request\Order;
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\LineItem;
 use Billie\Sdk\Model\Person;
-use Billie\Sdk\Model\Request\CreateOrder\Debtor;
+use Billie\Sdk\Model\Request\AbstractRequestModel;
+use Billie\Sdk\Model\Request\Order\CreateOrder\Debtor;
 
 /**
  * @method self            setAmount(Amount $amount)

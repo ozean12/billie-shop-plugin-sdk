@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Service\Request;
+namespace Billie\Sdk\Service\Request\Order;
 
 use Billie\Sdk\Exception\InvalidResponseException;
 use Billie\Sdk\Exception\OrderDecline\DebtorLimitExceededException;
@@ -18,7 +18,8 @@ use Billie\Sdk\Exception\OrderDecline\OrderDeclinedException;
 use Billie\Sdk\Exception\OrderDecline\RiskPolicyDeclinedException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Order;
-use Billie\Sdk\Model\Request\CreateOrderRequestModel;
+use Billie\Sdk\Model\Request\Order\CreateOrderRequestModel;
+use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
  * @see https://developers.billie.io/#operation/order_create

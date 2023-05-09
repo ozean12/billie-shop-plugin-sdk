@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Request\CreateOrder;
+namespace Billie\Sdk\Model\Request\Order\CreateOrder;
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Request\AbstractRequestModel;

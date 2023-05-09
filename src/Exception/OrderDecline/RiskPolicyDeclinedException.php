@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Billie\Sdk\Exception\OrderDecline;
 
 use Billie\Sdk\Model\Order;
-use Billie\Sdk\Model\Request\CreateOrderRequestModel;
+use Billie\Sdk\Model\Request\Order\CreateOrderRequestModel;
 
 class RiskPolicyDeclinedException extends OrderDeclinedException
 {

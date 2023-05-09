@@ -61,7 +61,7 @@ You can simply create an new instance of the corresponding class.
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient **/
 
-$requestService = new \Billie\Sdk\Service\Request\CreateOrderRequest($billieClient);
+$requestService = new \Billie\Sdk\Service\Request\Order\CreateOrderRequest($billieClient);
 ```
 
 You must not provide the `BillieClient` via the constructor, but you should set it, before calling `execute` on the
@@ -72,7 +72,7 @@ request service.
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient **/
 
-$requestService = new \Billie\Sdk\Service\Request\CreateOrderRequest();
+$requestService = new \Billie\Sdk\Service\Request\Order\CreateOrderRequest();
 // [...]
 $requestService->setClient($billieClient);
 // [...]
@@ -234,8 +234,8 @@ $responseModel = $requestService->execute($requestModel); // this is the finally
 | 	                 | 	                                                            |
 |-------------------|--------------------------------------------------------------|
 | Api documentation | [Link](https://docs.billie.io/reference/order_create_v2) |
-| Request service   | `\Billie\Sdk\Service\Request\CreateOrderRequest`             |
-| Request model     | `\Billie\Sdk\Model\Request\CreateOrderRequestModel`          |
+| Request service   | `\Billie\Sdk\Service\Request\Order\CreateOrderRequest`             |
+| Request model     | `\Billie\Sdk\Model\Request\Order\CreateOrderRequestModel`          |
 | Response model    | `\Billie\Sdk\Model\Order`                                    |
 
 This request should be only used, if the seller creates the order manually (telephone, api, ...)
@@ -249,13 +249,13 @@ __Usage__
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$requestService = new \Billie\Sdk\Service\Request\CreateOrderRequest($billieClient);
+$requestService = new \Billie\Sdk\Service\Request\Order\CreateOrderRequest($billieClient);
 
-$requestModel = new \Billie\Sdk\Model\Request\CreateOrderRequestModel();
+$requestModel = new \Billie\Sdk\Model\Request\Order\CreateOrderRequestModel();
 $requestModel
     ->setAmount(new \Billie\Sdk\Model\Amount())
     ->setDuration(12)
-    ->setDebtor(new \Billie\Sdk\Model\Request\CreateOrder\Debtor())
+    ->setDebtor(new \Billie\Sdk\Model\Request\Order\CreateOrder\Debtor())
     ->setPerson(new \Billie\Sdk\Model\Person())
     ->setComment('order comment')
     ->setExternalCode('merchant-order-number')
@@ -281,8 +281,8 @@ This service will throw the following exceptions, which should be handled by the
 | 	                 | 	                                                            |
 |-------------------|--------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/order_update) |
-| Request service   | `\Billie\Sdk\Service\Request\UpdateOrderRequest`             |
-| Request model     | `\Billie\Sdk\Model\Request\UpdateOrderRequestModel`          |
+| Request service   | `\Billie\Sdk\Service\Request\Order\UpdateOrderRequest`             |
+| Request model     | `\Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel`          |
 | Response model    | `true`                                                       |
 
 Use this order, to update information about the order. Please have a look into the api documentation, which fields are
@@ -293,8 +293,8 @@ __Usage__
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$requestService = new \Billie\Sdk\Service\Request\UpdateOrderRequest($billieClient);
-$requestModel = new \Billie\Sdk\Model\Request\UpdateOrderRequestModel('REFERENCE-ID');
+$requestService = new \Billie\Sdk\Service\Request\Order\UpdateOrderRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel('REFERENCE-ID');
 $requestModel
   ->setExternalCode('SHOP-ORDER-NUMBER')
   ->setAmount(new \Billie\Sdk\Model\Amount());
@@ -472,7 +472,7 @@ $success = $requestService->execute($requestModel);
 | 	                 | 	                                                                     |
 |-------------------|-----------------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/order_payment_confirm) |
-| Request service   | `\Billie\Sdk\Service\Request\CancelOrderRequest`                      |
+| Request service   | `\Billie\Sdk\Service\Request\Order\CancelOrderRequest`                      |
 | Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`                         |
 | Response model    | `true`                                                                |
 
@@ -481,7 +481,7 @@ Use this request to cancel the order completely.
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$requestService = new \Billie\Sdk\Service\Request\CancelOrderRequest($billieClient);
+$requestService = new \Billie\Sdk\Service\Request\Order\CancelOrderRequest($billieClient);
 $requestModel = new \Billie\Sdk\Model\Request\OrderRequestModel('REFERENCE-ID');
 
 /** @var true $success */
@@ -684,12 +684,12 @@ register the request services in your `services.xml` (or yaml)
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="Billie\Sdk\Service\Request\CreateSessionRequest" autowire="true"/>
-        <service id="Billie\Sdk\Service\Request\CancelOrderRequest" autowire="true"/>
+        <service id="Billie\Sdk\Service\Request\Order\CancelOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\CheckoutSessionConfirmRequest" autowire="true"/>
-        <service id="Billie\Sdk\Service\Request\CreateOrderRequest" autowire="true"/>
+        <service id="Billie\Sdk\Service\Request\Order\CreateOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\GetLegalFormsRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\GetOrderRequest" autowire="true"/>
-        <service id="Billie\Sdk\Service\Request\UpdateOrderRequest" autowire="true"/>
+        <service id="Billie\Sdk\Service\Request\Order\UpdateOrderRequest" autowire="true"/>
         <service id="Billie\Sdk\Service\Request\ConfirmPaymentRequest" autowire="true"/>
     </services>
 </container>

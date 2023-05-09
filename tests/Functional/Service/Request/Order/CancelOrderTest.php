@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Functional\Service\Request;
+namespace Billie\Sdk\Tests\Functional\Service\Request\Order;
 
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\OrderRequestModel;
-use Billie\Sdk\Service\Request\CancelOrderRequest;
-use Billie\Sdk\Service\Request\CreateOrderRequest;
+use Billie\Sdk\Service\Request\Order\CancelOrderRequest;
+use Billie\Sdk\Service\Request\Order\CreateOrderRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
 use PHPUnit\Framework\TestCase;

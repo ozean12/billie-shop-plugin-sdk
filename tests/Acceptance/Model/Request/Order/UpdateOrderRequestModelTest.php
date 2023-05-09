@@ -8,10 +8,10 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Acceptance\Model\Request;
+namespace Billie\Sdk\Tests\Acceptance\Model\Request\Order;
 
 use Billie\Sdk\Model\Amount;
-use Billie\Sdk\Model\Request\UpdateOrderRequestModel;
+use Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class UpdateOrderRequestModelTest extends AbstractModelTestCase

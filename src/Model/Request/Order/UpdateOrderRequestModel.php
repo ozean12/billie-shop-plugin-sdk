@@ -8,9 +8,10 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Request;
+namespace Billie\Sdk\Model\Request\Order;
 
 use Billie\Sdk\Model\Amount;
+use Billie\Sdk\Model\Request\OrderRequestModel;
 
 /**
  * @method string|null getExternalCode()

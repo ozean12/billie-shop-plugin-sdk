@@ -8,14 +8,14 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Acceptance\Model\Request;
+namespace Billie\Sdk\Tests\Acceptance\Model\Request\Order;
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\LineItem;
 use Billie\Sdk\Model\Person;
-use Billie\Sdk\Model\Request\CreateOrder\Debtor;
-use Billie\Sdk\Model\Request\CreateOrderRequestModel;
+use Billie\Sdk\Model\Request\Order\CreateOrder\Debtor;
+use Billie\Sdk\Model\Request\Order\CreateOrderRequestModel;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CreateOrderRequestModelTest extends AbstractModelTestCase

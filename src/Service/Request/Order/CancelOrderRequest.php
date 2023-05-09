@@ -8,10 +8,11 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Service\Request;
+namespace Billie\Sdk\Service\Request\Order;
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\OrderRequestModel;
+use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
  * @see https://developers.billie.io/#operation/order_cancel

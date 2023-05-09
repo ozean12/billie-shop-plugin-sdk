@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Functional\Service\Request;
+namespace Billie\Sdk\Tests\Functional\Service\Request\Order;
 
 use Billie\Sdk\Exception\OrderDecline\DebtorLimitExceededException;
 use Billie\Sdk\Exception\OrderDecline\DebtorNotIdentifiedException;
@@ -17,7 +17,8 @@ use Billie\Sdk\Exception\OrderDecline\OrderDeclinedException;
 use Billie\Sdk\Exception\OrderDecline\RiskPolicyDeclinedException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Order;
-use Billie\Sdk\Service\Request\CreateOrderRequest;
+use Billie\Sdk\Service\Request\Order\CreateOrderRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractOrderRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
 

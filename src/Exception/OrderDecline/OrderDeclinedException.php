@@ -12,7 +12,7 @@ namespace Billie\Sdk\Exception\OrderDecline;
 
 use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\Model\Order;
-use Billie\Sdk\Model\Request\CreateOrderRequestModel;
+use Billie\Sdk\Model\Request\Order\CreateOrderRequestModel;
 
 class OrderDeclinedException extends BillieException
 {

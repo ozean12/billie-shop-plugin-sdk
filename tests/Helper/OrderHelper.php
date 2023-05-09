@@ -14,8 +14,8 @@ use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\LineItem;
 use Billie\Sdk\Model\Person;
-use Billie\Sdk\Model\Request\CreateOrder\Debtor;
-use Billie\Sdk\Model\Request\CreateOrderRequestModel;
+use Billie\Sdk\Model\Request\Order\CreateOrder\Debtor;
+use Billie\Sdk\Model\Request\Order\CreateOrderRequestModel;
 
 class OrderHelper
 {

@@ -8,16 +8,17 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Functional\Service\Request;
+namespace Billie\Sdk\Tests\Functional\Service\Request\Order;
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\Order;
+use Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel;
 use Billie\Sdk\Model\Request\OrderRequestModel;
-use Billie\Sdk\Model\Request\UpdateOrderRequestModel;
-use Billie\Sdk\Service\Request\CreateOrderRequest;
+use Billie\Sdk\Service\Request\Order\CreateOrderRequest;
 use Billie\Sdk\Service\Request\Order\GetOrderRequest;
-use Billie\Sdk\Service\Request\UpdateOrderRequest;
+use Billie\Sdk\Service\Request\Order\UpdateOrderRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractOrderRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
 
