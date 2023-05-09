@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 use Billie\Sdk\Model\Address;
@@ -10,7 +12,7 @@ use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CheckoutSessionConfirmRequestModelTest extends AbstractModelTestCase
 {
-    public function testToArray()
+    public function testToArray(): void
     {
         $data = (new CheckoutSessionConfirmRequestModel())
             ->setSessionUuid('session-uuid')

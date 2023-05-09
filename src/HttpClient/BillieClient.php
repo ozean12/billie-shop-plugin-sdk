@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\HttpClient;
 
 use Billie\Sdk\Exception\BillieException;
@@ -8,49 +10,55 @@ use Billie\Sdk\Exception\NotAllowedException;
 use Billie\Sdk\Exception\OrderNotFoundException;
 use Billie\Sdk\Exception\UnexpectedServerResponse;
 use Billie\Sdk\Exception\UserNotAuthorizedException;
+use RuntimeException;
 
 class BillieClient
 {
-    const METHOD_POST = 'POST';
-    const METHOD_GET = 'GET';
-    const METHOD_PUT = 'PUT';
-    const METHOD_PATCH = 'PATCH';
-//    const METHOD_DELETE = 'DELETE'; // not implemented
-
-    const SANDBOX_BASE_URL = 'https://paella-sandbox.billie.io/api/v1/';
-    const PRODUCTION_BASE_URL = 'https://paella.billie.io/api/v1/';
+    /**
+     * @var string
+     */
+    public const METHOD_POST = 'POST';
 
     /**
      * @var string
      */
-    private $apiBaseUrl;
+    public const METHOD_GET = 'GET';
 
     /**
      * @var string
      */
-    private $authToken;
+    public const METHOD_PUT = 'PUT';
 
     /**
-     * @param string $authToken
-     * @param bool   $isSandbox
+     * @var string
      */
-    public function __construct($authToken = null, $isSandbox = false)
+    public const METHOD_PATCH = 'PATCH';
+
+    //    const METHOD_DELETE = 'DELETE'; // not implemented
+    /**
+     * @var string
+     */
+    public const SANDBOX_BASE_URL = 'https://paella-sandbox.billie.io/api/v1/';
+
+    /**
+     * @var string
+     */
+    public const PRODUCTION_BASE_URL = 'https://paella.billie.io/api/v1/';
+
+    private ?string $apiBaseUrl;
+
+    private ?string $authToken;
+
+    public function __construct(string $authToken = null, bool $isSandbox = false)
     {
         $this->authToken = $authToken;
         $this->apiBaseUrl = $isSandbox ? self::SANDBOX_BASE_URL : self::PRODUCTION_BASE_URL;
     }
 
     /**
-     * @param string $url
-     * @param array  $data
-     * @param string $method
-     * @param bool   $addAuthorisationHeader
-     *
      * @throws BillieException
-     *
-     * @return array
      */
-    public function request($url, $data = [], $method = self::METHOD_GET, $addAuthorisationHeader = true)
+    public function request(string $url, array $data = [], string $method = self::METHOD_GET, bool $addAuthorisationHeader = true): array
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->apiBaseUrl . trim($url, '/'));
@@ -64,10 +72,12 @@ class BillieClient
         ];
         if ($addAuthorisationHeader) {
             if ($this->authToken === null) {
-                throw new \RuntimeException('no auth-token has been provided in constructor');
+                throw new RuntimeException('no auth-token has been provided in constructor');
             }
+
             $requestHeaders[] = 'Authorization: Bearer ' . $this->authToken;
         }
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, $requestHeaders);
 
         switch ($method) {
@@ -82,27 +92,29 @@ class BillieClient
                 break;
         }
 
-        if (count($data) > 0) {
+        if ($data !== []) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         }
 
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        //        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        //        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-//        // the number of milliseconds to wait while trying to connect
-//        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $connectionTimeout);
-//        // the maximum number of milliseconds to allow cURL functions to execute
-//        curl_setopt($ch, CURLOPT_TIMEOUT_MS, $executionTimeout);
+        //        // the number of milliseconds to wait while trying to connect
+        //        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $connectionTimeout);
+        //        // the maximum number of milliseconds to allow cURL functions to execute
+        //        curl_setopt($ch, CURLOPT_TIMEOUT_MS, $executionTimeout);
 
         // use tls v1.2
         curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
 
         $response = curl_exec($ch);
-        if ($response) {
+        if (is_string($response)) {
             $response = json_decode($response, true);
         }
-        $errno = curl_errno($ch);
+
+        $response = is_array($response) ? $response : [];
+
         $curlInfo = curl_getinfo($ch);
 
         // close connection
@@ -121,7 +133,7 @@ class BillieClient
                 throw new NotAllowedException($curlInfo['http_code'], $response, $data);
             case 404:
                 preg_match('/order\/(.[^\/]*)\/?/', $url, $matches);
-                throw new OrderNotFoundException($matches && count($matches) === 2 ? $matches[1] : null, $curlInfo['http_code'], $response, $data);
+                throw new OrderNotFoundException((string) ($matches && count($matches) === 2 ? $matches[1] : null), $curlInfo['http_code'], $response, $data);
             default:
                 throw new UnexpectedServerResponse($curlInfo['http_code'], $response, $data);
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Mock\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
@@ -38,23 +40,18 @@ class ValidationTestModel extends AbstractRequestModel
      */
     public $validateUrlField;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'requiredField' => 'string',
             'expectedClassField' => stdClass::class,
             'nullableField' => '?string',
-            'validateThruSimpleCallbackField' => static function (self $object, $value) {
+            'validateThruSimpleCallbackField' => static function (self $object, $value): void {
                 if ($value === 'invalid-value') {
                     throw new InvalidFieldValueException('expected-error');
                 }
             },
-            'validateThrowCallbackReturnValueField' => static function (self $object, $value) {
-                return stdClass::class;
-            },
+            'validateThrowCallbackReturnValueField' => static fn (self $object, $value): string => stdClass::class,
             'validateUrlField' => '?url',
         ];
     }

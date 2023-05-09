@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 use BadMethodCallException;
@@ -12,8 +14,8 @@ abstract class AbstractRequestModel extends AbstractModel
         parent::__construct([], false);
     }
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        throw new BadMethodCallException('the method `fromArray` is not allowed on the model ' . get_class($this));
+        throw new BadMethodCallException('the method `fromArray` is not allowed on the model ' . static::class);
     }
 }

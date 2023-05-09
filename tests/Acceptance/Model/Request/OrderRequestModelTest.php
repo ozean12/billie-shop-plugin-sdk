@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 use Billie\Sdk\Model\Request\OrderRequestModel;
@@ -7,7 +9,7 @@ use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class OrderRequestModelTest extends AbstractModelTestCase
 {
-    public function testToArray()
+    public function testToArray(): void
     {
         $data = new OrderRequestModel('uuid');
         static::assertCount(0, $data->toArray());

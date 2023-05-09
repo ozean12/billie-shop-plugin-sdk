@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Exception\Validation;
 
 use Billie\Sdk\Exception\BillieException;
+use Billie\Sdk\Model\AbstractModel;
 
 class InvalidFieldException extends BillieException
 {
@@ -10,7 +13,7 @@ class InvalidFieldException extends BillieException
      * InvalidFieldException constructor.
      *
      * @param string                          $fieldName
-     * @param \Billie\Sdk\Model\AbstractModel $object
+     * @param AbstractModel $object
      */
     public function __construct($fieldName, $object)
     {

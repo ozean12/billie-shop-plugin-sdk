@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Model\Response\AbstractResponseModel;
@@ -26,75 +28,109 @@ use DateTime;
  */
 class Order extends AbstractResponseModel
 {
-    const STATE_CREATED = 'created';
-    const STATE_DECLINED = 'declined';
-    const STATE_SHIPPED = 'shipped';
-    const STATE_COMPLETED = 'complete';
-    const STATE_LATE = 'late';
-    const STATE_PAID_OUT = 'paid_out';
-    const STATE_CANCELLED = 'canceled';
-    const STATE_PREAPPROVED = 'pre_approved';
+    /**
+     * @var string
+     */
+    public const STATE_CREATED = 'created';
 
-    const DECLINED_REASON_RISK_POLICY = 'risk_policy';
-    const DECLINED_REASON_RISK_SCORE = 'risk_scoring_failed';
-    const DECLINED_REASON_DEBTOR_NOT_IDENTIFIED = 'debtor_not_identified';
-    const DECLINED_REASON_INVALID_ADDRESS = 'debtor_address';
-    const DECLINED_REASON_DEBTOR_LIMIT_EXCEEDED = 'debtor_limit_exceeded';
+    /**
+     * @var string
+     */
+    public const STATE_DECLINED = 'declined';
 
-    /** @var string */
-    protected $orderId;
+    /**
+     * @var string
+     */
+    public const STATE_SHIPPED = 'shipped';
 
-    /** @var string */
-    protected $uuid;
+    /**
+     * @var string
+     */
+    public const STATE_COMPLETED = 'complete';
 
-    /** @var string */
-    protected $state;
+    /**
+     * @var string
+     */
+    public const STATE_LATE = 'late';
 
-    /** @var string */
-    protected $declineReason;
+    /**
+     * @var string
+     */
+    public const STATE_PAID_OUT = 'paid_out';
 
-    /** @var Amount */
-    protected $amount;
+    /**
+     * @var string
+     */
+    public const STATE_CANCELLED = 'canceled';
 
-    /** @var int */
-    protected $duration;
+    /**
+     * @var string
+     */
+    public const STATE_PREAPPROVED = 'pre_approved';
 
-    /** @var string */
-    protected $dunningStatus;
+    /**
+     * @var string
+     */
+    public const DECLINED_REASON_RISK_POLICY = 'risk_policy';
 
-    /** @var DebtorCompany */
-    protected $company;
+    /**
+     * @var string
+     */
+    public const DECLINED_REASON_RISK_SCORE = 'risk_scoring_failed';
 
-    /** @var BankAccount */
-    protected $bankAccount;
+    /**
+     * @var string
+     */
+    public const DECLINED_REASON_DEBTOR_NOT_IDENTIFIED = 'debtor_not_identified';
 
-    /** @var array */
-    protected $externalData;
+    /**
+     * @var string
+     */
+    public const DECLINED_REASON_INVALID_ADDRESS = 'debtor_address';
 
-    /** @var Address */
-    protected $deliveryAddress;
+    /**
+     * @var string
+     */
+    public const DECLINED_REASON_DEBTOR_LIMIT_EXCEEDED = 'debtor_limit_exceeded';
 
-    /** @var Address */
-    protected $billingAddress;
+    protected ?string $orderId = null;
 
-    /** @var DateTime */
-    protected $createdAt;
+    protected ?string $uuid = null;
 
-    /** @var DateTime */
-    protected $shippedAt;
+    protected ?string $state = null;
 
-    /** @var string */
-    protected $debtorUuid;
+    protected ?string $declineReason = null;
 
-    /** @var Invoice */
-    protected $invoice;
+    protected ?Amount $amount = null;
 
-    public function fromArray($data)
+    protected ?int $duration = null;
+
+    protected ?string $dunningStatus = null;
+
+    protected ?DebtorCompany $company = null;
+
+    protected ?BankAccount $bankAccount = null;
+
+    protected ?array $externalData = [];
+
+    protected ?Address $deliveryAddress = null;
+
+    protected ?Address $billingAddress = null;
+
+    protected ?DateTime $createdAt = null;
+
+    protected ?DateTime $shippedAt = null;
+
+    protected ?string $debtorUuid = null;
+
+    protected ?Invoice $invoice = null;
+
+    public function fromArray(array $data): self
     {
-        $this->orderId = ResponseHelper::getValue($data, 'order_id');
-        $this->uuid = ResponseHelper::getValue($data, 'uuid');
-        $this->state = ResponseHelper::getValue($data, 'state');
-        $this->declineReason = ResponseHelper::getValue($data, 'decline_reason');
+        $this->orderId = ResponseHelper::getString($data, 'order_id');
+        $this->uuid = ResponseHelper::getString($data, 'uuid');
+        $this->state = ResponseHelper::getString($data, 'state');
+        $this->declineReason = ResponseHelper::getString($data, 'decline_reason');
         $this->amount = isset($data['amount_net']) ? (new Amount(
             [
                 'net' => $data['amount_net'],
@@ -103,16 +139,16 @@ class Order extends AbstractResponseModel
             ],
             $this->readOnly
         )) : null;
-        $this->duration = ResponseHelper::getValue($data, 'duration');
-        $this->orderId = ResponseHelper::getValue($data, 'dunning_status');
+        $this->duration = ResponseHelper::getInt($data, 'duration');
+        $this->orderId = ResponseHelper::getString($data, 'dunning_status');
         $this->company = ResponseHelper::getObject($data, 'debtor_company', DebtorCompany::class, true);
         $this->bankAccount = ResponseHelper::getObject($data, 'bank_account', BankAccount::class, true);
-//        $this->orderId = $data['debtor_external_data'];
+        //        $this->orderId = $data['debtor_external_data'];
         $this->deliveryAddress = ResponseHelper::getObject($data, 'delivery_address', Address::class, true);
         $this->billingAddress = ResponseHelper::getObject($data, 'billing_address', Address::class, true);
         $this->createdAt = ResponseHelper::getDateTime($data, 'created_at');
         $this->shippedAt = ResponseHelper::getDateTime($data, 'shipped_at');
-        $this->debtorUuid = ResponseHelper::getValue($data, 'debtor_uuid');
+        $this->debtorUuid = ResponseHelper::getString($data, 'debtor_uuid');
         $this->invoice = ResponseHelper::getObject($data, 'invoice', Invoice::class, true);
 
         return $this;

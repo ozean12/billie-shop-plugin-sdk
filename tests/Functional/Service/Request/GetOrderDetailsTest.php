@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Exception\OrderNotFoundException;
@@ -13,10 +15,7 @@ use Billie\Sdk\Tests\Helper\OrderHelper;
 
 class GetOrderDetailsTest extends AbstractTestCase
 {
-    /**
-     * @var Order
-     */
-    private $createdOrderModel;
+    private Order $createdOrderModel;
 
     protected function setUp(): void
     {
@@ -24,14 +23,14 @@ class GetOrderDetailsTest extends AbstractTestCase
             ->execute(OrderHelper::createValidOrderModel());
     }
 
-    public function testGetOrderDetails()
+    public function testGetOrderDetails(): void
     {
         $requestService = new GetOrderDetailsRequest(BillieClientHelper::getClient());
         $order = $requestService->execute(new OrderRequestModel($this->createdOrderModel->getUuid()));
         $this->compareArrays($this->createdOrderModel->toArray(), $order->toArray());
     }
 
-    public function testNotFound()
+    public function testNotFound(): void
     {
         $requestService = new GetOrderDetailsRequest(BillieClientHelper::getClient());
         $this->expectException(OrderNotFoundException::class);

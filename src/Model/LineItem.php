@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Util\ResponseHelper;
@@ -26,37 +28,25 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class LineItem extends AbstractModel
 {
-    /** @var string */
-    protected $externalId;
+    protected ?string $externalId = null;
 
-    /** @var string */
-    protected $title;
+    protected ?string $title = null;
 
-    /** @var int */
-    protected $quantity;
+    protected ?int $quantity = null;
 
-    /** @var string */
-    protected $description;
+    protected ?string $description = null;
 
-    /** @var string */
-    protected $category;
+    protected ?string $category = null;
 
-    /** @var string */
-    protected $brand;
+    protected ?string $brand = null;
 
-    /** @var string */
-    protected $gtin;
+    protected ?string $gtin = null;
 
-    /** @var string */
-    protected $mpn;
+    protected ?string  $mpn = null;
 
-    /** @var Amount */
-    protected $amount;
+    protected ?Amount $amount = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'externalId' => 'string',
@@ -71,28 +61,22 @@ class LineItem extends AbstractModel
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->externalId = ResponseHelper::getValue($data, 'external_id');
-        $this->title = ResponseHelper::getValue($data, 'title');
-        $this->quantity = ResponseHelper::getValue($data, 'quantity');
-        $this->description = ResponseHelper::getValue($data, 'description');
-        $this->category = ResponseHelper::getValue($data, 'category');
-        $this->brand = ResponseHelper::getValue($data, 'brand');
-        $this->gtin = ResponseHelper::getValue($data, 'gtin');
-        $this->mpn = ResponseHelper::getValue($data, 'mpn');
+        $this->externalId = ResponseHelper::getString($data, 'external_id');
+        $this->title = ResponseHelper::getString($data, 'title');
+        $this->quantity = ResponseHelper::getInt($data, 'quantity');
+        $this->description = ResponseHelper::getString($data, 'description');
+        $this->category = ResponseHelper::getString($data, 'category');
+        $this->brand = ResponseHelper::getString($data, 'brand');
+        $this->gtin = ResponseHelper::getString($data, 'gtin');
+        $this->mpn = ResponseHelper::getString($data, 'mpn');
         $this->amount = ResponseHelper::getObject($data, 'external_id', Amount::class, $this->readOnly);
 
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'external_id' => $this->externalId,
@@ -103,7 +87,7 @@ class LineItem extends AbstractModel
             'brand' => $this->brand,
             'gtin' => $this->gtin,
             'mpn' => $this->mpn,
-            'amount' => $this->amount->toArray(),
+            'amount' => $this->amount instanceof Amount ? $this->amount->toArray() : null,
         ];
     }
 }

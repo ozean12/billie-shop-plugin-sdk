@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Response;
 
 use Billie\Sdk\Util\ResponseHelper;
@@ -10,20 +12,17 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class ValidateTokenResponse extends AbstractResponseModel
 {
-    /**
-     * @var string
-     */
-    protected $clientId;
+    protected ?string $clientId = null;
 
     /**
      * @var string[]
      */
-    protected $scopes;
+    protected array $scopes = [];
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->clientId = ResponseHelper::getValue($data, 'client_id');
-        $this->scopes = ResponseHelper::getValue($data, 'scopes');
+        $this->clientId = ResponseHelper::getString($data, 'client_id');
+        $this->scopes = ResponseHelper::getArray($data, 'scopes') ?? [];
 
         return $this;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Exception;
 
 /**
@@ -28,18 +30,12 @@ class OrderNotCancelledException extends BillieException
         $this->referenceId = $referenceId;
     }
 
-    /**
-     * @return string
-     */
-    public function getBillieCode()
+    public function getBillieCode(): string
     {
         return 'ORDER_NOT_CANCELLED';
     }
 
-    /**
-     * @return string
-     */
-    public function getBillieMessage()
+    public function getBillieMessage(): string
     {
         return sprintf($this->message, $this->referenceId);
     }

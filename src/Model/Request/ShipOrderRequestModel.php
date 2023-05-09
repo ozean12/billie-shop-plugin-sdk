@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 /**
@@ -14,30 +16,15 @@ namespace Billie\Sdk\Model\Request;
  */
 class ShipOrderRequestModel extends OrderRequestModel
 {
-    /**
-     * @var ?string
-     */
-    protected $invoiceUrl;
+    protected ?string $invoiceUrl = null;
 
-    /**
-     * @var ?string
-     */
-    protected $shippingDocumentUrl;
+    protected ?string  $shippingDocumentUrl = null;
 
-    /**
-     * @var ?string
-     */
-    protected $externalOrderId;
+    protected ?string $externalOrderId = null;
 
-    /**
-     * @var string
-     */
-    protected $invoiceNumber;
+    protected ?string $invoiceNumber = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return array_merge(parent::getFieldValidations(), [
             //            'invoiceUrl' => 'url',
@@ -50,10 +37,7 @@ class ShipOrderRequestModel extends OrderRequestModel
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return array_merge(parent::toArray(), [
             'invoice_url' => $this->getInvoiceUrl(),

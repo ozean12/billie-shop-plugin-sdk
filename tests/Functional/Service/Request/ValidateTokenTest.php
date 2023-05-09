@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Request\ValidateTokenRequestModel;
@@ -10,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ValidateTokenTest extends TestCase
 {
-    public function testValidate()
+    public function testValidate(): void
     {
         $validateTokenRequest = new ValidateTokenRequest(BillieClientHelper::getClient());
         $responseModel = $validateTokenRequest->execute(new ValidateTokenRequestModel());

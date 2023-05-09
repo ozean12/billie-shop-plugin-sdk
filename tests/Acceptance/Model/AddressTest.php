@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
@@ -7,7 +9,7 @@ use Billie\Sdk\Model\Address;
 
 class AddressTest extends AbstractModelTestCase
 {
-    public function testToArray()
+    public function testToArray(): void
     {
         $data = (new Address())
             ->setStreet('street-name')
@@ -15,7 +17,7 @@ class AddressTest extends AbstractModelTestCase
             ->setAddition('additional information')
             ->setCity('city-name')
             ->setCountryCode('DE')
-            ->setPostalCode(12345)
+            ->setPostalCode('12345')
             ->toArray();
 
         static::assertEquals('street-name', $data['street']);
@@ -26,12 +28,12 @@ class AddressTest extends AbstractModelTestCase
         static::assertEquals('DE', $data['country']);
     }
 
-    public function testInvalidData()
+    public function testInvalidData(): void
     {
         $this->expectException(InvalidFieldValueException::class);
         (new Address())->setCountryCode('ABC');
 
         $this->expectException(InvalidFieldValueException::class);
-        (new Address())->setPostalCode(123456789);
+        (new Address())->setPostalCode('123456789');
     }
 }

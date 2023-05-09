@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 /**
@@ -7,7 +9,7 @@ namespace Billie\Sdk\Model\Request;
  */
 class GetBankDataRequestModel extends AbstractRequestModel
 {
-    public function toArray()
+    public function toArray(): array
     {
         return [];
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Exception\UserNotAuthorizedException;
@@ -12,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class RequestTokenTest extends TestCase
 {
-    public function testRequestToken()
+    public function testRequestToken(): void
     {
         $tokenRequestService = new GetTokenRequest(true);
 
@@ -28,7 +30,7 @@ class RequestTokenTest extends TestCase
         static::assertNotNull($responseModel->getAccessToken());
     }
 
-    public function testInvalid()
+    public function testInvalid(): void
     {
         $tokenRequestService = new GetTokenRequest(true);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
@@ -19,39 +21,21 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class Person extends AbstractModel
 {
-    /**
-     * @var string
-     */
-    protected $salutation;
+    protected ?string $salutation = null;
 
-    /**
-     * @var string
-     */
-    protected $firstname;
+    protected ?string $firstname = null;
 
-    /**
-     * @var string
-     */
-    protected $lastname;
+    protected ?string $lastname = null;
 
-    /**
-     * @var string
-     */
-    protected $phone;
+    protected ?string $phone = null;
 
-    /**
-     * @var string email
-     */
-    protected $mail;
+    protected ?string $mail = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
-            'salutation' => static function (self $object, $value) {
-                if (in_array($value, ['m', 'f'], true) === false) {
+            'salutation' => static function (self $object, $value): void {
+                if (!in_array($value, ['m', 'f'], true)) {
                     throw new InvalidFieldValueException('the field value of `salutation` must be one of these: `m`, `f`');
                 }
             },
@@ -62,10 +46,7 @@ class Person extends AbstractModel
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'email' => $this->mail,
@@ -76,16 +57,13 @@ class Person extends AbstractModel
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->mail = ResponseHelper::getValue($data, 'email');
-        $this->salutation = ResponseHelper::getValue($data, 'salutation');
-        $this->firstname = ResponseHelper::getValue($data, 'first_name');
-        $this->lastname = ResponseHelper::getValue($data, 'last_name');
-        $this->phone = ResponseHelper::getValue($data, 'phone');
+        $this->mail = ResponseHelper::getString($data, 'email');
+        $this->salutation = ResponseHelper::getString($data, 'salutation');
+        $this->firstname = ResponseHelper::getString($data, 'first_name');
+        $this->lastname = ResponseHelper::getString($data, 'last_name');
+        $this->phone = ResponseHelper::getString($data, 'phone');
 
         return $this;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Util\ResponseHelper;
@@ -17,39 +19,31 @@ use DateTime;
  */
 class Invoice extends AbstractModel
 {
-    /** @var string */
-    protected $number;
+    protected ?string $number = null;
 
-    /** @var float */
-    protected $payoutAmount;
+    protected ?float $payoutAmount = null;
 
-    /** @var float */
-    protected $outstandingAmount;
+    protected ?float $outstandingAmount = null;
 
-    /** @var float */
-    protected $pendingMerchantPaymentAmount;
+    protected ?float $pendingMerchantPaymentAmount = null;
 
-    /** @var float */
-    protected $pendingCancellationAmount;
+    protected ?float $pendingCancellationAmount = null;
 
-    /** @var float */
-    protected $feeAmount;
+    protected ?float $feeAmount = null;
 
-    /** @var float */
-    protected $feeRate;
+    protected ?float $feeRate = null;
 
-    /** @var DateTime */
-    protected $dueDate;
+    protected ?DateTime $dueDate = null;
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->number = ResponseHelper::getValue($data, 'invoice_number');
-        $this->payoutAmount = ResponseHelper::getValue($data, 'payout_amount');
-        $this->outstandingAmount = ResponseHelper::getValue($data, 'outstanding_amount');
-        $this->pendingMerchantPaymentAmount = ResponseHelper::getValue($data, 'pending_merchant_payment_amount');
-        $this->pendingCancellationAmount = ResponseHelper::getValue($data, 'pending_cancellation_amount');
-        $this->feeAmount = ResponseHelper::getValue($data, 'fee_amount');
-        $this->feeRate = ResponseHelper::getValue($data, 'fee_rate');
+        $this->number = ResponseHelper::getString($data, 'invoice_number');
+        $this->payoutAmount = ResponseHelper::getFloat($data, 'payout_amount');
+        $this->outstandingAmount = ResponseHelper::getFloat($data, 'outstanding_amount');
+        $this->pendingMerchantPaymentAmount = ResponseHelper::getFloat($data, 'pending_merchant_payment_amount');
+        $this->pendingCancellationAmount = ResponseHelper::getFloat($data, 'pending_cancellation_amount');
+        $this->feeAmount = ResponseHelper::getFloat($data, 'fee_amount');
+        $this->feeRate = ResponseHelper::getFloat($data, 'fee_rate');
         $this->dueDate = ResponseHelper::getDate($data, 'due_date');
 
         return $this;

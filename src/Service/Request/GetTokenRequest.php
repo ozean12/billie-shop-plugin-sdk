@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\GetTokenRequestModel;
 use Billie\Sdk\Model\Response\GetTokenResponseModel;
+use RuntimeException;
 
 /**
  * @see https://developers.billie.io/#operation/oauth_token_create
@@ -14,41 +17,37 @@ use Billie\Sdk\Model\Response\GetTokenResponseModel;
  */
 class GetTokenRequest extends AbstractRequest
 {
-    /**
-     * @param bool $isSandbox
-     */
-    public function __construct($isSandbox = false)
+    public function __construct(bool $isSandbox = false)
     {
         parent::__construct();
         $this->setSandbox($isSandbox);
     }
 
-    /**
-     * @param bool $isSandbox
-     *
-     * @return void
-     */
-    public function setSandbox($isSandbox)
+    public function setSandbox(bool $isSandbox): void
     {
         $this->setClient(new BillieClient(null, $isSandbox));
     }
 
-    protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
+    protected function processSuccess(AbstractRequestModel $requestModel, ?array $responseData = null): GetTokenResponseModel
     {
+        if ($responseData === null || $responseData === []) {
+            throw new RuntimeException('Unknown error. Not empty response was expected.');
+        }
+
         return new GetTokenResponseModel($responseData);
     }
 
-    protected function getPath(AbstractRequestModel $requestModel)
+    protected function getPath(AbstractRequestModel $requestModel): string
     {
         return '/oauth/token';
     }
 
-    protected function getMethod(AbstractRequestModel $requestModel)
+    protected function getMethod(AbstractRequestModel $requestModel): string
     {
         return BillieClient::METHOD_POST;
     }
 
-    protected function isAuthorisationRequired(AbstractRequestModel $requestModel)
+    protected function isAuthorisationRequired(AbstractRequestModel $requestModel): bool
     {
         return false;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Order;
@@ -12,10 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class CancelOrderTest extends TestCase
 {
-    /**
-     * @var Order
-     */
-    private $createdOrderModel;
+    private Order $createdOrderModel;
 
     protected function setUp(): void
     {
@@ -23,7 +22,7 @@ class CancelOrderTest extends TestCase
             ->execute(OrderHelper::createValidOrderModel());
     }
 
-    public function testCancel()
+    public function testCancel(): void
     {
         $requestService = new CancelOrderRequest(BillieClientHelper::getClient());
         $success = $requestService->execute(new OrderRequestModel($this->createdOrderModel->getUuid()));

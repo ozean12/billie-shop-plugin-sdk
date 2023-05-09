@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 /**
@@ -8,25 +10,16 @@ namespace Billie\Sdk\Model\Request;
  */
 class PauseOrderDunningProcessRequestModel extends OrderRequestModel
 {
-    /**
-     * @var int
-     */
-    protected $numberOfDays;
+    protected ?int $numberOfDays = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return array_merge(parent::getFieldValidations(), [
             'numberOfDays' => 'integer',
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return array_merge(parent::toArray(), [
             'number_of_days' => $this->getNumberOfDays(),

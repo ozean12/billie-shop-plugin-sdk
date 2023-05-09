@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Response;
 
 use Billie\Sdk\Util\ResponseHelper;
@@ -9,35 +11,21 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class GetBankDataResponseModel extends AbstractResponseModel
 {
-    /**
-     * @var array
-     */
-    private $items;
+    private array $items = [];
 
-    /**
-     * @return $this
-     */
-    public function setItems(array $items)
+    public function setItems(array $items): self
     {
         $this->items = $items;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    /**
-     * @param string $bic
-     *
-     * @return string|null
-     */
-    public function getBankName($bic)
+    public function getBankName(string $bic): ?string
     {
         foreach ($this->items as $item) {
             if ($item['BIC'] === $bic) {
@@ -48,9 +36,9 @@ class GetBankDataResponseModel extends AbstractResponseModel
         return null;
     }
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->items = ResponseHelper::getValue($data, 'items');
+        $this->items = ResponseHelper::getArray($data, 'items') ?? [];
 
         return $this;
     }

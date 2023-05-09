@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 use Billie\Sdk\Model\Address;
@@ -12,7 +14,7 @@ use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CreateOrderRequestModelTest extends AbstractModelTestCase
 {
-    public function testToArray()
+    public function testToArray(): void
     {
         $data = (new CreateOrderRequestModel())
             ->setAmount($this->createMock(Amount::class))

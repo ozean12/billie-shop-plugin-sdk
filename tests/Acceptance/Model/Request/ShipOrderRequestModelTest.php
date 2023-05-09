@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 use Billie\Sdk\Model\Request\ShipOrderRequestModel;
@@ -7,7 +9,7 @@ use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class ShipOrderRequestModelTest extends AbstractModelTestCase
 {
-    public function testToArray()
+    public function testToArray(): void
     {
         $data = (new ShipOrderRequestModel('uuid'))
             ->setExternalOrderId('external-order-id')

@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        php-version: [ '7.1', '7.2', '7.3', '7.4', '8.0' ]
+        php-version: [ '7.4', '8.0', '8.1', '8.2' ]
 
     steps:
       - uses: actions/checkout@v2
@@ -24,14 +24,14 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Check PHP formating style
-        run: composer run-script php-cs-fixer-check
+      - name: Check PHP formatting style
+        run: composer lint
 
       - name: Static code analysis
-        run: composer run-script phpstan
+        run: composer phpstan
 
       - name: Run unit test
-        run: composer run-script phpunit
+        run: composer phpunit
         env:
             BILLIE_CLIENT_ID: ${{ secrets.BILLIE_CLIENT_ID }}
             BILLIE_CLIENT_SECRET: ${{ secrets.BILLIE_CLIENT_SECRET }}

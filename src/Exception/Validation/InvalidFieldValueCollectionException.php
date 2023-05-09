@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Exception\Validation;
 
 use Billie\Sdk\Exception\BillieException;
@@ -13,10 +15,8 @@ class InvalidFieldValueCollectionException extends BillieException
 
     /**
      * @param string $field
-     *
-     * @return void
      */
-    public function addError($field, InvalidFieldValueException $fieldException)
+    public function addError($field, InvalidFieldValueException $fieldException): void
     {
         $this->errors[$field] = $fieldException;
 

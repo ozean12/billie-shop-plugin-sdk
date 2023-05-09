@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 use Billie\Sdk\Model\Address;
@@ -22,40 +24,19 @@ use Billie\Sdk\Model\DebtorCompany;
  */
 class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 {
-    /**
-     * @var string
-     */
-    protected $sessionUuid;
+    protected ?string $sessionUuid = null;
 
-    /**
-     * @var Amount
-     */
-    protected $amount;
+    protected ?Amount $amount = null;
 
-    /**
-     * @var int
-     */
-    protected $duration;
+    protected ?int $duration = null;
 
-    /**
-     * @var DebtorCompany|null
-     */
-    protected $company;
+    protected ?DebtorCompany $company = null;
 
-    /**
-     * @var Address|null
-     */
-    protected $deliveryAddress;
+    protected ?Address $deliveryAddress = null;
 
-    /**
-     * @var string
-     */
-    protected $orderId;
+    protected ?string $orderId = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'sessionUuid' => 'string',
@@ -67,16 +48,13 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'amount' => $this->getAmount()->toArray(),
             'duration' => $this->getDuration(),
             'debtor_company' => $this->getCompany()->toArray(),
-            'delivery_address' => $this->deliveryAddress ? $this->deliveryAddress->toArray() : null,
+            'delivery_address' => $this->deliveryAddress instanceof Address ? $this->deliveryAddress->toArray() : null,
             'order_id' => $this->getOrderId(),
         ];
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Exception;
 
 class OrderNotFoundException extends GatewayException
@@ -12,10 +14,8 @@ class OrderNotFoundException extends GatewayException
     /**
      * @param string $orderId
      * @param int    $httpCode
-     * @param array  $responseData
-     * @param array  $requestData
      */
-    public function __construct($orderId, $httpCode, $responseData = [], $requestData = [])
+    public function __construct($orderId, $httpCode, array $responseData = [], array $requestData = [])
     {
         parent::__construct(
             sprintf('The order with the reference id: %s does not exist.', $orderId),
@@ -34,10 +34,7 @@ class OrderNotFoundException extends GatewayException
         return $this->orderId;
     }
 
-    /**
-     * @return string
-     */
-    public function getBillieCode()
+    public function getBillieCode(): string
     {
         return 'ORDER_NOT_FOUND';
     }

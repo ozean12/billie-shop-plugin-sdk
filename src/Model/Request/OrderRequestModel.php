@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 /**
@@ -10,10 +12,8 @@ class OrderRequestModel extends AbstractRequestModel
 {
     /**
      * Uuid or the order-id
-     *
-     * @var string
      */
-    protected $id;
+    protected ?string $id = null;
 
     /**
      * @param string $uuid
@@ -24,20 +24,14 @@ class OrderRequestModel extends AbstractRequestModel
         $this->setId($uuid);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'id' => 'string',
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [];
     }

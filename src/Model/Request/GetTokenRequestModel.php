@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 /**
@@ -10,20 +12,11 @@ namespace Billie\Sdk\Model\Request;
  */
 class GetTokenRequestModel extends AbstractRequestModel
 {
-    /**
-     * @var string
-     */
-    protected $clientId;
+    protected ?string $clientId = null;
 
-    /**
-     * @var string
-     */
-    protected $clientSecret;
+    protected ?string $clientSecret = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'grant_type' => 'client_credentials',
@@ -32,10 +25,7 @@ class GetTokenRequestModel extends AbstractRequestModel
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'clientId' => 'string',

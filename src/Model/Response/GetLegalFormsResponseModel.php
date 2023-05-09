@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Response;
 
 use Billie\Sdk\Model\LegalForm;
@@ -9,9 +11,9 @@ class GetLegalFormsResponseModel extends AbstractResponseModel
     /**
      * @var LegalForm[]
      */
-    protected $items;
+    protected array $items = [];
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
         $this->items = [];
         if (isset($data['items'])) {
@@ -26,7 +28,7 @@ class GetLegalFormsResponseModel extends AbstractResponseModel
     /**
      * @return LegalForm[]
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }

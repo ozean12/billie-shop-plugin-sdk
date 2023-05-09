@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 /**
@@ -8,25 +10,16 @@ namespace Billie\Sdk\Model\Request;
  */
 class CreateSessionRequestModel extends AbstractRequestModel
 {
-    /**
-     * @var string
-     */
-    public $merchantCustomerId;
+    public ?string $merchantCustomerId = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'merchantCustomerId' => 'string',
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'merchant_customer_id' => $this->merchantCustomerId,

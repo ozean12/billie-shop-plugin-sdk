@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 use Billie\Sdk\Model\Request\CreateSessionRequestModel;
@@ -7,7 +9,7 @@ use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CreateSessionRequestModelTest extends AbstractModelTestCase
 {
-    public function testToArray()
+    public function testToArray(): void
     {
         $data = (new CreateSessionRequestModel())
             ->setMerchantCustomerId('123456789')

@@ -1,60 +1,75 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Util;
 
 use DateTime;
+use DateTimeInterface;
 
 class ResponseHelper
 {
     /**
-     * @param array  $data the response-data
-     * @param string $key  the key to get
-     *
      * @return mixed|null
      */
-    public static function getValue($data, $key)
+    public static function getValue(array $data, string $key)
     {
-        return isset($data[$key]) ? $data[$key] : null;
+        return $data[$key] ?? null;
     }
 
-    /**
-     * @param array  $data   the response-data
-     * @param string $key    the key to get
-     * @param string $format date format
-     *
-     * @return DateTime|null
-     */
-    public static function getDateTime($data, $key, $format = DateTime::ATOM)
+    public static function getString(array $data, string $key): ?string
     {
         $value = self::getValue($data, $key);
+        return is_string($value) ? $value : null;
+    }
+
+    public static function getInt(array $data, string $key): ?int
+    {
+        $value = self::getValue($data, $key);
+
+        return is_numeric($value) ? (int) $value : null;
+    }
+
+    public static function getFloat(array $data, string $key): ?float
+    {
+        $value = self::getValue($data, $key);
+
+        return is_numeric($value) ? (float) $value : null;
+    }
+
+    public static function getBoolean(array $data, string $key): ?bool
+    {
+        $value = self::getValue($data, $key);
+
+        return (bool) $value;
+    }
+
+    public static function getArray(array $data, string $key): ?array
+    {
+        $value = self::getValue($data, $key);
+
+        return is_array($value) ? $value : null;
+    }
+
+    public static function getDateTime(array $data, string $key, string $format = DateTimeInterface::ATOM): ?DateTime
+    {
+        $value = self::getString($data, $key);
         $return = $value ? DateTime::createFromFormat($format, $value) : null;
 
         return $return ?: null;
     }
 
-    /**
-     * @param array  $data   the response-data
-     * @param string $key    the key to get
-     * @param string $format
-     *
-     * @return DateTime|null
-     */
-    public static function getDate($data, $key, $format = 'Y-m-d')
+    public static function getDate(array $data, string $key, string $format = 'Y-m-d'): ?DateTime
     {
         return self::getDateTime($data, $key, $format);
     }
 
     /**
      * @template T
-     *
-     * @param array           $data     the response-data
-     * @param string          $key      the key to get
-     * @param class-string<T> $class    the class to instantiate
-     * @param bool            $readOnly true if the model should be read only
-     *
+     * @param class-string<T> $class the class to instantiate
      * @return T|null
      */
-    public static function getObject($data, $key, $class, $readOnly = true)
+    public static function getObject(array $data, string $key, string $class, bool $readOnly = true)
     {
         return isset($data[$key]) ? new $class($data[$key], $readOnly) : null;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\HttpClient\BillieClient;
@@ -14,15 +16,16 @@ use InvalidArgumentException;
  */
 class PauseOrderDunningProcessRequest extends AbstractRequest
 {
-    protected function getPath(AbstractRequestModel $requestModel)
+    protected function getPath(AbstractRequestModel $requestModel): string
     {
         if ($requestModel instanceof PauseOrderDunningProcessRequestModel) {
             return 'order/' . $requestModel->getId() . '/pause-dunning';
         }
+
         throw new InvalidArgumentException('argument must be instance of ' . PauseOrderDunningProcessRequestModel::class);
     }
 
-    protected function getMethod(AbstractRequestModel $requestModel)
+    protected function getMethod(AbstractRequestModel $requestModel): string
     {
         return BillieClient::METHOD_POST;
     }

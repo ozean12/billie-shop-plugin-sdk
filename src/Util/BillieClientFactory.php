@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Util;
 
+use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\GetTokenRequestModel;
 use Billie\Sdk\Service\Request\GetTokenRequest;
@@ -9,23 +12,17 @@ use Billie\Sdk\Service\Request\GetTokenRequest;
 class BillieClientFactory
 {
     /**
-     * @var array<BillieClient>
+     * @var BillieClient[]
      */
-    private static $instances = [];
+    private static array $instances = [];
 
     /**
-     * @param string $clientId
-     * @param string $clientSecret
-     * @param bool   $isSandbox
-     *
-     * @throws \Billie\Sdk\Exception\BillieException
-     *
-     * @return \Billie\Sdk\HttpClient\BillieClient
+     * @throws BillieException
      */
-    public static function getBillieClientInstance($clientId, $clientSecret, $isSandbox)
+    public static function getBillieClientInstance(string $clientId, string $clientSecret, bool $isSandbox): BillieClient
     {
         $key = md5(implode('+', [$clientId, $clientSecret, $isSandbox ? '1' : '0']));
-        if (isset(self::$instances[$key]) === false) {
+        if (!isset(self::$instances[$key])) {
             $authToken = self::getAuthToken($clientId, $clientSecret, $isSandbox);
             self::$instances[$key] = new BillieClient($authToken, $isSandbox);
         }
@@ -34,22 +31,16 @@ class BillieClientFactory
     }
 
     /**
-     * @param string $clientId
-     * @param string $clientSecret
-     * @param bool   $isSandbox
-     *
-     * @throws \Billie\Sdk\Exception\BillieException
-     *
-     * @return string
+     * @throws BillieException
      */
-    public static function getAuthToken($clientId, $clientSecret, $isSandbox)
+    public static function getAuthToken(string $clientId, string $clientSecret, bool $isSandbox): string
     {
         $requestService = new GetTokenRequest($isSandbox);
 
         $response = $requestService->execute(
             (new GetTokenRequestModel())
-            ->setClientId($clientId)
-            ->setClientSecret($clientSecret)
+                ->setClientId($clientId)
+                ->setClientSecret($clientSecret)
         );
 
         return $response->getAccessToken();

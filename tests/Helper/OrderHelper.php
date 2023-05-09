@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Helper;
 
 use Billie\Sdk\Model\Address;
@@ -11,14 +13,14 @@ use Billie\Sdk\Model\Request\CreateOrderRequestModel;
 
 class OrderHelper
 {
-    public static function createValidOrderModel()
+    public static function createValidOrderModel(): CreateOrderRequestModel
     {
         $orderId = uniqid('order-id-', true);
         $addressModel = (new Address())
             ->setStreet('Charlottenstr.')
             ->setHouseNumber('4')
             ->setAddition('c/o Mr. Smith')
-            ->setPostalCode(10969)
+            ->setPostalCode('10969')
             ->setCity('Berlin')
             ->setCountryCode('DE');
 
@@ -63,7 +65,8 @@ class OrderHelper
                         (new Amount())
                             ->setGross(50.00)
                             ->setTaxRate(19.00)
-                    ))
+                    )
+            )
             ->addLineItem(
                 (new LineItem())
                     ->setExternalId('product-id-2')

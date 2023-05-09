@@ -1,12 +1,15 @@
 <?php
 
-namespace Billie\Sdk\Model\Response;
+declare(strict_types=1);
 
+namespace Billie\Sdk\Tests\Acceptance\Model\Response;
+
+use Billie\Sdk\Model\Response\GetBankDataResponseModel;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class GetBankDataResponseModelTest extends AbstractModelTestCase
 {
-    public function testFromArray()
+    public function testFromArray(): void
     {
         $responseModel = new GetBankDataResponseModel([
             'items' => [

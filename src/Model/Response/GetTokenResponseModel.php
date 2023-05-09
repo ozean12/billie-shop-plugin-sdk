@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Response;
 
 use Billie\Sdk\Util\ResponseHelper;
@@ -12,26 +14,17 @@ use DateTime;
  */
 class GetTokenResponseModel extends AbstractResponseModel
 {
-    /**
-     * @var string
-     */
-    protected $tokenType;
+    protected ?string $tokenType = null;
 
-    /**
-     * @var DateTime
-     */
-    protected $expires;
+    protected ?DateTime $expires = null;
 
-    /**
-     * @var string
-     */
-    protected $accessToken;
+    protected ?string $accessToken = null;
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->tokenType = ResponseHelper::getValue($data, 'token_type');
-        $this->expires = (new \DateTime())->modify('+' . $data['expires_in'] . ' seconds');
-        $this->accessToken = ResponseHelper::getValue($data, 'access_token');
+        $this->tokenType = ResponseHelper::getString($data, 'token_type');
+        $this->expires = (new DateTime())->modify('+' . $data['expires_in'] . ' seconds');
+        $this->accessToken = ResponseHelper::getString($data, 'access_token');
 
         return $this;
     }

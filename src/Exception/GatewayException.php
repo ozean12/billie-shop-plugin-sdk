@@ -1,32 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Exception;
 
 class GatewayException extends BillieException
 {
-    /**
-     * @var array
-     */
-    private $responseData;
+    private array $responseData = [];
 
-    /**
-     * @var array
-     */
-    private $requestData;
+    private array $requestData = [];
 
     /**
      * @param string $defaultMessage
      * @param int    $httpCode
-     * @param array  $responseData
-     * @param array  $requestData
      */
-    public function __construct($defaultMessage, $httpCode, $responseData = [], $requestData = [])
+    public function __construct($defaultMessage, $httpCode, array $responseData = [], array $requestData = [])
     {
         parent::__construct($defaultMessage, (string) $httpCode);
         $this->responseData = $responseData;
         $this->requestData = $requestData;
 
-        if (isset($responseData['errors']) && count($responseData['errors']) === 1) {
+        if (isset($responseData['errors']) && (is_countable($responseData['errors']) ? count($responseData['errors']) : 0) === 1) {
             $messages = [];
             $codes = [];
             foreach ($responseData['errors'] as $error) {
@@ -35,6 +29,7 @@ class GatewayException extends BillieException
                 if (isset($error['source'])) {
                     $message = $error['source'] . ': ' . $message;
                 }
+
                 $messages[] = $message;
                 $codes[] = $error['code'];
             }
@@ -44,18 +39,12 @@ class GatewayException extends BillieException
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getResponseData()
+    public function getResponseData(): array
     {
         return $this->responseData;
     }
 
-    /**
-     * @return array
-     */
-    public function getRequestData()
+    public function getRequestData(): array
     {
         return $this->requestData;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Exception\OrderDecline\DebtorLimitExceededException;
@@ -16,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 class CreateOrderTest extends TestCase
 {
-    public function testCreateOrderWithValidAttributes()
+    public function testCreateOrderWithValidAttributes(): void
     {
         $model = OrderHelper::createValidOrderModel();
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
@@ -27,7 +29,7 @@ class CreateOrderTest extends TestCase
         static::assertEquals(Order::STATE_CREATED, $response->getState());
     }
 
-    public function testCreateOrderDeclined()
+    public function testCreateOrderDeclined(): void
     {
         $model = OrderHelper::createValidOrderModel();
         $model->getCompany()->setName('invalid company name');
@@ -37,15 +39,15 @@ class CreateOrderTest extends TestCase
             $requestService->execute($model);
             static::fail('expected Exception of type ' . DebtorNotIdentifiedException::class);
             // we will not test every single declined-reason. Just the main functionality of throwing the exceptions
-        } catch (OrderDeclinedException $exception) {
-            static::assertNotNull($exception->getRequestModel());
-            static::assertNotNull($exception->getDeclinedOrder());
-            static::assertNotNull($exception->getDeclinedOrder()->getDeclineReason());
-            static::assertEquals(Order::STATE_DECLINED, $exception->getDeclinedOrder()->getState());
+        } catch (OrderDeclinedException $orderDeclinedException) {
+            static::assertNotNull($orderDeclinedException->getRequestModel());
+            static::assertNotNull($orderDeclinedException->getDeclinedOrder());
+            static::assertNotNull($orderDeclinedException->getDeclinedOrder()->getDeclineReason());
+            static::assertEquals(Order::STATE_DECLINED, $orderDeclinedException->getDeclinedOrder()->getState());
         }
     }
 
-    public function testDeclineOrderWithDebtorNotIdentifiedException()
+    public function testDeclineOrderWithDebtorNotIdentifiedException(): void
     {
         $order = OrderHelper::createValidOrderModel();
         $order->getCompany()->setName('invalid company name');
@@ -60,7 +62,7 @@ class CreateOrderTest extends TestCase
         $requestService->execute($order);
     }
 
-    public function testDeclineOrderWithDebtorAddressException()
+    public function testDeclineOrderWithDebtorAddressException(): void
     {
         $order = OrderHelper::createValidOrderModel();
         $order->getCompany()->getAddress()
@@ -77,7 +79,7 @@ class CreateOrderTest extends TestCase
         $requestService->execute($order);
     }
 
-    public function testDeclineOrderWithRiskPolicyException()
+    public function testDeclineOrderWithRiskPolicyException(): void
     {
         $order = OrderHelper::createValidOrderModel();
         $order->getCompany()->getAddress()
@@ -94,7 +96,7 @@ class CreateOrderTest extends TestCase
         $requestService->execute($order);
     }
 
-    public function testDeclineOrderWithLimitExceededException()
+    public function testDeclineOrderWithLimitExceededException(): void
     {
         $order = OrderHelper::createValidOrderModel();
         $order->getCompany()->getAddress()

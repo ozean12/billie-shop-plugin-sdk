@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Model\Response\AbstractResponseModel;
@@ -13,27 +15,19 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class BankAccount extends AbstractResponseModel
 {
-    /** @var string */
-    protected $iban;
+    protected ?string $iban = null;
 
-    /** @var string */
-    protected $bic;
+    protected ?string $bic = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->iban = ResponseHelper::getValue($data, 'iban');
-        $this->bic = ResponseHelper::getValue($data, 'bic');
+        $this->iban = ResponseHelper::getString($data, 'iban');
+        $this->bic = ResponseHelper::getString($data, 'bic');
 
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'iban' => $this->iban,
@@ -41,10 +35,7 @@ class BankAccount extends AbstractResponseModel
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'iban' => 'string',

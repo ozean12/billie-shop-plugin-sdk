@@ -1,23 +1,32 @@
 <?php
 
-namespace Billie\Util;
+declare(strict_types=1);
 
-/**
- * Class BillieBankaccountProvider
- *
- * @author Marcel Barten <github@m-barten.de>
- */
+namespace Billie\Sdk\Util;
+
+use RuntimeException;
+
 class BillieBankaccountProvider
 {
-    const PATH = '/../../assets/billie_bankaccount.json';
-
     /**
-     * @return array
+     * @var string
      */
-    public static function all()
+    public const PATH = '/../../assets/billie_bankaccount.json';
+
+    public static function all(): array
     {
-        $json = file_get_contents(__DIR__ . self::PATH);
-        $data = json_decode($json, true);
+        $file = __DIR__ . self::PATH;
+        if (!is_readable($file)) {
+            throw new RuntimeException($file . ' is not readable. Please make sure that the file is readable.');
+        }
+
+        $json = file_get_contents($file);
+        /** @var array[]|mixed $data */
+        $data = json_decode((string) $json, true);
+
+        if (!is_array($data)) {
+            return [];
+        }
 
         $result = [];
         foreach ($data as $row) {
@@ -30,12 +39,7 @@ class BillieBankaccountProvider
         return $result;
     }
 
-    /**
-     * @param string $bic
-     *
-     * @return array
-     */
-    public static function get($bic)
+    public static function get(string $bic): array
     {
         $billieBankaccounts = self::all();
 

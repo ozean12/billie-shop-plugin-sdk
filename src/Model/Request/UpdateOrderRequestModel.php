@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 use Billie\Sdk\Model\Amount;
@@ -18,35 +20,17 @@ use Billie\Sdk\Model\Amount;
  */
 class UpdateOrderRequestModel extends OrderRequestModel
 {
-    /**
-     * @var string
-     */
-    protected $invoiceUrl;
+    protected ?string $invoiceUrl = null;
 
-    /**
-     * @var string
-     */
-    protected $invoiceNumber;
+    protected ?string $invoiceNumber = null;
 
-    /**
-     * @var string
-     */
-    protected $orderId;
+    protected ?string $orderId = null;
 
-    /**
-     * @var int
-     */
-    protected $duration;
+    protected ?int $duration = null;
 
-    /**
-     * @var Amount
-     */
-    protected $amount;
+    protected ?Amount $amount = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return array_merge(parent::getFieldValidations(), [
             'duration' => '?integer',
@@ -57,14 +41,11 @@ class UpdateOrderRequestModel extends OrderRequestModel
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return array_merge(parent::toArray(), [
             'duration' => $this->getDuration(),
-            'amount' => $this->getAmount() ? $this->getAmount()->toArray() : null,
+            'amount' => $this->getAmount() instanceof Amount ? $this->getAmount()->toArray() : null,
             'invoice_number' => $this->getInvoiceNumber(),
             'invoice_url' => $this->getInvoiceUrl(),
             'order_id' => $this->getOrderId(),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Exception\OrderDecline;
 
 use Billie\Sdk\Exception\BillieException;
@@ -8,15 +10,9 @@ use Billie\Sdk\Model\Request\CreateOrderRequestModel;
 
 class OrderDeclinedException extends BillieException
 {
-    /**
-     * @var CreateOrderRequestModel
-     */
-    private $requestModel;
+    private CreateOrderRequestModel $requestModel;
 
-    /**
-     * @var Order
-     */
-    private $declinedOrder;
+    private Order $declinedOrder;
 
     public function __construct(
         CreateOrderRequestModel $requestModel,

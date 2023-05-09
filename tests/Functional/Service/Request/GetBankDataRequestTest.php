@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Request\GetBankDataRequestModel;
@@ -8,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class GetBankDataRequestTest extends TestCase
 {
-    public function testExecute()
+    public function testExecute(): void
     {
         $requestService = new GetBankDataRequest();
         $responseModel = $requestService->execute(new GetBankDataRequestModel());

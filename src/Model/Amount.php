@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
@@ -15,25 +17,18 @@ use RuntimeException;
  */
 class Amount extends AbstractModel
 {
-    /** @var float */
-    protected $net;
+    protected ?float $net = null;
 
-    /** @var float */
-    protected $gross;
+    protected ?float $gross = null;
 
-    /** @var float */
-    protected $tax;
+    protected ?float $tax = null;
 
     /**
-     * @param float $taxRate
-     *
      * @throws InvalidFieldValueException
-     *
-     * @return self
      */
-    public function setTaxRate($taxRate)
+    public function setTaxRate(float $taxRate): self
     {
-        if ($this->net) {
+        if ($this->net !== null) {
             $this->tax = $this->net * ($taxRate / 100);
 
             $gross = $this->net + $this->tax;
@@ -42,15 +37,10 @@ class Amount extends AbstractModel
             } elseif ($this->gross !== $gross) {
                 throw new InvalidFieldValueException('the set value of `gross` does not match the calculated value of ' . $gross . '. Please do net set the `gross` value, or set the correct value');
             }
-        } elseif ($this->gross) {
+        } elseif ($this->gross !== null) {
             $this->tax = $this->gross - ($this->gross / ($taxRate / 100 + 1));
 
-            $net = $this->gross - $this->tax;
-            if ($this->net === null) {
-                $this->net = $net;
-            } elseif ($this->net !== $net) {
-                throw new InvalidFieldValueException('the set value of `net` does not match the calculated value of ' . $net . '. Please do net set the `net` value, or set the correct value');
-            }
+            $this->net = $this->gross - $this->tax;
         } else {
             throw new RuntimeException('please set the `net` or `gross` value first.');
         }
@@ -58,18 +48,12 @@ class Amount extends AbstractModel
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getTax()
+    public function getTax(): float
     {
         return $this->tax ?: ($this->gross - $this->net);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'net' => 'float',
@@ -77,20 +61,20 @@ class Amount extends AbstractModel
         ];
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
-            'net' => (float) round($this->getNet(), 2),
-            'gross' => (float) round($this->getGross(), 2),
-            'tax' => (float) round($this->getTax(), 2),
+            'net' => round($this->getNet(), 2),
+            'gross' => round($this->getGross(), 2),
+            'tax' => round($this->getTax(), 2),
         ];
     }
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->net = ResponseHelper::getValue($data, 'net');
-        $this->gross = ResponseHelper::getValue($data, 'gross');
-        $this->tax = ResponseHelper::getValue($data, 'tax');
+        $this->net = ResponseHelper::getFloat($data, 'net');
+        $this->gross = ResponseHelper::getFloat($data, 'gross');
+        $this->tax = ResponseHelper::getFloat($data, 'tax');
 
         return $this;
     }

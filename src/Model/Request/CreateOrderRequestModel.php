@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 use Billie\Sdk\Model\Address;
@@ -30,67 +32,50 @@ use Billie\Sdk\Model\Request\CreateOrder\Company;
  */
 class CreateOrderRequestModel extends AbstractRequestModel
 {
-    /** @var Amount */
-    protected $amount;
+    protected ?Amount $amount = null;
 
-    /** @var int */
-    protected $duration = 14;
+    protected ?int $duration = 14;
 
-    /** @var Company */
-    protected $company;
+    protected ?Company $company = null;
 
-    /** @var Person */
-    protected $person;
+    protected ?Person $person = null;
 
-    /** @var string */
-    protected $comment;
+    protected ?string $comment = null;
 
-    /** @var string */
-    protected $orderId;
+    protected ?string $orderId = null;
 
-    /** @var Address */
-    protected $deliveryAddress;
+    protected ?Address $deliveryAddress = null;
 
-    /** @var Address */
-    protected $billingAddress;
-
-    /** @var LineItem[] */
-    protected $lineItems = [];
+    protected ?Address $billingAddress = null;
 
     /**
-     * @return $this
+     * @var LineItem[]
      */
-    public function addLineItem(LineItem $lineItem)
+    protected array $lineItems = [];
+
+    public function addLineItem(LineItem $lineItem): self
     {
         $this->lineItems[] = $lineItem;
 
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
-            'amount' => $this->amount->toArray(),
+            'amount' => $this->amount instanceof Amount ? $this->amount->toArray() : null,
             'duration' => $this->duration,
-            'debtor_company' => $this->company->toArray(),
-            'debtor_person' => $this->person->toArray(),
+            'debtor_company' => $this->company instanceof Company ? $this->company->toArray() : null,
+            'debtor_person' => $this->person instanceof Person ? $this->person->toArray() : null,
             'comment' => $this->comment,
             'order_id' => $this->orderId,
-            'delivery_address' => $this->deliveryAddress->toArray(),
-            'billing_address' => $this->billingAddress->toArray(),
-            'line_items' => array_map(static function (LineItem $item) {
-                return $item->toArray();
-            }, $this->lineItems),
+            'delivery_address' => $this->deliveryAddress instanceof Address ? $this->deliveryAddress->toArray() : null,
+            'billing_address' => $this->billingAddress instanceof Address ? $this->billingAddress->toArray() : null,
+            'line_items' => array_map(static fn (LineItem $item): array => $item->toArray(), $this->lineItems ?? []),
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'amount' => Amount::class,

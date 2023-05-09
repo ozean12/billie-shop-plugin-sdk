@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Order;
@@ -14,10 +16,7 @@ use Billie\Sdk\Tests\Helper\OrderHelper;
 
 class ConfirmPaymentTest extends AbstractTestCase
 {
-    /**
-     * @var Order
-     */
-    private $createdOrderModel;
+    private Order $createdOrderModel;
 
     protected function setUp(): void
     {
@@ -25,13 +24,14 @@ class ConfirmPaymentTest extends AbstractTestCase
             ->execute(OrderHelper::createValidOrderModel());
 
         (new ShipOrderRequest(BillieClientHelper::getClient()))
-            ->execute((new ShipOrderRequestModel($this->createdOrderModel->getUuid()))
-                ->setInvoiceNumber(uniqid('invoice-number', false))
-                ->setInvoiceUrl('https://domain.com/invoice.pdf')
+            ->execute(
+                (new ShipOrderRequestModel($this->createdOrderModel->getUuid()))
+                    ->setInvoiceNumber(uniqid('invoice-number', false))
+                    ->setInvoiceUrl('https://domain.com/invoice.pdf')
             );
     }
 
-    public function testConfirm()
+    public function testConfirm(): void
     {
         $requestService = new ConfirmPaymentRequest(BillieClientHelper::getClient());
         $response = $requestService->execute(

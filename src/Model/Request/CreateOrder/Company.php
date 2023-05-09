@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request\CreateOrder;
 
 use Billie\Sdk\Model\Address;
@@ -33,75 +35,63 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  */
 class Company extends AbstractRequestModel
 {
-    /**
-     * @var string
-     */
-    protected $merchantCustomerId;
+    protected ?string $merchantCustomerId = null;
 
     /**
-     * @var string name of the company
+     * @var string|null name of the company
      */
-    protected $name;
+    protected ?string $name = null;
+
+    protected ?Address $address = null;
 
     /**
-     * @var Address
+     * @var string|null VAT-ID (german: USt.-Id) - e.g. DE310295470 (optional)
      */
-    protected $address;
+    protected ?string $taxId = null;
 
     /**
-     * @var string VAT-ID (german: USt.-Id) - e.g. DE310295470 (optional)
+     * @var string|null tax number (german: Steuernummer) (optional)
      */
-    protected $taxId;
+    protected ?string $taxNumber = null;
 
     /**
-     * @var string tax number (german: Steuernummer) (optional)
+     * @var string|null court where the company has been registered - e.g. Amtsgericht Charlottenburg (optional)
      */
-    protected $taxNumber;
+    protected ?string $registrationCourt = null;
 
     /**
-     * @var string court where the company has been registered - e.g. Amtsgericht Charlottenburg (optional)
+     * @var string|null Handelsregisternummer (german) - e.g. HRB 182428 B (optional)
      */
-    protected $registrationCourt;
+    protected ?string $registrationNumber = null;
+
+    protected ?string $industrySector = null;
+
+    protected ?string $subIndustrySector = null;
 
     /**
-     * @var string Handelsregisternummer (german) - e.g. HRB 182428 B (optional)
+     * @var int|null number of employees in the company (optional)
      */
-    protected $registrationNumber;
+    protected ?int $countOfEmployees = null;
 
-    /** @var string */
-    protected $industrySector;
-
-    /** @var string */
-    protected $subIndustrySector;
+    protected bool $establishedCustomer = false;
 
     /**
-     * @var int number of employees in the company (optional)
+     * @var string|null legal form of the company - e.g. UG, GmbH, GbR
      */
-    protected $countOfEmployees;
+    protected ?string $legalForm = null;
 
-    /** @var bool */
-    protected $establishedCustomer;
-
-    /**
-     * @var string legal form of the company - e.g. UG, GmbH, GbR
-     */
-    protected $legalForm;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'merchant_customer_id' => $this->merchantCustomerId,
             'name' => $this->name,
             'legal_form' => $this->legalForm,
-            'address_street' => $this->address->getStreet(),
-            'address_city' => $this->address->getCity(),
-            'address_postal_code' => $this->address->getPostalCode(),
-            'address_country' => $this->address->getCountryCode(),
-            'address_addition' => $this->address->getAddition(),
-            'address_house_number' => $this->address->getHouseNumber(),
+            'address_street' => $this->address instanceof Address ? $this->address->getStreet() : null,
+            'address_city' => $this->address instanceof Address ? $this->address->getCity() : null,
+            'address_postal_code' => $this->address instanceof Address ? $this->address->getPostalCode() : null,
+            'address_country' => $this->address instanceof Address ? $this->address->getCountryCode() : null,
+            'address_addition' => $this->address instanceof Address ? $this->address->getAddition() : null,
+            'address_house_number' => $this->address instanceof Address ? $this->address->getHouseNumber() : null,
             'tax_id' => $this->taxId,
             'tax_number' => $this->taxNumber,
             'registration_court' => $this->registrationCourt,
@@ -113,10 +103,7 @@ class Company extends AbstractRequestModel
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return [
             'merchantCustomerId' => 'string',
@@ -129,7 +116,7 @@ class Company extends AbstractRequestModel
             'industrySector' => '?string',
             'subIndustrySector' => '?string',
             'countOfEmployees' => '?string',
-            'establishedCustomer' => '?string',
+            'establishedCustomer' => '?boolean',
             'legalForm' => '?string',
         ];
     }

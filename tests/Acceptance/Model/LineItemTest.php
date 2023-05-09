@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Model\Amount;
@@ -7,7 +9,7 @@ use Billie\Sdk\Model\LineItem;
 
 class LineItemTest extends AbstractModelTestCase
 {
-    public function testToArray()
+    public function testToArray(): void
     {
         $data = (new LineItem())
             ->setExternalId('external-product-id')

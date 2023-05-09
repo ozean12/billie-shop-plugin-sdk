@@ -1,66 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Util\ResponseHelper;
 
 class LegalForm extends AbstractModel
 {
-    /**
-     * @var string
-     */
-    private $code;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $requiredField;
-    /**
-     * @var bool
-     */
-    private $required;
+    private ?int $code = null;
 
-    public function fromArray($data)
+    private ?string $name = null;
+
+    private ?string  $requiredField = null;
+
+    private bool $required = false;
+
+    public function fromArray(array $data): self
     {
-        $this->code = ResponseHelper::getValue($data, 'code');
-        $this->name = ResponseHelper::getValue($data, 'name');
-        $this->requiredField = ResponseHelper::getValue($data, 'required_input');
-        $this->required = ResponseHelper::getValue($data, 'required');
+        $this->code = ResponseHelper::getInt($data, 'code');
+        $this->name = ResponseHelper::getString($data, 'name');
+        $this->requiredField = ResponseHelper::getString($data, 'required_input');
+        $this->required = (bool) ResponseHelper::getBoolean($data, 'required');
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCode()
+    public function getCode(): ?int
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getRequiredField()
+    public function getRequiredField(): ?string
     {
         return $this->requiredField;
     }
 
-    /**
-     * @return bool
-     */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return $this->required;
     }

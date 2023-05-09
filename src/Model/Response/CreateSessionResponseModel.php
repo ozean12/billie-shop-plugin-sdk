@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Response;
 
 use Billie\Sdk\Util\ResponseHelper;
@@ -9,14 +11,11 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class CreateSessionResponseModel extends AbstractResponseModel
 {
-    /**
-     * @var string
-     */
-    protected $checkoutSessionId;
+    protected ?string $checkoutSessionId = null;
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->checkoutSessionId = ResponseHelper::getValue($data, 'id');
+        $this->checkoutSessionId = ResponseHelper::getString($data, 'id');
 
         return $this;
     }

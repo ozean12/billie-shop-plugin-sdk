@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model\Request;
 
 /**
@@ -8,25 +10,16 @@ namespace Billie\Sdk\Model\Request;
  */
 class ConfirmPaymentRequestModel extends OrderRequestModel
 {
-    /**
-     * @var float
-     */
-    protected $paidAmount;
+    protected ?float $paidAmount = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFieldValidations()
+    public function getFieldValidations(): array
     {
         return array_merge(parent::getFieldValidations(), [
             'paidAmount' => '?float',
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return array_merge(parent::toArray(), [
             'paid_amount' => $this->getPaidAmount(),

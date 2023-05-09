@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Request\GetLegalFormsRequestModel;
@@ -10,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class GetLegalFormsTest extends TestCase
 {
-    public function testRetrieveOrderWithValidAttributes()
+    public function testRetrieveOrderWithValidAttributes(): void
     {
         $requestService = new GetLegalFormsRequest(BillieClientHelper::getClient());
 

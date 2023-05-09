@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Util\ArrayHelper;
@@ -13,21 +15,19 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class DebtorCompany extends AbstractModel
 {
-    /** @var string */
-    protected $name;
+    protected ?string $name = null;
 
-    /** @var Address */
-    protected $address;
+    protected Address $address;
 
-    public function fromArray($data)
+    public function fromArray(array $data): self
     {
-        $this->name = ResponseHelper::getValue($data, 'name');
+        $this->name = ResponseHelper::getString($data, 'name');
         $this->address = (new Address(ArrayHelper::removePrefixFromKeys($data, 'address_'), $this->readOnly));
 
         return $this;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $addressData = ArrayHelper::addPrefixToKeys($this->getAddress()->toArray(), 'address_');
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\Exception\OrderDecline\DebtorLimitExceededException;
@@ -11,6 +13,7 @@ use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\CreateOrderRequestModel;
+use RuntimeException;
 
 /**
  * @see https://developers.billie.io/#operation/order_create
@@ -19,25 +22,25 @@ use Billie\Sdk\Model\Request\CreateOrderRequestModel;
  */
 class CreateOrderRequest extends AbstractRequest
 {
-    protected function getMethod(AbstractRequestModel $requestModel)
+    protected function getMethod(AbstractRequestModel $requestModel): string
     {
         return BillieClient::METHOD_POST;
     }
 
-    protected function getPath(AbstractRequestModel $requestModel)
+    protected function getPath(AbstractRequestModel $requestModel): string
     {
         return '/order';
     }
 
     /**
-     * @param array|null $responseData
-     *
      * @throws OrderDeclinedException
-     *
-     * @return Order
      */
-    protected function processSuccess(AbstractRequestModel $requestModel, $responseData)
+    protected function processSuccess(AbstractRequestModel $requestModel, ?array $responseData = null): Order
     {
+        if ($responseData === null || $responseData === []) {
+            throw new RuntimeException('Unknown error. Not empty response was expected.');
+        }
+
         $model = new Order($responseData);
         if ($requestModel instanceof CreateOrderRequestModel && $model->getDeclineReason()) {
             switch ($model->getDeclineReason()) {
@@ -57,6 +60,7 @@ class CreateOrderRequest extends AbstractRequest
                     $exception = new OrderDeclinedException($requestModel, $model, 'Unknown rejection', strtoupper($model->getDeclineReason()));
                     break;
             }
+
             $this->processFailed($requestModel, $exception);
             throw $exception;
         }

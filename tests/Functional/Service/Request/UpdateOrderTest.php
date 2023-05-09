@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Order;
@@ -14,10 +16,7 @@ use Billie\Sdk\Tests\Helper\OrderHelper;
 
 class UpdateOrderTest extends AbstractTestCase
 {
-    /**
-     * @var Order
-     */
-    private $createdOrderModel;
+    private Order $createdOrderModel;
 
     protected function setUp(): void
     {
@@ -32,10 +31,9 @@ class UpdateOrderTest extends AbstractTestCase
             );
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $invoiceNumber = uniqid('updated-invoice-number-', true);
-        $orderId = uniqid('updated-order-id-', true);
         $requestService = new UpdateOrderRequest(BillieClientHelper::getClient());
         $result = $requestService->execute(
             (new UpdateOrderRequestModel($this->createdOrderModel->getUuid()))

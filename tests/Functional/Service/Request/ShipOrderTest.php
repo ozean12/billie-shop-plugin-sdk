@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Model\Invoice;
@@ -13,10 +15,7 @@ use Billie\Sdk\Tests\Helper\OrderHelper;
 
 class ShipOrderTest extends AbstractTestCase
 {
-    /**
-     * @var Order
-     */
-    private $createdOrderModel;
+    private Order $createdOrderModel;
 
     protected function setUp(): void
     {
@@ -24,7 +23,7 @@ class ShipOrderTest extends AbstractTestCase
             ->execute(OrderHelper::createValidOrderModel());
     }
 
-    public function testShip()
+    public function testShip(): void
     {
         $invoiceNumber = uniqid('invoice-number-', true);
         $externalOrderNumber = uniqid('external-order-id', true);

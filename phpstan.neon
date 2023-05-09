@@ -1,8 +1,8 @@
 parameters:
-    level: 6
+    level: 9
     paths:
-        - %currentWorkingDirectory%/src
-
+        - src
+        - tests
     reportUnmatchedIgnoredErrors: false
     tipsOfTheDay: false
     bootstrapFiles:
@@ -10,3 +10,7 @@ parameters:
 
     ignoreErrors:
         - '#type specified in iterable type array.#'
+        -
+            message: '# does not accept *.#'
+            paths:
+                - tests/Acceptance/Model/Request/AbstractRequestModelTest.php

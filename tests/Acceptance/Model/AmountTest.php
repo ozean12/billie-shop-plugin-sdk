@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
@@ -8,7 +10,7 @@ use RuntimeException;
 
 class AmountTest extends AbstractModelTestCase
 {
-    public function testToArray()
+    public function testToArray(): void
     {
         $data = (new Amount())
             ->setGross(100.00)
@@ -20,7 +22,7 @@ class AmountTest extends AbstractModelTestCase
         static::assertEquals(49.50, $data['tax']);
     }
 
-    public function testTaxCalculation()
+    public function testTaxCalculation(): void
     {
         $model = (new Amount())
             ->setGross(119.00)
