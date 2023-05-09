@@ -11,29 +11,23 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Exception\OrderNotFoundException;
-use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Service\Request\CreateOrderRequest;
 use Billie\Sdk\Service\Request\Order\GetOrderRequest;
-use Billie\Sdk\Tests\AbstractTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
 
-class GetOrderTest extends AbstractTestCase
+class GetOrderTest extends AbstractOrderRequest
 {
-    private Order $createdOrderModel;
-
-    protected function setUp(): void
-    {
-        $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
-            ->execute(OrderHelper::createValidOrderModel());
-    }
-
     public function testGetOrderDetails(): void
     {
+        $orderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
+            ->execute(OrderHelper::createValidOrderModel($this->getName()));
+        $this->orderIds[] = $orderModel->getUuid();
+
         $requestService = new GetOrderRequest(BillieClientHelper::getClient());
-        $order = $requestService->execute(new OrderRequestModel($this->createdOrderModel->getUuid()));
-        $this->compareArrays($this->createdOrderModel->toArray(), $order->toArray());
+        $order = $requestService->execute(new OrderRequestModel($orderModel->getUuid()));
+        $this->compareArrays($orderModel->toArray(), $order->toArray());
     }
 
     public function testNotFound(): void
