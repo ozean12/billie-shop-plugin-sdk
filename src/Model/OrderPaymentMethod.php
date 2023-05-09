@@ -25,7 +25,7 @@ use DateTime;
  */
 class OrderPaymentMethod extends AbstractResponseModel
 {
-    protected ?string $type = null;
+    protected string $type;
 
     protected ?string $iban = null;
 
@@ -41,7 +41,7 @@ class OrderPaymentMethod extends AbstractResponseModel
 
     public function fromArray(array $data): self
     {
-        $this->type = ResponseHelper::getString($data, 'type');
+        $this->type = ResponseHelper::getStringNN($data, 'type');
         if (isset($data['data']) && is_array($data['data'])) {
             $data = $data['data'];
             $this->iban = ResponseHelper::getString($data, 'iban');

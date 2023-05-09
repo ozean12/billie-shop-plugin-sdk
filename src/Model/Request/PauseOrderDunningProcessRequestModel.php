@@ -18,16 +18,16 @@ class PauseOrderDunningProcessRequestModel extends OrderRequestModel
 {
     protected ?int $numberOfDays = null;
 
-    public function getFieldValidations(): array
+    protected function getFieldValidations(): array
     {
         return array_merge(parent::getFieldValidations(), [
             'numberOfDays' => 'integer',
         ]);
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
-        return array_merge(parent::toArray(), [
+        return array_merge(parent::_toArray(), [
             'number_of_days' => $this->getNumberOfDays(),
         ]);
     }

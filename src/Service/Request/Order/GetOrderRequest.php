@@ -10,10 +10,10 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Service\Request\Order;
 
-use Billie\Sdk\Service\Request\AbstractRequest;
+use Billie\Sdk\Exception\InvalidResponseException;
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\OrderRequestModel;
-use RuntimeException;
+use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
  * @see https://docs.billie.io/reference/order_get_details
@@ -29,7 +29,7 @@ class GetOrderRequest extends AbstractRequest
     protected function processSuccess($requestModel, ?array $responseData = null): Order
     {
         if ($responseData === null || $responseData === []) {
-            throw new RuntimeException('Unknown error. Not empty response was expected.');
+            throw new InvalidResponseException('Got no response from gateway. A response was expected.');
         }
 
         return new Order($responseData);

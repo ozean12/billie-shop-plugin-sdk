@@ -18,7 +18,7 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class ValidateTokenResponse extends AbstractResponseModel
 {
-    protected ?string $clientId = null;
+    protected string $clientId;
 
     /**
      * @var string[]
@@ -27,7 +27,7 @@ class ValidateTokenResponse extends AbstractResponseModel
 
     public function fromArray(array $data): self
     {
-        $this->clientId = ResponseHelper::getString($data, 'client_id');
+        $this->clientId = ResponseHelper::getStringNN($data, 'client_id');
         $this->scopes = ResponseHelper::getArray($data, 'scopes') ?? [];
 
         return $this;

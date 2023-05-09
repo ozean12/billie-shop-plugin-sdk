@@ -23,6 +23,21 @@ use Billie\Sdk\Tests\Helper\OrderHelper;
 
 class CreateOrderTest extends AbstractOrderRequest
 {
+    private static array $declinedResponseTemplate = [
+        'external_code' => '123',
+        'state' => Order::STATE_DECLINED,
+        'amount' => [],
+        'unshipped_amount' => [],
+        'duration' => 123,
+        'debtor' => [],
+        'delivery_address' => [],
+        'created_at' => '2022-12-13 12:34:56',
+        'invoices' => [],
+        'selected_payment_method' => 'payment-method',
+        'payment_methods' => [],
+        'uuid' => '123',
+    ];
+
     public function testCreateOrderWithValidAttributes(): void
     {
         $model = OrderHelper::createValidOrderModel($this->getName());
@@ -37,7 +52,8 @@ class CreateOrderTest extends AbstractOrderRequest
 
     public function testCreateOrderDeclined(): void
     {
-        $model = OrderHelper::createValidOrderModel();
+        // TODO currently this tests fails cause missing response data. VERIFY
+        $model = OrderHelper::createValidOrderModel($this->getName());
         $model->getDebtor()->setName('invalid company name');
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
 
@@ -57,12 +73,14 @@ class CreateOrderTest extends AbstractOrderRequest
     public function testDeclineOrderWithDebtorNotIdentifiedException(): void
     {
         $order = OrderHelper::createValidOrderModel();
-        $order->getDebtor()->setName('invalid company name');
 
         $billieClient = $this->createMock(BillieClient::class);
-        $billieClient->method('request')->willReturn([
-            'decline_reason' => Order::DECLINED_REASON_DEBTOR_NOT_IDENTIFIED,
-        ]);
+        $billieClient->method('request')->willReturn(array_merge(
+            self::$declinedResponseTemplate,
+            [
+                'decline_reason' => Order::DECLINED_REASON_DEBTOR_NOT_IDENTIFIED,
+            ]
+        ));
         $requestService = new CreateOrderRequest($billieClient);
 
         $this->expectException(DebtorNotIdentifiedException::class);
@@ -72,14 +90,14 @@ class CreateOrderTest extends AbstractOrderRequest
     public function testDeclineOrderWithDebtorAddressException(): void
     {
         $order = OrderHelper::createValidOrderModel();
-        $order->getDebtor()->getCompanyAddress()
-            ->setStreet('invalid address')
-            ->setCity('invalid address');
 
         $billieClient = $this->createMock(BillieClient::class);
-        $billieClient->method('request')->willReturn([
-            'decline_reason' => Order::DECLINED_REASON_INVALID_ADDRESS,
-        ]);
+        $billieClient->method('request')->willReturn(array_merge(
+            self::$declinedResponseTemplate,
+            [
+                'decline_reason' => Order::DECLINED_REASON_INVALID_ADDRESS,
+            ]
+        ));
         $requestService = new CreateOrderRequest($billieClient);
 
         $this->expectException(InvalidDebtorAddressException::class);
@@ -89,14 +107,14 @@ class CreateOrderTest extends AbstractOrderRequest
     public function testDeclineOrderWithRiskPolicyException(): void
     {
         $order = OrderHelper::createValidOrderModel();
-        $order->getDebtor()->getCompanyAddress()
-            ->setStreet('invalid address')
-            ->setCity('invalid address');
 
         $billieClient = $this->createMock(BillieClient::class);
-        $billieClient->method('request')->willReturn([
-            'decline_reason' => Order::DECLINED_REASON_RISK_POLICY,
-        ]);
+        $billieClient->method('request')->willReturn(array_merge(
+            self::$declinedResponseTemplate,
+            [
+                'decline_reason' => Order::DECLINED_REASON_RISK_POLICY,
+            ]
+        ));
         $requestService = new CreateOrderRequest($billieClient);
 
         $this->expectException(RiskPolicyDeclinedException::class);
@@ -106,14 +124,15 @@ class CreateOrderTest extends AbstractOrderRequest
     public function testDeclineOrderWithLimitExceededException(): void
     {
         $order = OrderHelper::createValidOrderModel();
-        $order->getDebtor()->getCompanyAddress()
-            ->setStreet('invalid address')
-            ->setCity('invalid address');
 
         $billieClient = $this->createMock(BillieClient::class);
-        $billieClient->method('request')->willReturn([
-            'decline_reason' => Order::DECLINED_REASON_DEBTOR_LIMIT_EXCEEDED,
-        ]);
+
+        $billieClient->method('request')->willReturn(array_merge(
+            self::$declinedResponseTemplate,
+            [
+                'decline_reason' => Order::DECLINED_REASON_DEBTOR_LIMIT_EXCEEDED,
+            ]
+        ));
         $requestService = new CreateOrderRequest($billieClient);
 
         $this->expectException(DebtorLimitExceededException::class);

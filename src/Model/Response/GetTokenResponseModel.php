@@ -20,17 +20,17 @@ use DateTime;
  */
 class GetTokenResponseModel extends AbstractResponseModel
 {
-    protected ?string $tokenType = null;
+    protected string $tokenType;
 
-    protected ?DateTime $expires = null;
+    protected DateTime $expires;
 
     protected ?string $accessToken = null;
 
     public function fromArray(array $data): self
     {
-        $this->tokenType = ResponseHelper::getString($data, 'token_type');
+        $this->tokenType = ResponseHelper::getStringNN($data, 'token_type');
         $this->expires = (new DateTime())->modify('+' . $data['expires_in'] . ' seconds');
-        $this->accessToken = ResponseHelper::getString($data, 'access_token');
+        $this->accessToken = ResponseHelper::getStringNN($data, 'access_token');
 
         return $this;
     }

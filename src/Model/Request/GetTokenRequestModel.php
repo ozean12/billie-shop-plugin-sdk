@@ -18,24 +18,16 @@ namespace Billie\Sdk\Model\Request;
  */
 class GetTokenRequestModel extends AbstractRequestModel
 {
-    protected ?string $clientId = null;
+    protected string $clientId;
 
-    protected ?string $clientSecret = null;
+    protected string $clientSecret;
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'grant_type' => 'client_credentials',
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
-        ];
-    }
-
-    public function getFieldValidations(): array
-    {
-        return [
-            'clientId' => 'string',
-            'clientSecret' => 'string',
         ];
     }
 }

@@ -15,7 +15,7 @@ namespace Billie\Sdk\Model\Request;
  */
 class GetBankDataRequestModel extends AbstractRequestModel
 {
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [];
     }

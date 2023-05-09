@@ -16,14 +16,14 @@ use Billie\Sdk\Util\ResponseHelper;
 /**
  * @method string  getName()
  * @method Address getCompanyAddress()
- * @method Address getBillingAddress()
- * @method DebtorExternalData getExternalData()
+ * @method Address|null getBillingAddress()
+ * @method DebtorExternalData|null getExternalData()
  */
 class Debtor extends AbstractResponseModel
 {
-    protected ?string $name = null;
+    protected string $name;
 
-    protected ?Address $companyAddress = null;
+    protected Address $companyAddress;
 
     protected ?Address $billingAddress = null;
 
@@ -31,8 +31,8 @@ class Debtor extends AbstractResponseModel
 
     public function fromArray(array $data): self
     {
-        $this->name = ResponseHelper::getString($data, 'name');
-        $this->companyAddress = ResponseHelper::getObject($data, 'company_address', Address::class, true);
+        $this->name = ResponseHelper::getStringNN($data, 'name');
+        $this->companyAddress = ResponseHelper::getObjectNN($data, 'company_address', Address::class, true);
         $this->billingAddress = ResponseHelper::getObject($data, 'billing_address', Address::class, true);
         $this->externalData = ResponseHelper::getObject($data, 'external_data', DebtorExternalData::class, true);
 

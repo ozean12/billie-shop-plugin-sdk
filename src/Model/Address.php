@@ -12,7 +12,6 @@ namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Util\ResponseHelper;
-use Billie\Sdk\Util\ValidationConstants;
 
 /**
  * @method string      getStreet()
@@ -28,28 +27,28 @@ use Billie\Sdk\Util\ValidationConstants;
  */
 class Address extends AbstractModel
 {
-    protected ?string $street = null;
+    protected string $street;
 
     protected ?string $houseNumber = null;
 
-    protected ?string $city = null;
+    protected string $city;
 
-    protected ?string $postalCode = null;
+    protected string $postalCode;
 
-    protected ?string $countryCode = null;
+    protected string $countryCode;
 
     public function fromArray(array $data): self
     {
-        $this->street = ResponseHelper::getString($data, 'street');
+        $this->street = ResponseHelper::getStringNN($data, 'street');
         $this->houseNumber = ResponseHelper::getString($data, 'house_number');
-        $this->city = ResponseHelper::getString($data, 'city');
-        $this->postalCode = ResponseHelper::getString($data, 'postal_code');
-        $this->countryCode = ResponseHelper::getString($data, 'country');
+        $this->city = ResponseHelper::getStringNN($data, 'city');
+        $this->postalCode = ResponseHelper::getStringNN($data, 'postal_code');
+        $this->countryCode = ResponseHelper::getStringNN($data, 'country');
 
         return $this;
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'street' => $this->street,
@@ -60,25 +59,18 @@ class Address extends AbstractModel
         ];
     }
 
-    public function getFieldValidations(): array
+    protected function getFieldValidations(): array
     {
         return [
-            'street' => ValidationConstants::TYPE_STRING_REQUIRED,
-            'houseNumber' => ValidationConstants::TYPE_STRING_OPTIONAL,
-            'city' => ValidationConstants::TYPE_STRING_REQUIRED,
-            'postalCode' => static function (self $object, $value = null): string {
+            'postalCode' => static function (self $object, $value = null): void {
                 if (strlen((string) $value) !== 5) {
                     throw new InvalidFieldValueException('The field `postalCode` must be 5 chars long. (german postcode format)');
                 }
-
-                return ValidationConstants::TYPE_STRING_REQUIRED;
             },
-            'countryCode' => static function (self $object, $value = null): string {
+            'countryCode' => static function (self $object, $value = null): void {
                 if (strlen((string) $value) !== 2) {
                     throw new InvalidFieldValueException('The field `countryCode` must be 2 chars long. (ISO-3166-1)');
                 }
-
-                return ValidationConstants::TYPE_STRING_REQUIRED;
             },
         ];
     }

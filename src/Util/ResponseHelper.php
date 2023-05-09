@@ -10,11 +10,32 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Util;
 
+use BadMethodCallException;
+use Billie\Sdk\Exception\InvalidResponseException;
 use DateTime;
 use DateTimeInterface;
 
+/**
+ * @method static string getStringNN(array $data, string $key)
+ * @method static int getIntNN(array $data, string $key)
+ * @method static float getFloatNN(array $data, string $key)
+ * @method static DateTime getDateTimeNN(array $data, string $key, string $format = DateTimeInterface::ATOM)
+ * @method static DateTime getDateNN(array $data, string $key, string $format = 'Y-m-d')
+ */
 class ResponseHelper
 {
+    /**
+     * @return mixed
+     */
+    public static function __callStatic(string $name, array $arguments)
+    {
+        if (preg_match('/^(get(Object|String|DateTime|Date|Int|Float))NN$/', $name, $matches)) {
+            return self::returnNotNull($matches[1], $arguments);
+        }
+
+        throw new BadMethodCallException('Method `' . $name . '` does not exists on `' . self::class . '`');
+    }
+
     /**
      * @return mixed|null
      */
@@ -26,6 +47,7 @@ class ResponseHelper
     public static function getString(array $data, string $key): ?string
     {
         $value = self::getValue($data, $key);
+
         return is_string($value) ? $value : null;
     }
 
@@ -85,5 +107,35 @@ class ResponseHelper
     public static function getObject(array $data, string $key, string $class, bool $readOnly = true)
     {
         return isset($data[$key]) ? new $class($data[$key], $readOnly) : null;
+    }
+
+    /**
+     * @template T
+     * @param class-string<T> $class the class to instantiate
+     * @return T
+     */
+    public static function getObjectNN(array $data, string $key, string $class, bool $readOnly = true)
+    {
+        return self::__callStatic('getObjectNN', func_get_args());
+    }
+
+    /**
+     * @return mixed
+     */
+    private static function returnNotNull(string $method, array $arguments = [])
+    {
+        $value = self::$method(...$arguments);
+
+        if ($value === null) {
+            throw new InvalidResponseException(
+                sprintf(
+                    'Key `%s` was expected in response. key does not exist, or is null. Object: %s',
+                    $arguments[1],
+                    (string) json_encode($arguments[0])
+                )
+            );
+        }
+
+        return $value;
     }
 }

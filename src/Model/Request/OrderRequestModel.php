@@ -27,7 +27,7 @@ class OrderRequestModel extends AbstractRequestModel
         $this->setId($uuid);
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         // this request does not have any body-parameters
         return [];

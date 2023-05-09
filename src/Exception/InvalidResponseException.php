@@ -8,12 +8,8 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Request;
+namespace Billie\Sdk\Exception;
 
-class ValidateTokenRequestModel extends AbstractRequestModel
+class InvalidResponseException extends BillieException
 {
-    protected function _toArray(): array
-    {
-        return [];
-    }
 }

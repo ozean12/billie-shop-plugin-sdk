@@ -15,7 +15,6 @@ use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\LineItem;
 use Billie\Sdk\Model\Person;
 use Billie\Sdk\Model\Request\CreateOrder\Debtor;
-use Billie\Sdk\Util\ValidationConstants;
 
 /**
  * @method self            setAmount(Amount $amount)
@@ -32,18 +31,18 @@ use Billie\Sdk\Util\ValidationConstants;
  * @method string|null     getExternalCode()
  * @method self            setDeliveryAddress(?Address $deliveryAddress)
  * @method Address|null    getDeliveryAddress()
- * @method self            setLineItems(?LineItem[] $lineItems)
- * @method LineItem[]|null getLineItems()
+ * @method self            setLineItems(LineItem[] $lineItems)
+ * @method LineItem[]      getLineItems()
  */
 class CreateOrderRequestModel extends AbstractRequestModel
 {
-    protected ?Amount $amount = null;
+    protected Amount $amount;
 
-    protected ?int $duration = 14;
+    protected int $duration = 14;
 
-    protected ?Debtor $debtor = null;
+    protected Debtor $debtor;
 
-    protected ?Person $person = null;
+    protected Person $person;
 
     protected ?string $comment = null;
 
@@ -63,13 +62,13 @@ class CreateOrderRequestModel extends AbstractRequestModel
         return $this;
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
-            'amount' => $this->amount instanceof Amount ? $this->amount->toArray() : null,
+            'amount' => $this->amount->toArray(),
             'duration' => $this->duration,
-            'debtor' => $this->debtor instanceof Debtor ? $this->debtor->toArray() : null,
-            'debtor_person' => $this->person instanceof Person ? $this->person->toArray() : null,
+            'debtor' => $this->debtor->toArray(),
+            'debtor_person' => $this->person->toArray(),
             'comment' => $this->comment,
             'external_code' => $this->externalCode,
             'delivery_address' => $this->deliveryAddress instanceof Address ? $this->deliveryAddress->toArray() : null,
@@ -77,17 +76,10 @@ class CreateOrderRequestModel extends AbstractRequestModel
         ];
     }
 
-    public function getFieldValidations(): array
+    protected function getFieldValidations(): array
     {
         return [
-            'amount' => Amount::class,
-            'duration' => ValidationConstants::TYPE_INT_REQUIRED,
-            'debtor' => Debtor::class,
-            'person' => Person::class,
-            'comment' => ValidationConstants::TYPE_STRING_OPTIONAL,
-            'externalCode' => ValidationConstants::TYPE_STRING_OPTIONAL,
-            'deliveryAddress' => '?' . Address::class,
-            'lineItems' => ValidationConstants::TYPE_ARRAY_REQUIRED, // TODO add type-validation & min-count
+            'lineItems' => LineItem::class . '[]', // TODO add count-validation
         ];
     }
 }

@@ -14,4 +14,8 @@ use Billie\Sdk\Exception\BillieException;
 
 class InvalidFieldValueException extends BillieException
 {
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
 }

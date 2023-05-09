@@ -20,6 +20,7 @@ abstract class AbstractModelTestCase extends TestCase
         $mock = parent::createMock($originalClassName);
         if (strpos($originalClassName, 'Billie\Sdk\Model\\') === 0) {
             $mock->method('toArray')->willReturn([]);
+            $mock->method('validateFields');
         }
 
         return $mock;

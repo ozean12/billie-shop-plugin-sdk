@@ -17,11 +17,11 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class CreateSessionResponseModel extends AbstractResponseModel
 {
-    protected ?string $checkoutSessionId = null;
+    protected string $checkoutSessionId;
 
     public function fromArray(array $data): self
     {
-        $this->checkoutSessionId = ResponseHelper::getString($data, 'id');
+        $this->checkoutSessionId = ResponseHelper::getStringNN($data, 'id');
 
         return $this;
     }

@@ -21,7 +21,7 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  * @method self        setCompanyAddress(Address $companyAddress)
  * @method Address     getCompanyAddress()
  * @method self        setBillingAddress(Address $billingAddress)
- * @method Address     getBillingAddress()
+ * @method Address|null getBillingAddress()
  * @method self        setTaxId(?string $taxId)
  * @method string|null getTaxId()
  * @method self        setTaxNumber(?string $taxNumber)
@@ -38,19 +38,19 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  * @method int|null    getCountOfEmployees()
  * @method self        setEstablishedCustomer(?string $establishedCustomer)
  * @method string|null getEstablishedCustomer()
- * @method self        setLegalForm(?string $subIndustrySector)
- * @method string|null getLegalForm()
+ * @method self        setLegalForm(string $legalForm)
+ * @method string      getLegalForm()
  */
 class Debtor extends AbstractRequestModel
 {
-    protected ?string $merchantCustomerId = null;
+    protected string $merchantCustomerId;
 
     /**
-     * @var string|null name of the company
+     * @var string name of the company
      */
-    protected ?string $name = null;
+    protected string $name;
 
-    protected ?Address $companyAddress = null;
+    protected Address $companyAddress;
 
     protected ?Address $billingAddress = null;
 
@@ -86,17 +86,17 @@ class Debtor extends AbstractRequestModel
     protected bool $establishedCustomer = false;
 
     /**
-     * @var string|null legal form of the company - e.g. UG, GmbH, GbR
+     * @var string legal form of the company - e.g. UG, GmbH, GbR
      */
-    protected ?string $legalForm = null;
+    protected string $legalForm;
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'merchant_customer_id' => $this->merchantCustomerId,
             'name' => $this->name,
             'legal_form' => $this->legalForm,
-            'company_address' => $this->companyAddress instanceof Address ? $this->companyAddress->toArray() : null,
+            'company_address' => $this->companyAddress->toArray(),
             'billing_address' => $this->billingAddress instanceof Address ? $this->billingAddress->toArray() : null,
             'tax_id' => $this->taxId,
             'tax_number' => $this->taxNumber,
@@ -106,25 +106,6 @@ class Debtor extends AbstractRequestModel
             'subindustry_sector' => $this->subIndustrySector,
             'employees_number' => $this->countOfEmployees,
             'established_customer' => $this->establishedCustomer,
-        ];
-    }
-
-    public function getFieldValidations(): array
-    {
-        return [
-            'merchantCustomerId' => 'string',
-            'name' => 'string',
-            'companyAddress' => Address::class,
-            'billingAddress' => '?' . Address::class,
-            'taxId' => '?string',
-            'taxNumber' => '?string',
-            'registrationCourt' => '?string',
-            'registrationNumber' => '?string',
-            'industrySector' => '?string',
-            'subIndustrySector' => '?string',
-            'countOfEmployees' => '?string',
-            'establishedCustomer' => '?boolean',
-            'legalForm' => 'string',
         ];
     }
 }

@@ -30,7 +30,7 @@ class ShipOrderRequestModel extends OrderRequestModel
 
     protected ?string $invoiceNumber = null;
 
-    public function getFieldValidations(): array
+    protected function getFieldValidations(): array
     {
         return array_merge(parent::getFieldValidations(), [
             //            'invoiceUrl' => 'url',
@@ -43,9 +43,9 @@ class ShipOrderRequestModel extends OrderRequestModel
         ]);
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
-        return array_merge(parent::toArray(), [
+        return array_merge(parent::_toArray(), [
             'invoice_url' => $this->getInvoiceUrl(),
             'shipping_document_url' => $this->getShippingDocumentUrl(),
             'external_order_id' => $this->getExternalOrderId(),

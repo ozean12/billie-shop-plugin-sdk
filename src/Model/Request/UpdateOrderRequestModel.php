@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model\Request;
 
 use Billie\Sdk\Model\Amount;
-use Billie\Sdk\Util\ValidationConstants;
 
 /**
  * @method string|null getExternalCode()
@@ -25,29 +24,11 @@ class UpdateOrderRequestModel extends OrderRequestModel
 
     protected ?Amount $amount = null;
 
-    public function getFieldValidations(): array
-    {
-        return array_merge(parent::getFieldValidations(), [
-            'amount' => '?' . Amount::class,
-            'externalCode' => ValidationConstants::TYPE_STRING_OPTIONAL,
-        ]);
-    }
-
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'amount' => $this->getAmount() instanceof Amount ? $this->getAmount()->toArray() : null,
             'external_code' => $this->getExternalCode(),
-        ];
-    }
-
-    protected function getDeprecations(): array
-    {
-        return [
-            'duration' => null,
-            'invoiceNumber' => null,
-            'invoiceUrl' => null,
-            'orderId' => 'externalCode',
         ];
     }
 }

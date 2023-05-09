@@ -13,7 +13,6 @@ namespace Billie\Sdk\Model\Request;
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\Debtor;
-use Billie\Sdk\Util\ValidationConstants;
 
 /**
  * @method string        getSessionUuid()
@@ -31,46 +30,26 @@ use Billie\Sdk\Util\ValidationConstants;
  */
 class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 {
-    protected ?string $sessionUuid = null;
+    protected string $sessionUuid;
 
-    protected ?Amount $amount = null;
+    protected Amount $amount;
 
-    protected ?int $duration = null;
+    protected int $duration;
 
-    protected ?Debtor $debtor = null;
+    protected Debtor $debtor;
 
     protected ?Address $deliveryAddress = null;
 
     protected ?string $externalCode = null;
 
-    public function getFieldValidations(): array
+    protected function _toArray(): array
     {
         return [
-            'sessionUuid' => ValidationConstants::TYPE_STRING_REQUIRED,
-            'amount' => Amount::class,
-            'duration' => ValidationConstants::TYPE_INT_REQUIRED,
-            'debtor' => Debtor::class,
-            'deliveryAddress' => '?' . Address::class,
-            'externalCode' => ValidationConstants::TYPE_STRING_OPTIONAL,
-        ];
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'amount' => $this->getAmount()->toArray(),
+            'amount' => $this->amount->toArray(),
             'duration' => $this->getDuration(),
-            'debtor' => $this->getDebtor()->toArray(),
+            'debtor' => $this->debtor->toArray(),
             'delivery_address' => $this->deliveryAddress instanceof Address ? $this->deliveryAddress->toArray() : null,
             'external_code' => $this->getExternalCode(),
-        ];
-    }
-
-    protected function getDeprecations(): array
-    {
-        return [
-            'company' => 'debtor',
-            'orderId' => 'externalCode',
         ];
     }
 }

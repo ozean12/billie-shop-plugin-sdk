@@ -10,10 +10,10 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Service\Request;
 
+use Billie\Sdk\Exception\InvalidResponseException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\GetTokenRequestModel;
 use Billie\Sdk\Model\Response\GetTokenResponseModel;
-use RuntimeException;
 
 /**
  * @see https://developers.billie.io/#operation/oauth_token_create
@@ -36,7 +36,7 @@ class GetTokenRequest extends AbstractRequest
     protected function processSuccess($requestModel, ?array $responseData = null): GetTokenResponseModel
     {
         if ($responseData === null || $responseData === []) {
-            throw new RuntimeException('Unknown error. Not empty response was expected.');
+            throw new InvalidResponseException('Got no response from gateway. A response was expected.');
         }
 
         return new GetTokenResponseModel($responseData);

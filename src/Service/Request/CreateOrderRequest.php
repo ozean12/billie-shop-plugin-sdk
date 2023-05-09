@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Service\Request;
 
+use Billie\Sdk\Exception\InvalidResponseException;
 use Billie\Sdk\Exception\OrderDecline\DebtorLimitExceededException;
 use Billie\Sdk\Exception\OrderDecline\DebtorNotIdentifiedException;
 use Billie\Sdk\Exception\OrderDecline\InvalidDebtorAddressException;
@@ -18,7 +19,6 @@ use Billie\Sdk\Exception\OrderDecline\RiskPolicyDeclinedException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\CreateOrderRequestModel;
-use RuntimeException;
 
 /**
  * @see https://developers.billie.io/#operation/order_create
@@ -43,7 +43,7 @@ class CreateOrderRequest extends AbstractRequest
     protected function processSuccess($requestModel, ?array $responseData = null): Order
     {
         if ($responseData === null || $responseData === []) {
-            throw new RuntimeException('Unknown error. Not empty response was expected.');
+            throw new InvalidResponseException('Got no response from gateway. A response was expected.');
         }
 
         $model = new Order($responseData);

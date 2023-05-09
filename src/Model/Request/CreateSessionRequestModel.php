@@ -10,24 +10,15 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Model\Request;
 
-use Billie\Sdk\Util\ValidationConstants;
-
 /**
  * @method self   setMerchantCustomerId(string $merchantCustomerId)
  * @method string getMerchantCustomerId()
  */
 class CreateSessionRequestModel extends AbstractRequestModel
 {
-    public ?string $merchantCustomerId = null;
+    public string $merchantCustomerId;
 
-    public function getFieldValidations(): array
-    {
-        return [
-            'merchantCustomerId' => ValidationConstants::TYPE_STRING_REQUIRED,
-        ];
-    }
-
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'merchant_customer_id' => $this->merchantCustomerId,

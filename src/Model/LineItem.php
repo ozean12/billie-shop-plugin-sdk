@@ -48,41 +48,26 @@ class LineItem extends AbstractModel
 
     protected ?string $gtin = null;
 
-    protected ?string  $mpn = null;
+    protected ?string $mpn = null;
 
-    protected ?Amount $amount = null;
-
-    public function getFieldValidations(): array
-    {
-        return [
-            'externalId' => 'string',
-            'title' => 'string',
-            'quantity' => 'integer',
-            'description' => '?string',
-            'category' => '?string',
-            'brand' => '?string',
-            'gtin' => '?string',
-            'mpn' => '?string',
-            'amount' => '?' . Amount::class,
-        ];
-    }
+    protected Amount $amount;
 
     public function fromArray(array $data): self
     {
-        $this->externalId = ResponseHelper::getString($data, 'external_id');
-        $this->title = ResponseHelper::getString($data, 'title');
-        $this->quantity = ResponseHelper::getInt($data, 'quantity');
+        $this->externalId = ResponseHelper::getStringNN($data, 'external_id');
+        $this->title = ResponseHelper::getStringNN($data, 'title');
+        $this->quantity = ResponseHelper::getIntNN($data, 'quantity');
         $this->description = ResponseHelper::getString($data, 'description');
         $this->category = ResponseHelper::getString($data, 'category');
         $this->brand = ResponseHelper::getString($data, 'brand');
         $this->gtin = ResponseHelper::getString($data, 'gtin');
         $this->mpn = ResponseHelper::getString($data, 'mpn');
-        $this->amount = ResponseHelper::getObject($data, 'external_id', Amount::class, $this->readOnly);
+        $this->amount = ResponseHelper::getObjectNN($data, 'amount', Amount::class, $this->readOnly);
 
         return $this;
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'external_id' => $this->externalId,
@@ -93,7 +78,7 @@ class LineItem extends AbstractModel
             'brand' => $this->brand,
             'gtin' => $this->gtin,
             'mpn' => $this->mpn,
-            'amount' => $this->amount instanceof Amount ? $this->amount->toArray() : null,
+            'amount' => $this->amount->toArray(),
         ];
     }
 }

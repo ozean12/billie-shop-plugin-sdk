@@ -109,27 +109,25 @@ class Order extends AbstractResponseModel
 
     protected ?string $externalCode = null;
 
-    protected ?string $uuid = null;
+    protected string $uuid;
 
-    protected ?string $state = null;
+    protected string $state;
 
     protected ?string $declineReason = null;
 
-    protected ?Amount $amount = null;
+    protected Amount $amount;
 
-    protected ?Amount $unshippedAmount = null;
+    protected Amount $unshippedAmount;
 
-    protected ?int $duration = null;
+    protected int $duration;
 
-    protected ?Debtor $debtor = null;
+    protected Debtor $debtor;
 
     protected ?Address $deliveryAddress = null;
 
-    protected ?Address $billingAddress = null;
+    protected DateTime $createdAt;
 
-    protected ?DateTime $createdAt = null;
-
-    protected ?string $selectedPaymentMethod = null;
+    protected string $selectedPaymentMethod;
 
     /**
      * @var OrderPaymentMethod[]
@@ -144,18 +142,17 @@ class Order extends AbstractResponseModel
     public function fromArray(array $data): self
     {
         $this->externalCode = ResponseHelper::getString($data, 'external_code');
-        $this->uuid = ResponseHelper::getString($data, 'uuid');
-        $this->state = ResponseHelper::getString($data, 'state');
+        $this->uuid = ResponseHelper::getStringNN($data, 'uuid');
+        $this->state = ResponseHelper::getStringNN($data, 'state');
         $this->declineReason = ResponseHelper::getString($data, 'decline_reason');
-        $this->amount = ResponseHelper::getObject($data, 'amount', Amount::class, true);
-        $this->unshippedAmount = ResponseHelper::getObject($data, 'unshipped_amount', Amount::class, true);
-        $this->duration = ResponseHelper::getInt($data, 'duration');
-        $this->debtor = ResponseHelper::getObject($data, 'debtor', Debtor::class, true);
-        $this->deliveryAddress = ResponseHelper::getObject($data, 'delivery_address', Address::class, true);
-        $this->billingAddress = ResponseHelper::getObject($data, 'billing_address', Address::class, true);
-        $this->createdAt = ResponseHelper::getDateTime($data, 'created_at', 'Y-m-d H:i:s');
+        $this->amount = ResponseHelper::getObjectNN($data, 'amount', Amount::class, true);
+        $this->unshippedAmount = ResponseHelper::getObjectNN($data, 'unshipped_amount', Amount::class, true);
+        $this->duration = ResponseHelper::getIntNN($data, 'duration');
+        $this->debtor = ResponseHelper::getObjectNN($data, 'debtor', Debtor::class, true);
+        $this->deliveryAddress = ResponseHelper::getObjectNN($data, 'delivery_address', Address::class, true);
+        $this->createdAt = ResponseHelper::getDateTimeNN($data, 'created_at', 'Y-m-d H:i:s');
         $this->invoices = ResponseHelper::getArray($data, 'invoices', Invoice::class, true) ?? [];
-        $this->selectedPaymentMethod = ResponseHelper::getString($data, 'selected_payment_method');
+        $this->selectedPaymentMethod = ResponseHelper::getStringNN($data, 'selected_payment_method');
         $this->paymentMethods = ResponseHelper::getArray($data, 'payment_methods', OrderPaymentMethod::class, true) ?? [];
 
         return $this;

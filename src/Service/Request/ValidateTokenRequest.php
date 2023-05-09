@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Service\Request;
 
+use Billie\Sdk\Exception\InvalidResponseException;
 use Billie\Sdk\Model\Request\ValidateTokenRequestModel;
 use Billie\Sdk\Model\Response\ValidateTokenResponse;
-use RuntimeException;
 
 /**
  * @see https://developers.billie.io/#operation/oauth_token_validate
@@ -23,7 +23,7 @@ class ValidateTokenRequest extends AbstractRequest
     protected function processSuccess($requestModel, ?array $responseData = null): ValidateTokenResponse
     {
         if ($responseData === null || $responseData === []) {
-            throw new RuntimeException('Unknown error. Not empty response was expected.');
+            throw new InvalidResponseException('Got no response from gateway. A response was expected.');
         }
 
         return new ValidateTokenResponse($responseData);

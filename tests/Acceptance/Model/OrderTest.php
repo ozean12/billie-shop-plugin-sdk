@@ -24,6 +24,7 @@ class OrderTest extends AbstractModelTestCase
             ->fromArray([
                 'external_code' => 'order-id',
                 'uuid' => '123456',
+                'state' => 'declined',
                 'decline_reason' => 'risk_policy',
                 'amount' => [],
                 'unshipped_amount' => [],

@@ -15,13 +15,13 @@ use Billie\Sdk\Util\ResponseHelper;
 
 /**
  * @method self   setSalutation(string $salutation)
- * @method string getSalutation()
+ * @method string|null getSalutation()
  * @method self   setFirstname(string $firstname)
- * @method string getFirstname()
+ * @method string|null getFirstname()
  * @method self   setLastname(string $lastname)
- * @method string getLastname()
+ * @method string|null getLastname()
  * @method self   setPhone(string $phone)
- * @method string getPhone()
+ * @method string|null getPhone()
  * @method self   setMail(string $mail)
  * @method string getMail()
  */
@@ -35,9 +35,20 @@ class Person extends AbstractModel
 
     protected ?string $phone = null;
 
-    protected ?string $mail = null;
+    protected string $mail;
 
-    public function getFieldValidations(): array
+    public function fromArray(array $data): self
+    {
+        $this->mail = ResponseHelper::getStringNN($data, 'email');
+        $this->salutation = ResponseHelper::getString($data, 'salutation');
+        $this->firstname = ResponseHelper::getString($data, 'first_name');
+        $this->lastname = ResponseHelper::getString($data, 'last_name');
+        $this->phone = ResponseHelper::getString($data, 'phone');
+
+        return $this;
+    }
+
+    protected function getFieldValidations(): array
     {
         return [
             'salutation' => static function (self $object, $value): void {
@@ -45,14 +56,10 @@ class Person extends AbstractModel
                     throw new InvalidFieldValueException('the field value of `salutation` must be one of these: `m`, `f`');
                 }
             },
-            'firstname' => '?string',
-            'lastname' => '?string',
-            'phone' => '?string',
-            'mail' => 'string',
         ];
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'email' => $this->mail,
@@ -61,16 +68,5 @@ class Person extends AbstractModel
             'last_name' => $this->lastname,
             'phone_number' => $this->phone,
         ];
-    }
-
-    public function fromArray(array $data): self
-    {
-        $this->mail = ResponseHelper::getString($data, 'email');
-        $this->salutation = ResponseHelper::getString($data, 'salutation');
-        $this->firstname = ResponseHelper::getString($data, 'first_name');
-        $this->lastname = ResponseHelper::getString($data, 'last_name');
-        $this->phone = ResponseHelper::getString($data, 'phone');
-
-        return $this;
     }
 }

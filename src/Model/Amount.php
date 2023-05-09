@@ -59,7 +59,16 @@ class Amount extends AbstractModel
         return $this->tax ?: ($this->gross - $this->net);
     }
 
-    public function getFieldValidations(): array
+    public function fromArray(array $data): self
+    {
+        $this->net = ResponseHelper::getFloatNN($data, 'net');
+        $this->gross = ResponseHelper::getFloatNN($data, 'gross');
+        $this->tax = ResponseHelper::getFloatNN($data, 'tax');
+
+        return $this;
+    }
+
+    protected function getFieldValidations(): array
     {
         return [
             'net' => 'float',
@@ -67,21 +76,12 @@ class Amount extends AbstractModel
         ];
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'net' => round($this->getNet(), 2),
             'gross' => round($this->getGross(), 2),
             'tax' => round($this->getTax(), 2),
         ];
-    }
-
-    public function fromArray(array $data): self
-    {
-        $this->net = ResponseHelper::getFloat($data, 'net');
-        $this->gross = ResponseHelper::getFloat($data, 'gross');
-        $this->tax = ResponseHelper::getFloat($data, 'tax');
-
-        return $this;
     }
 }
