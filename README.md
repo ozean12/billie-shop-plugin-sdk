@@ -391,6 +391,33 @@ $requestModel = new \Billie\Sdk\Model\Request\InvoiceRequestModel('INVOICE-UUID'
 $responseModel = $requestService->execute($requestModel);
 ```
 
+#### UpdateInvoiceRequest
+
+| 	                 | 	                                                             |
+|-------------------|---------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/invoice_update)       |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\UpdateInvoiceRequest`    |
+| Request model     | `\Billie\Sdk\Model\Request\Invoice\UpdateInvoiceRequestModel` |
+| Response model    | `true`                                                        |
+
+Use this service to update the invoice number or url.
+
+__Usage__
+
+```php
+/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
+
+$requestService = new \Billie\Sdk\Service\Request\Invoice\UpdateInvoiceRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\Invoice\UpdateInvoiceRequestModel('INVOICE-REFERENCE-UUID');
+$requestModel
+    ->setInvoiceNumber('merchant-invoice-number')
+    ->setInvoiceUrl('https://public-url.com/to/to/merchant-invoice.pdf');
+
+if ($requestService->execute($requestModel)) {
+    // invoice has been updated
+}
+```
+
 #### ShipOrderRequest
 
 | 	                 | 	                                                          |
