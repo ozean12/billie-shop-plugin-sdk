@@ -22,7 +22,7 @@ class ConfirmPaymentRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'order/' . $requestModel->getId() . '/confirm-payment';
+        return 'order/' . $requestModel->getUuid() . '/confirm-payment';
     }
 
     protected function getMethod($requestModel): string

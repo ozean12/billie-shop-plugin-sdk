@@ -19,10 +19,10 @@ class OrderRequestModelTest extends AbstractModelTestCase
     {
         $data = new OrderRequestModel('uuid');
         static::assertCount(0, $data->toArray());
-        static::assertEquals('uuid', $data->getId());
+        static::assertEquals('uuid', $data->getUuid());
 
-        $data->setId('uuid-2');
+        $data->setUuid('uuid-2');
         static::assertCount(0, $data->toArray());
-        static::assertEquals('uuid-2', $data->getId());
+        static::assertEquals('uuid-2', $data->getUuid());
     }
 }

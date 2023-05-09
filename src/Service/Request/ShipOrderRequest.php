@@ -24,7 +24,7 @@ class ShipOrderRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'order/' . $requestModel->getId() . '/ship';
+        return 'order/' . $requestModel->getUuid() . '/ship';
     }
 
     protected function processSuccess($requestModel, ?array $responseData = null): Order

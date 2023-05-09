@@ -11,25 +11,22 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model\Request;
 
 /**
- * @method string getId()
- * @method self   setId(string $id)
+ * @method string getUuid()
+ * @method self   setUuid(string $uuid)
  */
 class OrderRequestModel extends AbstractRequestModel implements EntityRequestModelInterface
 {
-    /**
-     * Uuid or the order-id
-     */
-    protected string $id;
+    protected string $uuid;
 
     public function __construct(string $uuid)
     {
         parent::__construct();
-        $this->setId($uuid);
+        $this->setUuid($uuid);
     }
 
     public function getBillieEntityId(): string
     {
-        return $this->getId();
+        return $this->getUuid();
     }
 
     protected function _toArray(): array

@@ -22,7 +22,7 @@ class PauseOrderDunningProcessRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'order/' . $requestModel->getId() . '/pause-dunning';
+        return 'order/' . $requestModel->getUuid() . '/pause-dunning';
     }
 
     protected function getMethod($requestModel): string

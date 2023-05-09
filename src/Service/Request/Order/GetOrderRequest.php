@@ -24,7 +24,7 @@ class GetOrderRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'orders/' . $requestModel->getId();
+        return 'orders/' . $requestModel->getUuid();
     }
 
     protected function processSuccess($requestModel, ?array $responseData = null): Order

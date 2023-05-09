@@ -22,7 +22,7 @@ class UpdateOrderRequest extends AbstractRequest
 {
     protected function getPath($requestModel): string
     {
-        return 'orders/' . $requestModel->getId();
+        return 'orders/' . $requestModel->getUuid();
     }
 
     protected function getMethod($requestModel): string
