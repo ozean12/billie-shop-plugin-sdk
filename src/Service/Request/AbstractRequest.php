@@ -7,11 +7,15 @@ namespace Billie\Sdk\Service\Request;
 use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException;
 use Billie\Sdk\HttpClient\BillieClient;
+use Billie\Sdk\Model\AbstractModel;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
-use Billie\Sdk\Model\Response\AbstractResponseModel;
 use Exception;
 use InvalidArgumentException;
 
+/**
+ * @template T_RequestModel of AbstractRequestModel
+ * @template T_ResponseModel of AbstractModel|bool
+ */
 abstract class AbstractRequest
 {
     protected ?BillieClient $client;
@@ -31,11 +35,12 @@ abstract class AbstractRequest
     }
 
     /**
-     * @return AbstractResponseModel|bool
+     * @param T_RequestModel $requestModel
+     * @return T_ResponseModel
      * @throws InvalidFieldValueCollectionException
      * @throws BillieException
      */
-    public function execute(AbstractRequestModel $requestModel)
+    public function execute($requestModel)
     {
         try {
             if (!$this->client instanceof BillieClient) {
@@ -111,26 +116,39 @@ abstract class AbstractRequest
         return str_replace('\\', '_', $cacheFile);
     }
 
-    abstract protected function getPath(AbstractRequestModel $requestModel): string;
+    /**
+     * @param T_RequestModel $requestModel
+     */
+    abstract protected function getPath($requestModel): string;
 
     /**
-     * @return AbstractResponseModel|bool
+     * @param T_RequestModel $requestModel
+     * @return T_ResponseModel
      */
-    protected function processSuccess(AbstractRequestModel $requestModel, ?array $responseData = null)
+    protected function processSuccess($requestModel, ?array $responseData = null)
     {
         return true;
     }
 
-    protected function processFailed(AbstractRequestModel $requestModel, Exception $exception): void
+    /**
+     * @param T_RequestModel $requestModel
+     */
+    protected function processFailed($requestModel, Exception $exception): void
     {
     }
 
-    protected function getMethod(AbstractRequestModel $requestModel): string
+    /**
+     * @param T_RequestModel $requestModel
+     */
+    protected function getMethod($requestModel): string
     {
         return BillieClient::METHOD_GET;
     }
 
-    protected function isAuthorisationRequired(AbstractRequestModel $requestModel): bool
+    /**
+     * @param T_RequestModel $requestModel
+     */
+    protected function isAuthorisationRequired($requestModel): bool
     {
         return true;
     }

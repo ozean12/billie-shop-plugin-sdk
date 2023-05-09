@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\HttpClient\BillieClient;
-use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\GetTokenRequestModel;
 use Billie\Sdk\Model\Response\GetTokenResponseModel;
 use RuntimeException;
@@ -13,7 +12,7 @@ use RuntimeException;
 /**
  * @see https://developers.billie.io/#operation/oauth_token_create
  *
- * @method GetTokenResponseModel execute(GetTokenRequestModel $requestModel)
+ * @extends AbstractRequest<GetTokenRequestModel, GetTokenResponseModel>
  */
 class GetTokenRequest extends AbstractRequest
 {
@@ -28,7 +27,7 @@ class GetTokenRequest extends AbstractRequest
         $this->setClient(new BillieClient(null, $isSandbox));
     }
 
-    protected function processSuccess(AbstractRequestModel $requestModel, ?array $responseData = null): GetTokenResponseModel
+    protected function processSuccess($requestModel, ?array $responseData = null): GetTokenResponseModel
     {
         if ($responseData === null || $responseData === []) {
             throw new RuntimeException('Unknown error. Not empty response was expected.');
@@ -37,17 +36,17 @@ class GetTokenRequest extends AbstractRequest
         return new GetTokenResponseModel($responseData);
     }
 
-    protected function getPath(AbstractRequestModel $requestModel): string
+    protected function getPath($requestModel): string
     {
         return '/oauth/token';
     }
 
-    protected function getMethod(AbstractRequestModel $requestModel): string
+    protected function getMethod($requestModel): string
     {
         return BillieClient::METHOD_POST;
     }
 
-    protected function isAuthorisationRequired(AbstractRequestModel $requestModel): bool
+    protected function isAuthorisationRequired($requestModel): bool
     {
         return false;
     }

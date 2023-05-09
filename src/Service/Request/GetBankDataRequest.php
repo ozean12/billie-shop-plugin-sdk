@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Service\Request;
 
-use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\GetBankDataRequestModel;
 use Billie\Sdk\Model\Response\GetBankDataResponseModel;
 
 /**
  * Note: This is not a real request. This api endpoint is currently in development.
  * Bank data will be provided by a static file in the SDK
- * @method GetBankDataResponseModel execute(GetBankDataRequestModel $requestModel)
+ * @extends AbstractRequest<GetBankDataRequestModel, GetBankDataResponseModel>
  * @internal Please note, that this request will vary in the future
  */
 class GetBankDataRequest extends AbstractRequest
@@ -28,7 +27,7 @@ class GetBankDataRequest extends AbstractRequest
         return $this->_cache;
     }
 
-    protected function getPath(AbstractRequestModel $requestModel): string
+    protected function getPath($requestModel): string
     {
         return ''; // api route not implemented yet
     }

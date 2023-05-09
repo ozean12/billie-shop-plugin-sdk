@@ -11,23 +11,22 @@ use Billie\Sdk\Exception\OrderDecline\OrderDeclinedException;
 use Billie\Sdk\Exception\OrderDecline\RiskPolicyDeclinedException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Order;
-use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\CreateOrderRequestModel;
 use RuntimeException;
 
 /**
  * @see https://developers.billie.io/#operation/order_create
  *
- * @method Order execute(CreateOrderRequestModel $requestModel)
+ * @extends AbstractRequest<CreateOrderRequestModel, Order>
  */
 class CreateOrderRequest extends AbstractRequest
 {
-    protected function getMethod(AbstractRequestModel $requestModel): string
+    protected function getMethod($requestModel): string
     {
         return BillieClient::METHOD_POST;
     }
 
-    protected function getPath(AbstractRequestModel $requestModel): string
+    protected function getPath($requestModel): string
     {
         return '/order';
     }
@@ -35,7 +34,7 @@ class CreateOrderRequest extends AbstractRequest
     /**
      * @throws OrderDeclinedException
      */
-    protected function processSuccess(AbstractRequestModel $requestModel, ?array $responseData = null): Order
+    protected function processSuccess($requestModel, ?array $responseData = null): Order
     {
         if ($responseData === null || $responseData === []) {
             throw new RuntimeException('Unknown error. Not empty response was expected.');

@@ -5,27 +5,21 @@ declare(strict_types=1);
 namespace Billie\Sdk\Service\Request;
 
 use Billie\Sdk\HttpClient\BillieClient;
-use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\OrderRequestModel;
-use InvalidArgumentException;
 
 /**
  * @see https://developers.billie.io/#operation/order_cancel
  *
- * @method bool execute(OrderRequestModel $requestModel)
+ * @extends AbstractRequest<OrderRequestModel, bool>
  */
 class CancelOrderRequest extends AbstractRequest
 {
-    protected function getPath(AbstractRequestModel $requestModel): string
+    protected function getPath($requestModel): string
     {
-        if ($requestModel instanceof OrderRequestModel) {
-            return 'order/' . $requestModel->getId() . '/cancel';
-        }
-
-        throw new InvalidArgumentException('argument must be instance of ' . OrderRequestModel::class);
+        return 'order/' . $requestModel->getId() . '/cancel';
     }
 
-    protected function getMethod(AbstractRequestModel $requestModel): string
+    protected function getMethod($requestModel): string
     {
         return BillieClient::METHOD_POST;
     }
