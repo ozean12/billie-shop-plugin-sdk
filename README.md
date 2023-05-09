@@ -233,7 +233,7 @@ $responseModel = $requestService->execute($requestModel); // this is the finally
 
 | 	                 | 	                                                            |
 |-------------------|--------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/order_create) |
+| Api documentation | [Link](https://docs.billie.io/reference/order_create_v2) |
 | Request service   | `\Billie\Sdk\Service\Request\CreateOrderRequest`             |
 | Request model     | `\Billie\Sdk\Model\Request\CreateOrderRequestModel`          |
 | Response model    | `\Billie\Sdk\Model\Order`                                    |
@@ -253,20 +253,28 @@ $requestService = new \Billie\Sdk\Service\Request\CreateOrderRequest($billieClie
 
 $requestModel = new \Billie\Sdk\Model\Request\CreateOrderRequestModel();
 $requestModel
-  ->setExternalCode('ORDER-ID-FROM-SHOP')
-  ->setBillingAddress(new \Billie\Sdk\Model\Address())
-  ->setDebtor(new \Billie\Sdk\Model\Request\CreateOrder\Debtor())
-  ->setPerson(new \Billie\Sdk\Model\Person())
-  ->setDeliveryAddress(new \Billie\Sdk\Model\Address())
-  ->setBillingAddress(new \Billie\Sdk\Model\Address())
-  ->setAmount(new \Billie\Sdk\Model\Amount())
-  ->setDuration(14)
-  ->addLineItem(new \Billie\Sdk\Model\LineItem())
-  ->addLineItem(new \Billie\Sdk\Model\LineItem());
+    ->setAmount(new \Billie\Sdk\Model\Amount())
+    ->setDuration(12)
+    ->setDebtor(new \Billie\Sdk\Model\Request\CreateOrder\Debtor())
+    ->setPerson(new \Billie\Sdk\Model\Person())
+    ->setComment('order comment')
+    ->setExternalCode('merchant-order-number')
+    ->setDeliveryAddress(new \Billie\Sdk\Model\Address())
+    ->setLineItems([
+        new \Billie\Sdk\Model\LineItem(),
+        new \Billie\Sdk\Model\LineItem(),
+    ])
     
 /** @var \Billie\Sdk\Model\Order $responseModel */
 $responseModel = $requestService->execute($requestModel); // this is the finally created order
 ```
+
+This service will throw the following exceptions, which should be handled by the integration:
+- `Billie\Sdk\Exception\OrderDecline\DebtorLimitExceededException` - the debtor-limit has been exceeded.
+- `Billie\Sdk\Exception\OrderDecline\DebtorNotIdentifiedException` - the gateway was not able to identify the debtor
+- `Billie\Sdk\Exception\OrderDecline\InvalidDebtorAddressException` - the gateway was not able to verify the address
+- `Billie\Sdk\Exception\OrderDecline\RiskPolicyDeclinedException` - the order got declined for risk reasons
+- `Billie\Sdk\Exception\OrderDecline\OrderDeclinedException` - the order got declined by any other reasons
 
 #### UpdateOrderRequest
 

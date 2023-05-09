@@ -15,22 +15,20 @@ use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
 
 /**
- * @method string        getOrderId()
+ * @method string        getExternalCode()
  * @method string        getUuid()
  * @method string        getState()
  * @method string        getDeclineReason()
  * @method Amount        getAmount()
+ * @method Amount        getUnshippedAmount()
  * @method int           getDuration()
- * @method string        getDunningStatus()
- * @method DebtorCompany getCompany()
- * @method BankAccount   getBankAccount()
+ * @method Debtor getDebtor()
  * @method array         getExternalData()
  * @method Address       getDeliveryAddress()
- * @method Address       getBillingAddress()
  * @method DateTime      getCreatedAt()
- * @method DateTime      getShippedAt()
- * @method string        getDebtorUuid()
- * @method Invoice       getInvoice()
+ * @method Invoice[]     getInvoices()
+ * @method string        getSelectedPaymentMethod()
+ * @method OrderPaymentMethod[]        getPaymentMethods()
  */
 class Order extends AbstractResponseModel
 {
@@ -99,7 +97,17 @@ class Order extends AbstractResponseModel
      */
     public const DECLINED_REASON_DEBTOR_LIMIT_EXCEEDED = 'debtor_limit_exceeded';
 
-    protected ?string $orderId = null;
+    /**
+     * @var string
+     */
+    public const PAYMENT_METHOD_BANK_TRANSFER = 'bank_transfer';
+
+    /**
+     * @var string
+     */
+    public const PAYMENT_METHOD_DIRECT_DEBIT = 'bank_transfer';
+
+    protected ?string $externalCode = null;
 
     protected ?string $uuid = null;
 
@@ -109,15 +117,11 @@ class Order extends AbstractResponseModel
 
     protected ?Amount $amount = null;
 
+    protected ?Amount $unshippedAmount = null;
+
     protected ?int $duration = null;
 
-    protected ?string $dunningStatus = null;
-
-    protected ?DebtorCompany $company = null;
-
-    protected ?BankAccount $bankAccount = null;
-
-    protected ?array $externalData = [];
+    protected ?Debtor $debtor = null;
 
     protected ?Address $deliveryAddress = null;
 
@@ -125,37 +129,34 @@ class Order extends AbstractResponseModel
 
     protected ?DateTime $createdAt = null;
 
-    protected ?DateTime $shippedAt = null;
+    protected ?string $selectedPaymentMethod = null;
 
-    protected ?string $debtorUuid = null;
+    /**
+     * @var OrderPaymentMethod[]
+     */
+    protected array $paymentMethods = [];
 
-    protected ?Invoice $invoice = null;
+    /**
+     * @var Invoice[]
+     */
+    protected array $invoices = [];
 
     public function fromArray(array $data): self
     {
-        $this->orderId = ResponseHelper::getString($data, 'order_id');
+        $this->externalCode = ResponseHelper::getString($data, 'external_code');
         $this->uuid = ResponseHelper::getString($data, 'uuid');
         $this->state = ResponseHelper::getString($data, 'state');
         $this->declineReason = ResponseHelper::getString($data, 'decline_reason');
-        $this->amount = isset($data['amount_net']) ? (new Amount(
-            [
-                'net' => $data['amount_net'],
-                'gross' => $data['amount'],
-                'tax' => $data['amount_tax'],
-            ],
-            $this->readOnly
-        )) : null;
+        $this->amount = ResponseHelper::getObject($data, 'amount', Amount::class, true);
+        $this->unshippedAmount = ResponseHelper::getObject($data, 'unshipped_amount', Amount::class, true);
         $this->duration = ResponseHelper::getInt($data, 'duration');
-        $this->orderId = ResponseHelper::getString($data, 'dunning_status');
-        $this->company = ResponseHelper::getObject($data, 'debtor_company', DebtorCompany::class, true);
-        $this->bankAccount = ResponseHelper::getObject($data, 'bank_account', BankAccount::class, true);
-        //        $this->orderId = $data['debtor_external_data'];
+        $this->debtor = ResponseHelper::getObject($data, 'debtor', Debtor::class, true);
         $this->deliveryAddress = ResponseHelper::getObject($data, 'delivery_address', Address::class, true);
         $this->billingAddress = ResponseHelper::getObject($data, 'billing_address', Address::class, true);
-        $this->createdAt = ResponseHelper::getDateTime($data, 'created_at');
-        $this->shippedAt = ResponseHelper::getDateTime($data, 'shipped_at');
-        $this->debtorUuid = ResponseHelper::getString($data, 'debtor_uuid');
-        $this->invoice = ResponseHelper::getObject($data, 'invoice', Invoice::class, true);
+        $this->createdAt = ResponseHelper::getDateTime($data, 'created_at', 'Y-m-d H:i:s');
+        $this->invoices = ResponseHelper::getArray($data, 'invoices', Invoice::class, true) ?? [];
+        $this->selectedPaymentMethod = ResponseHelper::getString($data, 'selected_payment_method');
+        $this->paymentMethods = ResponseHelper::getArray($data, 'payment_methods', OrderPaymentMethod::class, true) ?? [];
 
         return $this;
     }

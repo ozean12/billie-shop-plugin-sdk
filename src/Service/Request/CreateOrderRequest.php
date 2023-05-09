@@ -34,7 +34,7 @@ class CreateOrderRequest extends AbstractRequest
 
     protected function getPath($requestModel): string
     {
-        return '/order';
+        return '/orders';
     }
 
     /**

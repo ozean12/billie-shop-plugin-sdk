@@ -18,8 +18,10 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  * @method self        getMerchantCustomerId()
  * @method self        setName(string $name)
  * @method string      getName()
- * @method self        setAddress(Address $address)
- * @method Address     getAddress()
+ * @method self        setCompanyAddress(Address $companyAddress)
+ * @method Address     getCompanyAddress()
+ * @method self        setBillingAddress(Address $billingAddress)
+ * @method Address     getBillingAddress()
  * @method self        setTaxId(?string $taxId)
  * @method string|null getTaxId()
  * @method self        setTaxNumber(?string $taxNumber)
@@ -39,7 +41,7 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  * @method self        setLegalForm(?string $subIndustrySector)
  * @method string|null getLegalForm()
  */
-class Company extends AbstractRequestModel
+class Debtor extends AbstractRequestModel
 {
     protected ?string $merchantCustomerId = null;
 
@@ -48,7 +50,9 @@ class Company extends AbstractRequestModel
      */
     protected ?string $name = null;
 
-    protected ?Address $address = null;
+    protected ?Address $companyAddress = null;
+
+    protected ?Address $billingAddress = null;
 
     /**
      * @var string|null VAT-ID (german: USt.-Id) - e.g. DE310295470 (optional)
@@ -92,12 +96,8 @@ class Company extends AbstractRequestModel
             'merchant_customer_id' => $this->merchantCustomerId,
             'name' => $this->name,
             'legal_form' => $this->legalForm,
-            'address_street' => $this->address instanceof Address ? $this->address->getStreet() : null,
-            'address_city' => $this->address instanceof Address ? $this->address->getCity() : null,
-            'address_postal_code' => $this->address instanceof Address ? $this->address->getPostalCode() : null,
-            'address_country' => $this->address instanceof Address ? $this->address->getCountryCode() : null,
-            'address_addition' => $this->address instanceof Address ? $this->address->getAddition() : null,
-            'address_house_number' => $this->address instanceof Address ? $this->address->getHouseNumber() : null,
+            'company_address' => $this->companyAddress instanceof Address ? $this->companyAddress->toArray() : null,
+            'billing_address' => $this->billingAddress instanceof Address ? $this->billingAddress->toArray() : null,
             'tax_id' => $this->taxId,
             'tax_number' => $this->taxNumber,
             'registration_court' => $this->registrationCourt,
@@ -114,7 +114,8 @@ class Company extends AbstractRequestModel
         return [
             'merchantCustomerId' => 'string',
             'name' => 'string',
-            'address' => Address::class,
+            'companyAddress' => Address::class,
+            'billingAddress' => '?' . Address::class,
             'taxId' => '?string',
             'taxNumber' => '?string',
             'registrationCourt' => '?string',
@@ -123,7 +124,7 @@ class Company extends AbstractRequestModel
             'subIndustrySector' => '?string',
             'countOfEmployees' => '?string',
             'establishedCustomer' => '?boolean',
-            'legalForm' => '?string',
+            'legalForm' => 'string',
         ];
     }
 }

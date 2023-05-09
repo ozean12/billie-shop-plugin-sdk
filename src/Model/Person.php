@@ -48,7 +48,7 @@ class Person extends AbstractModel
             'firstname' => '?string',
             'lastname' => '?string',
             'phone' => '?string',
-            'mail' => '?string',
+            'mail' => 'string',
         ];
     }
 

@@ -14,7 +14,7 @@ use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\LineItem;
 use Billie\Sdk\Model\Person;
-use Billie\Sdk\Model\Request\CreateOrder\Company;
+use Billie\Sdk\Model\Request\CreateOrder\Debtor;
 use Billie\Sdk\Model\Request\CreateOrderRequestModel;
 
 class OrderHelper
@@ -25,22 +25,21 @@ class OrderHelper
         $addressModel = (new Address())
             ->setStreet('Charlottenstr.')
             ->setHouseNumber('4')
-            ->setAddition('c/o Mr. Smith')
             ->setPostalCode('10969')
             ->setCity('Berlin')
             ->setCountryCode('DE');
 
         return (new CreateOrderRequestModel())
-            ->setOrderId($orderId)
-            ->setBillingAddress($addressModel)
-            ->setCompany(
-                (new Company())
+            ->setExternalCode($orderId)
+            ->setDebtor(
+                (new Debtor())
                     ->setMerchantCustomerId('BILLIE-00000001-1')
                     ->setName('Billie GmbH')
-                    ->setAddress($addressModel)
+                    ->setCompanyAddress($addressModel)
                     ->setLegalForm('10001')
                     ->setRegistrationNumber('1234567')
                     ->setRegistrationCourt('Amtsgericht Charlottenburg')
+                    ->setBillingAddress($addressModel)
             )
             ->setPerson(
                 (new Person())
@@ -49,7 +48,6 @@ class OrderHelper
                     ->setPhone('+4930120111111')
             )
             ->setDeliveryAddress($addressModel)
-            ->setBillingAddress($addressModel)
             ->setAmount(
                 (new Amount())
                     ->setGross(200.00)

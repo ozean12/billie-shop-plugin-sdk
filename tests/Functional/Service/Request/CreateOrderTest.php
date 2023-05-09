@@ -38,7 +38,7 @@ class CreateOrderTest extends TestCase
     public function testCreateOrderDeclined(): void
     {
         $model = OrderHelper::createValidOrderModel();
-        $model->getCompany()->setName('invalid company name');
+        $model->getDebtor()->setName('invalid company name');
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
 
         try {
@@ -56,7 +56,7 @@ class CreateOrderTest extends TestCase
     public function testDeclineOrderWithDebtorNotIdentifiedException(): void
     {
         $order = OrderHelper::createValidOrderModel();
-        $order->getCompany()->setName('invalid company name');
+        $order->getDebtor()->setName('invalid company name');
 
         $billieClient = $this->createMock(BillieClient::class);
         $billieClient->method('request')->willReturn([
@@ -71,7 +71,7 @@ class CreateOrderTest extends TestCase
     public function testDeclineOrderWithDebtorAddressException(): void
     {
         $order = OrderHelper::createValidOrderModel();
-        $order->getCompany()->getAddress()
+        $order->getDebtor()->getCompanyAddress()
             ->setStreet('invalid address')
             ->setCity('invalid address');
 
@@ -88,7 +88,7 @@ class CreateOrderTest extends TestCase
     public function testDeclineOrderWithRiskPolicyException(): void
     {
         $order = OrderHelper::createValidOrderModel();
-        $order->getCompany()->getAddress()
+        $order->getDebtor()->getCompanyAddress()
             ->setStreet('invalid address')
             ->setCity('invalid address');
 
@@ -105,7 +105,7 @@ class CreateOrderTest extends TestCase
     public function testDeclineOrderWithLimitExceededException(): void
     {
         $order = OrderHelper::createValidOrderModel();
-        $order->getCompany()->getAddress()
+        $order->getDebtor()->getCompanyAddress()
             ->setStreet('invalid address')
             ->setCity('invalid address');
 

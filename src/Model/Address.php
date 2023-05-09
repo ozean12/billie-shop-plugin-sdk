@@ -12,14 +12,13 @@ namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Util\ResponseHelper;
+use Billie\Sdk\Util\ValidationConstants;
 
 /**
  * @method string      getStreet()
  * @method self        setStreet(string $street)
  * @method string|null getHouseNumber()
  * @method self        setHouseNumber(?string $houseNumber)
- * @method string|null getAddition()
- * @method self        setAddition(?string $addition)
  * @method string      getCity()
  * @method self        setCity(string $city)
  * @method string      getPostalCode()
@@ -33,8 +32,6 @@ class Address extends AbstractModel
 
     protected ?string $houseNumber = null;
 
-    protected ?string $addition = null;
-
     protected ?string $city = null;
 
     protected ?string $postalCode = null;
@@ -45,7 +42,6 @@ class Address extends AbstractModel
     {
         $this->street = ResponseHelper::getString($data, 'street');
         $this->houseNumber = ResponseHelper::getString($data, 'house_number');
-        $this->addition = ResponseHelper::getString($data, 'addition');
         $this->city = ResponseHelper::getString($data, 'city');
         $this->postalCode = ResponseHelper::getString($data, 'postal_code');
         $this->countryCode = ResponseHelper::getString($data, 'country');
@@ -58,7 +54,6 @@ class Address extends AbstractModel
         return [
             'street' => $this->street,
             'house_number' => $this->houseNumber,
-            'addition' => $this->addition,
             'city' => $this->city,
             'postal_code' => $this->postalCode,
             'country' => $this->countryCode,
@@ -68,21 +63,22 @@ class Address extends AbstractModel
     public function getFieldValidations(): array
     {
         return [
-            'street' => 'string',
-            'houseNumber' => '?string',
-            'addition' => '?string',
-            'city' => 'string',
-            'postalCode' => static function (self $object, $value): void {
-                if (strlen($value) !== 5) {
+            'street' => ValidationConstants::TYPE_STRING_REQUIRED,
+            'houseNumber' => ValidationConstants::TYPE_STRING_OPTIONAL,
+            'city' => ValidationConstants::TYPE_STRING_REQUIRED,
+            'postalCode' => static function (self $object, $value = null): string {
+                if (strlen((string) $value) !== 5) {
                     throw new InvalidFieldValueException('The field `postalCode` must be 5 chars long. (german postcode format)');
                 }
+
+                return ValidationConstants::TYPE_STRING_REQUIRED;
             },
-            'countryCode' => static function (self $object, $value): string {
-                if (strlen($value) !== 2) {
+            'countryCode' => static function (self $object, $value = null): string {
+                if (strlen((string) $value) !== 2) {
                     throw new InvalidFieldValueException('The field `countryCode` must be 2 chars long. (ISO-3166-1)');
                 }
 
-                return 'string';
+                return ValidationConstants::TYPE_STRING_REQUIRED;
             },
         ];
     }
