@@ -418,6 +418,30 @@ if ($requestService->execute($requestModel)) {
 }
 ```
 
+#### CancelInvoiceRequest
+
+| 	                 | 	                                                          |
+|-------------------|------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/invoice_cancel_v2) |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\CancelInvoiceRequest` |
+| Request model     | `\Billie\Sdk\Model\Request\InvoiceRequestModel`            |
+| Response model    | `true`                                                     |
+
+Use this service to cancel the invoice.
+
+__Usage__
+
+```php
+/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
+
+$requestService = new \Billie\Sdk\Service\Request\Invoice\CancelInvoiceRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\InvoiceRequestModel('INVOICE-REFERENCE-UUID');
+
+if ($requestService->execute($requestModel)) {
+    // invoice has been deleted/canceled
+}
+```
+
 #### ShipOrderRequest
 
 | 	                 | 	                                                          |

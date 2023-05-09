@@ -40,7 +40,11 @@ class BillieClient
      */
     public const METHOD_PATCH = 'PATCH';
 
-    //    const METHOD_DELETE = 'DELETE'; // not implemented
+    /**
+     * @var string
+     */
+    public const METHOD_DELETE = 'DELETE';
+
     /**
      * @var string
      */
