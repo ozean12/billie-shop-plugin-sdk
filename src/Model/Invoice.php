@@ -60,14 +60,7 @@ class Invoice extends AbstractResponseModel
         $this->number = ResponseHelper::getString($data, 'invoice_number');
         $this->state = ResponseHelper::getString($data, 'state');
         $this->payoutAmount = ResponseHelper::getFloat($data, 'payout_amount');
-        $this->amount = isset($data['amount_net']) ? (new Amount(
-            [
-                'net' => $data['amount_net'],
-                'gross' => $data['amount'],
-                'tax' => $data['amount_tax'],
-            ],
-            $this->readOnly
-        )) : null;
+        $this->amount = ResponseHelper::getObject($data, 'amount', Amount::class, true);
         $this->outstandingAmount = ResponseHelper::getFloat($data, 'outstanding_amount');
         $this->pendingMerchantPaymentAmount = ResponseHelper::getFloat($data, 'pending_merchant_payment_amount');
         $this->pendingCancellationAmount = ResponseHelper::getFloat($data, 'pending_cancellation_amount');
