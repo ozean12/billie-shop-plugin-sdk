@@ -41,6 +41,14 @@ abstract class AbstractInvoice extends AbstractOrderRequest
 
         $createResponse = (new CreateInvoiceRequest($this->client))->execute(InvoiceHelper::createValidCreateInvoiceModel($order));
 
+        $this->wait();
+
         return $createResponse->getUuid();
+    }
+
+    protected function wait(): void
+    {
+        // wait two seconds so the gateway does have time to process the invoice internally
+        sleep(2);
     }
 }

@@ -33,7 +33,6 @@ class CancelOrderTest extends TestCase
         $requestService = new CancelOrderRequest(BillieClientHelper::getClient());
         $success = $requestService->execute(new OrderRequestModel($this->createdOrderModel->getUuid()));
 
-        // TODO: currently the API fails with `Order workflow is not supported by api v2`. VERIFY
         static::assertTrue($success);
     }
 }

@@ -18,26 +18,28 @@ use Billie\Sdk\Service\Request\Invoice\UpdateInvoiceRequest;
 
 class UpdateInvoiceDetailsTest extends AbstractInvoice
 {
-    public function testGetInvoice(): void
+    public function testUpdateInvoiceNumberUrl(): void
     {
-        // TODO creating invoices in sandbox-mode is not possible. CLARIFY
         $invoiceUuid = $this->generateInvoice();
+        $newName = $this->getName() . '-' . microtime(true) . '-updated';
 
         $requestService = new UpdateInvoiceRequest($this->client);
         $response = $requestService->execute(
             (new UpdateInvoiceRequestModel($invoiceUuid))
-                ->setInvoiceNumber($this->getName() . '-updated')
+                ->setInvoiceNumber($newName)
                 ->setInvoiceUrl('https://updated-invoice-url.com/path/to/file.pdf')
         );
 
         static::assertTrue($response);
 
+        $this->wait();
+
         $invoice = (new GetInvoiceRequest($this->client))->execute(new InvoiceRequestModel($invoiceUuid));
-        static::assertEquals($this->getName() . '-updated', $invoice->getNumber());
+        static::assertEquals($newName, $invoice->getNumber());
         // info: the gateway do not return the invoice-url. So we can not validate the change.
     }
 
-    public function testNotFound(): void
+    public function testUpdateInvoiceNotFound(): void
     {
         $referenceId = '999d0999-9999-9999-9305-c6eaea2550a6';
         $requestModel = (new UpdateInvoiceRequestModel($referenceId))

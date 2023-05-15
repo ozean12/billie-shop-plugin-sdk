@@ -18,7 +18,6 @@ class CancelInvoiceRequestTest extends AbstractInvoice
 {
     public function testCancelInvoice(): void
     {
-        // TODO creating invoices in sandbox-mode is not possible. CLARIFY
         $invoiceUuid = $this->generateInvoice();
 
         $requestService = new CancelInvoiceRequest($this->client);

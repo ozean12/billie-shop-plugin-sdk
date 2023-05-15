@@ -20,7 +20,7 @@ class ConfirmPaymentRequestTest extends AbstractInvoice
 {
     public function testInvoiceConfirmPayment(): void
     {
-        // TODO creating invoices in sandbox-mode is not possible. CLARIFY
+        // TODO confirming payment in sandbox-mode is not possible. CLARIFY
         $requestService = new ConfirmPaymentRequest($this->client);
 
         $invoiceUuid = $this->generateInvoice();
@@ -38,30 +38,31 @@ class ConfirmPaymentRequestTest extends AbstractInvoice
 
     public function testInvoiceConfirmPaymentTwoParts(): void
     {
-        // TODO creating invoices in sandbox-mode is not possible. CLARIFY
+        // TODO confirming payment in sandbox-mode is not possible. CLARIFY
         $requestService = new ConfirmPaymentRequest($this->client);
         $getInvoiceService = new GetInvoiceRequest($this->client);
 
         $invoiceUuid = $this->generateInvoice();
 
-        // ---
-        // part I
-        // -------
+        // create first payment confirmation
         $response = $requestService->execute(
             (new ConfirmPaymentRequestModel($invoiceUuid))
                 ->setPaidAmount(50)
         );
         static::assertTrue($response);
 
+        // validation result of first payment confirmation
         $invoice = $getInvoiceService->execute(new InvoiceRequestModel($invoiceUuid));
         static::assertEquals(150, $invoice->getOutstandingAmount());
 
+        // create second payment confirmation
         $response = $requestService->execute(
             (new ConfirmPaymentRequestModel($invoiceUuid))
                 ->setPaidAmount(150)
         );
         static::assertTrue($response);
 
+        // validation result of second payment confirmation
         $invoice = $getInvoiceService->execute(new InvoiceRequestModel($invoiceUuid));
         static::assertEquals(0, $invoice->getOutstandingAmount());
     }
