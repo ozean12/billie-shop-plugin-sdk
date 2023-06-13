@@ -5,7 +5,7 @@ use it.
 
 ## Requirements
 
-- PHP 5.6 or higher
+- PHP 7.4 or higher
 - cURL (included and enabled in a standard PHP distribution)
 - OpenSSL (included and enabled in a standard PHP distribution)
 
@@ -16,7 +16,7 @@ You need a [Billie account](https://www.billie.io/) to receive the necessary cre
 You can use the Billie PHP SDK library as a dependency in your project with Composer (preferred technique).
 
 Follow these [installation instructions](https://getcomposer.org/doc/00-intro.md) if you do not already have Composer
-installed. A composer.json file is available in the repository and it has been referenced from Packagist.
+installed. A composer.json file is available in the repository, and it has been referenced from Packagist.
 
 To install the SDK, just execute the following command:
 
@@ -38,11 +38,11 @@ For every request there is a
   Knows anything about the response data, and acts as DTO to receives the data from the request service Note: in some
   cases there is not response. Just a `true` if the request was successful
 
-### Get an `\Billie\Sdk\HttpClient\BillieClient`-instance
+### Get a `\Billie\Sdk\HttpClient\BillieClient`-instance
 
 Use the `\Billie\Sdk\Util\BillieClientFactory` to get a new instance.
 
-The factory will automatically request an new auth-token from the gateway and will store it (with the whole instance) in
+The factory will automatically request a new auth-token from the gateway and will store it (with the whole instance) in
 a static variable. So it will not produce a new request, if you request a new `BillieClient`-instance.
 
 ```php
@@ -54,7 +54,7 @@ Provide a boolean as third parameter to define if the request goes against the s
 
 ### Get an instance of a request service
 
-You can simply create an new instance of the corresponding class.
+You can simply create a new instance of the corresponding class.
 
 *Example*:
 
@@ -95,14 +95,14 @@ You can disable this automatic validation, by calling the method `setValidateOnS
 $requestModel->setValidateOnSet(false);
 ```
 
-The model got validate at least by the request service, to make sure, that all data has been provided and you will got
+The model got validate at least by the request service, to make sure that all data has been provided, and you will get
 no validation exception through the gateway.
 
 #### Response models
 
 Every response model is set to be read-only.
 
-You can not set any fields on this model. You will get an `BadMethodCallException`.
+You can not set any fields on this model. You will get a `BadMethodCallException`.
 
 ### Requests
 
@@ -114,11 +114,11 @@ each request, and the main usage.
 | 	                 | 	                                                           |
 |-------------------|-------------------------------------------------------------|
 | Api documentation | [Link](https://docs.billie.io/reference/oauth_token_create) |
-| Request service   | `\Billie\Sdk\Service\Request\Auth\GetTokenRequest`               |
-| Request model     | `\Billie\Sdk\Model\Request\Auth\GetTokenRequestModel`            |
-| Response model    | `\Billie\Sdk\Model\Response\Auth\GetTokenResponseModel`          |
+| Request service   | `\Billie\Sdk\Service\Request\Auth\GetTokenRequest`          |
+| Request model     | `\Billie\Sdk\Model\Request\Auth\GetTokenRequestModel`       |
+| Response model    | `\Billie\Sdk\Model\Response\Auth\GetTokenResponseModel`     |
 
-With this service you can create an new auth-token for your credentials.
+With this service you can create a new auth-token for your credentials.
 
 This service got called automatically, if you use the `\Billie\Sdk\Util\BillieClientFactory` to get the `BillieClient`.
 
@@ -145,14 +145,14 @@ $accessToken = $responseModel->getAccessToken(); // use this token for further r
 | 	                 | 	                                                             |
 |-------------------|---------------------------------------------------------------|
 | Api documentation | [Link](https://docs.billie.io/reference/oauth_token_validate) |
-| Request service   | `\Billie\Sdk\Service\Request\Auth\ValidateTokenRequest`            |
-| Request model     | `\Billie\Sdk\Model\Request\Auth\ValidateTokenRequestModel`         |
-| Response model    | `\Billie\Sdk\Model\Response\Auth\ValidateTokenResponse`            |
+| Request service   | `\Billie\Sdk\Service\Request\Auth\ValidateTokenRequest`       |
+| Request model     | `\Billie\Sdk\Model\Request\Auth\ValidateTokenRequestModel`    |
+| Response model    | `\Billie\Sdk\Model\Response\Auth\ValidateTokenResponse`       |
 
-Use this service to verify if your token is still valid. If the token is not valid anymore, you have to request an new
+Use this service to verify if your token is still valid. If the token is not valid anymore, you have to request a new
 auth-token.
 
-If the token is valid, you will got a response. Otherwise, you will got
+If the token is valid, you will get a response. Otherwise, you will get
 an `\Billie\Sdk\Exception\UserNotAuthorizedException`.
 
 __Usage__
@@ -173,8 +173,8 @@ Note: the request model does not have any content. Don't be confused.
 | 	                 | 	                                                                       |
 |-------------------|-------------------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/checkout_session_create) |
-| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest`                      |
-| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel`                   |
+| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest`      |
+| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel`   |
 | Response model    | `\Billie\Sdk\Model\Response\CreateSessionResponseModel`                 |
 
 Use this service to create a new checkout session on the gateway for the customer.
@@ -197,14 +197,14 @@ $checkoutSessionId = $responseModel->getCheckoutSessionId(); // use this session
 
 #### CheckoutSessionConfirmRequest
 
-| 	                 | 	                                                                        |
-|-------------------|--------------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/checkout_session_confirm) |
-| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CheckoutSessionConfirmRequest`              |
-| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel`           |
-| Response model    | `\Billie\Sdk\Model\Order`                                                |
+| 	                 | 	                                                                              |
+|-------------------|--------------------------------------------------------------------------------|
+| Api documentation | [Link](https://developers.billie.io/#operation/checkout_session_confirm)       |
+| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CheckoutSessionConfirmRequest`    |
+| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel` |
+| Response model    | `\Billie\Sdk\Model\Order`                                                      |
 
-If the user has confirmed the payment (throuh the widget), you can confirm the order.
+If the user has confirmed the payment (through the widget), you can confirm the order.
 
 It will create an order finally on the gateway.
 
@@ -231,12 +231,12 @@ $responseModel = $requestService->execute($requestModel); // this is the finally
 
 #### CreateOrderRequest
 
-| 	                 | 	                                                            |
-|-------------------|--------------------------------------------------------------|
-| Api documentation | [Link](https://docs.billie.io/reference/order_create_v2) |
-| Request service   | `\Billie\Sdk\Service\Request\Order\CreateOrderRequest`             |
-| Request model     | `\Billie\Sdk\Model\Request\Order\CreateOrderRequestModel`          |
-| Response model    | `\Billie\Sdk\Model\Order`                                    |
+| 	                 | 	                                                         |
+|-------------------|-----------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/order_create_v2)  |
+| Request service   | `\Billie\Sdk\Service\Request\Order\CreateOrderRequest`    |
+| Request model     | `\Billie\Sdk\Model\Request\Order\CreateOrderRequestModel` |
+| Response model    | `\Billie\Sdk\Model\Order`                                 |
 
 This request should be only used, if the seller creates the order manually (telephone, api, ...)
 
@@ -270,6 +270,7 @@ $responseModel = $requestService->execute($requestModel); // this is the finally
 ```
 
 This service will throw the following exceptions, which should be handled by the integration:
+
 - `Billie\Sdk\Exception\OrderDecline\DebtorLimitExceededException` - the debtor-limit has been exceeded.
 - `Billie\Sdk\Exception\OrderDecline\DebtorNotIdentifiedException` - the gateway was not able to identify the debtor
 - `Billie\Sdk\Exception\OrderDecline\InvalidDebtorAddressException` - the gateway was not able to verify the address
@@ -281,12 +282,12 @@ This service will throw the following exceptions, which should be handled by the
 | 	                 | 	                                                            |
 |-------------------|--------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/order_update) |
-| Request service   | `\Billie\Sdk\Service\Request\Order\UpdateOrderRequest`             |
-| Request model     | `\Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel`          |
+| Request service   | `\Billie\Sdk\Service\Request\Order\UpdateOrderRequest`       |
+| Request model     | `\Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel`    |
 | Response model    | `true`                                                       |
 
 Use this order, to update information about the order. Please have a look into the api documentation, which fields are
-updateable. Please also have a look into each model, to find out, which fields this sdk can process.
+updatable. Please also have a look into each model, to find out, which fields this sdk can process.
 
 __Usage__
 
@@ -305,12 +306,12 @@ $success = $requestService->execute($requestModel); // true if successful
 
 #### GetOrderRequest
 
-| 	                 | 	                                                          |
-|-------------------|------------------------------------------------------------|
+| 	                 | 	                                                                 |
+|-------------------|-------------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/order_get_details) |
-| Request service   | `\Billie\Sdk\Service\Request\GetOrderRequest`              |
-| Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`              |
-| Response model    | `\Billie\Sdk\Model\Order`                                  |
+| Request service   | `\Billie\Sdk\Service\Request\GetOrderRequest`                     |
+| Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`                     |
+| Response model    | `\Billie\Sdk\Model\Order`                                         |
 
 Use this service to retrieve all order information
 
@@ -328,14 +329,14 @@ $responseModel = $requestService->execute($requestModel);
 
 #### CreateInvoiceRequest
 
-| 	                 | 	                                                       |
-|-------------------|---------------------------------------------------------|
-| Api documentation | [Link](https://docs.billie.io/reference/invoice_create) |
-| Request service   | `\Billie\Sdk\Service\Request\Invoice\CreateInvoiceRequest`      |
-| Request model     | `\Billie\Sdk\Model\Request\Invoice\CreateInvoiceRequestModel`   |
-| Response model    | `\Billie\Sdk\Model\Response\CreateInvoiceResponseModel` |
+| 	                 | 	                                                             |
+|-------------------|---------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/invoice_create)       |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\CreateInvoiceRequest`    |
+| Request model     | `\Billie\Sdk\Model\Request\Invoice\CreateInvoiceRequestModel` |
+| Response model    | `\Billie\Sdk\Model\Response\CreateInvoiceResponseModel`       |
 
-Use this service to retriev all order information
+Use this service to retrieve all order information
 
 __Usage__
 
@@ -483,8 +484,8 @@ $uuid = $responseModel->getUuid(); // uuid of the invoice
 | 	                 | 	                                                                     |
 |-------------------|-----------------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/order_payment_confirm) |
-| Request service   | `\Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest`                   |
-| Request model     | `\Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel`                |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest`           |
+| Request model     | `\Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel`        |
 | Response model    | `true`                                                                |
 
 Use this request to notify the gateway about a received payment.
@@ -508,7 +509,7 @@ $success = $requestService->execute($requestModel);
 | 	                 | 	                                                                     |
 |-------------------|-----------------------------------------------------------------------|
 | Api documentation | [Link](https://developers.billie.io/#operation/order_payment_confirm) |
-| Request service   | `\Billie\Sdk\Service\Request\Order\CancelOrderRequest`                      |
+| Request service   | `\Billie\Sdk\Service\Request\Order\CancelOrderRequest`                |
 | Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`                         |
 | Response model    | `true`                                                                |
 
@@ -535,7 +536,7 @@ $success = $requestService->execute($requestModel);
 
 Use this request to get all legal forms supported by Billie.
 
-Note: This request is always cached. So you can use it anytimes without making a new request against the gateway. The
+Note: This request is always cached. So you can use it anytime without making a new request against the gateway. The
 cache will be automatically flushed.
 
 __Usage__
@@ -569,76 +570,6 @@ $houseNumber = \Billie\Util\AddressHelper::getHouseNumber('Musterstraße 123'); 
 
 ### Further features
 
-### automatic submodeling (for address)
-
-Models:
-
-- `\Billie\Sdk\Model\Request\CreateOrder\Company`
-- `\Billie\Sdk\Model\DebtorCompany`
-
-These models use automatic submodeling.
-
-It searches for `address_*` in den response and creates a `\Billie\Sdk\Model\Address`-model for it.
-
-_Example (send to Gateway):_
-
-```php
-$debtorCompany = new \Billie\Sdk\Model\Debtor();
-$debtorCompany->setName('Company Name');
-$debtorCompany->setAddress(
-    (new \Billie\Sdk\Model\Address())
-        ->setStreet('Streetname')
-        ->setHouseNumber('123')
-        ->setCity('Cityname')
-        ->setPostalCode('12345')
-        ->setCountryCode('DE')
-);
-$dataWhichWillSentToGateway = $debtorCompany->toArray();
-```
-
-The variable `$dataWhichWillSentToGateway` will holds an array like this:
-
-```
-[
-  "name" => "Company Name",
-  "address_street" => "Streetname",
-  "address_city" => "Cityname",
-  "address_postal_code" => "12345",
-  "address_country" => "DE"
-]
-```
-
-_Example reverse:_
-
-This example demonstrates how it works, if the data got provided to the model (e.g. from the response):
-
-```php
-$debtorCompany = new \Billie\Sdk\Model\Debtor([
-    "name" => "Company Name",
-    "address_street" => "Streetname",
-    "address_city" => "Cityname",
-    "address_postal_code" => "12345",
-    "address_country" => "DE"
-]);
-print_r($debtorCompany);
-```
-
-This will print the following (shortened)
-
-```
-Billie\Sdk\Model\DebtorCompany Object
-(
-    [name] => Company Name
-    [address] => Billie\Sdk\Model\Address Object
-        (
-            [street] => Streetname
-            [city] => Cityname
-            [postalCode] => 12345
-            [countryCode] => DE
-        )
-)
-```
-
 ### Automatic tax amount calculation
 
 Model: `\Billie\Sdk\Model\Amount`
@@ -646,7 +577,7 @@ Model: `\Billie\Sdk\Model\Amount`
 The model has field called `tax`. It contains the tax-amount of the line-item/order
 
 To keep the calculations as simple as possible, you can omit the parameter `tax`. So you must not provide all
-informations. The model will calculates it selfs.
+information. The model will calculates itself.
 
 _Example 1:_
 
@@ -798,7 +729,7 @@ class BillieClientFactory
 
 #### Provide BillieClient via setter
 
-If you can not use the factory to create a instance of `\Billie\Sdk\HttpClient\BillieClient`, you can also set the
+If you can not use the factory to create an instance of `\Billie\Sdk\HttpClient\BillieClient`, you can also set the
 BillieClient manually to the request service:
 
 ```php
