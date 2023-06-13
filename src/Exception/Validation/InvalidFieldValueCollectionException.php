@@ -15,14 +15,11 @@ use Billie\Sdk\Exception\BillieException;
 class InvalidFieldValueCollectionException extends BillieException
 {
     /**
-     * @var array<InvalidFieldValueException>
+     * @var InvalidFieldValueException[]
      */
-    protected $errors = [];
+    protected array $errors = [];
 
-    /**
-     * @param string $field
-     */
-    public function addError($field, InvalidFieldValueException $fieldException): void
+    public function addError(string $field, InvalidFieldValueException $fieldException): void
     {
         $this->errors[$field] = $fieldException;
 
@@ -35,7 +32,7 @@ class InvalidFieldValueCollectionException extends BillieException
     /**
      * @return InvalidFieldValueException[]
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }

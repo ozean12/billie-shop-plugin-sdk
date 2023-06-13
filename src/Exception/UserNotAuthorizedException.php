@@ -12,10 +12,7 @@ namespace Billie\Sdk\Exception;
 
 class UserNotAuthorizedException extends GatewayException
 {
-    /**
-     * @param int   $httpCode
-     */
-    public function __construct($httpCode, array $responseData = [], array $requestData = [])
+    public function __construct(int $httpCode, array $responseData = [], array $requestData = [])
     {
         parent::__construct(
             'The user is not authorized to perform this action.',

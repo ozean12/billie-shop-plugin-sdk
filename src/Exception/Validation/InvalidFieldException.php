@@ -15,13 +15,7 @@ use Billie\Sdk\Model\AbstractModel;
 
 class InvalidFieldException extends BillieException
 {
-    /**
-     * InvalidFieldException constructor.
-     *
-     * @param string                          $fieldName
-     * @param AbstractModel $object
-     */
-    public function __construct($fieldName, $object)
+    public function __construct(string $fieldName, AbstractModel $object)
     {
         parent::__construct(
             sprintf('The field %s does not exist on object %s.', $fieldName, get_class($object)),
