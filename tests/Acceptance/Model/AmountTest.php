@@ -28,7 +28,7 @@ class AmountTest extends AbstractModelTestCase
         static::assertEquals(49.50, $data['tax']);
     }
 
-    public function testTaxCalculation(): void
+    public function testTaxCalculationSuccessful(): void
     {
         $model = (new Amount())
             ->setGross(119.00)
@@ -39,30 +39,33 @@ class AmountTest extends AbstractModelTestCase
             ->setNet(100.00)
             ->setTaxRate(19);
         static::assertEquals(119, $model->getGross());
+    }
 
+    public function testTaxCalculationMissingTaxInGross(): void
+    {
         // an error should occur cause the values does not match together
         $this->expectException(InvalidFieldValueException::class);
         (new Amount())
             ->setNet(100.00)
             ->setGross(100)
             ->setTaxRate(19);
-        // test if execution has been thrown.
-        static::assertNull($this->getExpectedException());
+    }
 
+    public function testTaxCalculationSetTaxRateBeforeGross(): void
+    {
         // an error should occur cause the gross-amount is set after the tax-rate
         $this->expectException(RuntimeException::class);
         (new Amount())
             ->setTaxRate(19)
             ->setGross(100);
-        // test if execution has been thrown.
-        static::assertNull($this->getExpectedException());
+    }
 
+    public function testTaxCalculationSetTaxRateBeforeNet(): void
+    {
         // an error should occur cause the net-amount is set after the tax-rate
         $this->expectException(RuntimeException::class);
         (new Amount())
             ->setTaxRate(19)
             ->setNet(100);
-        // test if execution has been thrown.
-        static::assertNull($this->getExpectedException());
     }
 }
