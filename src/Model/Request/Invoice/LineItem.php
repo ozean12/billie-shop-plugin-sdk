@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Model\Request\Invoice\CreateInvoice;
+namespace Billie\Sdk\Model\Request\Invoice;
 
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 

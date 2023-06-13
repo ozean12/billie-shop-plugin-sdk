@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Tests\Acceptance\Model\Request\Invoice\CreateInvoice;
 
-use Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem;
+use Billie\Sdk\Model\Request\Invoice\LineItem;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class LineitemTest extends AbstractModelTestCase

@@ -359,8 +359,8 @@ $requestModel
     )
     // optional parameters:
     ->setLineItems([
-        new \Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem('merchant-product-id-2', 1),
-        new \Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem('merchant-product-id-1', 2)  
+        new \Billie\Sdk\Model\Request\Invoice\LineItem('merchant-product-id-2', 1),
+        new \Billie\Sdk\Model\Request\Invoice\LineItem('merchant-product-id-1', 2)  
     ])
     ->setShippingInformation(new \Billie\Sdk\Model\ShippingInformation())
 

@@ -13,7 +13,7 @@ namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 use Billie\Sdk\Exception\InvoiceNotFoundException;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\Request\Invoice\CreateCreditNoteRequestModel;
-use Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem;
+use Billie\Sdk\Model\Request\Invoice\LineItem;
 use Billie\Sdk\Service\Request\Invoice\CreateCreditNoteRequest;
 
 class CreateCreditNoteRequestTest extends AbstractInvoice

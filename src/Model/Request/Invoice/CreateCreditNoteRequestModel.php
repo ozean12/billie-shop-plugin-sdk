@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model\Request\Invoice;
 
 use Billie\Sdk\Model\Amount;
-use Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem;
 use Billie\Sdk\Model\Request\InvoiceRequestModel;
 
 /**

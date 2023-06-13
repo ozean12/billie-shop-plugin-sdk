@@ -12,7 +12,7 @@ namespace Billie\Sdk\Tests\Acceptance\Model\Request\Invoice;
 
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\Request\Invoice\CreateCreditNoteRequestModel;
-use Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem;
+use Billie\Sdk\Model\Request\Invoice\LineItem;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CreateCreditNoteRequestModelTest extends AbstractModelTestCase

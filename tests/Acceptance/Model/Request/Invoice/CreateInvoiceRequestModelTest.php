@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Acceptance\Model\Request\Invoice;
 
 use Billie\Sdk\Model\Amount;
-use Billie\Sdk\Model\Request\Invoice\CreateInvoice\LineItem;
 use Billie\Sdk\Model\Request\Invoice\CreateInvoiceRequestModel;
+use Billie\Sdk\Model\Request\Invoice\LineItem;
 use Billie\Sdk\Model\ShippingInformation;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
