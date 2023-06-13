@@ -12,8 +12,8 @@ namespace Billie\Sdk\Model\Request\CheckoutSession;
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
-use Billie\Sdk\Model\Debtor;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
+use Billie\Sdk\Model\Request\CheckoutSession\Confirm\Debtor;
 
 /**
  * @method string        getSessionUuid()

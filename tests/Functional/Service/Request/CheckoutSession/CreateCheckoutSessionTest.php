@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Functional\Service\Request;
+namespace Billie\Sdk\Tests\Functional\Service\Request\CheckoutSession;
 
 use Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel;
 use Billie\Sdk\Model\Response\CreateSessionResponseModel;

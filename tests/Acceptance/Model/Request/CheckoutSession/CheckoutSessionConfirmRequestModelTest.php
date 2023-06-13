@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace Billie\Sdk\Tests\Acceptance\Model\Request;
+namespace Billie\Sdk\Tests\Acceptance\Model\Request\CheckoutSession;
 
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
-use Billie\Sdk\Model\Debtor;
 use Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel;
+use Billie\Sdk\Model\Request\CheckoutSession\Confirm\Debtor;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CheckoutSessionConfirmRequestModelTest extends AbstractModelTestCase

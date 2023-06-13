@@ -220,7 +220,7 @@ $requestService = new \Billie\Sdk\Service\Request\CheckoutSession\CheckoutSessio
 $requestModel = new \Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel();
 $requestModel
   ->setSessionUuid('CHECKOUT-SESSION-ID')
-  ->setCompany(new \Billie\Sdk\Model\Debtor())
+  ->setCompany(new \Billie\Sdk\Model\Request\CheckoutSession\Confirm\Debtor())
   ->setAmount(new \Billie\Sdk\Model\Amount())
   ->setDuration(14)
   ->setDeliveryAddress(new \Billie\Sdk\Model\Address());
