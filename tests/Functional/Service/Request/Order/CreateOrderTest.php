@@ -41,7 +41,7 @@ class CreateOrderTest extends AbstractOrderRequest
 
     public function testCreateOrderWithValidAttributes(): void
     {
-        $model = OrderHelper::createValidOrderModel($this->getName());
+        $model = OrderHelper::createValidOrderModel(__METHOD__);
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
         $response = $requestService->execute($model);
         $this->orderIds[] = $response->getUuid(); // house-keeping
@@ -53,7 +53,7 @@ class CreateOrderTest extends AbstractOrderRequest
 
     public function testCreateOrderDeclined(): void
     {
-        $model = OrderHelper::createValidOrderModel($this->getName());
+        $model = OrderHelper::createValidOrderModel(__METHOD__);
         $model->getDebtor()->setName('invalid company name');
         $requestService = new CreateOrderRequest(BillieClientHelper::getClient());
 

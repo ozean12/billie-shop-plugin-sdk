@@ -41,7 +41,7 @@ class UpdateOrderTest extends AbstractOrderRequest
 
     public function testUpdateOrder(): void
     {
-        $externalCode = OrderHelper::getUniqueOrderNumber($this->getName()) . '-updated';
+        $externalCode = OrderHelper::getUniqueOrderNumber(__METHOD__) . '-updated';
         $requestService = new UpdateOrderRequest($this->client);
         $result = $requestService->execute(
             (new UpdateOrderRequestModel($this->createdOrderModel->getUuid()))

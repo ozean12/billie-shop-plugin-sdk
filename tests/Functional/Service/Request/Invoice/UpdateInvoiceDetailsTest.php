@@ -20,8 +20,8 @@ class UpdateInvoiceDetailsTest extends AbstractInvoice
 {
     public function testUpdateInvoiceNumberUrl(): void
     {
-        $invoiceUuid = $this->generateInvoice();
-        $newName = $this->getName() . '-' . microtime(true) . '-updated';
+        $invoiceUuid = $this->generateInvoice(__METHOD__);
+        $newName = __METHOD__ . '-' . microtime(true) . '-updated';
 
         $requestService = new UpdateInvoiceRequest($this->client);
         $response = $requestService->execute(
@@ -43,7 +43,7 @@ class UpdateInvoiceDetailsTest extends AbstractInvoice
     {
         $referenceId = '999d0999-9999-9999-9305-c6eaea2550a6';
         $requestModel = (new UpdateInvoiceRequestModel($referenceId))
-            ->setInvoiceNumber($this->getName() . '-updated')
+            ->setInvoiceNumber(__METHOD__ . '-updated')
             ->setInvoiceUrl('https://updated-invoice-url.com/path/to/file.pdf');
 
         $this->expectException(InvoiceNotFoundException::class);

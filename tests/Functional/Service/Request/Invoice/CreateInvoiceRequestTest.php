@@ -25,22 +25,9 @@ class CreateInvoiceRequestTest extends AbstractOrderRequest
 {
     private Order $createdOrderModel;
 
-    protected function setUp(): void
-    {
-        $createModel = OrderHelper::createValidOrderModel($this->getName());
-        $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
-            ->execute($createModel);
-
-        $this->orderIds[] = $this->createdOrderModel->getUuid();
-
-        // make sure test data has not changed
-        static::assertCount(2, $createModel->getLineItems());
-        static::assertEquals(200, $createModel->getAmount()->getGross());
-        static::assertEquals(round(200 - 200 / 1.19, 2), round($createModel->getAmount()->getTax(), 2));
-    }
-
     public function testCreateInvoiceWithFullAmount(): void
     {
+        $this->_setUp(__METHOD__);
         $requestService = new CreateInvoiceRequest(BillieClientHelper::getClient());
 
         $responseModel = $requestService->execute(
@@ -61,6 +48,7 @@ class CreateInvoiceRequestTest extends AbstractOrderRequest
 
     public function testCreateInvoiceWithThreeParts(): void
     {
+        $this->_setUp(__METHOD__);
         $requestService = new CreateInvoiceRequest(BillieClientHelper::getClient());
 
         $responseModel = $requestService->execute(
@@ -111,6 +99,7 @@ class CreateInvoiceRequestTest extends AbstractOrderRequest
 
     public function testCreateInvoiceWithInvalidAmount(): void
     {
+        $this->_setUp(__METHOD__);
         $requestService = new CreateInvoiceRequest(BillieClientHelper::getClient());
 
         $this->expectException(InvalidRequestException::class);
@@ -127,5 +116,20 @@ class CreateInvoiceRequestTest extends AbstractOrderRequest
                 )
                 ->setInvoiceUrl('https://invoice-url.com/path/to/invoice-1.pdf')
         );
+    }
+
+    private function _setUp(string $testName): void
+    {
+        // Info: we can not use setup(), because we will not hae the testname to create the order.
+        $createModel = OrderHelper::createValidOrderModel($testName);
+        $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
+            ->execute($createModel);
+
+        $this->orderIds[] = $this->createdOrderModel->getUuid();
+
+        // make sure test data has not changed
+        static::assertCount(2, $createModel->getLineItems());
+        static::assertEquals(200, $createModel->getAmount()->getGross());
+        static::assertEquals(round(200 - 200 / 1.19, 2), round($createModel->getAmount()->getTax(), 2));
     }
 }
