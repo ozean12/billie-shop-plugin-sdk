@@ -11,7 +11,10 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 
 use Billie\Sdk\HttpClient\BillieClient;
+use Billie\Sdk\Model\Invoice;
+use Billie\Sdk\Model\Request\InvoiceRequestModel;
 use Billie\Sdk\Service\Request\Invoice\CreateInvoiceRequest;
+use Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest;
 use Billie\Sdk\Service\Request\Order\CreateOrderRequest;
 use Billie\Sdk\Tests\Functional\Service\Request\AbstractOrderRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
@@ -27,9 +30,9 @@ abstract class AbstractInvoice extends AbstractOrderRequest
         $this->client = BillieClientHelper::getClient();
     }
 
-    protected function generateInvoice(): string
+    protected function generateInvoice(string $testName): string
     {
-        $createOrderModel = OrderHelper::createValidOrderModel($this->getName());
+        $createOrderModel = OrderHelper::createValidOrderModel($testName);
 
         // make sure test data has not changed
         static::assertCount(2, $createOrderModel->getLineItems());
@@ -44,6 +47,15 @@ abstract class AbstractInvoice extends AbstractOrderRequest
         $this->wait();
 
         return $createResponse->getUuid();
+    }
+
+    protected function getInvoice(string $testName, string $uuid = null): Invoice
+    {
+        if ($uuid === null) {
+            $uuid = $this->generateInvoice($testName);
+        }
+
+        return (new GetInvoiceRequest($this->client))->execute(new InvoiceRequestModel($uuid));
     }
 
     protected function wait(): void

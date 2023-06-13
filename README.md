@@ -442,6 +442,42 @@ if ($requestService->execute($requestModel)) {
 }
 ```
 
+#### CreateCreditNoteRequest
+
+| 	                 | 	                                                                |
+|-------------------|------------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/create_credit_note)      |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\CreateCreditNoteRequest`    |
+| Request model     | `\Billie\Sdk\Model\Request\Invoice\CreateCreditNoteRequestModel` |
+| Response model    | `\Billie\Sdk\Model\Response\CreateCreditNoteResponseModel`       |
+
+Use this service to add a (partial) refund/credit-note to an invoice
+
+__Usage__
+
+```php
+/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
+
+$requestService = new \Billie\Sdk\Service\Request\Invoice\CreateCreditNoteRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\Invoice\CreateCreditNoteRequestModel('INVOICE-UUID', 'MERCHANT/EXTERNAL_INVOICE_NUMBER');
+$requestModel
+    ->setAmount(
+        (new Amount())
+            ->setGross(100)
+            ->setTaxRate(19.00)
+    )
+    // optional parameters:
+    ->setLineItems([
+        new \Billie\Sdk\Model\Request\Invoice\LineItem('merchant-product-id-2', 1),
+        new \Billie\Sdk\Model\Request\Invoice\LineItem('merchant-product-id-1', 2)  
+    ])
+    ->setComment('custom comment for refund')
+
+/** @var \Billie\Sdk\Model\Response\CreateInvoiceResponseModel $responseModel */
+$responseModel = $requestService->execute($requestModel);
+$uuid = $responseModel->getUuid(); // uuid of the invoice
+```
+
 #### ConfirmPaymentRequest
 
 | 	                 | 	                                                                     |
