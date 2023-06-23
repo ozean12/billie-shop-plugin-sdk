@@ -53,7 +53,8 @@ abstract class AbstractModel
     }
 
     /**
-     * @internal use toArray
+     * @internal
+     * @return static
      */
     public function fromArray(array $data): self
     {
@@ -94,16 +95,25 @@ abstract class AbstractModel
         $this->_modelHasBeenValidated = true;
     }
 
+    /**
+     * @return static
+     */
     public function enableValidateOnSet(): self
     {
         return $this->setValidateOnSet(true);
     }
 
+    /**
+     * @return static
+     */
     public function disableValidateOnSet(): self
     {
         return $this->setValidateOnSet(false);
     }
 
+    /**
+     * @return static
+     */
     public function setValidateOnSet(bool $flag): self
     {
         $this->validateOnSet = $flag;
