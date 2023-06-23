@@ -18,7 +18,7 @@ class GetInvoiceRequestTest extends AbstractInvoice
 {
     public function testGetInvoice(): void
     {
-        $invoiceUuid = $this->generateInvoice(__METHOD__);
+        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
 
         $requestService = new GetInvoiceRequest($this->client);
         $invoice = $requestService->execute(new InvoiceRequestModel($invoiceUuid));

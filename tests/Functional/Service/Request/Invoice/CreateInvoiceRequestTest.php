@@ -27,7 +27,7 @@ class CreateInvoiceRequestTest extends AbstractOrderRequest
 
     public function testCreateInvoiceWithFullAmount(): void
     {
-        $this->_setUp(__METHOD__);
+        $this->_setUp(__FUNCTION__);
         $requestService = new CreateInvoiceRequest(BillieClientHelper::getClient());
 
         $responseModel = $requestService->execute(
@@ -48,7 +48,7 @@ class CreateInvoiceRequestTest extends AbstractOrderRequest
 
     public function testCreateInvoiceWithThreeParts(): void
     {
-        $this->_setUp(__METHOD__);
+        $this->_setUp(__FUNCTION__);
         $requestService = new CreateInvoiceRequest(BillieClientHelper::getClient());
 
         $responseModel = $requestService->execute(
@@ -99,7 +99,7 @@ class CreateInvoiceRequestTest extends AbstractOrderRequest
 
     public function testCreateInvoiceWithInvalidAmount(): void
     {
-        $this->_setUp(__METHOD__);
+        $this->_setUp(__FUNCTION__);
         $requestService = new CreateInvoiceRequest(BillieClientHelper::getClient());
 
         $this->expectException(InvalidRequestException::class);

@@ -25,7 +25,7 @@ class ConfirmPaymentRequestTest extends AbstractInvoice
         // TODO confirming payment in sandbox-mode is not possible. CLARIFY
         $requestService = new ConfirmPaymentRequest($this->client);
 
-        $invoiceUuid = $this->generateInvoice(__METHOD__);
+        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
 
         $response = $requestService->execute(
             (new ConfirmPaymentRequestModel($invoiceUuid))
@@ -44,7 +44,7 @@ class ConfirmPaymentRequestTest extends AbstractInvoice
         $requestService = new ConfirmPaymentRequest($this->client);
         $getInvoiceService = new GetInvoiceRequest($this->client);
 
-        $invoiceUuid = $this->generateInvoice(__METHOD__);
+        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
 
         // create first payment confirmation
         $response = $requestService->execute(

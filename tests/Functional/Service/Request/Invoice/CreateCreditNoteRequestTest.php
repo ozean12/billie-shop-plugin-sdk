@@ -20,7 +20,7 @@ class CreateCreditNoteRequestTest extends AbstractInvoice
 {
     public function testCreateNote(): void
     {
-        $invoice = $this->getInvoice(__METHOD__);
+        $invoice = $this->getInvoice(__FUNCTION__);
 
         $data = (new CreateCreditNoteRequestModel($invoice->getUuid(), $invoice->getNumber()))
             ->setAmount(

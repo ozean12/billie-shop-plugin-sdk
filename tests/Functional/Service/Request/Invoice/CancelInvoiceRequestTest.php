@@ -20,7 +20,7 @@ class CancelInvoiceRequestTest extends AbstractInvoice
 
     public function testCancelInvoice(): void
     {
-        $invoiceUuid = $this->generateInvoice(__METHOD__);
+        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
 
         $requestService = new CancelInvoiceRequest($this->client);
         $response = $requestService->execute(new InvoiceRequestModel($invoiceUuid));

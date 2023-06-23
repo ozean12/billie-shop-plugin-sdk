@@ -23,7 +23,7 @@ class GetOrderTest extends AbstractOrderRequest
     public function testGetOrderDetails(): void
     {
         $orderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
-            ->execute(OrderHelper::createValidOrderModel(__METHOD__));
+            ->execute(OrderHelper::createValidOrderModel(__FUNCTION__));
         $this->orderIds[] = $orderModel->getUuid();
 
         $requestService = new GetOrderRequest(BillieClientHelper::getClient());
