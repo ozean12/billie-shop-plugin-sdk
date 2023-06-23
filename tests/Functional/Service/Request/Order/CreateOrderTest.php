@@ -140,6 +140,24 @@ class CreateOrderTest extends AbstractOrderRequest
         $requestService->execute($order);
     }
 
+    public function testDeclineOrderOtherReason(): void
+    {
+        $order = OrderHelper::createValidOrderModel();
+
+        $billieClient = $this->createMock(BillieClient::class);
+
+        $billieClient->method('request')->willReturn(array_merge(
+            self::$declinedResponseTemplate,
+            [
+                'decline_reason' => 'some other reason',
+            ]
+        ));
+        $requestService = new CreateOrderRequest($billieClient);
+
+        $this->expectException(OrderDeclinedException::class);
+        $requestService->execute($order);
+    }
+
     protected function getRequestServiceClass(): string
     {
         return CreateOrderRequest::class;
