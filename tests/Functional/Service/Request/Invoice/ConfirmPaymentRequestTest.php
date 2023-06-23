@@ -18,6 +18,8 @@ use Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest;
 
 class ConfirmPaymentRequestTest extends AbstractInvoice
 {
+    protected static bool $serviceMustThrowExceptionOnEmptyResponse = false;
+
     public function testInvoiceConfirmPayment(): void
     {
         // TODO confirming payment in sandbox-mode is not possible. CLARIFY
@@ -75,5 +77,10 @@ class ConfirmPaymentRequestTest extends AbstractInvoice
 
         $this->expectException(InvoiceNotFoundException::class);
         (new ConfirmPaymentRequest($this->client))->execute($requestModel);
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return ConfirmPaymentRequest::class;
     }
 }

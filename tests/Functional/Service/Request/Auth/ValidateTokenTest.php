@@ -13,10 +13,10 @@ namespace Billie\Sdk\Tests\Functional\Service\Request\Auth;
 use Billie\Sdk\Model\Request\Auth\ValidateTokenRequestModel;
 use Billie\Sdk\Model\Response\Auth\ValidateTokenResponse;
 use Billie\Sdk\Service\Request\Auth\ValidateTokenRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
-use PHPUnit\Framework\TestCase;
 
-class ValidateTokenTest extends TestCase
+class ValidateTokenTest extends AbstractRequestServiceTestCase
 {
     public function testValidate(): void
     {
@@ -26,5 +26,10 @@ class ValidateTokenTest extends TestCase
         static::assertInstanceOf(ValidateTokenResponse::class, $responseModel);
         static::assertEquals(BillieClientHelper::getClientId(), $responseModel->getClientId());
         static::assertIsArray($responseModel->getScopes());
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return ValidateTokenRequest::class;
     }
 }

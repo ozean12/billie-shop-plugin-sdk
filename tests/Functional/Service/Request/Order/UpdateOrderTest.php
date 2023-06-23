@@ -24,6 +24,8 @@ use Billie\Sdk\Tests\Helper\OrderHelper;
 
 class UpdateOrderTest extends AbstractOrderRequest
 {
+    protected static bool $serviceMustThrowExceptionOnEmptyResponse = false;
+
     private Order $createdOrderModel;
 
     private BillieClient $client;
@@ -31,20 +33,15 @@ class UpdateOrderTest extends AbstractOrderRequest
     protected function setUp(): void
     {
         $this->client = BillieClientHelper::getClient();
-        $this->createdOrderModel = (new CreateOrderRequest($this->client))
-            ->execute(
-                OrderHelper::createValidOrderModel()
-                    ->setExternalCode(null)
-            );
-        $this->orderIds[] = $this->createdOrderModel->getUuid();
     }
 
     public function testUpdateOrder(): void
     {
+        $order = $this->createOrder();
         $externalCode = OrderHelper::getUniqueOrderNumber(__METHOD__) . '-updated';
         $requestService = new UpdateOrderRequest($this->client);
         $result = $requestService->execute(
-            (new UpdateOrderRequestModel($this->createdOrderModel->getUuid()))
+            (new UpdateOrderRequestModel($order->getUuid()))
                 ->setExternalCode($externalCode)
                 ->setAmount(
                     (new Amount())
@@ -62,5 +59,22 @@ class UpdateOrderTest extends AbstractOrderRequest
         static::assertEquals(119, $fetchedOrder->getAmount()->getGross());
         static::assertEquals(100, $fetchedOrder->getAmount()->getNet());
         static::assertEquals(19, $fetchedOrder->getAmount()->getTax());
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return UpdateOrderRequest::class;
+    }
+
+    private function createOrder(): Order
+    {
+        $this->createdOrderModel = (new CreateOrderRequest($this->client))
+            ->execute(
+                OrderHelper::createValidOrderModel()
+                    ->setExternalCode(null)
+            );
+        $this->orderIds[] = $this->createdOrderModel->getUuid();
+
+        return $this->createdOrderModel;
     }
 }

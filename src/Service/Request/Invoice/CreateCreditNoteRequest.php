@@ -30,7 +30,7 @@ class CreateCreditNoteRequest extends AbstractRequest
 
     protected function processSuccess($requestModel, ?array $responseData = null): CreateCreditNoteResponseModel
     {
-        if ($responseData === null) {
+        if ($responseData === null || $responseData === []) {
             throw new InvalidResponseException('got no response from gateway. A response was expected.');
         }
 

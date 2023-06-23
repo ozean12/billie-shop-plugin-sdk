@@ -38,4 +38,9 @@ class GetOrderTest extends AbstractOrderRequest
         $this->expectException(OrderNotFoundException::class);
         $requestService->execute(new OrderRequestModel($referenceId));
     }
+
+    protected function getRequestServiceClass(): string
+    {
+        return GetOrderRequest::class;
+    }
 }

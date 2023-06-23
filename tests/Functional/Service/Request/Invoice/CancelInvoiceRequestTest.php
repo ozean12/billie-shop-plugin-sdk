@@ -16,6 +16,8 @@ use Billie\Sdk\Service\Request\Invoice\CancelInvoiceRequest;
 
 class CancelInvoiceRequestTest extends AbstractInvoice
 {
+    protected static bool $serviceMustThrowExceptionOnEmptyResponse = false;
+
     public function testCancelInvoice(): void
     {
         $invoiceUuid = $this->generateInvoice(__METHOD__);
@@ -32,5 +34,10 @@ class CancelInvoiceRequestTest extends AbstractInvoice
         $requestService = new CancelInvoiceRequest($this->client);
         $this->expectException(InvoiceNotFoundException::class);
         $requestService->execute(new InvoiceRequestModel($referenceId));
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return CancelInvoiceRequest::class;
     }
 }

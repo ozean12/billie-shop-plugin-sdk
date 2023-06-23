@@ -13,10 +13,9 @@ namespace Billie\Sdk\Tests\Functional\Service\Request;
 use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Service\Request\Order\CancelOrderRequest;
-use Billie\Sdk\Tests\AbstractTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 
-abstract class AbstractOrderRequest extends AbstractTestCase
+abstract class AbstractOrderRequest extends AbstractRequestServiceTestCase
 {
     /**
      * @var string[]

@@ -139,4 +139,9 @@ class CreateOrderTest extends AbstractOrderRequest
         $this->expectException(DebtorLimitExceededException::class);
         $requestService->execute($order);
     }
+
+    protected function getRequestServiceClass(): string
+    {
+        return CreateOrderRequest::class;
+    }
 }

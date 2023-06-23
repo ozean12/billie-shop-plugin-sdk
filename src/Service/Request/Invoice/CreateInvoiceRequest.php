@@ -29,7 +29,7 @@ class CreateInvoiceRequest extends AbstractRequest
 
     protected function processSuccess($requestModel, ?array $responseData = null): CreateInvoiceResponseModel
     {
-        if ($responseData === null) {
+        if ($responseData === null || $responseData === []) {
             throw new InvalidResponseException('got no response from gateway. A response was expected.');
         }
 

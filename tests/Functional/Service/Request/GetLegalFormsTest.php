@@ -14,9 +14,8 @@ use Billie\Sdk\Model\Request\GetLegalFormsRequestModel;
 use Billie\Sdk\Model\Response\GetLegalFormsResponseModel;
 use Billie\Sdk\Service\Request\GetLegalFormsRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
-use PHPUnit\Framework\TestCase;
 
-class GetLegalFormsTest extends TestCase
+class GetLegalFormsTest extends AbstractRequestServiceTestCase
 {
     public function testRetrieveOrderWithValidAttributes(): void
     {
@@ -31,5 +30,10 @@ class GetLegalFormsTest extends TestCase
         static::assertEquals('GmbH (Gesellschaft mit beschränkter Haftung)', $responseModel->getItems()[0]->getName());
         static::assertEquals('HR-NR', $responseModel->getItems()[0]->getRequiredField());
         static::assertEquals(1, $responseModel->getItems()[0]->isRequired());
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return GetLegalFormsRequest::class;
     }
 }

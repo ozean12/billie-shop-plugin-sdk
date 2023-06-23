@@ -118,6 +118,11 @@ class CreateInvoiceRequestTest extends AbstractOrderRequest
         );
     }
 
+    protected function getRequestServiceClass(): string
+    {
+        return CreateInvoiceRequest::class;
+    }
+
     private function _setUp(string $testName): void
     {
         // Info: we can not use setup(), because we will not hae the testname to create the order.

@@ -52,4 +52,9 @@ class CreateCreditNoteRequestTest extends AbstractInvoice
 
         $requestService->execute($data);
     }
+
+    protected function getRequestServiceClass(): string
+    {
+        return CreateCreditNoteRequest::class;
+    }
 }

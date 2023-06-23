@@ -14,25 +14,29 @@ use Billie\Sdk\Model\Order;
 use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Service\Request\Order\CancelOrderRequest;
 use Billie\Sdk\Service\Request\Order\CreateOrderRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
-use PHPUnit\Framework\TestCase;
 
-class CancelOrderTest extends TestCase
+class CancelOrderTest extends AbstractRequestServiceTestCase
 {
-    private Order $createdOrderModel;
+    protected static bool $serviceMustThrowExceptionOnEmptyResponse = false;
 
-    protected function setUp(): void
-    {
-        $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
-            ->execute(OrderHelper::createValidOrderModel());
-    }
+    private Order $createdOrderModel;
 
     public function testCancel(): void
     {
+        $this->createdOrderModel = (new CreateOrderRequest(BillieClientHelper::getClient()))
+            ->execute(OrderHelper::createValidOrderModel());
+
         $requestService = new CancelOrderRequest(BillieClientHelper::getClient());
         $success = $requestService->execute(new OrderRequestModel($this->createdOrderModel->getUuid()));
 
         static::assertTrue($success);
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return CancelOrderRequest::class;
     }
 }

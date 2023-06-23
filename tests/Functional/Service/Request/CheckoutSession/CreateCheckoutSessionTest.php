@@ -13,10 +13,10 @@ namespace Billie\Sdk\Tests\Functional\Service\Request\CheckoutSession;
 use Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel;
 use Billie\Sdk\Model\Response\CreateSessionResponseModel;
 use Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
-use PHPUnit\Framework\TestCase;
 
-class CreateCheckoutSessionTest extends TestCase
+class CreateCheckoutSessionTest extends AbstractRequestServiceTestCase
 {
     public function testRetrieveOrderWithValidAttributes(): void
     {
@@ -29,5 +29,15 @@ class CreateCheckoutSessionTest extends TestCase
 
         static::assertInstanceOf(CreateSessionResponseModel::class, $responseModel);
         static::assertIsString($responseModel->getCheckoutSessionId());
+    }
+
+    public function getValidEmptyRequestModelClass(): string
+    {
+        return CreateSessionRequestModel::class;
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return CreateSessionRequest::class;
     }
 }

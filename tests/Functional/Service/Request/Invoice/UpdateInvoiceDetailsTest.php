@@ -18,6 +18,8 @@ use Billie\Sdk\Service\Request\Invoice\UpdateInvoiceRequest;
 
 class UpdateInvoiceDetailsTest extends AbstractInvoice
 {
+    protected static bool $serviceMustThrowExceptionOnEmptyResponse = false;
+
     public function testUpdateInvoiceNumberUrl(): void
     {
         $invoiceUuid = $this->generateInvoice(__METHOD__);
@@ -48,5 +50,10 @@ class UpdateInvoiceDetailsTest extends AbstractInvoice
 
         $this->expectException(InvoiceNotFoundException::class);
         (new UpdateInvoiceRequest($this->client))->execute($requestModel);
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return UpdateInvoiceRequest::class;
     }
 }

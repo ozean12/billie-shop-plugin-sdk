@@ -39,9 +39,14 @@ abstract class AbstractRequest
         $this->client = $billieClient;
     }
 
-    final public function setClient(BillieClient $client): void
+    /**
+     * @return $this
+     */
+    final public function setClient(BillieClient $client): self
     {
         $this->client = $client;
+
+        return $this;
     }
 
     /**
@@ -83,6 +88,11 @@ abstract class AbstractRequest
         }
 
         return $this->processSuccess($requestModel, $response);
+    }
+
+    public function setCacheFlag(bool $cacheable): void
+    {
+        $this->cacheable = $cacheable;
     }
 
     protected function loadFromCache(AbstractRequestModel $requestModel): ?array

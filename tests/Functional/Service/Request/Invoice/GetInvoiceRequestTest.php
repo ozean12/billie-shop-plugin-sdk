@@ -34,4 +34,9 @@ class GetInvoiceRequestTest extends AbstractInvoice
         $this->expectException(InvoiceNotFoundException::class);
         $requestService->execute(new InvoiceRequestModel($referenceId));
     }
+
+    protected function getRequestServiceClass(): string
+    {
+        return GetInvoiceRequest::class;
+    }
 }

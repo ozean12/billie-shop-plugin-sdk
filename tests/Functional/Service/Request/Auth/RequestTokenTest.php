@@ -11,14 +11,16 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Functional\Service\Request\Auth;
 
 use Billie\Sdk\Exception\UserNotAuthorizedException;
+use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\Auth\GetTokenRequestModel;
 use Billie\Sdk\Model\Response\Auth\GetTokenResponseModel;
+use Billie\Sdk\Service\Request\AbstractRequest;
 use Billie\Sdk\Service\Request\Auth\GetTokenRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use DateTime;
-use PHPUnit\Framework\TestCase;
 
-class RequestTokenTest extends TestCase
+class RequestTokenTest extends AbstractRequestServiceTestCase
 {
     public function testRequestToken(): void
     {
@@ -46,5 +48,18 @@ class RequestTokenTest extends TestCase
                 ->setClientId('invalid')
                 ->setClientSecret('invalid')
         );
+    }
+
+    protected function getRequestServiceClass(): string
+    {
+        return GetTokenRequest::class;
+    }
+
+    /**
+     * @phpstan-ignore-next-line
+     */
+    protected function getRequestServiceInstance(BillieClient $client): AbstractRequest
+    {
+        return (new GetTokenRequest())->setClient($client);
     }
 }
