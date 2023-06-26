@@ -8,6 +8,18 @@
         </testsuite>
     </testsuites>
 
+    <!-- will be added to GitHub actions in the future (maybe) -->
+    <!--coverage processUncoveredFiles="true">
+        <include>
+            <directory>src/</directory>
+        </include>
+        <exclude />
+        <report>
+            <html outputDirectory="../phpunit-code-coverage/coverage_report_html"/>
+            <text outputFile="../phpunit-code-coverage/coverage_report.txt"/>
+        </report>
+    </coverage-->
+
     <!--
     <php>
         <env name="BILLIE_CLIENT_ID" value="<< INSERT YOUR CLIENT ID >>" force="true" />
