@@ -29,10 +29,9 @@ class GetInvoiceRequestTest extends AbstractInvoice
 
     public function testNotFound(): void
     {
-        $referenceId = '999d0999-9999-9999-9305-c6eaea2550a6';
-        $requestService = new GetInvoiceRequest($this->client);
+        $requestService = new GetInvoiceRequest($this->createClientNotFoundExceptionMock());
         $this->expectException(InvoiceNotFoundException::class);
-        $requestService->execute(new InvoiceRequestModel($referenceId));
+        $requestService->execute((new InvoiceRequestModel('')));
     }
 
     protected function getRequestServiceClass(): string

@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Functional\Service\Request;
 
 use Billie\Sdk\Exception\InvalidResponseException;
+use Billie\Sdk\Exception\NotFoundException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Service\Request\AbstractRequest;
 use Billie\Sdk\Tests\Functional\Mock\Model\EmptyRequestModel;
@@ -52,5 +53,13 @@ abstract class AbstractRequestServiceTestCase extends TestCase
     protected function getRequestServiceInstance(BillieClient $client): AbstractRequest  // @phpstan-ignore-line
     {
         return new ($this->getRequestServiceClass())($client); // @phpstan-ignore-line
+    }
+
+    protected function createClientNotFoundExceptionMock(): BillieClient
+    {
+        $mock = $this->createMock(BillieClient::class);
+        $mock->method('request')->willThrowException(new NotFoundException('', 404));
+
+        return $mock;
     }
 }

@@ -33,10 +33,9 @@ class GetOrderTest extends AbstractOrderRequest
 
     public function testNotFound(): void
     {
-        $referenceId = uniqid('invalid-order-id-', false);
-        $requestService = new GetOrderRequest(BillieClientHelper::getClient());
+        $requestService = new GetOrderRequest($this->createClientNotFoundExceptionMock());
         $this->expectException(OrderNotFoundException::class);
-        $requestService->execute(new OrderRequestModel($referenceId));
+        $requestService->execute((new OrderRequestModel('')));
     }
 
     protected function getRequestServiceClass(): string

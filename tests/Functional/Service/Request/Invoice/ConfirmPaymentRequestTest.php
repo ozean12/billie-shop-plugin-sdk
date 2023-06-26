@@ -37,12 +37,12 @@ class ConfirmPaymentRequestTest extends AbstractInvoice
 
     public function testNotFound(): void
     {
-        $referenceId = '887061d6-ee82-11ed-a05b-0242ac120003';
-        $requestModel = (new ConfirmPaymentRequestModel($referenceId))
-            ->setPaidAmount(100);
-
+        $requestService = new ConfirmPaymentRequest($this->createClientNotFoundExceptionMock());
         $this->expectException(InvoiceNotFoundException::class);
-        (new ConfirmPaymentRequest($this->client))->execute($requestModel);
+        $requestService->execute(
+            (new ConfirmPaymentRequestModel(''))
+                ->setPaidAmount(100)
+        );
     }
 
     protected function getRequestServiceClass(): string

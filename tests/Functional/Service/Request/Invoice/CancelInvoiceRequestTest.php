@@ -30,10 +30,9 @@ class CancelInvoiceRequestTest extends AbstractInvoice
 
     public function testNotFound(): void
     {
-        $referenceId = '999d0999-9999-9999-9305-c6eaea2550a6';
-        $requestService = new CancelInvoiceRequest($this->client);
+        $requestService = new CancelInvoiceRequest($this->createClientNotFoundExceptionMock());
         $this->expectException(InvoiceNotFoundException::class);
-        $requestService->execute(new InvoiceRequestModel($referenceId));
+        $requestService->execute(new InvoiceRequestModel(''));
     }
 
     protected function getRequestServiceClass(): string
