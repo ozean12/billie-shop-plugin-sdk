@@ -10,11 +10,41 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Tests\Acceptance\Model;
 
+use BadMethodCallException;
+use Billie\Sdk\Model\AbstractModel;
+use Billie\Sdk\Model\Request\AbstractRequestModel;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractModelTestCase extends TestCase
 {
+    abstract public function testToArray(): void;
+
+    /**
+     * @depends testToArray
+     */
+    public function testFromArray(): void
+    {
+        $validModel = $this->getValidModel();
+        if ($validModel instanceof AbstractRequestModel) {
+            $this->expectException(BadMethodCallException::class);
+            $validModel->fromArray([]);
+
+            /** @noinspection PhpUnreachableStatementInspection */
+            return;
+        }
+
+        $data = $validModel->toArray();
+
+        $expectedArray = $data;
+        ksort($expectedArray);
+
+        $newArray = (new (get_class($validModel)))->fromArray($data)->toArray();
+        ksort($newArray);
+
+        static::assertEquals($expectedArray, $newArray);
+    }
+
     protected function createMock(string $originalClassName): MockObject
     {
         $mock = parent::createMock($originalClassName);
@@ -25,4 +55,6 @@ abstract class AbstractModelTestCase extends TestCase
 
         return $mock;
     }
+
+    abstract protected function getValidModel(): AbstractModel;
 }

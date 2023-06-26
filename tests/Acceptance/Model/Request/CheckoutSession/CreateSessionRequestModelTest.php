@@ -17,10 +17,14 @@ class CreateSessionRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $data = (new CreateSessionRequestModel())
-            ->setMerchantCustomerId('123456789')
-            ->toArray();
+        $data = $this->getValidModel()->toArray();
 
-        static::assertEquals('123456789', $data['merchant_customer_id']);
+        static::assertEquals('123456789', $data['merchant_customer_id'] ?? null);
+    }
+
+    protected function getValidModel(): CreateSessionRequestModel
+    {
+        return (new CreateSessionRequestModel())
+            ->setMerchantCustomerId('123456789');
     }
 }

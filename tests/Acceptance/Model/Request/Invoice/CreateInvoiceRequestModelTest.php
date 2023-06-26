@@ -20,31 +20,21 @@ class CreateInvoiceRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $data = (new CreateInvoiceRequestModel())
-            ->setOrders(['order-123'])
-            ->setInvoiceNumber('invoice-123')
-            ->setInvoiceUrl('https://test.com/path/to/file.pdf')
-            ->setShippingInformation(self::createMock(ShippingInformation::class))
-            ->setAmount(self::createMock(Amount::class))
-            ->setLineItems([
-                self::createMock(LineItem::class),
-                self::createMock(LineItem::class),
-            ])
-            ->toArray();
+        $data = $this->getValidModel()->toArray();
 
         static::assertIsArray($data);
         static::assertCount(6, $data);
-        static::assertIsArray($data['orders']);
+        static::assertIsArray($data['orders'] ?? null);
         static::assertCount(1, $data['orders']);
-        static::assertEquals('order-123', $data['orders'][0]);
-        static::assertEquals('invoice-123', $data['external_code']);
-        static::assertEquals('https://test.com/path/to/file.pdf', $data['invoice_url']);
-        static::assertIsArray($data['shipping_info']);
-        static::assertIsArray($data['amount']);
-        static::assertIsArray($data['line_items']);
+        static::assertEquals('order-123', $data['orders'][0] ?? null);
+        static::assertEquals('invoice-123', $data['external_code'] ?? null);
+        static::assertEquals('https://test.com/path/to/file.pdf', $data['invoice_url'] ?? null);
+        static::assertIsArray($data['shipping_info'] ?? null);
+        static::assertIsArray($data['amount'] ?? null);
+        static::assertIsArray($data['line_items'] ?? null);
         static::assertCount(2, $data['line_items']);
-        static::assertIsArray($data['line_items'][0]);
-        static::assertIsArray($data['line_items'][1]);
+        static::assertIsArray($data['line_items'][0] ?? null);
+        static::assertIsArray($data['line_items'][1] ?? null);
     }
 
     public function testSetOrderExternalCode(): void
@@ -59,7 +49,7 @@ class CreateInvoiceRequestModelTest extends AbstractModelTestCase
         $expectedArray = ['test-123'];
 
         self::assertEquals($expectedArray, $model->getOrders());
-        self::assertEquals($expectedArray, $model->toArray()['orders']);
+        self::assertEquals($expectedArray, $model->toArray()['orders'] ?? null);
     }
 
     public function testSetOrderUuId(): void
@@ -74,10 +64,26 @@ class CreateInvoiceRequestModelTest extends AbstractModelTestCase
         $expectedArray = ['test-123'];
 
         self::assertEquals($expectedArray, $model->getOrders());
-        self::assertEquals($expectedArray, $model->toArray()['orders']);
+        self::assertEquals($expectedArray, $model->toArray()['orders'] ?? null);
     }
 
-    private function getValidModel(): CreateInvoiceRequestModel
+    public function testAddItems(): void
+    {
+        $model = $this->getValidModel();
+        $model->disableValidateOnSet();
+
+        // reset array
+        $model->setLineItems([]);
+        $model->addLineItem(new LineItem('test', 1));
+        $model->addLineItem(new LineItem('test', 1));
+        static::assertIsArray($model->getLineItems());
+        static::assertCount(2, $model->getLineItems());
+
+        $model->addLineItem(new LineItem('test', 1));
+        static::assertCount(3, $model->getLineItems());
+    }
+
+    protected function getValidModel(): CreateInvoiceRequestModel
     {
         return (new CreateInvoiceRequestModel())
             ->setOrders(['order-123'])

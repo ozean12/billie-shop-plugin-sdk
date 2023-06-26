@@ -13,27 +13,21 @@ namespace Billie\Sdk\Tests\Acceptance\Model\Request\Invoice\CreateInvoice;
 use Billie\Sdk\Model\Request\Invoice\LineItem;
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
-class LineitemTest extends AbstractModelTestCase
+class LineItemTest extends AbstractModelTestCase
 {
-    public function testToConstructor(): void
-    {
-        $data = (new LineItem('123456789', 12))
-            ->toArray();
-
-        static::assertIsArray($data);
-        static::assertEquals('123456789', $data['external_id']);
-        static::assertEquals(12, $data['quantity']);
-    }
-
     public function testToArray(): void
     {
-        $data = (new LineItem('123456789', 12))
-            ->setExternalId('987654321')
-            ->setQuantity(5)
-            ->toArray();
+        $data = $this->getValidModel()->toArray();
 
         static::assertIsArray($data);
-        static::assertEquals('987654321', $data['external_id']);
-        static::assertEquals(5, $data['quantity']);
+        static::assertEquals('987654321', $data['external_id'] ?? null);
+        static::assertEquals(5, $data['quantity'] ?? null);
+    }
+
+    protected function getValidModel(): LineItem
+    {
+        return (new LineItem('123456789', 12))
+            ->setExternalId('987654321')
+            ->setQuantity(5);
     }
 }

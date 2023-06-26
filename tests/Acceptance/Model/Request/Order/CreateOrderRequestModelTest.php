@@ -22,7 +22,22 @@ class CreateOrderRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $data = (new CreateOrderRequestModel())
+        $data = $this->getValidModel()->toArray();
+
+        static::assertIsArray($data['amount'] ?? null);
+        static::assertEquals(12, $data['duration'] ?? null);
+        static::assertIsArray($data['debtor'] ?? null);
+        static::assertIsArray($data['debtor_person']);
+        static::assertEquals('test-comment', $data['comment'] ?? null);
+        static::assertEquals('test-order-id', $data['external_code'] ?? null);
+        static::assertIsArray($data['delivery_address'] ?? null);
+        static::assertIsArray($data['line_items'] ?? null);
+        static::assertCount(2, $data['line_items']);
+    }
+
+    protected function getValidModel(): CreateOrderRequestModel
+    {
+        return (new CreateOrderRequestModel())
             ->setAmount($this->createMock(Amount::class))
             ->setDuration(12)
             ->setDebtor($this->createMock(Debtor::class))
@@ -33,17 +48,6 @@ class CreateOrderRequestModelTest extends AbstractModelTestCase
             ->setLineItems([
                 $this->createMock(LineItem::class),
                 $this->createMock(LineItem::class),
-            ])
-            ->toArray();
-
-        static::assertIsArray($data['amount']);
-        static::assertEquals(12, $data['duration']);
-        static::assertIsArray($data['debtor']);
-        static::assertIsArray($data['debtor_person']);
-        static::assertEquals('test-comment', $data['comment']);
-        static::assertEquals('test-order-id', $data['external_code']);
-        static::assertIsArray($data['delivery_address']);
-        static::assertIsArray($data['line_items']);
-        static::assertCount(2, $data['line_items']);
+            ]);
     }
 }

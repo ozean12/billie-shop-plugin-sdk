@@ -41,7 +41,7 @@ class CreateCreditNoteRequestModel extends InvoiceRequestModel
         $this->invoiceNumber = $invoiceNumber;
     }
 
-    public function addLineItems(LineItem $item): self
+    public function addLineItem(LineItem $item): self
     {
         $items = $this->getLineItems() ?? [];
         $items[] = $item;

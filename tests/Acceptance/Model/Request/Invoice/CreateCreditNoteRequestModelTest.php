@@ -19,22 +19,43 @@ class CreateCreditNoteRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $model = (new CreateCreditNoteRequestModel('invoice-uuid', 'external-code'))
+        $model = $this->getValidModel();
+        $data = $model->toArray();
+
+        static::assertIsArray($data);
+        static::assertCount(4, $data); // uuid is a path-parameter, so it will not send via body
+        static::assertEquals('invoice-uuid', $model->getUuid());
+        static::assertEquals('external-code', $data['external_code'] ?? null);
+        static::assertIsArray($data['amount'] ?? null);
+        static::assertIsArray($data['line_items'] ?? null);
+        static::assertCount(2, $data['line_items']);
+        static::assertEquals('my-comment', $data['comment'] ?? null);
+    }
+
+    public function testAddItems(): void
+    {
+        $model = $this->getValidModel();
+        $model->disableValidateOnSet();
+
+        // reset array
+        $model->setLineItems([]);
+        $model->addLineItem(new LineItem('test', 1));
+        $model->addLineItem(new LineItem('test', 1));
+        static::assertIsArray($model->getLineItems());
+        static::assertCount(2, $model->getLineItems());
+
+        $model->addLineItem(new LineItem('test', 1));
+        static::assertCount(3, $model->getLineItems());
+    }
+
+    protected function getValidModel(): CreateCreditNoteRequestModel
+    {
+        return (new CreateCreditNoteRequestModel('invoice-uuid', 'external-code'))
             ->setAmount(self::createMock(Amount::class))
             ->setComment('my-comment')
             ->setLineItems([
                 self::createMock(LineItem::class),
                 self::createMock(LineItem::class),
             ]);
-        $data = $model->toArray();
-
-        static::assertIsArray($data);
-        static::assertCount(4, $data); // uuid is a path-parameter, so it will not send via body
-        static::assertEquals('invoice-uuid', $model->getUuid());
-        static::assertEquals('external-code', $data['external_code']);
-        static::assertIsArray($data['amount']);
-        static::assertIsArray($data['line_items']);
-        static::assertCount(2, $data['line_items']);
-        static::assertEquals('my-comment', $data['comment']);
     }
 }

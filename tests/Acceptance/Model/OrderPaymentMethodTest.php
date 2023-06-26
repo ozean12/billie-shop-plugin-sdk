@@ -15,9 +15,29 @@ use DateTime;
 
 class OrderPaymentMethodTest extends AbstractModelTestCase
 {
+    public function testToArray(): void
+    {
+        // nothing to test, cause there are no setters
+        static::assertTrue(true);
+    }
+
     public function testFromArray(): void
     {
-        $model = (new OrderPaymentMethod())
+        $model = $this->getValidModel();
+
+        static::assertEquals('bank-transfer', $model->getType());
+        static::assertEquals('DE000000012345567', $model->getIban());
+        static::assertEquals('ABCDEFGHIJ', $model->getBic());
+        static::assertEquals('reference', $model->getMandateReference());
+        static::assertInstanceOf(DateTime::class, $model->getMandateExecutionDate());
+        static::assertEquals('identifier', $model->getCreditorIdentification());
+    }
+
+    protected function getValidModel(): OrderPaymentMethod
+    {
+        // does not make so much cause the method `getValidModel` is used for testing the `fromArray` method.
+        // but the behaviour is tested :)
+        return (new OrderPaymentMethod())
             ->fromArray([
                 'type' => 'bank-transfer',
                 'data' => [
@@ -28,12 +48,5 @@ class OrderPaymentMethodTest extends AbstractModelTestCase
                     'creditor_identification' => 'identifier',
                 ],
             ]);
-
-        static::assertEquals('bank-transfer', $model->getType());
-        static::assertEquals('DE000000012345567', $model->getIban());
-        static::assertEquals('ABCDEFGHIJ', $model->getBic());
-        static::assertEquals('reference', $model->getMandateReference());
-        static::assertInstanceOf(DateTime::class, $model->getMandateExecutionDate());
-        static::assertEquals('identifier', $model->getCreditorIdentification());
     }
 }

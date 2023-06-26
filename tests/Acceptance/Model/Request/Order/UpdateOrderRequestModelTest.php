@@ -18,13 +18,17 @@ class UpdateOrderRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $data = (new UpdateOrderRequestModel('uuid'))
-            ->setExternalCode('order-id')
-            ->setAmount($this->createMock(Amount::class))
-            ->toArray();
+        $data = $this->getValidModel()->toArray();
 
         static::assertCount(2, $data); // uuid should not be returned
-        static::assertEquals('order-id', $data['external_code']);
-        static::assertIsArray($data['amount']);
+        static::assertEquals('order-id', $data['external_code'] ?? null);
+        static::assertIsArray($data['amount'] ?? null);
+    }
+
+    protected function getValidModel(): UpdateOrderRequestModel
+    {
+        return (new UpdateOrderRequestModel('uuid'))
+            ->setExternalCode('order-id')
+            ->setAmount($this->createMock(Amount::class));
     }
 }

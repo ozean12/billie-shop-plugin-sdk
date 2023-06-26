@@ -25,4 +25,9 @@ class InvoiceRequestModelTest extends AbstractModelTestCase
         static::assertCount(0, $data->toArray());
         static::assertEquals('uuid-2', $data->getUuid());
     }
+
+    protected function getValidModel(): InvoiceRequestModel
+    {
+        return new InvoiceRequestModel('uuid');
+    }
 }

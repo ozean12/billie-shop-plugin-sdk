@@ -18,9 +18,35 @@ use DateTime;
 
 class OrderTest extends AbstractModelTestCase
 {
+    public function testToArray(): void
+    {
+        // nothing to test, cause there are no setters
+        static::assertTrue(true);
+    }
+
     public function testFromArray(): void
     {
-        $model = (new Order())
+        $model = $this->getValidModel();
+
+        static::assertEquals('order-id', $model->getExternalCode());
+        static::assertEquals('123456', $model->getUuid());
+        static::assertEquals('risk_policy', $model->getDeclineReason());
+        static::assertInstanceOf(Amount::class, $model->getAmount());
+        static::assertInstanceOf(Amount::class, $model->getUnshippedAmount());
+        static::assertEquals(23, $model->getDuration());
+        static::assertInstanceOf(DateTime::class, $model->getCreatedAt());
+        static::assertInstanceOf(Address::class, $model->getDeliveryAddress());
+        static::assertInstanceOf(Debtor::class, $model->getDebtor());
+        static::assertIsArray($model->getInvoices());
+        static::assertEquals('bank_transfer', $model->getSelectedPaymentMethod());
+        static::assertIsArray($model->getPaymentMethods());
+    }
+
+    protected function getValidModel(): Order
+    {
+        // does not make so much cause the method `getValidModel` is used for testing the `fromArray` method.
+        // but the behaviour is tested :)
+        return (new Order())
             ->fromArray([
                 'external_code' => 'order-id',
                 'uuid' => '123456',
@@ -36,18 +62,5 @@ class OrderTest extends AbstractModelTestCase
                 'selected_payment_method' => 'bank_transfer',
                 'payment_methods' => [],
             ]);
-
-        static::assertEquals('order-id', $model->getExternalCode());
-        static::assertEquals('123456', $model->getUuid());
-        static::assertEquals('risk_policy', $model->getDeclineReason());
-        static::assertInstanceOf(Amount::class, $model->getAmount());
-        static::assertInstanceOf(Amount::class, $model->getUnshippedAmount());
-        static::assertEquals(23, $model->getDuration());
-        static::assertInstanceOf(DateTime::class, $model->getCreatedAt());
-        static::assertInstanceOf(Address::class, $model->getDeliveryAddress());
-        static::assertInstanceOf(Debtor::class, $model->getDebtor());
-        static::assertIsArray($model->getInvoices());
-        static::assertEquals('bank_transfer', $model->getSelectedPaymentMethod());
-        static::assertIsArray($model->getPaymentMethods());
     }
 }

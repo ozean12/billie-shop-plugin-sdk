@@ -43,7 +43,7 @@ class Person extends AbstractModel
         $this->salutation = ResponseHelper::getString($data, 'salutation');
         $this->firstname = ResponseHelper::getString($data, 'first_name');
         $this->lastname = ResponseHelper::getString($data, 'last_name');
-        $this->phone = ResponseHelper::getString($data, 'phone');
+        $this->phone = ResponseHelper::getString($data, 'phone_number');
 
         return $this;
     }

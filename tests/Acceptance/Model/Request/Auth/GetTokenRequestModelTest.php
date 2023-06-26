@@ -17,13 +17,17 @@ class GetTokenRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $data = (new GetTokenRequestModel())
-            ->setClientId('client-id')
-            ->setClientSecret('client-secret')
-            ->toArray();
+        $data = $this->getValidModel()->toArray();
 
-        static::assertEquals('client_credentials', $data['grant_type']);
-        static::assertEquals('client-id', $data['client_id']);
-        static::assertEquals('client-secret', $data['client_secret']);
+        static::assertEquals('client_credentials', $data['grant_type'] ?? null);
+        static::assertEquals('client-id', $data['client_id'] ?? null);
+        static::assertEquals('client-secret', $data['client_secret'] ?? null);
+    }
+
+    protected function getValidModel(): GetTokenRequestModel
+    {
+        return (new GetTokenRequestModel())
+            ->setClientId('client-id')
+            ->setClientSecret('client-secret');
     }
 }

@@ -15,12 +15,22 @@ use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CreateCreditNoteResponseModelTest extends AbstractModelTestCase
 {
+    public function testToArray(): void
+    {
+        static::assertEquals([], $this->getValidModel()->toArray());
+    }
+
     public function testFromArray(): void
     {
-        $responseModel = new CreateCreditNoteResponseModel([
-            'uuid' => '12345678',
-        ]);
+        $responseModel = $this->getValidModel();
 
         static::assertEquals('12345678', $responseModel->getUuid());
+    }
+
+    protected function getValidModel(): CreateCreditNoteResponseModel
+    {
+        return new CreateCreditNoteResponseModel([
+            'uuid' => '12345678',
+        ]);
     }
 }

@@ -17,21 +17,26 @@ class UpdateInvoiceRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $model = (new UpdateInvoiceRequestModel('uuid'))
-            ->setInvoiceNumber('invoice-number')
-            ->setInvoiceUrl('invoice-url');
+        $model = $this->getValidModel();
 
         $data = $model->toArray();
         static::assertIsArray($data);
         static::assertCount(2, $data);
-        static::assertEquals('invoice-number', $data['external_code']);
-        static::assertEquals('invoice-url', $data['invoice_url']);
+        static::assertEquals('invoice-number', $data['external_code'] ?? null);
+        static::assertEquals('invoice-url', $data['invoice_url'] ?? null);
 
         $model->setUuid('uuid-2');
         $data = $model->toArray();
         static::assertIsArray($data);
         static::assertCount(2, $data);
-        static::assertEquals('invoice-number', $data['external_code']);
-        static::assertEquals('invoice-url', $data['invoice_url']);
+        static::assertEquals('invoice-number', $data['external_code'] ?? null);
+        static::assertEquals('invoice-url', $data['invoice_url'] ?? null);
+    }
+
+    protected function getValidModel(): UpdateInvoiceRequestModel
+    {
+        return (new UpdateInvoiceRequestModel('uuid'))
+            ->setInvoiceNumber('invoice-number')
+            ->setInvoiceUrl('invoice-url');
     }
 }

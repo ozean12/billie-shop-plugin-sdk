@@ -12,6 +12,6 @@ namespace Billie\Sdk\Tests\Acceptance\Model\Request;
 
 use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
-abstract class AbstractRequestModelTest extends AbstractModelTestCase
+abstract class AbstractRequestModelTestCase extends AbstractModelTestCase
 {
 }

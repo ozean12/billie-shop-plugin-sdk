@@ -15,12 +15,22 @@ use Billie\Sdk\Tests\Acceptance\Model\AbstractModelTestCase;
 
 class CreateInvoiceResponseModelTest extends AbstractModelTestCase
 {
+    public function testToArray(): void
+    {
+        static::assertEquals([], $this->getValidModel()->toArray());
+    }
+
     public function testFromArray(): void
     {
-        $responseModel = new CreateInvoiceResponseModel([
-            'uuid' => '12345678',
-        ]);
+        $responseModel = $this->getValidModel();
 
         static::assertEquals('12345678', $responseModel->getUuid());
+    }
+
+    protected function getValidModel(): CreateInvoiceResponseModel
+    {
+        return new CreateInvoiceResponseModel([
+            'uuid' => '12345678',
+        ]);
     }
 }

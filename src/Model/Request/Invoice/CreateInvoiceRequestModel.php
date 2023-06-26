@@ -69,7 +69,7 @@ class CreateInvoiceRequestModel extends AbstractRequestModel
         return $this;
     }
 
-    public function addLineItems(LineItem $item): self
+    public function addLineItem(LineItem $item): self
     {
         $items = $this->getLineItems() ?? [];
         $items[] = $item;

@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Acceptance\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
+use Billie\Sdk\Model\AbstractModel;
 use Billie\Sdk\Model\Amount;
 use RuntimeException;
 
@@ -18,14 +19,11 @@ class AmountTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $data = (new Amount())
-            ->setGross(100.00)
-            ->setNet(50.50)
-            ->toArray();
+        $data = $this->getValidModel()->toArray();
 
-        static::assertEquals(100, $data['gross']);
-        static::assertEquals(50.50, $data['net']);
-        static::assertEquals(49.50, $data['tax']);
+        static::assertEquals(100, $data['gross'] ?? null);
+        static::assertEquals(50.50, $data['net'] ?? null);
+        static::assertEquals(49.50, $data['tax'] ?? null);
     }
 
     public function testTaxCalculationSuccessful(): void
@@ -67,5 +65,12 @@ class AmountTest extends AbstractModelTestCase
         (new Amount())
             ->setTaxRate(19)
             ->setNet(100);
+    }
+
+    protected function getValidModel(): AbstractModel
+    {
+        return (new Amount())
+            ->setGross(100.00)
+            ->setNet(50.50);
     }
 }

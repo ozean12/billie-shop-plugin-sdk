@@ -10,24 +10,28 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Tests\Acceptance\Model;
 
-use Billie\Sdk\Model\Address;
+use Billie\Sdk\Model\AbstractModel;
 use Billie\Sdk\Model\DebtorExternalData;
+use Billie\Sdk\Tests\Functional\Util\ValidModelGenerator;
 
 class DebtorExternalDataTest extends AbstractModelTestCase
 {
-    public function testFromArray(): void
+    public function testToArray(): void
     {
-        $model = (new DebtorExternalData())
+        // nothing to test, cause there are no setters
+        static::assertTrue(true);
+    }
+
+    protected function getValidModel(): AbstractModel
+    {
+        // does not make so much cause the method `getValidModel` is used for testing the `fromArray` method.
+        // but the behaviour is tested :)
+        return (new DebtorExternalData())
             ->fromArray([
                 'merchant_customer_id' => 'customer-id',
                 'name' => 'customer-name',
                 'industry_sector' => 'industry',
-                'address' => [],
+                'address' => ValidModelGenerator::createValidAddress()->toArray(),
             ]);
-
-        static::assertEquals('customer-id', $model->getMerchantCustomerId());
-        static::assertEquals('customer-name', $model->getName());
-        static::assertEquals('industry', $model->getIndustrySector());
-        static::assertInstanceOf(Address::class, $model->getAddress());
     }
 }

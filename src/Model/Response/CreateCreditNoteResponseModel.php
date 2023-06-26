@@ -19,6 +19,11 @@ class CreateCreditNoteResponseModel extends AbstractResponseModel
 {
     protected string $uuid;
 
+    public function toArray(): array
+    {
+        return [];
+    }
+
     public function fromArray(array $data): self
     {
         $this->uuid = ResponseHelper::getStringNN($data, 'uuid');

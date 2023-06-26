@@ -25,4 +25,9 @@ class OrderRequestModelTest extends AbstractModelTestCase
         static::assertCount(0, $data->toArray());
         static::assertEquals('uuid-2', $data->getUuid());
     }
+
+    protected function getValidModel(): OrderRequestModel
+    {
+        return new OrderRequestModel('uuid');
+    }
 }

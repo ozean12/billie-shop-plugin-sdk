@@ -17,11 +17,15 @@ class ConfirmPaymentRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $data = (new ConfirmPaymentRequestModel('uuid'))
-            ->setPaidAmount(100.50)
-            ->toArray();
+        $data = $this->getValidModel()->toArray();
 
         static::assertCount(1, $data); // session-uuid should not be in the data array
-        static::assertEquals(100.50, $data['paid_amount']);
+        static::assertEquals(100.50, $data['paid_amount'] ?? null);
+    }
+
+    protected function getValidModel(): ConfirmPaymentRequestModel
+    {
+        return (new ConfirmPaymentRequestModel('uuid'))
+            ->setPaidAmount(100.50);
     }
 }

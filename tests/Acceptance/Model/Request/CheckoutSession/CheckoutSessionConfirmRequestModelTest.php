@@ -20,19 +20,24 @@ class CheckoutSessionConfirmRequestModelTest extends AbstractModelTestCase
 {
     public function testToArray(): void
     {
-        $data = (new CheckoutSessionConfirmRequestModel())
+        $data = $this->getValidModel()->toArray();
+
+        static::assertCount(5, $data); // session-uuid should not be in the data array
+        static::assertIsArray($data['amount'] ?? null);
+        static::assertIsArray($data['debtor'] ?? null);
+        static::assertIsArray($data['delivery_address'] ?? null);
+        static::assertEquals('test-order-id', $data['external_code'] ?? null);
+    }
+
+    protected function getValidModel(): CheckoutSessionConfirmRequestModel
+    {
+        return (new CheckoutSessionConfirmRequestModel())
             ->setSessionUuid('session-uuid')
             ->setAmount($this->createMock(Amount::class))
             ->setDebtor($this->createMock(Debtor::class))
             ->setDeliveryAddress($this->createMock(Address::class))
             ->setDuration(12)
             ->setExternalCode('test-order-id')
-            ->toArray();
-
-        static::assertCount(5, $data); // session-uuid should not be in the data array
-        static::assertIsArray($data['amount']);
-        static::assertIsArray($data['debtor']);
-        static::assertIsArray($data['delivery_address']);
-        static::assertEquals('test-order-id', $data['external_code']);
+        ;
     }
 }

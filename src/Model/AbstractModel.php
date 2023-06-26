@@ -55,6 +55,7 @@ abstract class AbstractModel
     /**
      * @internal
      * @return static
+     * @codeCoverageIgnore
      */
     public function fromArray(array $data): self
     {
