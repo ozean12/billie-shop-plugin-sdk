@@ -12,9 +12,7 @@ namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 
 use Billie\Sdk\Exception\InvoiceNotFoundException;
 use Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel;
-use Billie\Sdk\Model\Request\InvoiceRequestModel;
 use Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest;
-use Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest;
 
 class ConfirmPaymentRequestTest extends AbstractInvoice
 {
@@ -22,7 +20,6 @@ class ConfirmPaymentRequestTest extends AbstractInvoice
 
     public function testInvoiceConfirmPayment(): void
     {
-        // TODO confirming payment in sandbox-mode is not possible. CLARIFY
         $requestService = new ConfirmPaymentRequest($this->client);
 
         $invoiceUuid = $this->generateInvoice(__FUNCTION__);
@@ -34,39 +31,8 @@ class ConfirmPaymentRequestTest extends AbstractInvoice
 
         static::assertTrue($response);
 
-        $invoice = (new GetInvoiceRequest($this->client))->execute(new InvoiceRequestModel($invoiceUuid));
-        static::assertEquals(0, $invoice->getOutstandingAmount());
-    }
-
-    public function testInvoiceConfirmPaymentTwoParts(): void
-    {
-        // TODO confirming payment in sandbox-mode is not possible. CLARIFY
-        $requestService = new ConfirmPaymentRequest($this->client);
-        $getInvoiceService = new GetInvoiceRequest($this->client);
-
-        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
-
-        // create first payment confirmation
-        $response = $requestService->execute(
-            (new ConfirmPaymentRequestModel($invoiceUuid))
-                ->setPaidAmount(50)
-        );
-        static::assertTrue($response);
-
-        // validation result of first payment confirmation
-        $invoice = $getInvoiceService->execute(new InvoiceRequestModel($invoiceUuid));
-        static::assertEquals(150, $invoice->getOutstandingAmount());
-
-        // create second payment confirmation
-        $response = $requestService->execute(
-            (new ConfirmPaymentRequestModel($invoiceUuid))
-                ->setPaidAmount(150)
-        );
-        static::assertTrue($response);
-
-        // validation result of second payment confirmation
-        $invoice = $getInvoiceService->execute(new InvoiceRequestModel($invoiceUuid));
-        static::assertEquals(0, $invoice->getOutstandingAmount());
+        // note: in a previous version we fetched the invoice to test if the outstanding amount has been decreased.
+        // but the outstanding amount got only decreased if the merchant has paid the tx-amount of the order.
     }
 
     public function testNotFound(): void
