@@ -15,6 +15,7 @@ use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use Billie\Sdk\Tests\Functional\Mock\Model\ValidationTestModel;
 use Billie\Sdk\Util\Validation;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use stdClass;
 
 class ValidationTest extends TestCase
@@ -271,6 +272,23 @@ class ValidationTest extends TestCase
             new ValidationTestModel(),
             'not-existing-field',
             null
+        );
+    }
+
+    public function testInvalidCustomDefinition(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessageMatches('/Custom validation for .*::.* needs to be a callable/');
+
+        Validation::validatePropertyValue(
+            new ValidationTestModel(),
+            '',
+            null,
+            /**
+             * test if the parameter get declined/validated
+             * @phpstan-ignore-next-line
+             */
+            new stdClass()
         );
     }
 }

@@ -48,7 +48,7 @@ class ResponseHelper
     {
         $value = self::getValue($data, $key);
 
-        return is_string($value) ? $value : null;
+        return is_string($value) || is_numeric($value) ? (string) $value : null;
     }
 
     public static function getInt(array $data, string $key): ?int
@@ -86,7 +86,7 @@ class ResponseHelper
         return $values;
     }
 
-    public static function getDateTime(array $data, string $key, string $format = DateTimeInterface::ATOM): ?DateTime
+    public static function getDateTime(array $data, string $key, string $format = 'Y-m-d H:i:s'): ?DateTime
     {
         $value = self::getString($data, $key);
         $return = $value ? DateTime::createFromFormat($format, $value) : null;
@@ -106,7 +106,7 @@ class ResponseHelper
      */
     public static function getObject(array $data, string $key, string $class, bool $readOnly = true, bool $createEmptyObjectOnNull = false)
     {
-        return isset($data[$key]) ? new $class($data[$key], $readOnly) : ($createEmptyObjectOnNull ? new $class() : null);
+        return isset($data[$key]) && is_array($data[$key]) ? new $class($data[$key], $readOnly) : ($createEmptyObjectOnNull ? new $class() : null);
     }
 
     /**
