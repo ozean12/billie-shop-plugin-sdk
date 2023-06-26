@@ -52,7 +52,8 @@ abstract class AbstractRequestServiceTestCase extends TestCase
 
     protected function getRequestServiceInstance(BillieClient $client): AbstractRequest  // @phpstan-ignore-line
     {
-        return new ($this->getRequestServiceClass())($client); // @phpstan-ignore-line
+        $serviceClass = $this->getRequestServiceClass();
+        return new $serviceClass($client); // @phpstan-ignore-line
     }
 
     protected function createClientNotFoundExceptionMock(): BillieClient
