@@ -17,6 +17,7 @@ use Billie\Sdk\Service\Request\Order\GetOrderRequest;
 use Billie\Sdk\Tests\Functional\Service\Request\AbstractOrderRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
+use DateTime;
 
 class GetOrderTest extends AbstractOrderRequest
 {
@@ -36,6 +37,21 @@ class GetOrderTest extends AbstractOrderRequest
         $requestService = new GetOrderRequest($this->createClientNotFoundExceptionMock());
         $this->expectException(OrderNotFoundException::class);
         $requestService->execute((new OrderRequestModel('')));
+    }
+
+    protected function compareArrays(array $expectedArray, array $actualArray): void
+    {
+        static::assertIsArray($actualArray);
+        foreach ($expectedArray as $expectedKey => $expectedValue) {
+            static::assertArrayHasKey($expectedKey, $actualArray);
+            if (is_array($expectedValue)) {
+                $this->compareArrays($expectedValue, $actualArray[$expectedKey]);
+            } elseif ($expectedValue instanceof DateTime) {
+                static::assertEqualsWithDelta($expectedValue, $actualArray[$expectedKey], 10);
+            } else {
+                static::assertEquals($expectedValue, $actualArray[$expectedKey]);
+            }
+        }
     }
 
     protected function getRequestServiceClass(): string
