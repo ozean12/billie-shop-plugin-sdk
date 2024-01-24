@@ -24,7 +24,7 @@ class AddressHelperTest extends TestCase
         static::assertEquals($expectedHouseNumber, AddressHelper::getHouseNumber($input));
     }
 
-    public function getSimpleAddressesToTest(): array
+    public static function getSimpleAddressesToTest(): array
     {
         return [
             ['This is the street 123', 'This is the street', '123'],
