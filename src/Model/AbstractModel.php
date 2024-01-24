@@ -24,6 +24,8 @@ abstract class AbstractModel
 
     private bool $validateOnSet = true;
 
+    private bool $_validateOnToArray = true;
+
     private bool $_modelHasBeenValidated = false;
 
     public function __construct(array $data = [], bool $readOnly = false)
@@ -62,10 +64,19 @@ abstract class AbstractModel
         return $this;
     }
 
+
+    /**
+     * @final
+     */
     // we can not mark this as final, because we can not use the models for mocks in phpunit when it is final.
-    public function toArray(): array
+    public function toArray(bool $doValidate = true): array
     {
-        $this->validateFields();
+        $prevValidateState = $this->_validateOnToArray;
+        if ($this->_validateOnToArray = $doValidate) {
+            $this->validateFields();
+        }
+
+        $this->_validateOnToArray = $prevValidateState;
 
         return $this->_toArray();
     }
@@ -129,9 +140,9 @@ abstract class AbstractModel
 
     protected function _toArray(): array
     {
-        return array_map(static function ($value) {
+        return array_map(function ($value) {
             if ($value instanceof self) {
-                $value = $value->toArray();
+                $value = $value->toArray($this->_validateOnToArray);
             }
 
             return $value;
@@ -153,6 +164,7 @@ abstract class AbstractModel
 
         unset($vars['readOnly']);
         unset($vars['validateOnSet']);
+        unset($vars['_validateOnToArray']);
         unset($vars['_modelHasBeenValidated']);
 
         return $vars;

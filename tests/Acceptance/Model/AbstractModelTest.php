@@ -151,4 +151,29 @@ class AbstractModelTest extends TestCase
         ];
         static::assertEquals($expectedData, $data);
     }
+
+    public function testIfNoValidationErrorGotThrownWhenDisablingIt(): void
+    {
+        $model = new class() extends AbstractModel {
+            protected string $property1 = 'test123';
+
+            protected string $property2 = '123test';
+        };
+
+        static::assertEquals([
+            'property1' => 'test123',
+            'property2' => '123test'
+        ], $model->toArray(true), 'behaviour should be exactly the same, if we disable the validation and passed valid data.');
+
+        $model = new class() extends AbstractModel {
+            protected string $property1;
+
+            protected string $property2;
+        };
+
+        static::assertEquals([
+            'property1' => null,
+            'property2' => null
+        ], $model->toArray(false), 'array should be empty, because we did not pass any fields.');
+    }
 }
