@@ -19,7 +19,7 @@ class CreateCreditNoteResponseModel extends AbstractResponseModel
 {
     protected string $uuid;
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [];
     }

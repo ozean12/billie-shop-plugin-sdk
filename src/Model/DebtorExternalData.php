@@ -39,7 +39,7 @@ class DebtorExternalData extends AbstractResponseModel
         return $this;
     }
 
-    public function toArray(): array
+    protected function _toArray(): array
     {
         return [
             'merchant_customer_id' => $this->merchantCustomerId,
