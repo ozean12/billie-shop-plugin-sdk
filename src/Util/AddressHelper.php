@@ -15,7 +15,7 @@ class AddressHelper
     /**
      * @var string
      */
-    public const STREETNUMBER_REGEX = '/^([a-zäöüß\s\d.,-]+?)\s*([\d]+(?:\s?[a-z])?(?:\s?[-|+\/]{1}\s?\d*)?\s*[a-z]?)$/iu';
+    public const STREETNUMBER_REGEX = '/^([\p{L}\p{M}\s\d.,\'-]+?)\s*([\d]+(?:\s?[a-z])?(?:\s?[-|+\/]{1}\s?\d*)?\s*[a-z]?)$/iu';
 
     /**
      * @return string|null

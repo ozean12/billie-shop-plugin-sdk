@@ -30,6 +30,9 @@ class AddressHelperTest extends TestCase
             ['This is the street 123', 'This is the street', '123'],
             ['This is the street123', 'This is the street', '123'],
 
+            ['This is the str. 123', 'This is the str.', '123'],
+            ['This is the str.123', 'This is the str.', '123'],
+
             ['This is the street 123a', 'This is the street', '123a'],
             ['This is the street123a', 'This is the street', '123a'],
 
@@ -60,6 +63,11 @@ class AddressHelperTest extends TestCase
 
             ['This is the street 123-2', 'This is the street', '123-2'],
             ['This is the street123-2', 'This is the street', '123-2'],
+
+            ['This is the ä 123-2', 'This is the ä', '123-2'],
+            ['This is the ê 2', 'This is the ê', '2'],
+            ['This is the ô 123-2', 'This is the ô', '123-2'],
+            ['This is the û 2', 'This is the û', '2'],
         ];
     }
 }
