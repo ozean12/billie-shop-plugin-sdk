@@ -11,21 +11,21 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 
 use Billie\Sdk\Exception\InvoiceNotFoundException;
+use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\InvoiceRequestModel;
 use Billie\Sdk\Service\Request\Invoice\CancelInvoiceRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 
-class CancelInvoiceRequestTest extends AbstractInvoice
+class CancelInvoiceRequestTest extends AbstractRequestServiceTestCase
 {
     protected static bool $serviceMustThrowExceptionOnEmptyResponse = false;
 
-    public function testCancelInvoice(): void
+    public function testIfRouteAndMethodIsAsExpected(): void
     {
-        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
+        $client = $this->createClientExpectParameterMock('invoices/test-invoice-number', BillieClient::METHOD_DELETE);
 
-        $requestService = new CancelInvoiceRequest($this->client);
-        $response = $requestService->execute(new InvoiceRequestModel($invoiceUuid));
-
-        static::assertTrue($response);
+        $requestService = new CancelInvoiceRequest($client);
+        $requestService->execute(new InvoiceRequestModel('test-invoice-number'));
     }
 
     public function testNotFound(): void

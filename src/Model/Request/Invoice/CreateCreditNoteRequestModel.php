@@ -14,7 +14,7 @@ use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\Request\InvoiceRequestModel;
 
 /**
- * @method string getInvoiceNumber()
+ * @method string getExternalNumber()
  * @method self setComment(string $comment)
  * @method string getComment()
  * @method self setAmount(Amount $amount)
@@ -24,7 +24,7 @@ use Billie\Sdk\Model\Request\InvoiceRequestModel;
  */
 class CreateCreditNoteRequestModel extends InvoiceRequestModel
 {
-    protected string $invoiceNumber;
+    protected string $externalNumber;
 
     protected Amount $amount;
 
@@ -35,10 +35,10 @@ class CreateCreditNoteRequestModel extends InvoiceRequestModel
      */
     protected ?array $lineItems = null;
 
-    public function __construct(string $uuid, string $invoiceNumber)
+    public function __construct(string $uuid, string $externalNumber)
     {
         parent::__construct($uuid);
-        $this->invoiceNumber = $invoiceNumber;
+        $this->externalNumber = $externalNumber;
     }
 
     public function addLineItem(LineItem $item): self
@@ -60,7 +60,7 @@ class CreateCreditNoteRequestModel extends InvoiceRequestModel
     protected function _toArray(): array
     {
         return [
-            'external_code' => $this->invoiceNumber,
+            'external_code' => $this->externalNumber,
             'comment' => $this->comment,
             'amount' => $this->amount->toArray(),
             'line_items' => array_map(static fn (LineItem $item): array => $item->toArray(), $this->lineItems ?? []),

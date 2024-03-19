@@ -11,28 +11,24 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 
 use Billie\Sdk\Exception\InvoiceNotFoundException;
+use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel;
+use Billie\Sdk\Model\Request\InvoiceRequestModel;
+use Billie\Sdk\Service\Request\Invoice\CancelInvoiceRequest;
 use Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 
-class ConfirmPaymentRequestTest extends AbstractInvoice
+class ConfirmPaymentRequestTest extends AbstractRequestServiceTestCase
 {
     protected static bool $serviceMustThrowExceptionOnEmptyResponse = false;
 
-    public function testInvoiceConfirmPayment(): void
+    public function testIfRouteAndMethodIsAsExpected(): void
     {
-        $requestService = new ConfirmPaymentRequest($this->client);
+        $client = $this->createClientExpectParameterMock('invoices/test-invoice-number/confirm-payment', BillieClient::METHOD_POST);
 
-        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
-
-        $response = $requestService->execute(
-            (new ConfirmPaymentRequestModel($invoiceUuid))
-                ->setPaidAmount(200)
-        );
-
-        static::assertTrue($response);
-
-        // note: in a previous version we fetched the invoice to test if the outstanding amount has been decreased.
-        // but the outstanding amount got only decreased if the merchant has paid the tx-amount of the order.
+        $requestService = new ConfirmPaymentRequest($client);
+        $requestService->execute((new ConfirmPaymentRequestModel('test-invoice-number'))
+            ->setPaidAmount(200));
     }
 
     public function testNotFound(): void

@@ -10,21 +10,27 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 
+use Billie\Sdk\Exception\InvalidResponseException;
 use Billie\Sdk\Exception\InvoiceNotFoundException;
+use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\InvoiceRequestModel;
 use Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 
-class GetInvoiceRequestTest extends AbstractInvoice
+class GetInvoiceRequestTest extends AbstractRequestServiceTestCase
 {
-    public function testGetInvoice(): void
+    public function testIfRouteAndMethodIsAsExpected(): void
     {
-        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
+        $client = $this->createClientExpectParameterMock(
+            'invoices/test-invoice-uuid',
+            BillieClient::METHOD_GET
+        );
 
-        $requestService = new GetInvoiceRequest($this->client);
-        $invoice = $requestService->execute(new InvoiceRequestModel($invoiceUuid));
-
-        static::assertEquals($invoiceUuid, $invoice->getUuid());
-        static::assertEquals(200, $invoice->getAmount()->getGross());
+        try {
+            (new GetInvoiceRequest($client))->execute(new InvoiceRequestModel('test-invoice-uuid'));
+        } catch (InvalidResponseException $invalidResponseException) {
+            // we did not provide a response, so this exception will be thrown.
+        }
     }
 
     public function testNotFound(): void

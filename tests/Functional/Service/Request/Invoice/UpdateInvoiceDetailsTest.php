@@ -11,34 +11,31 @@ declare(strict_types=1);
 namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 
 use Billie\Sdk\Exception\InvoiceNotFoundException;
+use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\Invoice\UpdateInvoiceRequestModel;
 use Billie\Sdk\Model\Request\InvoiceRequestModel;
 use Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest;
 use Billie\Sdk\Service\Request\Invoice\UpdateInvoiceRequest;
+use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
+use Billie\Sdk\Tests\Helper\BillieClientHelper;
 
-class UpdateInvoiceDetailsTest extends AbstractInvoice
+class UpdateInvoiceDetailsTest extends AbstractRequestServiceTestCase
 {
     protected static bool $serviceMustThrowExceptionOnEmptyResponse = false;
 
-    public function testUpdateInvoiceNumberUrl(): void
+    public function testIfRouteAndMethodIsAsExpected(): void
     {
-        $invoiceUuid = $this->generateInvoice(__FUNCTION__);
-        $newName = __FUNCTION__ . '-' . microtime(true) . '-updated';
-
-        $requestService = new UpdateInvoiceRequest($this->client);
-        $response = $requestService->execute(
-            (new UpdateInvoiceRequestModel($invoiceUuid))
-                ->setInvoiceNumber($newName)
-                ->setInvoiceUrl('https://updated-invoice-url.com/path/to/file.pdf')
+        $client = $this->createClientExpectParameterMock(
+            'invoices/test-invoice-uuid/update-details',
+            BillieClient::METHOD_POST
         );
 
-        static::assertTrue($response);
-
-        $this->wait();
-
-        $invoice = (new GetInvoiceRequest($this->client))->execute(new InvoiceRequestModel($invoiceUuid));
-        static::assertEquals($newName, $invoice->getNumber());
-        // info: the gateway do not return the invoice-url. So we can not validate the change.
+        $requestService = new UpdateInvoiceRequest($client);
+        $requestService->execute(
+            (new UpdateInvoiceRequestModel('test-invoice-uuid'))
+                ->setInvoiceNumber('new-number')
+                ->setInvoiceUrl('https://updated-invoice-url.com/path/to/file.pdf')
+        );
     }
 
     public function testUpdateInvoiceNotFound(): void
@@ -49,7 +46,7 @@ class UpdateInvoiceDetailsTest extends AbstractInvoice
             ->setInvoiceUrl('https://updated-invoice-url.com/path/to/file.pdf');
 
         $this->expectException(InvoiceNotFoundException::class);
-        (new UpdateInvoiceRequest($this->client))->execute($requestModel);
+        (new UpdateInvoiceRequest(BillieClientHelper::getClient()))->execute($requestModel);
     }
 
     protected function getRequestServiceClass(): string

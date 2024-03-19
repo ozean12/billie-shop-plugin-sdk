@@ -460,7 +460,7 @@ __Usage__
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
 $requestService = new \Billie\Sdk\Service\Request\Invoice\CreateCreditNoteRequest($billieClient);
-$requestModel = new \Billie\Sdk\Model\Request\Invoice\CreateCreditNoteRequestModel('INVOICE-UUID', 'MERCHANT/EXTERNAL_INVOICE_NUMBER');
+$requestModel = new \Billie\Sdk\Model\Request\Invoice\CreateCreditNoteRequestModel('INVOICE-UUID', 'MERCHANT/EXTERNAL_CREDIT_NOTE_NUMBER');
 $requestModel
     ->setAmount(
         (new Amount())
