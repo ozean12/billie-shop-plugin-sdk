@@ -64,7 +64,6 @@ abstract class AbstractModel
         return $this;
     }
 
-
     /**
      * @final
      */

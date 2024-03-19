@@ -40,7 +40,7 @@ abstract class AbstractModelTestCase extends TestCase
         ksort($expectedArray);
 
         $modelClass = get_class($validModel);
-        $newArray = (new $modelClass)->fromArray($data)->toArray();
+        $newArray = (new $modelClass())->fromArray($data)->toArray();
         ksort($newArray);
 
         static::assertEquals($expectedArray, $newArray);

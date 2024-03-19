@@ -19,15 +19,15 @@ class CreateInvoiceResponseModel extends AbstractResponseModel
 {
     protected string $uuid;
 
-    protected function _toArray(): array
-    {
-        return [];
-    }
-
     public function fromArray(array $data): self
     {
         $this->uuid = ResponseHelper::getStringNN($data, 'uuid');
 
         return $this;
+    }
+
+    protected function _toArray(): array
+    {
+        return [];
     }
 }

@@ -162,7 +162,7 @@ class AbstractModelTest extends TestCase
 
         static::assertEquals([
             'property1' => 'test123',
-            'property2' => '123test'
+            'property2' => '123test',
         ], $model->toArray(true), 'behaviour should be exactly the same, if we disable the validation and passed valid data.');
 
         $model = new class() extends AbstractModel {
@@ -173,7 +173,7 @@ class AbstractModelTest extends TestCase
 
         static::assertEquals([
             'property1' => null,
-            'property2' => null
+            'property2' => null,
         ], $model->toArray(false), 'array should be empty, because we did not pass any fields.');
     }
 }
