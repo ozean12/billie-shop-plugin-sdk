@@ -30,6 +30,6 @@ class DebtorTest extends AbstractRequestModelTestCase
     {
         return (new Debtor())
             ->setName('debtor-name')
-            ->setAddress($this->createMock(Address::class));
+            ->setAddress($this->createModelMock(Address::class));
     }
 }

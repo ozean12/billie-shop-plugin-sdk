@@ -51,11 +51,11 @@ class CreateCreditNoteRequestModelTest extends AbstractModelTestCase
     protected function getValidModel(): CreateCreditNoteRequestModel
     {
         return (new CreateCreditNoteRequestModel('invoice-uuid', 'external-code'))
-            ->setAmount(self::createMock(Amount::class))
+            ->setAmount(self::createModelMock(Amount::class))
             ->setComment('my-comment')
             ->setLineItems([
-                self::createMock(LineItem::class),
-                self::createMock(LineItem::class),
+                self::createModelMock(LineItem::class),
+                self::createModelMock(LineItem::class),
             ]);
     }
 }

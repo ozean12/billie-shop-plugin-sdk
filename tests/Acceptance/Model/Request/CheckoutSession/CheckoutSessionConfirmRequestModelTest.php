@@ -33,9 +33,9 @@ class CheckoutSessionConfirmRequestModelTest extends AbstractModelTestCase
     {
         return (new CheckoutSessionConfirmRequestModel())
             ->setSessionUuid('session-uuid')
-            ->setAmount($this->createMock(Amount::class))
-            ->setDebtor($this->createMock(Debtor::class))
-            ->setDeliveryAddress($this->createMock(Address::class))
+            ->setAmount($this->createModelMock(Amount::class))
+            ->setDebtor($this->createModelMock(Debtor::class))
+            ->setDeliveryAddress($this->createModelMock(Address::class))
             ->setDuration(12)
             ->setExternalCode('test-order-id')
         ;

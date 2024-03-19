@@ -89,11 +89,11 @@ class CreateInvoiceRequestModelTest extends AbstractModelTestCase
             ->setOrders(['order-123'])
             ->setInvoiceNumber('invoice-123')
             ->setInvoiceUrl('https://test.com/path/to/file.pdf')
-            ->setShippingInformation(self::createMock(ShippingInformation::class))
-            ->setAmount(self::createMock(Amount::class))
+            ->setShippingInformation(self::createModelMock(ShippingInformation::class))
+            ->setAmount(self::createModelMock(Amount::class))
             ->setLineItems([
-                self::createMock(LineItem::class),
-                self::createMock(LineItem::class),
+                self::createModelMock(LineItem::class),
+                self::createModelMock(LineItem::class),
             ]);
     }
 }

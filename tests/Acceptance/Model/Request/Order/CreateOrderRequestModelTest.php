@@ -38,16 +38,16 @@ class CreateOrderRequestModelTest extends AbstractModelTestCase
     protected function getValidModel(): CreateOrderRequestModel
     {
         return (new CreateOrderRequestModel())
-            ->setAmount($this->createMock(Amount::class))
+            ->setAmount($this->createModelMock(Amount::class))
             ->setDuration(12)
-            ->setDebtor($this->createMock(Debtor::class))
-            ->setPerson($this->createMock(Person::class))
+            ->setDebtor($this->createModelMock(Debtor::class))
+            ->setPerson($this->createModelMock(Person::class))
             ->setComment('test-comment')
             ->setExternalCode('test-order-id')
-            ->setDeliveryAddress($this->createMock(Address::class))
+            ->setDeliveryAddress($this->createModelMock(Address::class))
             ->setLineItems([
-                $this->createMock(LineItem::class),
-                $this->createMock(LineItem::class),
+                $this->createModelMock(LineItem::class),
+                $this->createModelMock(LineItem::class),
             ]);
     }
 }

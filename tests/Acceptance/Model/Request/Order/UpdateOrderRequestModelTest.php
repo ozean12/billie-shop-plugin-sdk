@@ -29,6 +29,6 @@ class UpdateOrderRequestModelTest extends AbstractModelTestCase
     {
         return (new UpdateOrderRequestModel('uuid'))
             ->setExternalCode('order-id')
-            ->setAmount($this->createMock(Amount::class));
+            ->setAmount($this->createModelMock(Amount::class));
     }
 }
