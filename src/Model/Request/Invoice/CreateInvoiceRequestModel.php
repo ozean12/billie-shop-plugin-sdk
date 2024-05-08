@@ -31,6 +31,11 @@ use Billie\Sdk\Util\Validation;
  */
 class CreateInvoiceRequestModel extends AbstractRequestModel
 {
+    protected static array $_additionalFieldMapping = [
+        'invoiceNumber' => 'external_code',
+        'shippingInformation' => 'shipping_info',
+    ];
+
     /**
      * @var string[]
      */
@@ -86,15 +91,10 @@ class CreateInvoiceRequestModel extends AbstractRequestModel
         ];
     }
 
-    protected function _toArray(): array
+    protected function prepareValuesForGateway(array $data): array
     {
-        return [
-            'orders' => $this->orders,
-            'external_code' => $this->invoiceNumber,
-            'invoice_url' => $this->invoiceUrl,
-            'shipping_info' => $this->shippingInformation->toArray(),
-            'amount' => $this->amount->toArray(),
+        return array_merge($data, [
             'line_items' => array_map(static fn (LineItem $item): array => $item->toArray(), $this->lineItems ?? []),
-        ];
+        ]);
     }
 }

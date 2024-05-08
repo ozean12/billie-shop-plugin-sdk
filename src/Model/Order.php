@@ -13,6 +13,7 @@ namespace Billie\Sdk\Model;
 use Billie\Sdk\Model\Response\AbstractResponseModel;
 use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
+use DateTimeInterface;
 
 /**
  * @method string        getExternalCode()
@@ -125,9 +126,9 @@ class Order extends AbstractResponseModel
 
     protected ?Address $deliveryAddress = null;
 
-    protected DateTime $createdAt;
+    protected DateTimeInterface $createdAt;
 
-    protected string $selectedPaymentMethod;
+    protected ?string $selectedPaymentMethod = null; // may be null on declined orders
 
     /**
      * @var OrderPaymentMethod[]
@@ -139,22 +140,11 @@ class Order extends AbstractResponseModel
      */
     protected array $invoices = [];
 
-    public function fromArray(array $data): self
+    protected function prepareModelData(array $data): array
     {
-        $this->externalCode = ResponseHelper::getString($data, 'external_code');
-        $this->uuid = ResponseHelper::getStringNN($data, 'uuid');
-        $this->state = ResponseHelper::getStringNN($data, 'state');
-        $this->declineReason = ResponseHelper::getString($data, 'decline_reason');
-        $this->amount = ResponseHelper::getObjectNN($data, 'amount', Amount::class, true);
-        $this->unshippedAmount = ResponseHelper::getObjectNN($data, 'unshipped_amount', Amount::class, true);
-        $this->duration = ResponseHelper::getIntNN($data, 'duration');
-        $this->debtor = ResponseHelper::getObjectNN($data, 'debtor', Debtor::class, true);
-        $this->deliveryAddress = ResponseHelper::getObjectNN($data, 'delivery_address', Address::class, true);
-        $this->createdAt = ResponseHelper::getDateTimeNN($data, 'created_at', 'Y-m-d H:i:s');
-        $this->invoices = ResponseHelper::getArray($data, 'invoices', Invoice::class, true) ?? [];
-        $this->selectedPaymentMethod = ResponseHelper::getString($data, 'selected_payment_method') ?? ''; // may be null on declined orders
-        $this->paymentMethods = ResponseHelper::getArray($data, 'payment_methods', OrderPaymentMethod::class, true) ?? [];
-
-        return $this;
+        return [
+            'paymentMethods' => ResponseHelper::getArray($data, 'payment_methods', OrderPaymentMethod::class),
+            'invoices' => ResponseHelper::getArray($data, 'invoices', Invoice::class),
+        ];
     }
 }

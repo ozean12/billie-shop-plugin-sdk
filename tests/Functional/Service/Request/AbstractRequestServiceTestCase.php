@@ -67,7 +67,7 @@ abstract class AbstractRequestServiceTestCase extends TestCase
     protected function createClientExpectParameterMock(string $expectedRoute, string $expectedMethod, array $responseData = []): BillieClient
     {
         $mock = $this->createMock(BillieClient::class);
-        $mock->expects($this->once())->method('request')->willReturnCallback(static function($url, $data, $method) use($expectedRoute, $expectedMethod, $responseData): array {
+        $mock->expects($this->once())->method('request')->willReturnCallback(static function ($url, $data, $method) use ($expectedRoute, $expectedMethod, $responseData): array {
             static::assertEquals($expectedRoute, $url);
             static::assertEquals($expectedMethod, $method);
 

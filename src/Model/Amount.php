@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
-use Billie\Sdk\Util\ResponseHelper;
 use RuntimeException;
 
 /**
@@ -59,13 +58,11 @@ class Amount extends AbstractModel
         return $this->tax ?: ($this->gross - $this->net);
     }
 
-    public function fromArray(array $data): self
+    protected function prepareValuesForGateway(array $data): array
     {
-        $this->net = ResponseHelper::getFloatNN($data, 'net');
-        $this->gross = ResponseHelper::getFloatNN($data, 'gross');
-        $this->tax = ResponseHelper::getFloatNN($data, 'tax');
+        $data['tax'] = empty($data['tax']) ? $this->getTax() : $data['tax'];
 
-        return $this;
+        return $data;
     }
 
     protected function getFieldValidations(): array
@@ -73,15 +70,6 @@ class Amount extends AbstractModel
         return [
             'net' => 'float',
             'gross' => 'float',
-        ];
-    }
-
-    protected function _toArray(): array
-    {
-        return [
-            'net' => round($this->getNet(), 2),
-            'gross' => round($this->getGross(), 2),
-            'tax' => round($this->getTax(), 2),
         ];
     }
 }

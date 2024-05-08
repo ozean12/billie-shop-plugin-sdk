@@ -13,10 +13,8 @@ namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 use Billie\Sdk\Exception\InvoiceNotFoundException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Amount;
-use Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel;
 use Billie\Sdk\Model\Request\Invoice\CreateCreditNoteRequestModel;
 use Billie\Sdk\Model\Request\Invoice\LineItem;
-use Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest;
 use Billie\Sdk\Service\Request\Invoice\CreateCreditNoteRequest;
 use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
@@ -29,7 +27,7 @@ class CreateCreditNoteRequestTest extends AbstractRequestServiceTestCase
             'invoices/test-invoice-number/credit-notes',
             BillieClient::METHOD_POST,
             [
-                'uuid' => 'test-123'
+                'uuid' => 'test-123',
             ]
         );
 

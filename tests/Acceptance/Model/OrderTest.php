@@ -13,7 +13,10 @@ namespace Billie\Sdk\Tests\Acceptance\Model;
 use Billie\Sdk\Model\Address;
 use Billie\Sdk\Model\Amount;
 use Billie\Sdk\Model\Debtor;
+use Billie\Sdk\Model\Invoice;
 use Billie\Sdk\Model\Order;
+use Billie\Sdk\Model\OrderPaymentMethod;
+use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
 
 class OrderTest extends AbstractModelTestCase
@@ -38,13 +41,15 @@ class OrderTest extends AbstractModelTestCase
         static::assertInstanceOf(Address::class, $model->getDeliveryAddress());
         static::assertInstanceOf(Debtor::class, $model->getDebtor());
         static::assertIsArray($model->getInvoices());
+        static::assertContainsOnlyInstancesOf(Invoice::class, $model->getInvoices());
         static::assertEquals('bank_transfer', $model->getSelectedPaymentMethod());
         static::assertIsArray($model->getPaymentMethods());
+        static::assertContainsOnlyInstancesOf(OrderPaymentMethod::class, $model->getPaymentMethods());
     }
 
     protected function getValidModel(): Order
     {
-        // does not make so much cause the method `getValidModel` is used for testing the `fromArray` method.
+        // does not make so much sense because the method `getValidModel` is used for testing the `fromArray` method.
         // but the behaviour is tested :)
         return (new Order())
             ->fromArray([
@@ -52,15 +57,15 @@ class OrderTest extends AbstractModelTestCase
                 'uuid' => '123456',
                 'state' => 'declined',
                 'decline_reason' => 'risk_policy',
-                'amount' => [],
-                'unshipped_amount' => [],
+                'amount' => ResponseHelper::PHPUNIT_OBJECT,
+                'unshipped_amount' => ResponseHelper::PHPUNIT_OBJECT,
                 'duration' => 23,
                 'created_at' => '2022-01-02 12:23:45',
-                'delivery_address' => [],
-                'debtor' => [],
-                'invoices' => [],
+                'delivery_address' => ResponseHelper::PHPUNIT_OBJECT,
+                'debtor' => ResponseHelper::PHPUNIT_OBJECT,
+                'invoices' => [ResponseHelper::PHPUNIT_OBJECT, ResponseHelper::PHPUNIT_OBJECT],
                 'selected_payment_method' => 'bank_transfer',
-                'payment_methods' => [],
+                'payment_methods' => [ResponseHelper::PHPUNIT_OBJECT, ResponseHelper::PHPUNIT_OBJECT],
             ]);
     }
 }

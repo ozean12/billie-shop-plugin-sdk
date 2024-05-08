@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Model\Response\AbstractResponseModel;
-use Billie\Sdk\Util\ResponseHelper;
 
 /**
  * @method string|null getMerchantCustomerId()
@@ -28,24 +27,4 @@ class DebtorExternalData extends AbstractResponseModel
     protected ?string $industrySector = null;
 
     protected ?Address $address = null;
-
-    public function fromArray(array $data): self
-    {
-        $this->merchantCustomerId = ResponseHelper::getString($data, 'merchant_customer_id');
-        $this->name = ResponseHelper::getString($data, 'name');
-        $this->industrySector = ResponseHelper::getString($data, 'industry_sector');
-        $this->address = ResponseHelper::getObject($data, 'address', Address::class, true);
-
-        return $this;
-    }
-
-    protected function _toArray(): array
-    {
-        return [
-            'merchant_customer_id' => $this->merchantCustomerId,
-            'name' => $this->name,
-            'industry_sector' => $this->industrySector,
-            'address' => $this->address instanceof Address ? $this->address->toArray() : null,
-        ];
-    }
 }

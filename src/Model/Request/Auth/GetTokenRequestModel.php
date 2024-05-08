@@ -24,12 +24,5 @@ class GetTokenRequestModel extends AbstractRequestModel
 
     protected string $clientSecret;
 
-    protected function _toArray(): array
-    {
-        return [
-            'grant_type' => 'client_credentials',
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
-        ];
-    }
+    protected string $grantType = 'client_credentials';
 }

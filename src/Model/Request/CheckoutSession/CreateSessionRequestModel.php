@@ -18,12 +18,5 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  */
 class CreateSessionRequestModel extends AbstractRequestModel
 {
-    public string $merchantCustomerId;
-
-    protected function _toArray(): array
-    {
-        return [
-            'merchant_customer_id' => $this->merchantCustomerId,
-        ];
-    }
+    protected string $merchantCustomerId;
 }

@@ -19,11 +19,4 @@ use Billie\Sdk\Model\Request\InvoiceRequestModel;
 class ConfirmPaymentRequestModel extends InvoiceRequestModel
 {
     protected float $paidAmount;
-
-    protected function _toArray(): array
-    {
-        return array_merge(parent::_toArray(), [
-            'paid_amount' => $this->getPaidAmount(),
-        ]);
-    }
 }

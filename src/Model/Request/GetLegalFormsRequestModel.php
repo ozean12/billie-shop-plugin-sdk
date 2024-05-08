@@ -12,8 +12,4 @@ namespace Billie\Sdk\Model\Request;
 
 class GetLegalFormsRequestModel extends AbstractRequestModel
 {
-    protected function _toArray(): array
-    {
-        return [];
-    }
 }

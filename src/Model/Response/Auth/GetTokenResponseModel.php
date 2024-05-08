@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model\Response\Auth;
 
 use Billie\Sdk\Model\Response\AbstractResponseModel;
-use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
+use DateTimeInterface;
 
 /**
  * @method string   getTokenType()
@@ -23,16 +23,14 @@ class GetTokenResponseModel extends AbstractResponseModel
 {
     protected string $tokenType;
 
-    protected DateTime $expires;
+    protected DateTimeInterface $expires;
 
     protected ?string $accessToken = null;
 
-    public function fromArray(array $data): self
+    protected function prepareModelData(array $data): array
     {
-        $this->tokenType = ResponseHelper::getStringNN($data, 'token_type');
-        $this->expires = (new DateTime())->modify('+' . $data['expires_in'] . ' seconds');
-        $this->accessToken = ResponseHelper::getStringNN($data, 'access_token');
-
-        return $this;
+        return [
+            'expires' => (new DateTime())->modify('+' . $data['expires_in'] . ' seconds'),
+        ];
     }
 }

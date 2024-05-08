@@ -21,21 +21,22 @@ use Billie\Sdk\Service\Request\Order\CreateOrderRequest;
 use Billie\Sdk\Tests\Functional\Service\Request\AbstractOrderRequest;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;
 use Billie\Sdk\Tests\Helper\OrderHelper;
+use Billie\Sdk\Util\ResponseHelper;
 
 class CreateOrderTest extends AbstractOrderRequest
 {
     private static array $declinedResponseTemplate = [
         'external_code' => '123',
         'state' => Order::STATE_DECLINED,
-        'amount' => [],
-        'unshipped_amount' => [],
+        'amount' => ResponseHelper::PHPUNIT_OBJECT,
+        'unshipped_amount' => ResponseHelper::PHPUNIT_OBJECT,
         'duration' => 123,
-        'debtor' => [],
-        'delivery_address' => [],
+        'debtor' => ResponseHelper::PHPUNIT_OBJECT,
+        'delivery_address' => ResponseHelper::PHPUNIT_OBJECT,
         'created_at' => '2022-12-13 12:34:56',
         'invoices' => [],
         'selected_payment_method' => 'payment-method',
-        'payment_methods' => [],
+        'payment_methods' => ResponseHelper::PHPUNIT_OBJECT,
         'uuid' => '123',
     ];
 

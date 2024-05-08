@@ -15,22 +15,33 @@ use Billie\Sdk\Exception\BillieException;
 use Billie\Sdk\Exception\Validation\InvalidFieldException;
 use Billie\Sdk\Exception\Validation\InvalidFieldValueCollectionException;
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
+use Billie\Sdk\Util\ResponseHelper;
 use Billie\Sdk\Util\Validation;
+use DateTimeInterface;
 use ReflectionClass;
+use ReflectionNamedType;
+use ReflectionProperty;
+use ReflectionType;
 
 abstract class AbstractModel
 {
-    protected bool $readOnly = false;
+    /**
+     * maps the model-field to the gateway-field
+     * @var array<string, string|false>
+     */
+    protected static array $_additionalFieldMapping = [];
 
-    private bool $validateOnSet = true;
+    private bool $_readOnly = false;
 
-    private bool $_validateOnToArray = true;
+    private bool $_validateOnSet = true;
 
     private bool $_modelHasBeenValidated = false;
 
+    private bool $_validateOnToArray = true;
+
     public function __construct(array $data = [], bool $readOnly = false)
     {
-        $this->readOnly = $readOnly;
+        $this->_readOnly = $readOnly;
         if ($data !== []) {
             $this->fromArray($data);
         }
@@ -51,25 +62,84 @@ abstract class AbstractModel
             return $this->get($field);
         }
 
-        throw new BadMethodCallException('Method `' . $name . '` does not exists on `' . self::class . '`');
+        throw new BadMethodCallException('Method `' . $name . '` does not exists on `' . static::class . '`');
     }
 
     /**
+     * @return $this
      * @internal
-     * @return static
-     * @codeCoverageIgnore
      */
     public function fromArray(array $data): self
     {
+        $customMappings = $this->prepareModelData($data);
+
+        $ref = new ReflectionClass($this);
+        foreach ($this->getPropertyNames() as $propertyName) {
+            $dataKey = static::$_additionalFieldMapping[$propertyName] ?? $this->convertPropertyNameToSnakeCase($propertyName);
+
+            if ($dataKey === false) {
+                // field has been excluded
+                continue;
+            }
+
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $property = $ref->getProperty($propertyName);
+            $refType = $property->getType();
+            if (!$refType instanceof ReflectionNamedType) {
+                continue;
+            }
+
+            $isNullable = $refType->allowsNull();
+            $type = $refType->getName();
+            if (!is_callable($customMappings[$propertyName] ?? null)) {
+                if (isset($customMappings[$propertyName])) {
+                    $value = $customMappings[$propertyName];
+                } elseif (class_exists($type) || interface_exists($type)) { // interface: date-time
+                    // TODO implement little backdoor or unit-tests, that objects can be empty.
+                    $value = ResponseHelper::getObject($data, $dataKey, $type, $this->_readOnly, false, $isNullable);
+                } else {
+                    switch ($type) {
+                        case 'int':
+                            $value = ResponseHelper::getInt($data, $dataKey, $isNullable);
+                            break;
+                        case 'float':
+                            $value = ResponseHelper::getFloat($data, $dataKey, $isNullable);
+                            break;
+                        case 'bool':
+                        case 'boolean':
+                            $value = ResponseHelper::getBoolean($data, $dataKey);
+                            break;
+                        case 'string':
+                            $value = ResponseHelper::getString($data, $dataKey, $isNullable);
+                            break;
+                        case 'array':
+                            $value = ResponseHelper::getArray($data, $dataKey) ?? [];
+                            break;
+                    }
+                }
+            } else {
+                $value = $customMappings[$propertyName]($dataKey);
+            }
+
+            if (!isset($value) && $isNullable) {
+                $value = null;
+            }
+
+            if (isset($value)) {
+                $this->{$propertyName} = $value;
+                unset($value);
+            }
+        }
+
         return $this;
     }
 
     /**
-     * @final
+     * @throws InvalidFieldValueCollectionException
      */
-    // we can not mark this as final, because we can not use the models for mocks in phpunit when it is final.
     public function toArray(bool $doValidate = true): array
     {
+        // we can not mark this method as final, because we can not use the models for mocks in phpunit when it is final.
         $prevValidateState = $this->_validateOnToArray;
         if ($this->_validateOnToArray = $doValidate) {
             $this->validateFields();
@@ -107,7 +177,7 @@ abstract class AbstractModel
     }
 
     /**
-     * @return static
+     * @return $this
      */
     public function enableValidateOnSet(): self
     {
@@ -115,7 +185,7 @@ abstract class AbstractModel
     }
 
     /**
-     * @return static
+     * @return $this
      */
     public function disableValidateOnSet(): self
     {
@@ -123,13 +193,18 @@ abstract class AbstractModel
     }
 
     /**
-     * @return static
+     * @return $this
      */
     public function setValidateOnSet(bool $flag): self
     {
-        $this->validateOnSet = $flag;
+        $this->_validateOnSet = $flag;
 
         return $this;
+    }
+
+    protected function prepareModelData(array $data): array
+    {
+        return [];
     }
 
     protected function getFieldValidations(): array
@@ -137,36 +212,93 @@ abstract class AbstractModel
         return [];
     }
 
+    /**
+     * @throws InvalidFieldValueCollectionException
+     */
     protected function _toArray(): array
     {
-        return array_map(function ($value) {
-            if ($value instanceof self) {
-                $value = $value->toArray($this->_validateOnToArray);
+        $preparedData = $this->prepareValuesForGateway($this->getObjectVars());
+
+        $values = [];
+        foreach ($preparedData as $key => $value) {
+            if (!is_numeric($key)) { // for the case, if the request-array is a list of objects (instead of an object)
+                $key = static::$_additionalFieldMapping[$key] ?? $key;
+                /** @phpstan-ignore-next-line */
+                if ($key === false) {
+                    // field has been excluded
+                    continue;
+                }
+
+                $key = $this->convertPropertyNameToSnakeCase($key);
             }
 
-            return $value;
-        }, $this->getObjectVars());
+            $values[$key] = $this->convertObjectsRecursively($value);
+        }
+
+        return $values;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function prepareValuesForGateway(array $data): array
+    {
+        return $data;
+    }
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     * @throws InvalidFieldValueCollectionException
+     */
+    private function convertObjectsRecursively($value)
+    {
+        if ($value instanceof self) {
+            return $value->toArray();
+        } elseif ($value instanceof DateTimeInterface) {
+            return $value->getTimestamp();
+        } elseif (is_array($value)) {
+            foreach ($value as $key => $_value) {
+                $value[$key] = $this->convertObjectsRecursively($_value);
+            }
+        }
+
+        return $value;
+    }
+
+    private function getPropertyNames(): array
+    {
+        $names = [];
+        $refModel = new ReflectionClass($this);
+        $refSelf = new ReflectionClass(self::class); // not $this/static::class!
+        foreach ($refModel->getProperties(ReflectionProperty::IS_PROTECTED) as $property) {
+            if (!$refSelf->hasProperty($property->getName())) {
+                $names[] = $property->getName();
+            }
+        }
+
+        // filter properties which seems to be they should not send to gateway
+        return array_filter($names, static fn (string $key): bool => strpos($key, '_') !== 0);
     }
 
     private function getObjectVars(): array
     {
-        $vars = get_object_vars($this);
-
-        // we add all not initialized fields to the list, because they will not return as null value.
-        // we need these null values to validate the model.
-        $ref = new ReflectionClass($this);
-        foreach ($ref->getProperties() as $property) {
-            if (!isset($this->{$property->getName()})) {
-                $vars[$property->getName()] = null;
+        $vars = [];
+        foreach ($this->getPropertyNames() as $propertyName) {
+            if (!(static::$_additionalFieldMapping[$propertyName] ?? true)) {
+                // field has been excluded
+                continue;
             }
+
+            $vars[$propertyName] = $this->{$propertyName} ?? null;
         }
 
-        unset($vars['readOnly']);
-        unset($vars['validateOnSet']);
-        unset($vars['_validateOnToArray']);
-        unset($vars['_modelHasBeenValidated']);
-
         return $vars;
+    }
+
+    private function convertPropertyNameToSnakeCase(string $string): string
+    {
+        return strtolower((string) preg_replace('/(?<!^)[A-Z]/', '_$0', $string));
     }
 
     /**
@@ -188,15 +320,26 @@ abstract class AbstractModel
      */
     private function set(string $name, $value): self
     {
-        if ($this->readOnly) {
+        if ($this->_readOnly) {
             throw new BadMethodCallException('the model `' . static::class . '` is read only');
         }
 
         if (property_exists($this, $name)) {
-            if ($this->validateOnSet) {
+            if ($this->_validateOnSet) {
                 $this->validateFieldValue($name, $value);
             } else {
                 $this->_modelHasBeenValidated = false;
+            }
+
+            // special case: if the property does not allow null, but the validation definition allows null, we will unset the property.
+            $validations = $this->getFieldValidations();
+            if (isset($validations[$name]) && $validations[$name] === Validation::IS_NOT_REQUIRED && $value === null) {
+                $propertyType = (new ReflectionProperty($this, $name))->getType();
+                if ($propertyType instanceof ReflectionType && !$propertyType->allowsNull()) {
+                    unset($this->{$name});
+
+                    return $this;
+                }
             }
 
             $this->{$name} = $value;

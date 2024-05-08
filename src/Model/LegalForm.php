@@ -10,27 +10,19 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Model;
 
-use Billie\Sdk\Util\ResponseHelper;
-
 class LegalForm extends AbstractModel
 {
-    private ?int $code = null;
+    protected static array $_additionalFieldMapping = [
+        'requiredField' => 'required_input',
+    ];
 
-    private ?string $name = null;
+    protected ?int $code = null;
 
-    private ?string  $requiredField = null;
+    protected ?string $name = null;
 
-    private bool $required = false;
+    protected ?string  $requiredField = null;
 
-    public function fromArray(array $data): self
-    {
-        $this->code = ResponseHelper::getInt($data, 'code');
-        $this->name = ResponseHelper::getString($data, 'name');
-        $this->requiredField = ResponseHelper::getString($data, 'required_input');
-        $this->required = (bool) ResponseHelper::getBoolean($data, 'required');
-
-        return $this;
-    }
+    protected bool $required = false;
 
     public function getCode(): ?int
     {

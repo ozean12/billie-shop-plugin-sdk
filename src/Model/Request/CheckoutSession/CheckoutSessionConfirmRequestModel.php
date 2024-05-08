@@ -43,14 +43,10 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 
     protected ?string $externalCode = null;
 
-    protected function _toArray(): array
+    protected function prepareValuesForGateway(array $data): array
     {
-        return [
-            'amount' => $this->amount->toArray(),
-            'duration' => $this->getDuration(),
-            'debtor' => $this->debtor->toArray(),
-            'delivery_address' => $this->deliveryAddress instanceof Address ? $this->deliveryAddress->toArray() : null,
-            'external_code' => $this->getExternalCode(),
-        ];
+        unset($data['sessionUuid']);
+
+        return $data;
     }
 }

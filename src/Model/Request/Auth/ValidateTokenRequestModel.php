@@ -14,8 +14,4 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 
 class ValidateTokenRequestModel extends AbstractRequestModel
 {
-    protected function _toArray(): array
-    {
-        return [];
-    }
 }

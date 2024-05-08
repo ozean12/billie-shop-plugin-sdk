@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
-use Billie\Sdk\Util\ResponseHelper;
 
 /**
  * @method self   setSalutation(string $salutation)
@@ -27,6 +26,13 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class Person extends AbstractModel
 {
+    protected static array $_additionalFieldMapping = [
+        'mail' => 'email',
+        'phone' => 'phone_number',
+        'firstname' => 'first_name',
+        'lastname' => 'last_name',
+    ];
+
     protected ?string $salutation = null;
 
     protected ?string $firstname = null;
@@ -37,17 +43,6 @@ class Person extends AbstractModel
 
     protected string $mail;
 
-    public function fromArray(array $data): self
-    {
-        $this->mail = ResponseHelper::getStringNN($data, 'email');
-        $this->salutation = ResponseHelper::getString($data, 'salutation');
-        $this->firstname = ResponseHelper::getString($data, 'first_name');
-        $this->lastname = ResponseHelper::getString($data, 'last_name');
-        $this->phone = ResponseHelper::getString($data, 'phone_number');
-
-        return $this;
-    }
-
     protected function getFieldValidations(): array
     {
         return [
@@ -56,17 +51,6 @@ class Person extends AbstractModel
                     throw new InvalidFieldValueException('the field value of `salutation` must be one of these: `m`, `f`');
                 }
             },
-        ];
-    }
-
-    protected function _toArray(): array
-    {
-        return [
-            'email' => $this->mail,
-            'salutation' => $this->salutation,
-            'first_name' => $this->firstname,
-            'last_name' => $this->lastname,
-            'phone_number' => $this->phone,
         ];
     }
 }

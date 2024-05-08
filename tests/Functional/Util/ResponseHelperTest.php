@@ -10,236 +10,287 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Tests\Functional\Util;
 
-use BadMethodCallException;
 use Billie\Sdk\Exception\InvalidResponseException;
-use Billie\Sdk\Tests\Functional\Mock\Model\ResponseHelperModelMock;
+use Billie\Sdk\Model\AbstractModel;
+use Billie\Sdk\Tests\Functional\Mock\Model\SimpleTestModel;
 use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class ResponseHelperTest extends TestCase
 {
-    public function testString(): void
+    /**
+     * @dataProvider dataProviderGetString
+     * @phpstan-ignore-next-line
+     */
+    public function testGetStringDP(...$arguments): void
     {
-        $testData = [
-            'valid-string' => 'value',
-            'valid-int' => 123456,
-        ];
-
-        // test if value got returned correctly or is null if it does not exist
-        $this->assertEquals('value', ResponseHelper::getString($testData, 'valid-string'));
-        $this->assertEquals('value', ResponseHelper::getStringNN($testData, 'valid-string'));
-        $this->assertNull(ResponseHelper::getString($testData, 'invalid-key'));
-
-        // test if number got converted to string
-        $this->assertEquals('123456', ResponseHelper::getString($testData, 'valid-int'));
-        $this->assertIsString(ResponseHelper::getString($testData, 'valid-int'));
-        $this->assertEquals('123456', ResponseHelper::getStringNN($testData, 'valid-int'));
-        $this->assertIsString(ResponseHelper::getStringNN($testData, 'valid-int'));
-
-        // test if value got returned correctly or is null if it does not exist
-        $this->expectException(InvalidResponseException::class);
-        $this->assertNull(ResponseHelper::getStringNN($testData, 'invalid-key'));
+        $this->dynamicTest('getString', [], ...$arguments);
     }
 
-    public function testInt(): void
+    public static function dataProviderGetString(): array
     {
-        $testData = [
-            'valid-string' => 'value',
-            'int' => 123456,
-            'numeric-string' => '654321',
+        return [
+            // should pass - value should be fetched
+            ['valid-value', 'valid-value'],
+            // should pass - value should be fetched
+            ['', ''],
+            // should pass - value should be fetched
+            // should pass - an int is a valid value - should be converted
+            [123456, '123456'],
+            // should pass - an int is a valid value - should be converted
+            [123456e5, '12345600000'],
+            // should pass - a float is a valid value - should be converted
+            [123456.789, '123456.789'],
         ];
-
-        // test if value got returned correctly or is null if it does not exist
-        $this->assertEquals(123456, ResponseHelper::getInt($testData, 'int'));
-        $this->assertEquals(123456, ResponseHelper::getIntNN($testData, 'int'));
-        $this->assertNull(ResponseHelper::getInt($testData, 'invalid-key'));
-
-        // test if string got NOT cast to a number (0)
-        $this->assertNull(ResponseHelper::getInt($testData, 'valid-string'));
-
-        // test if string got converted to int
-        $this->assertEquals(654321, ResponseHelper::getInt($testData, 'numeric-string'));
-        $this->assertIsInt(ResponseHelper::getInt($testData, 'numeric-string'));
-        $this->assertEquals(654321, ResponseHelper::getIntNN($testData, 'numeric-string'));
-        $this->assertIsInt(ResponseHelper::getIntNN($testData, 'numeric-string'));
-
-        // test if value got returned correctly or is null if it does not exist
-        $this->expectException(InvalidResponseException::class);
-        $this->assertNull(ResponseHelper::getIntNN($testData, 'invalid-key'));
     }
 
-    public function testIntGotNotCastedFromInvalidString(): void
+    /**
+     * @dataProvider dataProviderGetInt
+     * @phpstan-ignore-next-line
+     */
+    public function testGetIntDP(...$arguments): void
     {
-        $testData = [
-            'valid-string' => 'value',
-        ];
-        $this->expectException(InvalidResponseException::class);
-        $this->assertNull(ResponseHelper::getIntNN($testData, 'valid-string'));
+        $this->dynamicTest('getInt', [], ...$arguments);
     }
 
-    public function testFloat(): void
+    public static function dataProviderGetInt(): array
     {
-        $testData = [
-            'valid-string' => 'value',
-            'float' => 123456.78,
-            'int' => 333444,
-            'numeric-string' => '786543.21',
+        return [
+            // should pass - valid value
+            [123456, 123456],
+            // should pass - valid value
+            [123456e5, 12345600000],
+            // should pass - we will ignore wrong types
+            [123456.789, 123456],
+            // should FAIL - invalid value
+            ['invalid-value', null, true],
         ];
-
-        // test if value got returned correctly or is null if it does not exist
-        $this->assertEquals(123456.78, ResponseHelper::getFloat($testData, 'float'));
-        $this->assertEquals(123456.78, ResponseHelper::getFloatNN($testData, 'float'));
-        $this->assertNull(ResponseHelper::getFloat($testData, 'invalid-key'));
-
-        // test if string got NOT cast to a number (0)
-        $this->assertNull(ResponseHelper::getFloat($testData, 'valid-string'));
-
-        // test if string got converted to float
-        $this->assertEquals(786543.21, ResponseHelper::getFloat($testData, 'numeric-string'));
-        $this->assertIsFloat(ResponseHelper::getFloat($testData, 'numeric-string'));
-        $this->assertEquals(786543.21, ResponseHelper::getFloatNN($testData, 'numeric-string'));
-        $this->assertIsFloat(ResponseHelper::getFloatNN($testData, 'numeric-string'));
-
-        // test if value got returned correctly or is null if it does not exist
-        $this->expectException(InvalidResponseException::class);
-        $this->assertNull(ResponseHelper::getIntNN($testData, 'invalid-key'));
     }
 
-    public function testFloatGotNotCastedFromInvalidString(): void
+    /**
+     * @dataProvider dataProviderGetFloat
+     * @phpstan-ignore-next-line
+     */
+    public function testGetFloatDP(...$arguments): void
     {
-        $testData = [
-            'valid-string' => 'value',
-        ];
-        $this->expectException(InvalidResponseException::class);
-        $this->assertNull(ResponseHelper::getFloatNN($testData, 'valid-string'));
+        $this->dynamicTest('getFloat', [], ...$arguments);
     }
 
-    public function testValue(): void
+    public static function dataProviderGetFloat(): array
     {
-        $testData = [
-            'string' => 'value',
-            'float' => 123456.78,
-            'int' => 333444,
-            'array' => [
-                'key' => 'value',
-            ],
+        return [
+            // should pass - valid value
+            [123456, 123456.00],
+            // should pass - valid value
+            [123456e5, 12345600000.00],
+            // should FAIL - invalid value
+            ['invalid-value', null, true],
         ];
-
-        // test if types got not modified
-        $this->assertIsString(ResponseHelper::getValue($testData, 'string'));
-        $this->assertIsFloat(ResponseHelper::getValue($testData, 'float'));
-        $this->assertIsInt(ResponseHelper::getValue($testData, 'int'));
-        $this->assertIsArray(ResponseHelper::getValue($testData, 'array'));
     }
 
-    public function testDateTime(): void
+    /**
+     * @dataProvider dataProviderGetBool
+     * @phpstan-ignore-next-line
+     */
+    public function testGetBoolDP(...$arguments): void
     {
-        $testData = [
-            'int' => 1686754847,
-            'numeric-string' => 1686754847,
-            'rfc-format' => '2023-01-02 11:30:45',
-            'invalid-format' => 'something-invalid',
-        ];
-
-        // Test timestamp
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateTime($testData, 'int', 'U'));
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateTimeNN($testData, 'int', 'U'));
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateTime($testData, 'numeric-string', 'U'));
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateTimeNN($testData, 'numeric-string', 'U'));
-
-        // Test default format
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateTime($testData, 'rfc-format'));
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateTimeNN($testData, 'rfc-format'));
-
-        // test if returned null when value does not exist or can not format properly
-        $this->assertNull(ResponseHelper::getDateTime($testData, 'invalid-key'));
-        $this->assertNull(ResponseHelper::getDateTime($testData, 'invalid-format'));
-
-        // test if exception got thrown if it does not exist
-        $this->expectException(InvalidResponseException::class);
-        $this->assertNull(ResponseHelper::getDateTimeNN($testData, 'invalid-key'));
+        $this->dynamicTest('getBoolean', [], ...$arguments);
     }
 
-    public function testDate(): void
+    public static function dataProviderGetBool(): array
     {
-        $testData = [
-            'int' => 1686754847,
-            'numeric-string' => 1686754847,
-            'rfc-format' => '2023-01-02',
-            'invalid-format' => 'something-invalid',
+        return [
+            // should pass - valid value
+            [true, true],
+            // should pass - valid value
+            [false, false],
+            // should pass - valid value
+            [1, true],
+            // should pass - valid value
+            [0, false],
+            // should pass - invalid value got converted to false
+            ['invalid-value', false],
+            // should pass - invalid value got converted to false
+            [20, false],
+            // should pass - invalid value got converted to false
+            [-20, false],
         ];
-
-        // Test timestamp
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDate($testData, 'int', 'U'));
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateNN($testData, 'int', 'U'));
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDate($testData, 'numeric-string', 'U'));
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateNN($testData, 'numeric-string', 'U'));
-
-        // Test default format
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDate($testData, 'rfc-format'));
-        $this->assertInstanceOf(DateTime::class, ResponseHelper::getDateNN($testData, 'rfc-format'));
-
-        // test if returned null when value does not exist or can not format properly
-        $this->assertNull(ResponseHelper::getDate($testData, 'invalid-key'));
-        $this->assertNull(ResponseHelper::getDate($testData, 'invalid-format'));
-
-        // test if exception got thrown if it does not exist
-        $this->expectException(InvalidResponseException::class);
-        $this->assertNull(ResponseHelper::getDateNN($testData, 'invalid-key'));
     }
 
-    public function testArray(): void
+    /**
+     * @dataProvider dataProviderGetDateTime
+     * @phpstan-ignore-next-line
+     */
+    public function testGetDateTimeDP(string $format, string $givenValue, ?DateTime $expectedValue, bool $expectException = false): void
     {
-        $testData = [
-            'array' => ['a', 'b', 'c'],
-            'string' => 'something-invalid',
-        ];
-
-        $this->assertIsArray(ResponseHelper::getArray($testData, 'array'));
-        $this->assertCount(3, ResponseHelper::getArray($testData, 'array'));
-
-        $this->assertNull(ResponseHelper::getArray($testData, 'invalid-key'));
-        $this->assertNull(ResponseHelper::getArray($testData, 'something-invalid'));
+        $this->dynamicTest('getDateTime', [$format], $givenValue, $expectedValue, $expectException);
     }
 
-    public function testGetObject(): void
+    /**
+     * they have the same logic - so we use the same testdata. the difference is that the default-argument for the format is different.
+     * @dataProvider dataProviderGetDateTime
+     */
+    public function testGetDateDP(string $format, string $givenValue, ?DateTime $expectedValue, bool $expectException = false): void
     {
-        $testData = [
-            'object' => [
-                'key1' => 'value1',
-                'key2' => 'value2',
-                'sub' => [
-                    'key1' => 'value1_1',
-                    'key2' => 'value2_2',
-                ],
-            ],
-            'string' => 'something-invalid',
-        ];
-
-        $result = ResponseHelper::getObject($testData, 'object', ResponseHelperModelMock::class);
-        $this->assertInstanceOf(ResponseHelperModelMock::class, $result);
-        $this->assertEquals('value1', $result->getObjectKey1());
-        $this->assertEquals('value2', $result->getObjectKey2());
-        $this->assertInstanceOf(ResponseHelperModelMock::class, $result->getSubObject());
-        $this->assertEquals('value1_1', $result->getSubObject()->getObjectKey1());
-        $this->assertEquals('value2_2', $result->getSubObject()->getObjectKey2());
-        $this->assertNull($result->getSubObject()->getSubObject());
-
-        $this->assertNull(ResponseHelper::getObject($testData, 'string', ResponseHelperModelMock::class));
-
-        // test if exception got thrown if it does not exist
-        $this->expectException(InvalidResponseException::class);
-        $this->assertNull(ResponseHelper::getObjectNN($testData, 'invalid-key', ResponseHelperModelMock::class));
+        $this->dynamicTest('getDate', [$format], $givenValue, $expectedValue, $expectException);
     }
 
-    public function testInvalidMethod(): void
+    public static function dataProviderGetDateTime(): array
     {
-        $this->expectException(BadMethodCallException::class);
-        /**
-         * @noinspection PhpUndefinedMethodInspection
-         * @phpstan-ignore-next-line
-         */
-        ResponseHelper::getSomething();
+        return [
+            // should pass - valid value
+            /** @phpstan-ignore-next-line */
+            ['Y-m-d', '2023-05-01', DateTime::createFromFormat('Y-m-d', '2023-05-01')->setTime(0, 0, 0)],
+            // should pass - valid value
+            ['Y-m-d H:i:s', '2023-05-01 13:45:12', (new DateTime())->setDate(2023, 05, 01)->setTime(13, 45, 12)],
+            // should FAIL - invalid value
+            ['Y-m-d H:i:s', 'value', null, true],
+            // should FAIL - invalid value
+            ['invalid-format', '', null, true],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderGetArray
+     * @phpstan-ignore-next-line
+     */
+    public function testGetArrayDP(array $givenValue, array $expectedValue, string $expectedChildClass = null, ...$arguments): void
+    {
+        $this->dynamicTest('getArray', [$expectedChildClass, true], $givenValue, $expectedValue, ...$arguments);
+    }
+
+    public static function dataProviderGetArray(): array
+    {
+        return [
+            // should pass - valid value
+            [[], []],
+            // should pass - valid value
+            [['key' => 'value'], ['key' => 'value']],
+            // should pass - valid value
+            [[['field_value' => 'value']], [(new SimpleTestModel())->setFieldValue('value')], SimpleTestModel::class],
+            // should pass - valid value
+            [[['field_value' => 'value'], ['field_value' => 'value2']], [(new SimpleTestModel())->setFieldValue('value'), (new SimpleTestModel())->setFieldValue('value2')], SimpleTestModel::class],
+        ];
+    }
+
+    public function testGetArrayList(): void
+    {
+        // special case, if the response is just a list of objects instead an object with keys.
+        $model = new class() extends AbstractModel {
+            protected array $items;
+
+            /**
+             * @return SimpleTestModel[]
+             */
+            public function getItems(): array
+            {
+                return $this->items;
+            }
+
+            protected function prepareModelData(array $data): array
+            {
+                return [
+                    'items' => static fn (string $key): ?array => ResponseHelper::getArray($data, null, SimpleTestModel::class),
+                ];
+            }
+        };
+        $model->fromArray([
+            ['field_value' => 'value1'],
+            ['field_value' => 'value2'],
+        ]);
+        static::assertIsArray($model->getItems());
+        static::assertCount(2, $model->getItems());
+        static::assertContainsOnlyInstancesOf(SimpleTestModel::class, $model->getItems());
+        static::assertEquals('value1', $model->getItems()[0]->getFieldValue());
+        static::assertEquals('value2', $model->getItems()[1]->getFieldValue());
+    }
+
+    /**
+     * @dataProvider dataProviderGetObject
+     * @phpstan-ignore-next-line
+     */
+    public function testGetObjectDP(array $givenValue, SimpleTestModel $expectedValue, bool $allowEmptyObject = false, ...$arguments): void
+    {
+        $this->dynamicTest('getObject', [get_class($expectedValue), false, $allowEmptyObject], $givenValue, $expectedValue, ...$arguments);
+    }
+
+    public static function dataProviderGetObject(): array
+    {
+        return [
+            [['field_value' => 'value'], (new SimpleTestModel())->setFieldValue('value')],
+            [['field_value' => 'value', 'nullable_field_value' => 'value2'], (new SimpleTestModel())->setFieldValue('value')->setNullableFieldValue('value2')],
+            [['field_value' => 'value', 'another-field' => 'something-else'], (new SimpleTestModel())->setFieldValue('value')],
+            [['field_value' => 'value', 'nullable_field_value' => 'value2', 'another-field' => 'something-else'], (new SimpleTestModel())->setFieldValue('value')->setNullableFieldValue('value2')],
+        ];
+    }
+
+    /**
+     * @param mixed $givenValue
+     * @param mixed $expectedValue
+     */
+    private function dynamicTest(string $method, array $additionalArgs, $givenValue, $expectedValue, bool $expectException = false): void
+    {
+        // we add another key to make sure, that the response helper will work with multiple keys
+        $key = 'key';
+
+        if ($method !== 'getBoolean') {
+            $additionalArgs[] = false;
+        }
+
+        $data = [
+            '__another-key-with-some-other-data' => '-/-',
+            $key => $givenValue,
+        ];
+
+        if ($expectException) {
+            static::expectException(InvalidResponseException::class);
+        }
+
+        $value = ResponseHelper::{$method}($data, $key, ...$additionalArgs);
+
+        if ($expectException) {
+            return;
+        }
+
+        if (is_array($expectedValue)) {
+            foreach ($expectedValue as $k => $v) {
+                $expectedValue[$k] = $v instanceof AbstractModel ? $v->toArray() : $v;
+            }
+
+            if (is_array($value)) {
+                foreach ($value as $k => $v) {
+                    $value[$k] = $v instanceof AbstractModel ? $v->toArray() : $v;
+                }
+            }
+        }
+
+        static::assertEquals($expectedValue, $value);
+
+        if ($method === 'getBoolean') {
+            // special case: we will return false, if value is NULL.
+            // so an exception got never thrown.
+            return;
+        }
+
+        $thrownException = null;
+        try {
+            $data[$key] = null;
+            ResponseHelper::{$method}($data, $key, ...$additionalArgs);
+            /** @phpstan-ignore-next-line */
+        } catch (Exception $exception) {
+            $thrownException = $exception;
+        }
+
+        /** @phpstan-ignore-next-line */
+        static::assertInstanceOf(InvalidResponseException::class, $thrownException ?: null, 'InvalidResponseException should be thrown');
+        /** @phpstan-ignore-next-line */
+        static::assertMatchesRegularExpression('/was expected in response/', $thrownException->getMessage());
+
+        static::expectException(InvalidResponseException::class);
+        static::expectExceptionMessageMatches('/was expected in response/');
+        unset($data[$key]);
+        ResponseHelper::{$method}($data, $key, ...$additionalArgs);
     }
 }

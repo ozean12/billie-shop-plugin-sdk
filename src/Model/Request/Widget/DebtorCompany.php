@@ -30,13 +30,12 @@ class DebtorCompany extends AbstractRequestModel
 
     protected bool $establishedCustomer = false;
 
-    protected function _toArray(): array
+    protected function prepareValuesForGateway(array $data): array
     {
+        unset($data['address']);
+
         return array_merge(
-            [
-                'name' => $this->name,
-                'established_customer' => $this->establishedCustomer,
-            ],
+            $data,
             ArrayHelper::addPrefixToKeys($this->address->toArray(), 'address_')
         );
     }

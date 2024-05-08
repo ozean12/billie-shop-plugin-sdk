@@ -6,11 +6,13 @@ use PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSpaceFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
+use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
+use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->paths([__DIR__ . '/src', __DIR__ . '/tests']);
     $ecsConfig->ruleWithConfiguration(HeaderCommentFixer::class, ['header' => 'Copyright (c) Billie GmbH
 
 For the full copyright and license information, please view the LICENSE
@@ -31,11 +33,12 @@ file that was distributed with this source code.', 'separate' => 'bottom', 'loca
         ProtectedToPrivateFixer::class,
         NotOperatorWithSpaceFixer::class,
         NotOperatorWithSuccessorSpaceFixer::class,
-        AssignmentInConditionSniff::class
+        AssignmentInConditionSniff::class,
+        ArrayListItemNewlineFixer::class => [
+            __DIR__ . '/tests/'
+        ],
+        ArrayOpenerAndCloserNewlineFixer::class => [
+            __DIR__ . '/tests/'
+        ]
     ]);
-
-    $parameters = $ecsConfig->parameters();
-
-    $parameters->set(Option::CACHE_DIRECTORY, __DIR__ . '/var/cache/cs_fixer');
-    $parameters->set(Option::PATHS, [__DIR__ . '/src', __DIR__ . '/tests']);
 };

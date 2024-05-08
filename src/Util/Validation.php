@@ -81,6 +81,16 @@ class Validation
     public const TYPE_URL_OPTIONAL = '?' . self::TYPE_URL_REQUIRED;
 
     /**
+     * @var string
+     */
+    public const IS_REQUIRED = '_is_required';
+
+    /**
+     * @var string
+     */
+    public const IS_NOT_REQUIRED = '_is_not_required';
+
+    /**
      * @param mixed $value
      * @param string|callable|null $customDefinedType
      * @throws InvalidFieldException
@@ -199,7 +209,7 @@ class Validation
 
         $expectedType = self::mapType($expectedType);
 
-        if (class_exists($expectedType)) {
+        if (class_exists($expectedType) || interface_exists($expectedType)) {
             if (!is_object($value) || !$value instanceof $expectedType) {
                 throw new InvalidFieldValueException($typeErrorMessage);
             }

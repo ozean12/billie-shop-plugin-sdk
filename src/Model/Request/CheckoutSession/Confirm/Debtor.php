@@ -34,12 +34,4 @@ class Debtor extends AbstractRequestModel
 
         return $this;
     }
-
-    protected function _toArray(): array
-    {
-        return [
-            'name' => $this->name,
-            'company_address' => $this->companyAddress->toArray(),
-        ];
-    }
 }

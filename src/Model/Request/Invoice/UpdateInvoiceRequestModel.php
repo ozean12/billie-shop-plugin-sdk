@@ -20,15 +20,11 @@ use Billie\Sdk\Model\Request\InvoiceRequestModel;
  */
 class UpdateInvoiceRequestModel extends InvoiceRequestModel
 {
+    protected static array $_additionalFieldMapping = [
+        'invoiceNumber' => 'external_code',
+    ];
+
     protected string $invoiceNumber;
 
     protected string $invoiceUrl;
-
-    protected function _toArray(): array
-    {
-        return [
-            'external_code' => $this->invoiceNumber,
-            'invoice_url' => $this->invoiceUrl,
-        ];
-    }
 }

@@ -11,7 +11,11 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model\Response;
 
 use Billie\Sdk\Model\LegalForm;
+use Billie\Sdk\Util\ResponseHelper;
 
+/**
+ * @method LegalForm getItems()
+ */
 class GetLegalFormsResponseModel extends AbstractResponseModel
 {
     /**
@@ -19,23 +23,17 @@ class GetLegalFormsResponseModel extends AbstractResponseModel
      */
     protected array $items = [];
 
-    public function fromArray(array $data): self
+    protected function getFieldValidations(): array
     {
-        $this->items = [];
-        if (isset($data['items'])) {
-            foreach ($data['items'] as $item) {
-                $this->items[] = (new LegalForm())->fromArray($item);
-            }
-        }
-
-        return $this;
+        return [
+            'items' => LegalForm::class . '[]',
+        ];
     }
 
-    /**
-     * @return LegalForm[]
-     */
-    public function getItems(): array
+    protected function prepareModelData(array $data): array
     {
-        return $this->items;
+        return [
+            'items' => ResponseHelper::getArray($data, 'items', LegalForm::class),
+        ];
     }
 }

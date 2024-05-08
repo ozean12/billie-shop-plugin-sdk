@@ -10,21 +10,12 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Model\Response;
 
-use Billie\Sdk\Util\ResponseHelper;
-
 /**
  * @method string getUuid()
  */
 class CreateCreditNoteResponseModel extends AbstractResponseModel
 {
     protected string $uuid;
-
-    public function fromArray(array $data): self
-    {
-        $this->uuid = ResponseHelper::getStringNN($data, 'uuid');
-
-        return $this;
-    }
 
     protected function _toArray(): array
     {

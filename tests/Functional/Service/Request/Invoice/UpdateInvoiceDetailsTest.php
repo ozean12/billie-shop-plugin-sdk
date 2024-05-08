@@ -13,8 +13,6 @@ namespace Billie\Sdk\Tests\Functional\Service\Request\Invoice;
 use Billie\Sdk\Exception\InvoiceNotFoundException;
 use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\Invoice\UpdateInvoiceRequestModel;
-use Billie\Sdk\Model\Request\InvoiceRequestModel;
-use Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest;
 use Billie\Sdk\Service\Request\Invoice\UpdateInvoiceRequest;
 use Billie\Sdk\Tests\Functional\Service\Request\AbstractRequestServiceTestCase;
 use Billie\Sdk\Tests\Helper\BillieClientHelper;

@@ -89,23 +89,4 @@ class Debtor extends AbstractRequestModel
      * @var string legal form of the company - e.g. UG, GmbH, GbR
      */
     protected string $legalForm;
-
-    protected function _toArray(): array
-    {
-        return [
-            'merchant_customer_id' => $this->merchantCustomerId,
-            'name' => $this->name,
-            'legal_form' => $this->legalForm,
-            'company_address' => $this->companyAddress->toArray(),
-            'billing_address' => $this->billingAddress instanceof Address ? $this->billingAddress->toArray() : null,
-            'tax_id' => $this->taxId,
-            'tax_number' => $this->taxNumber,
-            'registration_court' => $this->registrationCourt,
-            'registration_number' => $this->registrationNumber,
-            'industry_sector' => $this->industrySector,
-            'subindustry_sector' => $this->subIndustrySector,
-            'employees_number' => $this->countOfEmployees,
-            'established_customer' => $this->establishedCustomer,
-        ];
-    }
 }

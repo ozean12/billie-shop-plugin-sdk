@@ -24,12 +24,4 @@ class UpdateOrderRequestModel extends OrderRequestModel
     protected ?string $externalCode = null;
 
     protected ?Amount $amount = null;
-
-    protected function _toArray(): array
-    {
-        return [
-            'amount' => $this->getAmount() instanceof Amount ? $this->getAmount()->toArray() : null,
-            'external_code' => $this->getExternalCode(),
-        ];
-    }
 }

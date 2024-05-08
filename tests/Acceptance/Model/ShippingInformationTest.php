@@ -21,13 +21,26 @@ class ShippingInformationTest extends AbstractModelTestCase
 
         static::assertIsArray($data);
         static::assertCount(7, $data);
-        static::assertEquals('return-shipping-company', $data['return_shipping_company'] ?? null);
-        static::assertEquals('return-tracking-number', $data['return_tracking_number'] ?? null);
-        static::assertEquals('https://return-tracking-url.com/abc-def-ghi', $data['return_tracking_url'] ?? null);
-        static::assertEquals('shipping-company', $data['shipping_company'] ?? null);
-        static::assertEquals('shipping-method', $data['shipping_method'] ?? null);
-        static::assertEquals('shipping-tracking-number', $data['tracking_number'] ?? null);
-        static::assertEquals('https://tracking-url.com/abc-def-ghi', $data['tracking_url'] ?? null);
+        static::assertArrayHasKey('return_shipping_company', $data);
+        static::assertEquals('return-shipping-company', $data['return_shipping_company']);
+
+        static::assertArrayHasKey('return_tracking_number', $data);
+        static::assertEquals('return-tracking-number', $data['return_tracking_number']);
+
+        static::assertArrayHasKey('return_tracking_url', $data);
+        static::assertEquals('https://return-tracking-url.com/abc-def-ghi', $data['return_tracking_url']);
+
+        static::assertArrayHasKey('shipping_company', $data);
+        static::assertEquals('shipping-company', $data['shipping_company']);
+
+        static::assertArrayHasKey('shipping_method', $data);
+        static::assertEquals('shipping-method', $data['shipping_method']);
+
+        static::assertArrayHasKey('tracking_number', $data);
+        static::assertEquals('shipping-tracking-number', $data['tracking_number']);
+
+        static::assertArrayHasKey('tracking_url', $data);
+        static::assertEquals('https://tracking-url.com/abc-def-ghi', $data['tracking_url']);
     }
 
     protected function getValidModel(): AbstractModel

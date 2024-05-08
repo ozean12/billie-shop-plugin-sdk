@@ -29,9 +29,10 @@ class InvoiceRequestModel extends AbstractRequestModel implements EntityRequestM
         return $this->getUuid();
     }
 
-    protected function _toArray(): array
+    protected function prepareValuesForGateway(array $data): array
     {
-        // this request does not have any body-parameters
-        return [];
+        unset($data['uuid']);
+
+        return $data;
     }
 }

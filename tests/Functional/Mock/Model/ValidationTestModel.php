@@ -29,17 +29,14 @@ use stdClass;
  * @method self setCallbackValidationField($value)
  * @method mixed getCallbackValidationField()
  *
- * @method self setValidateUrlField(string $validateUrlField)
- * @method string getValidateUrlField()
- *
- * @method self setValidateNullableUrlField(string $validateNullableUrlField)
- * @method string|null getValidateNullableUrlField()
- *
  * @method self setValidateArray(array $list)
  * @method array getValidateArray()
  *
  * @method self setValidateNullableArray(array|null $list)
  * @method array|null getValidateNullableArray()
+ *
+ * @method self setValidateOverrideNullableFieldValidation($value)
+ * @method string|null getValidateOverrideNullableFieldValidation()
  */
 class ValidationTestModel extends AbstractRequestModel
 {
@@ -55,10 +52,6 @@ class ValidationTestModel extends AbstractRequestModel
      * @var mixed
      */
     protected $callbackValidationField;
-
-    protected string $validateUrlField;
-
-    protected ?string $validateNullableUrlField = null;
 
     protected array $validateArray = [];
 

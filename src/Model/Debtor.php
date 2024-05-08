@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Model\Response\AbstractResponseModel;
-use Billie\Sdk\Util\ResponseHelper;
 
 /**
  * @method string getName()
@@ -21,21 +20,11 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class Debtor extends AbstractResponseModel
 {
-    protected string $name;
+    protected ?string $name = null; // may be null on declined orders
 
-    protected Address $companyAddress;
+    protected ?Address $companyAddress = null; // may be null on declined orders
 
     protected ?Address $billingAddress = null;
 
     protected ?DebtorExternalData $externalData = null;
-
-    public function fromArray(array $data): self
-    {
-        $this->name = ResponseHelper::getString($data, 'name') ?? ''; // may be null on declined orders
-        $this->companyAddress = ResponseHelper::getObjectNN($data, 'company_address', Address::class, true, true);
-        $this->billingAddress = ResponseHelper::getObject($data, 'billing_address', Address::class, true);
-        $this->externalData = ResponseHelper::getObject($data, 'external_data', DebtorExternalData::class, true);
-
-        return $this;
-    }
 }

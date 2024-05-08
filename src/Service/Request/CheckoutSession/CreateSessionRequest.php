@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Billie\Sdk\Service\Request\CheckoutSession;
 
 use Billie\Sdk\Exception\InvalidResponseException;
+use Billie\Sdk\HttpClient\BillieClient;
 use Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel;
 use Billie\Sdk\Model\Response\CreateSessionResponseModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
@@ -34,5 +35,10 @@ class CreateSessionRequest extends AbstractRequest
     protected function getPath($requestModel): string
     {
         return '/checkout-sessions';
+    }
+
+    protected function getMethod($requestModel): string
+    {
+        return BillieClient::METHOD_POST;
     }
 }

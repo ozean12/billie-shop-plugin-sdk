@@ -12,7 +12,6 @@ namespace Billie\Sdk\Service\Request\Invoice;
 
 use Billie\Sdk\Exception\InvoiceNotFoundException;
 use Billie\Sdk\HttpClient\BillieClient;
-use Billie\Sdk\Model\Invoice;
 use Billie\Sdk\Model\Request\InvoiceRequestModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 

@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
-use Billie\Sdk\Util\ResponseHelper;
 
 /**
  * @method string      getStreet()
@@ -27,6 +26,10 @@ use Billie\Sdk\Util\ResponseHelper;
  */
 class Address extends AbstractModel
 {
+    protected static array $_additionalFieldMapping = [
+        'countryCode' => 'country',
+    ];
+
     protected string $street;
 
     protected ?string $houseNumber = null;
@@ -36,28 +39,6 @@ class Address extends AbstractModel
     protected string $postalCode;
 
     protected string $countryCode;
-
-    public function fromArray(array $data): self
-    {
-        $this->street = ResponseHelper::getStringNN($data, 'street');
-        $this->houseNumber = ResponseHelper::getString($data, 'house_number');
-        $this->city = ResponseHelper::getStringNN($data, 'city');
-        $this->postalCode = ResponseHelper::getStringNN($data, 'postal_code');
-        $this->countryCode = ResponseHelper::getStringNN($data, 'country');
-
-        return $this;
-    }
-
-    protected function _toArray(): array
-    {
-        return [
-            'street' => $this->street,
-            'house_number' => $this->houseNumber,
-            'city' => $this->city,
-            'postal_code' => $this->postalCode,
-            'country' => $this->countryCode,
-        ];
-    }
 
     protected function getFieldValidations(): array
     {

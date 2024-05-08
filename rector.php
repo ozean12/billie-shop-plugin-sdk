@@ -29,7 +29,9 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(\Rector\TypeDeclaration\Rector\ClassMethod\AddReturnTypeDeclarationBasedOnParentClassMethodRector::class);
     $rectorConfig->rule(\Rector\TypeDeclaration\Rector\ClassMethod\AddParamTypeFromPropertyTypeRector::class);
 
+    $rectorConfig->removeUnusedImports(true);
     $rectorConfig->importNames(true, true);
+
     // define sets of rules
     $rectorConfig->sets([
         SetList::CODE_QUALITY,
@@ -47,7 +49,10 @@ return static function (RectorConfig $rectorConfig): void {
         \Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector::class,
         \Rector\DowngradePhp74\Rector\Property\DowngradeTypedPropertyRector::class,
         \Rector\TypeDeclaration\Rector\ClassMethod\ArrayShapeFromConstantArrayReturnRector::class,
-        \Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector::class
+        \Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector::class,
+        \Rector\TypeDeclaration\Rector\ClassMethod\ReturnAnnotationIncorrectNullableRector::class => [
+            __DIR__ . '/src/Util/ResponseHelper.php'
+        ],
     ]);
 
     $rectorConfig->ruleWithConfiguration(ConsistentPregDelimiterRector::class, [

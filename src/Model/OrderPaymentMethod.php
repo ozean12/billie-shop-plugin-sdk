@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Model\Response\AbstractResponseModel;
-use Billie\Sdk\Util\ResponseHelper;
 use DateTime;
+use DateTimeInterface;
 
 /**
  * @method string getType()
@@ -35,23 +35,18 @@ class OrderPaymentMethod extends AbstractResponseModel
 
     protected ?string $mandateReference = null;
 
-    protected ?DateTime $mandateExecutionDate = null;
+    protected ?DateTimeInterface $mandateExecutionDate = null;
 
     protected ?string $creditorIdentification = null;
 
-    public function fromArray(array $data): self
+    public function fromArray(array $data): AbstractModel
     {
-        $this->type = ResponseHelper::getStringNN($data, 'type');
-        if (isset($data['data']) && is_array($data['data'])) {
-            $data = $data['data'];
-            $this->iban = ResponseHelper::getString($data, 'iban');
-            $this->bic = ResponseHelper::getString($data, 'bic');
-            $this->bankName = ResponseHelper::getString($data, 'bank_name');
-            $this->mandateReference = ResponseHelper::getString($data, 'mandate_reference');
-            $this->mandateExecutionDate = ResponseHelper::getDate($data, 'mandate_execution_date', 'Y-m-d H:i:s');
-            $this->creditorIdentification = ResponseHelper::getString($data, 'creditor_identification');
+        if (isset($data['data'])) {
+            $data = array_merge([
+                'type' => $data['type'],
+            ], $data['data']);
         }
 
-        return $this;
+        return parent::fromArray($data);
     }
 }

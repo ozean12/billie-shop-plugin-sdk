@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model\Response\Auth;
 
 use Billie\Sdk\Model\Response\AbstractResponseModel;
-use Billie\Sdk\Util\ResponseHelper;
 
 /**
  * @method string getClientId()
@@ -25,12 +24,4 @@ class ValidateTokenResponse extends AbstractResponseModel
      * @var string[]
      */
     protected array $scopes = [];
-
-    public function fromArray(array $data): self
-    {
-        $this->clientId = ResponseHelper::getStringNN($data, 'client_id');
-        $this->scopes = ResponseHelper::getArray($data, 'scopes') ?? [];
-
-        return $this;
-    }
 }

@@ -31,12 +31,4 @@ class LineItem extends AbstractRequestModel
         $this->externalId = $externalId;
         $this->quantity = $quantity;
     }
-
-    protected function _toArray(): array
-    {
-        return [
-            'external_id' => $this->externalId,
-            'quantity' => $this->quantity,
-        ];
-    }
 }

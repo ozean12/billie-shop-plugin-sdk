@@ -37,6 +37,10 @@ use Billie\Sdk\Model\Request\Order\CreateOrder\Debtor;
  */
 class CreateOrderRequestModel extends AbstractRequestModel
 {
+    protected static array $_additionalFieldMapping = [
+        'person' => 'debtor_person',
+    ];
+
     protected Amount $amount;
 
     protected int $duration = 14;
@@ -63,18 +67,11 @@ class CreateOrderRequestModel extends AbstractRequestModel
         return $this;
     }
 
-    protected function _toArray(): array
+    protected function prepareValuesForGateway(array $data): array
     {
-        return [
-            'amount' => $this->amount->toArray(),
-            'duration' => $this->duration,
-            'debtor' => $this->debtor->toArray(),
-            'debtor_person' => $this->person->toArray(),
-            'comment' => $this->comment,
-            'external_code' => $this->externalCode,
-            'delivery_address' => $this->deliveryAddress instanceof Address ? $this->deliveryAddress->toArray() : null,
+        return array_merge($data, [
             'line_items' => array_map(static fn (LineItem $item): array => $item->toArray(), $this->lineItems ?? []),
-        ];
+        ]);
     }
 
     protected function getFieldValidations(): array
