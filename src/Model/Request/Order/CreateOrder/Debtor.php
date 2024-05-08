@@ -36,8 +36,8 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  * @method string|null getSubIndustrySector()
  * @method $this        setCountOfEmployees(?string $countOfEmployees)
  * @method string|null    getCountOfEmployees()
- * @method $this        setEstablishedCustomer(?string $establishedCustomer)
- * @method string|null getEstablishedCustomer()
+ * @method $this        setEstablishedCustomer(?boolean $establishedCustomer)
+ * @method boolean      getEstablishedCustomer()
  * @method $this        setLegalForm(string $legalForm)
  * @method string      getLegalForm()
  */
