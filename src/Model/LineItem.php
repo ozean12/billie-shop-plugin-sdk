@@ -11,38 +11,37 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model;
 
 /**
- * @method self   setExternalId(string $externalId)
+ * @method $this   setExternalId(string $externalId)
  * @method string getExternalId()
- * @method self   setTitle(string $title)
+ * @method $this   setTitle(string $title)
  * @method string getTitle()
- * @method self   setQuantity(int $quantity)
+ * @method $this   setQuantity(int $quantity)
  * @method int    getQuantity()
- * @method self   setDescription(string|null $description)
+ * @method $this   setDescription(string|null $description)
  * @method string|null getDescription()
- * @method self   setCategory(string|null $category)
+ * @method $this   setCategory(string|null $category)
  * @method string|null getCategory()
- * @method self   setBrand(string|null $brand)
+ * @method $this   setBrand(string|null $brand)
  * @method string|null getBrand()
- * @method self   setGtin(string|null $gtin)
+ * @method $this   setGtin(string|null $gtin)
  * @method string getGtin()
- * @method self   setMpn(string|null $mpn)
+ * @method $this   setMpn(string|null $mpn)
  * @method string|null getMpn()
- * @method self   setProductUrl(string|null $productUrl)
+ * @method $this   setProductUrl(string|null $productUrl)
  * @method string|null getProductUrl()
- * @method self   setImageUrl(string|null $imageUrl)
+ * @method $this   setImageUrl(string|null $imageUrl)
  * @method string|null getImageUrl()
- * @method self   setType(string|null $type)
+ * @method $this   setType(string|null $type)
  * @method string|null getType()
- * @method self   setQuantityUnit(string|null $quantityUnit)
+ * @method $this   setQuantityUnit(string|null $quantityUnit)
  * @method string|null getQuantityUnit()
- * @method self   setTaxRate(float|null $taxRate)
+ * @method $this   setTaxRate(float|null $taxRate)
  * @method float|null  getTaxRate()
- * @method self   setTotalDiscountAmount(float|null $totalDiscountAmount)
+ * @method $this   setTotalDiscountAmount(float|null $totalDiscountAmount)
  * @method float|null  getTotalDiscountAmount()
- * @method self   setUnitPrice(float|null $unitPrice)
+ * @method $this   setUnitPrice(float|null $unitPrice)
  * @method float|null  getUnitPrice()
- * @method self   setAmount(Amount $amount)
- *
+ * @method $this   setAmount(Amount $amount)
  * @method Amount getAmount()
  */
 class LineItem extends AbstractModel
@@ -77,5 +76,12 @@ class LineItem extends AbstractModel
 
     protected ?float $unitPrice = null;
 
-    protected Amount $amount;
+    protected ?Amount $amount = null;
+
+    protected function getFieldValidations(): array
+    {
+        return [
+            'amount' => Amount::class,
+        ];
+    }
 }

@@ -24,7 +24,7 @@ class DebtorExternalDataTest extends AbstractModelTestCase
 
     protected function getValidModel(): AbstractModel
     {
-        // does not make so much cause the method `getValidModel` is used for testing the `fromArray` method.
+        // does not make so much sense, because the method `getValidModel` is used for testing the `fromArray` method.
         // but the behaviour is tested :)
         return (new DebtorExternalData())
             ->fromArray([
