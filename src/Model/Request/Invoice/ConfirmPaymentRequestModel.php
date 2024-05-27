@@ -14,7 +14,7 @@ use Billie\Sdk\Model\Request\InvoiceRequestModel;
 
 /**
  * @method string|null getPaidAmount()
- * @method self        setPaidAmount(float $paidAmount)
+ * @method $this        setPaidAmount(float $paidAmount)
  */
 class ConfirmPaymentRequestModel extends InvoiceRequestModel
 {

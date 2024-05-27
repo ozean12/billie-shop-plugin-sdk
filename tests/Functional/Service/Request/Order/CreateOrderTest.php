@@ -36,7 +36,7 @@ class CreateOrderTest extends AbstractOrderRequest
         'created_at' => '2022-12-13 12:34:56',
         'invoices' => [],
         'selected_payment_method' => 'payment-method',
-        'payment_methods' => ResponseHelper::PHPUNIT_OBJECT,
+        'payment_methods' => [ResponseHelper::PHPUNIT_OBJECT],
         'uuid' => '123',
     ];
 

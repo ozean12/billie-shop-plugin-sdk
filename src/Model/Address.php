@@ -14,15 +14,15 @@ use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 
 /**
  * @method string      getStreet()
- * @method self        setStreet(string $street)
+ * @method $this        setStreet(string $street)
  * @method string|null getHouseNumber()
- * @method self        setHouseNumber(?string $houseNumber)
+ * @method $this        setHouseNumber(?string $houseNumber)
  * @method string      getCity()
- * @method self        setCity(string $city)
+ * @method $this        setCity(string $city)
  * @method string      getPostalCode()
- * @method self        setPostalCode(string $postalCode)
+ * @method $this        setPostalCode(string $postalCode)
  * @method string      getCountryCode()
- * @method self        setCountryCode(string $countryCode)
+ * @method $this        setCountryCode(string $countryCode)
  */
 class Address extends AbstractModel
 {

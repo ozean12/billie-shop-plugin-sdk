@@ -15,11 +15,11 @@ use Billie\Sdk\Model\Request\InvoiceRequestModel;
 
 /**
  * @method string getExternalNumber()
- * @method self setComment(string $comment)
+ * @method $this setComment(string $comment)
  * @method string getComment()
- * @method self setAmount(Amount $amount)
+ * @method $this setAmount(Amount $amount)
  * @method Amount getAmount()
- * @method self setLineItems(LineItem[]|null $lineItems)
+ * @method $this setLineItems(LineItem[]|null $lineItems)
  * @method LineItem[]|null getLineItems()
  */
 class CreateCreditNoteRequestModel extends InvoiceRequestModel

@@ -13,19 +13,19 @@ namespace Billie\Sdk\Model;
 use Billie\Sdk\Util\Validation;
 
 /**
- * @method self setReturnShippingCompany(string $returnShippingCompany)
+ * @method $this setReturnShippingCompany(string $returnShippingCompany)
  * @method string|null getReturnShippingCompany()
- * @method self setReturnTrackingNumber(string $returnTrackingNumber)
+ * @method $this setReturnTrackingNumber(string $returnTrackingNumber)
  * @method string|null getReturnTrackingNumber()
- * @method self setReturnTrackingUrl(string $returnTrackingUrl)
+ * @method $this setReturnTrackingUrl(string $returnTrackingUrl)
  * @method string|null getReturnTrackingUrl()
- * @method self setShippingCompany(string $shippingCompany)
+ * @method $this setShippingCompany(string $shippingCompany)
  * @method string|null getShippingCompany()
- * @method self setShippingMethod(string $shippingMethod)
+ * @method $this setShippingMethod(string $shippingMethod)
  * @method string|null getShippingMethod()
- * @method self setShippingTrackingNumber(string $shippingTrackingNumber)
+ * @method $this setShippingTrackingNumber(string $shippingTrackingNumber)
  * @method string|null getShippingTrackingNumber()
- * @method self setShippingTrackingUrl(string $shippingTrackingUrl)
+ * @method $this setShippingTrackingUrl(string $shippingTrackingUrl)
  * @method string|null getShippingTrackingUrl()
  */
 class ShippingInformation extends AbstractModel

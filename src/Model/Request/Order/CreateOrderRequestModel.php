@@ -18,21 +18,21 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 use Billie\Sdk\Model\Request\Order\CreateOrder\Debtor;
 
 /**
- * @method self            setAmount(Amount $amount)
+ * @method $this            setAmount(Amount $amount)
  * @method Amount          getAmount()
- * @method self            setDuration(int $duration)
+ * @method $this            setDuration(int $duration)
  * @method int             getDuration()
- * @method self            setDebtor(Debtor $debtor)
+ * @method $this            setDebtor(Debtor $debtor)
  * @method Debtor          getDebtor()
- * @method self            setPerson(Person $person)
+ * @method $this            setPerson(Person $person)
  * @method Person          getPerson()
- * @method self            setComment(?string $comment)
+ * @method $this            setComment(?string $comment)
  * @method string|null     getComment()
- * @method self            setExternalCode(?string $externalCode)
+ * @method $this            setExternalCode(?string $externalCode)
  * @method string|null     getExternalCode()
- * @method self            setDeliveryAddress(?Address $deliveryAddress)
+ * @method $this            setDeliveryAddress(?Address $deliveryAddress)
  * @method Address|null    getDeliveryAddress()
- * @method self            setLineItems(LineItem[] $lineItems)
+ * @method $this            setLineItems(LineItem[] $lineItems)
  * @method LineItem[]      getLineItems()
  */
 class CreateOrderRequestModel extends AbstractRequestModel

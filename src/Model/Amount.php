@@ -14,11 +14,11 @@ use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 use RuntimeException;
 
 /**
- * @method self  setNet(float $net)
+ * @method $this  setNet(float $net)
  * @method float getNet()
- * @method self  setGross(float $gross)
+ * @method $this  setGross(float $gross)
  * @method float getGross()
- * @method self  setTax(float $tax)
+ * @method $this  setTax(float $tax)
  */
 class Amount extends AbstractModel
 {

@@ -12,7 +12,7 @@ namespace Billie\Sdk\Model\Request;
 
 /**
  * @method string getUuid()
- * @method self   setUuid(string $uuid)
+ * @method $this   setUuid(string $uuid)
  */
 class OrderRequestModel extends AbstractRequestModel implements EntityRequestModelInterface
 {

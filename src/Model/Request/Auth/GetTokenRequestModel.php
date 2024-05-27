@@ -13,9 +13,9 @@ namespace Billie\Sdk\Model\Request\Auth;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 
 /**
- * @method self   setClientId(string $clientId)
+ * @method $this   setClientId(string $clientId)
  * @method string getClientId()
- * @method self   setClientSecret(string $clientSecret)
+ * @method $this   setClientSecret(string $clientSecret)
  * @method string getClientSecret()
  */
 class GetTokenRequestModel extends AbstractRequestModel

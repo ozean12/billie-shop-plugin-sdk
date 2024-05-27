@@ -124,6 +124,8 @@ class Order extends AbstractResponseModel
 
     protected Debtor $debtor;
 
+    protected array $externalData = [];
+
     protected ?Address $deliveryAddress = null;
 
     protected DateTimeInterface $createdAt;

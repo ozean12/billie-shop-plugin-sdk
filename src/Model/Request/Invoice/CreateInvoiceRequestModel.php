@@ -16,17 +16,17 @@ use Billie\Sdk\Model\ShippingInformation;
 use Billie\Sdk\Util\Validation;
 
 /**
- * @method self setOrders(string[] $orderIds)
+ * @method $this setOrders(string[] $orders)
  * @method string[] getOrders()
- * @method self setInvoiceNumber(string $invoiceNumber)
+ * @method $this setInvoiceNumber(string $invoiceNumber)
  * @method string getInvoiceNumber()
- * @method self setInvoiceUrl(string $invoiceUrl)
+ * @method $this setInvoiceUrl(string $invoiceUrl)
  * @method string getInvoiceUrl()
- * @method self setShippingInformation(ShippingInformation $shippingInformation)
+ * @method $this setShippingInformation(ShippingInformation $shippingInformation)
  * @method ShippingInformation getShippingInformation()
- * @method self setAmount(Amount $amount)
+ * @method $this setAmount(Amount $amount)
  * @method Amount getAmount()
- * @method self setLineItems(LineItem[]|null $lineItems)
+ * @method $this setLineItems(LineItem[]|null $lineItems)
  * @method LineItem[]|null getLineItems()
  */
 class CreateInvoiceRequestModel extends AbstractRequestModel

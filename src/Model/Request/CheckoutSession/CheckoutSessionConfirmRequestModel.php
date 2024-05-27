@@ -17,17 +17,17 @@ use Billie\Sdk\Model\Request\CheckoutSession\Confirm\Debtor;
 
 /**
  * @method string        getSessionUuid()
- * @method self          setSessionUuid(string $sessionUuid)
+ * @method $this          setSessionUuid(string $sessionUuid)
  * @method Amount        getAmount()
- * @method self          setAmount(Amount $amount)
+ * @method $this          setAmount(Amount $amount)
  * @method int           getDuration()
- * @method self          setDuration(int $duration)
+ * @method $this          setDuration(int $duration)
  * @method Debtor        getDebtor()
- * @method self          setDebtor(Debtor $debtor)
+ * @method $this          setDebtor(Debtor $debtor)
  * @method Address|null  getDeliveryAddress()
- * @method self          setDeliveryAddress(?Address $deliveryAddress)
+ * @method $this          setDeliveryAddress(?Address $deliveryAddress)
  * @method string|null   getExternalCode()
- * @method self          setExternalCode(?string $externalCode)
+ * @method $this          setExternalCode(?string $externalCode)
  */
 class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 {

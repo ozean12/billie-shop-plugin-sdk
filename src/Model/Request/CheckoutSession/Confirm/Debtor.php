@@ -15,7 +15,7 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 
 /**
  * @method string getName()
- * @method self setName(string $name)
+ * @method $this setName(string $name)
  */
 class Debtor extends AbstractRequestModel
 {

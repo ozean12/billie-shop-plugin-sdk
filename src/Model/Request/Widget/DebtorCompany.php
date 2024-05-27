@@ -16,11 +16,11 @@ use Billie\Sdk\Util\ArrayHelper;
 
 /**
  * @method string getName()
- * @method self setName(string $name)
+ * @method $this setName(string $name)
  * @method bool isEstablishedCustomer()
- * @method self setEstablishedCustomer(bool $establishedCustomer)
+ * @method $this setEstablishedCustomer(bool $establishedCustomer)
  * @method Address getAddress()
- * @method self setAddress(Address $address)
+ * @method $this setAddress(Address $address)
  */
 class DebtorCompany extends AbstractRequestModel
 {

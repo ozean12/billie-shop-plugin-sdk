@@ -15,9 +15,9 @@ use Billie\Sdk\Model\Request\OrderRequestModel;
 
 /**
  * @method string|null getExternalCode()
- * @method self        setExternalCode(?string $externalCode)
+ * @method $this        setExternalCode(?string $externalCode)
  * @method Amount|null getAmount()
- * @method self        setAmount(?Amount $amount)
+ * @method $this        setAmount(?Amount $amount)
  */
 class UpdateOrderRequestModel extends OrderRequestModel
 {

@@ -14,7 +14,7 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 
 /**
  * @method string getSessionUuid()
- * @method self setSessionUuid(string $sessionUuid)
+ * @method $this setSessionUuid(string $sessionUuid)
  */
 class GetCheckoutAuthorizationRequestModel extends AbstractRequestModel
 {

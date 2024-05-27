@@ -14,9 +14,9 @@ use Billie\Sdk\Model\Request\InvoiceRequestModel;
 
 /**
  * @method string getInvoiceNumber()
- * @method self   setInvoiceNumber(string $invoiceNumber)
+ * @method $this   setInvoiceNumber(string $invoiceNumber)
  * @method string getInvoiceUrl()
- * @method self   setInvoiceUrl(string $invoiceUrl)
+ * @method $this   setInvoiceUrl(string $invoiceUrl)
  */
 class UpdateInvoiceRequestModel extends InvoiceRequestModel
 {

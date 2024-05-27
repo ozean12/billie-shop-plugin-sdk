@@ -13,7 +13,7 @@ namespace Billie\Sdk\Model\Request\CheckoutSession;
 use Billie\Sdk\Model\Request\AbstractRequestModel;
 
 /**
- * @method self   setMerchantCustomerId(string $merchantCustomerId)
+ * @method $this   setMerchantCustomerId(string $merchantCustomerId)
  * @method string getMerchantCustomerId()
  */
 class CreateSessionRequestModel extends AbstractRequestModel

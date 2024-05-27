@@ -13,15 +13,15 @@ namespace Billie\Sdk\Model;
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 
 /**
- * @method self   setSalutation(string $salutation)
+ * @method $this   setSalutation(string $salutation)
  * @method string|null getSalutation()
- * @method self   setFirstname(string $firstname)
+ * @method $this   setFirstname(string $firstname)
  * @method string|null getFirstname()
- * @method self   setLastname(string $lastname)
+ * @method $this   setLastname(string $lastname)
  * @method string|null getLastname()
- * @method self   setPhone(string $phone)
+ * @method $this   setPhone(string $phone)
  * @method string|null getPhone()
- * @method self   setMail(string $mail)
+ * @method $this   setMail(string $mail)
  * @method string getMail()
  */
 class Person extends AbstractModel
