@@ -17,17 +17,32 @@ namespace Billie\Sdk\Model;
  * @method string getTitle()
  * @method self   setQuantity(int $quantity)
  * @method int    getQuantity()
- * @method self   setDescription(string $description)
- * @method string getDescription()
- * @method self   setCategory(string $category)
- * @method string getCategory()
- * @method self   setBrand(string $brand)
- * @method string getBrand()
- * @method self   setGtin(string $gtin)
+ * @method self   setDescription(string|null $description)
+ * @method string|null getDescription()
+ * @method self   setCategory(string|null $category)
+ * @method string|null getCategory()
+ * @method self   setBrand(string|null $brand)
+ * @method string|null getBrand()
+ * @method self   setGtin(string|null $gtin)
  * @method string getGtin()
- * @method self   setMpn(string $mpn)
- * @method string getMpn()
+ * @method self   setMpn(string|null $mpn)
+ * @method string|null getMpn()
+ * @method self   setProductUrl(string|null $productUrl)
+ * @method string|null getProductUrl()
+ * @method self   setImageUrl(string|null $imageUrl)
+ * @method string|null getImageUrl()
+ * @method self   setType(string|null $type)
+ * @method string|null getType()
+ * @method self   setQuantityUnit(string|null $quantityUnit)
+ * @method string|null getQuantityUnit()
+ * @method self   setTaxRate(float|null $taxRate)
+ * @method float|null  getTaxRate()
+ * @method self   setTotalDiscountAmount(float|null $totalDiscountAmount)
+ * @method float|null  getTotalDiscountAmount()
+ * @method self   setUnitPrice(float|null $unitPrice)
+ * @method float|null  getUnitPrice()
  * @method self   setAmount(Amount $amount)
+ *
  * @method Amount getAmount()
  */
 class LineItem extends AbstractModel
@@ -36,9 +51,9 @@ class LineItem extends AbstractModel
 
     protected ?string $title = null;
 
-    protected ?int $quantity = null;
-
     protected ?string $description = null;
+
+    protected ?int $quantity = null;
 
     protected ?string $category = null;
 
@@ -47,6 +62,20 @@ class LineItem extends AbstractModel
     protected ?string $gtin = null;
 
     protected ?string $mpn = null;
+
+    protected ?string $productUrl = null;
+
+    protected ?string $imageUrl = null;
+
+    protected ?string $type = null;
+
+    protected ?string $quantityUnit = null;
+
+    protected ?float $taxRate = null;
+
+    protected ?float $totalDiscountAmount = null;
+
+    protected ?float $unitPrice = null;
 
     protected Amount $amount;
 }
