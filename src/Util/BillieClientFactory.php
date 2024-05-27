@@ -36,6 +36,11 @@ class BillieClientFactory
         return self::$instances[$key];
     }
 
+    public static function resetInstances(): void
+    {
+        self::$instances = [];
+    }
+
     /**
      * @throws BillieException
      */

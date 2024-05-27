@@ -144,6 +144,8 @@ class BillieClient
                 throw new NotAllowedException($curlInfo['http_code'], $response, $data);
             case 404:
                 throw new NotFoundException('', $curlInfo['http_code'], $response, $data);
+            case 405:
+                // TODO catch wrong HTTP method
             default:
                 throw new UnexpectedServerResponse($curlInfo['http_code'], $response, $data);
         }

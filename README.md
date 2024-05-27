@@ -168,6 +168,31 @@ $responseModel = $validateTokenRequest->execute(new \Billie\Sdk\Model\Request\Au
 
 Note: the request model does not have any content. Don't be confused.
 
+#### RevokeTokenRequest
+
+| 	                 | 	                                                           |
+|-------------------|-------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/oauth_token_revoke) |
+| Request service   | `\Billie\Sdk\Service\Request\Auth\RevokeTokenRequest`       |
+| Request model     | `\Billie\Sdk\Model\Request\Auth\RevokeTokenRequestModel`    |
+| Response model    | `true`                                                      |
+
+Use this service to revoke the token. The token should be already stored in the Billie-Client instance.
+
+
+__Usage__
+
+```php
+/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
+
+$validateTokenRequest = new \Billie\Sdk\Service\Request\Auth\RevokeTokenRequest($billieClient);
+
+/** @var bool $responseModel */
+$responseModel = $validateTokenRequest->execute(new \Billie\Sdk\Model\Request\Auth\RevokeTokenRequestModel());
+```
+
+Note: the request model does not have any content. Don't be confused.
+
 #### CreateSessionRequest
 
 | 	                 | 	                                                                     |
