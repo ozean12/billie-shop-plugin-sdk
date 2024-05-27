@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Billie\Sdk\Model;
 
 use Billie\Sdk\Model\Response\AbstractResponseModel;
+use Billie\Sdk\Model\Response\BankAccount;
 
 /**
  * @method string getName()
@@ -27,4 +28,6 @@ class Debtor extends AbstractResponseModel
     protected ?Address $billingAddress = null;
 
     protected ?DebtorExternalData $externalData = null;
+
+    protected ?BankAccount $bankAccount = null;
 }
