@@ -254,6 +254,32 @@ $requestModel
 $responseModel = $requestService->execute($requestModel); // this is the finally created order
 ```
 
+#### GetCheckoutAuthorizationRequest
+
+| 	                 | 	                                                                                  |
+|-------------------|------------------------------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/get_checkout_session_authorization_v2)     |
+| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\GetCheckoutAuthorizationRequestModel` |
+| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel`     |
+| Response model    | `\Billie\Sdk\Model\Request\CheckoutSession\GetCheckoutAuthorizationResponseModel`  |
+
+Use this service to fetch the details about the authorized current checkout-session.
+
+__Usage__
+
+```php
+
+/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
+
+$requestService = new \Billie\Sdk\Service\Request\CheckoutSession\GetCheckoutAuthorizationRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\CheckoutSession\GetCheckoutAuthorizationRequestModel();
+$requestModel
+  ->setSessionUuid('CHECKOUT-SESSION-ID');
+  
+/** @var \Billie\Sdk\Model\Response\CheckoutSession\GetCheckoutAuthorizationResponseModel $responseModel */
+$responseModel = $requestService->execute($requestModel);
+```
+
 #### CreateOrderRequest
 
 | 	                 | 	                                                         |
