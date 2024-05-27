@@ -17,7 +17,7 @@ use Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://developers.billie.io/#operation/checkout_session_confirm
+ * @see https://docs.billie.io/reference/confirm_authorization_v2
  * @extends AbstractRequest<CheckoutSessionConfirmRequestModel, Order>
  */
 class CheckoutSessionConfirmRequest extends AbstractRequest

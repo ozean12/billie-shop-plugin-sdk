@@ -17,7 +17,7 @@ use Billie\Sdk\Model\Response\Auth\GetTokenResponseModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://developers.billie.io/#operation/oauth_token_create
+ * @see https://docs.billie.io/reference/oauth_token_create
  *
  * @extends AbstractRequest<GetTokenRequestModel, GetTokenResponseModel>
  */

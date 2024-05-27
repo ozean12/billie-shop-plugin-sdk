@@ -15,7 +15,7 @@ use Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://developers.billie.io/#operation/order_update
+ * @see https://docs.billie.io/reference/order_update_v2
  *
  * @extends AbstractRequest<UpdateOrderRequestModel, bool>
  */

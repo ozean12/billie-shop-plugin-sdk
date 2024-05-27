@@ -170,12 +170,12 @@ Note: the request model does not have any content. Don't be confused.
 
 #### CreateSessionRequest
 
-| 	                 | 	                                                                       |
-|-------------------|-------------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/checkout_session_create) |
-| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest`      |
-| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel`   |
-| Response model    | `\Billie\Sdk\Model\Response\CreateSessionResponseModel`                 |
+| 	                 | 	                                                                     |
+|-------------------|-----------------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/create_checkout_session_v2)   |
+| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CreateSessionRequest`    |
+| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CreateSessionRequestModel` |
+| Response model    | `\Billie\Sdk\Model\Response\CreateSessionResponseModel`               |
 
 Use this service to create a new checkout session on the gateway for the customer.
 
@@ -199,7 +199,7 @@ $checkoutSessionId = $responseModel->getCheckoutSessionId(); // use this session
 
 | 	                 | 	                                                                              |
 |-------------------|--------------------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/checkout_session_confirm)       |
+| Api documentation | [Link](https://docs.billie.io/reference/confirm_authorization_v2)              |
 | Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CheckoutSessionConfirmRequest`    |
 | Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CheckoutSessionConfirmRequestModel` |
 | Response model    | `\Billie\Sdk\Model\Order`                                                      |
@@ -279,12 +279,12 @@ This service will throw the following exceptions, which should be handled by the
 
 #### UpdateOrderRequest
 
-| 	                 | 	                                                            |
-|-------------------|--------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/order_update) |
-| Request service   | `\Billie\Sdk\Service\Request\Order\UpdateOrderRequest`       |
-| Request model     | `\Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel`    |
-| Response model    | `true`                                                       |
+| 	                 | 	                                                         |
+|-------------------|-----------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/order_update_v2)  |
+| Request service   | `\Billie\Sdk\Service\Request\Order\UpdateOrderRequest`    |
+| Request model     | `\Billie\Sdk\Model\Request\Order\UpdateOrderRequestModel` |
+| Response model    | `true`                                                    |
 
 Use this order, to update information about the order. Please have a look into the api documentation, which fields are
 updatable. Please also have a look into each model, to find out, which fields this sdk can process.
@@ -306,12 +306,12 @@ $success = $requestService->execute($requestModel); // true if successful
 
 #### GetOrderRequest
 
-| 	                 | 	                                                                 |
-|-------------------|-------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/order_get_details) |
-| Request service   | `\Billie\Sdk\Service\Request\GetOrderRequest`                     |
-| Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`                     |
-| Response model    | `\Billie\Sdk\Model\Order`                                         |
+| 	                 | 	                                                             |
+|-------------------|---------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/order_get_details_v2) |
+| Request service   | `\Billie\Sdk\Service\Request\GetOrderRequest`                 |
+| Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`                 |
+| Response model    | `\Billie\Sdk\Model\Order`                                     |
 
 Use this service to retrieve all order information
 
@@ -320,7 +320,7 @@ __Usage__
 ```php
 /** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
 
-$requestService = new \Billie\Sdk\Service\Request\GetOrderRequest($billieClient);
+$requestService = new \Billie\Sdk\Service\Request\Order\GetOrderRequest($billieClient);
 $requestModel = new \Billie\Sdk\Model\Request\OrderRequestModel('REFERENCE-ID');
 
 /** @var \Billie\Sdk\Model\Order $responseModel */
@@ -373,7 +373,7 @@ $uuid = $responseModel->getUuid(); // uuid of the invoice
 
 | 	                 | 	                                                       |
 |-------------------|---------------------------------------------------------|
-| Api documentation | [Link](https://docs.billie.io/reference/invoice_create) |
+| Api documentation | [Link](https://docs.billie.io/reference/get_invoice)    |
 | Request service   | `\Billie\Sdk\Service\Request\Invoice\GetInvoiceRequest` |
 | Request model     | `\Billie\Sdk\Model\Request\InvoiceRequestModel`         |
 | Response model    | `\Billie\Sdk\Model\Response\CreateInvoiceResponseModel` |
@@ -481,12 +481,12 @@ $uuid = $responseModel->getUuid(); // uuid of the invoice
 
 #### ConfirmPaymentRequest
 
-| 	                 | 	                                                                     |
-|-------------------|-----------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/order_payment_confirm) |
-| Request service   | `\Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest`           |
-| Request model     | `\Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel`        |
-| Response model    | `true`                                                                |
+| 	                 | 	                                                                |
+|-------------------|------------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/invoice_payment_confirm) |
+| Request service   | `\Billie\Sdk\Service\Request\Invoice\ConfirmPaymentRequest`      |
+| Request model     | `\Billie\Sdk\Model\Request\Invoice\ConfirmPaymentRequestModel`   |
+| Response model    | `true`                                                           |
 
 Use this request to notify the gateway about a received payment.
 
@@ -508,7 +508,7 @@ $success = $requestService->execute($requestModel);
 
 | 	                 | 	                                                                     |
 |-------------------|-----------------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/order_payment_confirm) |
+| Api documentation | [Link](https://docs.billie.io/reference/order_cancel_v2) |
 | Request service   | `\Billie\Sdk\Service\Request\Order\CancelOrderRequest`                |
 | Request model     | `\Billie\Sdk\Model\Request\OrderRequestModel`                         |
 | Response model    | `true`                                                                |
@@ -527,12 +527,12 @@ $success = $requestService->execute($requestModel);
 
 #### GetLegalFormsRequest
 
-| 	                 | 	                                                               |
-|-------------------|-----------------------------------------------------------------|
-| Api documentation | [Link](https://developers.billie.io/#operation/get_legal_forms) |
-| Request service   | `\Billie\Sdk\Service\Request\GetLegalFormsRequest`              |
-| Request model     | `\Billie\Sdk\Model\Request\GetLegalFormsRequestModel`           |
-| Response model    | `\Billie\Sdk\Model\Response\GetLegalFormsResponseModel`         |
+| 	                 | 	                                                        |
+|-------------------|----------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/get_legal_forms) |
+| Request service   | `\Billie\Sdk\Service\Request\GetLegalFormsRequest`       |
+| Request model     | `\Billie\Sdk\Model\Request\GetLegalFormsRequestModel`    |
+| Response model    | `\Billie\Sdk\Model\Response\GetLegalFormsResponseModel`  |
 
 Use this request to get all legal forms supported by Billie.
 

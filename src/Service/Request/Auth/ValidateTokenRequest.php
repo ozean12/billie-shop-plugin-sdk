@@ -16,7 +16,7 @@ use Billie\Sdk\Model\Response\Auth\ValidateTokenResponse;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://developers.billie.io/#operation/oauth_token_validate
+ * @see https://docs.billie.io/reference/oauth_token_validate
  * @extends AbstractRequest<ValidateTokenRequestModel, ValidateTokenResponse>
  */
 class ValidateTokenRequest extends AbstractRequest

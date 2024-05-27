@@ -17,7 +17,7 @@ use Billie\Sdk\Model\Response\CreateSessionResponseModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://developers.billie.io/#operation/checkout_session_create
+ * @see https://docs.billie.io/reference/create_checkout_session_v2
  *
  * @extends AbstractRequest<CreateSessionRequestModel, CreateSessionResponseModel>
  */

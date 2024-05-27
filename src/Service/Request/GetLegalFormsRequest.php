@@ -15,7 +15,7 @@ use Billie\Sdk\Model\Request\GetLegalFormsRequestModel;
 use Billie\Sdk\Model\Response\GetLegalFormsResponseModel;
 
 /**
- * @see https://developers.billie.io/#operation/get_legal_forms
+ * @see https://docs.billie.io/reference/get_legal_forms
  *
  * @extends AbstractRequest<GetLegalFormsRequestModel, GetLegalFormsResponseModel>
  */

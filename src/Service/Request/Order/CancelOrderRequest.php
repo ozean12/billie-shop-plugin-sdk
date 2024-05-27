@@ -15,7 +15,7 @@ use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://developers.billie.io/#operation/order_cancel
+ * @see https://docs.billie.io/reference/order_cancel_v2
  *
  * @extends AbstractRequest<OrderRequestModel, bool>
  */

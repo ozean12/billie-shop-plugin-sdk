@@ -17,7 +17,7 @@ use Billie\Sdk\Model\Request\OrderRequestModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://docs.billie.io/reference/order_get_details
+ * @see https://docs.billie.io/reference/order_get_details_v2
  * @extends AbstractRequest<OrderRequestModel, Order>
  */
 class GetOrderRequest extends AbstractRequest

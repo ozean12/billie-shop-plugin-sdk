@@ -22,7 +22,7 @@ use Billie\Sdk\Model\Request\Order\CreateOrderRequestModel;
 use Billie\Sdk\Service\Request\AbstractRequest;
 
 /**
- * @see https://developers.billie.io/#operation/order_create
+ * @see https://docs.billie.io/reference/order_create_v2
  *
  * @extends AbstractRequest<CreateOrderRequestModel, Order>
  */
