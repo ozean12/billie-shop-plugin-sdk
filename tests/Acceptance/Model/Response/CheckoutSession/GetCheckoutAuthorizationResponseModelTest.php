@@ -49,4 +49,25 @@ class GetCheckoutAuthorizationResponseModelTest extends TestCase
         static::assertEquals('test-city', $model->getDebtor()->getCompanyAddress()->getCity());
         static::assertEquals('test-country', $model->getDebtor()->getCompanyAddress()->getCountryCode());
     }
+
+    public function testFromArrayWithNoReason(): void
+    {
+        $model = new GetCheckoutAuthorizationResponseModel([
+            'state' => 'authorized',
+            'decline_reason' => null,
+            'amount' => ResponseHelper::PHPUNIT_OBJECT,
+            'debtor' => [
+                'name' => 'test-company',
+                'company_address' => [
+                    'address_house_number' => 123,
+                    'address_street' => 'test-street',
+                    'address_city' => 'test-city',
+                    'address_postal_code' => 12345,
+                    'address_country' => 'test-country',
+                ],
+            ],
+        ]);
+
+        static::assertNull($model->getDeclineReason());
+    }
 }

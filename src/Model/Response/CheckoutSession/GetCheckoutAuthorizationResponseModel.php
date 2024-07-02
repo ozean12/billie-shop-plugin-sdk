@@ -26,7 +26,7 @@ class GetCheckoutAuthorizationResponseModel extends AbstractResponseModel
 {
     protected string $state;
 
-    protected string $declineReason;
+    protected ?string $declineReason = null;
 
     protected Amount $amount;
 
