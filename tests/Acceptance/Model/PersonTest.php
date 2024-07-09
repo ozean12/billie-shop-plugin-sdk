@@ -34,9 +34,13 @@ class PersonTest extends AbstractModelTestCase
             ->setValidateOnSet(true)
             ->setSalutation('m');
 
+        (new Person())
+            ->setValidateOnSet(true)
+            ->setSalutation(null);
+
         // test invalid
         static::expectException(InvalidFieldValueException::class);
-        static::expectExceptionMessageMatches('/^the field value of `salutation` must be one of these.*/');
+        static::expectExceptionMessageMatches('/the field value of `salutation` must be one of these.*/');
 
         (new Person())
             ->setValidateOnSet(true)

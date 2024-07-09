@@ -13,15 +13,15 @@ namespace Billie\Sdk\Model;
 use Billie\Sdk\Exception\Validation\InvalidFieldValueException;
 
 /**
- * @method $this   setSalutation(string $salutation)
+ * @method $this   setSalutation(string|null $salutation)
  * @method string|null getSalutation()
- * @method $this   setFirstname(string $firstname)
+ * @method $this   setFirstname(string|null $firstname)
  * @method string|null getFirstname()
- * @method $this   setLastname(string $lastname)
+ * @method $this   setLastname(string|null $lastname)
  * @method string|null getLastname()
- * @method $this   setPhone(string $phone)
+ * @method $this   setPhone(string|null $phone)
  * @method string|null getPhone()
- * @method $this   setMail(string $mail)
+ * @method $this   setMail(string|null $mail)
  * @method string getMail()
  */
 class Person extends AbstractModel
@@ -47,7 +47,7 @@ class Person extends AbstractModel
     {
         return [
             'salutation' => static function (self $object, $value): void {
-                if (!in_array($value, ['m', 'f'], true)) {
+                if (!in_array($value, ['m', 'f', null], true)) {
                     throw new InvalidFieldValueException('the field value of `salutation` must be one of these: `m`, `f`');
                 }
             },
