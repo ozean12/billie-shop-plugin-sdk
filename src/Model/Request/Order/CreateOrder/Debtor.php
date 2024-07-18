@@ -43,6 +43,11 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  */
 class Debtor extends AbstractRequestModel
 {
+    protected static array $_additionalFieldMapping = [
+        'subIndustrySector' => 'subindustry_sector',
+        'countOfEmployees' => 'employees_number',
+    ];
+
     protected string $merchantCustomerId;
 
     /**
