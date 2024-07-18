@@ -34,8 +34,8 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
  * @method string|null getIndustrySector()
  * @method $this        setSubIndustrySector(?string $subIndustrySector)
  * @method string|null getSubIndustrySector()
- * @method $this        setCountOfEmployees(?int $countOfEmployees)
- * @method int|null    getCountOfEmployees()
+ * @method $this        setCountOfEmployees(?string $countOfEmployees)
+ * @method string|null    getCountOfEmployees()
  * @method $this        setEstablishedCustomer(?string $establishedCustomer)
  * @method string|null getEstablishedCustomer()
  * @method $this        setLegalForm(string $legalForm)
@@ -84,9 +84,9 @@ class Debtor extends AbstractRequestModel
     protected ?string $subIndustrySector = null;
 
     /**
-     * @var int|null number of employees in the company (optional)
+     * @var string|null number of employees in the company (optional)
      */
-    protected ?int $countOfEmployees = null;
+    protected ?string $countOfEmployees = null;
 
     protected bool $establishedCustomer = false;
 
