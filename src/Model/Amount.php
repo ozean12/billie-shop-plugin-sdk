@@ -22,27 +22,27 @@ use RuntimeException;
  */
 class Amount extends AbstractModel
 {
-    protected ?float $net = null;
+    protected ?float $net;
 
-    protected ?float $gross = null;
+    protected ?float $gross;
 
-    protected ?float $tax = null;
+    protected ?float $tax;
 
     /**
      * @throws InvalidFieldValueException
      */
     public function setTaxRate(float $taxRate): self
     {
-        if ($this->net !== null) {
+        if (isset($this->net)) {
             $this->tax = $this->net * ($taxRate / 100);
 
             $gross = $this->net + $this->tax;
-            if ($this->gross === null) {
+            if (!isset($this->gross)) {
                 $this->gross = $gross;
             } elseif ($this->gross !== $gross) {
                 throw new InvalidFieldValueException('the set value of `gross` does not match the calculated value of ' . $gross . '. Please do net set the `gross` value, or set the correct value');
             }
-        } elseif ($this->gross !== null) {
+        } elseif ($this->gross ?? false) {
             $this->tax = $this->gross - ($this->gross / ($taxRate / 100 + 1));
 
             $this->net = $this->gross - $this->tax;
@@ -55,12 +55,12 @@ class Amount extends AbstractModel
 
     public function getTax(): float
     {
-        return $this->tax ?: ($this->gross - $this->net);
+        return $this->tax ?? ($this->gross - $this->net);
     }
 
     protected function prepareValuesForGateway(array $data): array
     {
-        $data['tax'] = empty($data['tax']) ? $this->getTax() : $data['tax'];
+        $data['tax'] ??= $this->getTax();
 
         return $data;
     }

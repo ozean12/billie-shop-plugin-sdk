@@ -25,6 +25,7 @@ use Billie\Sdk\Model\Request\InvoiceRequestModel;
 class CreateCreditNoteRequestModel extends InvoiceRequestModel
 {
     protected static array $_additionalFieldMapping = [
+        'uuid' => false,
         'externalNumber' => 'external_code',
     ];
 
@@ -32,12 +33,12 @@ class CreateCreditNoteRequestModel extends InvoiceRequestModel
 
     protected Amount $amount;
 
-    protected ?string $comment = null;
+    protected ?string $comment;
 
     /**
      * @var LineItem[]|null
      */
-    protected ?array $lineItems = null;
+    protected ?array $lineItems;
 
     public function __construct(string $uuid, string $externalNumber)
     {
@@ -59,12 +60,5 @@ class CreateCreditNoteRequestModel extends InvoiceRequestModel
         return [
             'lineItems' => '?' . LineItem::class . '[]',
         ];
-    }
-
-    protected function prepareValuesForGateway(array $data): array
-    {
-        return array_merge(parent::prepareValuesForGateway($data), [
-            'line_items' => array_map(static fn (LineItem $item): array => $item->toArray(), $this->lineItems ?? []),
-        ]);
     }
 }

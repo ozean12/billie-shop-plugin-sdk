@@ -35,19 +35,19 @@ class ShippingInformation extends AbstractModel
         'shippingTrackingUrl' => 'tracking_url',
     ];
 
-    protected ?string $returnShippingCompany = null;
+    protected ?string $returnShippingCompany;
 
-    protected ?string $returnTrackingNumber = null;
+    protected ?string $returnTrackingNumber;
 
-    protected ?string $returnTrackingUrl = null;
+    protected ?string $returnTrackingUrl;
 
-    protected ?string $shippingCompany = null;
+    protected ?string $shippingCompany;
 
-    protected ?string $shippingMethod = null;
+    protected ?string $shippingMethod;
 
-    protected ?string $shippingTrackingNumber = null;
+    protected ?string $shippingTrackingNumber;
 
-    protected ?string $shippingTrackingUrl = null;
+    protected ?string $shippingTrackingUrl;
 
     protected function getFieldValidations(): array
     {

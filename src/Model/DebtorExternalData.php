@@ -20,11 +20,11 @@ use Billie\Sdk\Model\Response\AbstractResponseModel;
  */
 class DebtorExternalData extends AbstractResponseModel
 {
-    protected ?string $merchantCustomerId = null;
+    protected ?string $merchantCustomerId;
 
-    protected ?string $name = null;
+    protected ?string $name;
 
-    protected ?string $industrySector = null;
+    protected ?string $industrySector;
 
-    protected ?Address $address = null;
+    protected ?Address $address;
 }

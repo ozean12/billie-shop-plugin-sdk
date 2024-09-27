@@ -39,14 +39,11 @@ class CheckoutSessionConfirmRequestModel extends AbstractRequestModel
 
     protected Debtor $debtor;
 
-    protected ?Address $deliveryAddress = null;
+    protected ?Address $deliveryAddress;
 
-    protected ?string $externalCode = null;
+    protected ?string $externalCode;
 
-    protected function prepareValuesForGateway(array $data): array
-    {
-        unset($data['sessionUuid']);
-
-        return $data;
-    }
+    protected static array $_additionalFieldMapping = [
+        'sessionUuid' => false,
+    ];
 }

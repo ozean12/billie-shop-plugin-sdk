@@ -21,6 +21,7 @@ use Billie\Sdk\Model\Request\InvoiceRequestModel;
 class UpdateInvoiceRequestModel extends InvoiceRequestModel
 {
     protected static array $_additionalFieldMapping = [
+        'uuid' => false,
         'invoiceNumber' => 'external_code',
     ];
 

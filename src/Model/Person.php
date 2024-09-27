@@ -33,13 +33,13 @@ class Person extends AbstractModel
         'lastname' => 'last_name',
     ];
 
-    protected ?string $salutation = null;
+    protected ?string $salutation;
 
-    protected ?string $firstname = null;
+    protected ?string $firstname;
 
-    protected ?string $lastname = null;
+    protected ?string $lastname;
 
-    protected ?string $phone = null;
+    protected ?string $phone;
 
     protected string $mail;
 

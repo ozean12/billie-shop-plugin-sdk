@@ -113,13 +113,13 @@ class Order extends AbstractResponseModel
      */
     public const PAYMENT_METHOD_DIRECT_DEBIT = 'bank_transfer';
 
-    protected ?string $externalCode = null;
+    protected ?string $externalCode;
 
     protected string $uuid;
 
     protected string $state;
 
-    protected ?string $declineReason = null;
+    protected ?string $declineReason;
 
     protected Amount $amount;
 
@@ -131,11 +131,11 @@ class Order extends AbstractResponseModel
 
     protected array $externalData = [];
 
-    protected ?Address $deliveryAddress = null;
+    protected ?Address $deliveryAddress;
 
     protected DateTimeInterface $createdAt;
 
-    protected ?string $selectedPaymentMethod = null; // may be null on declined orders
+    protected ?string $selectedPaymentMethod; // may be null on declined orders
 
     /**
      * @var OrderPaymentMethod[]

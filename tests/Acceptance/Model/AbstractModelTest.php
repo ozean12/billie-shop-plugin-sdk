@@ -152,6 +152,18 @@ class AbstractModelTest extends TestCase
         static::assertEquals($expectedData, $data);
     }
 
+    public function testIfNoValidationErrorGotThrownIfFieldsNotSet(): void
+    {
+        $model = new class() extends AbstractModel {
+            protected string $property1 = 'value1';
+
+            protected string $property2;
+        };
+
+        $this->expectException(InvalidFieldValueCollectionException::class);
+        $model->toArray();
+    }
+
     public function testIfNoValidationErrorGotThrownWhenDisablingIt(): void
     {
         $model = new class() extends AbstractModel {
@@ -166,14 +178,13 @@ class AbstractModelTest extends TestCase
         ], $model->toArray(true), 'behaviour should be exactly the same, if we disable the validation and passed valid data.');
 
         $model = new class() extends AbstractModel {
-            protected string $property1;
+            protected string $property1 = 'value1';
 
             protected string $property2;
         };
 
         static::assertEquals([
-            'property1' => null,
-            'property2' => null,
+            'property1' => 'value1',
         ], $model->toArray(false), 'array should be empty, because we did not pass any fields.');
     }
 }

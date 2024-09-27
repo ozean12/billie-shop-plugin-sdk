@@ -57,36 +57,36 @@ class Debtor extends AbstractRequestModel
 
     protected Address $companyAddress;
 
-    protected ?Address $billingAddress = null;
+    protected ?Address $billingAddress;
 
     /**
      * @var string|null VAT-ID (german: USt.-Id) - e.g. DE310295470 (optional)
      */
-    protected ?string $taxId = null;
+    protected ?string $taxId;
 
     /**
      * @var string|null tax number (german: Steuernummer) (optional)
      */
-    protected ?string $taxNumber = null;
+    protected ?string $taxNumber;
 
     /**
      * @var string|null court where the company has been registered - e.g. Amtsgericht Charlottenburg (optional)
      */
-    protected ?string $registrationCourt = null;
+    protected ?string $registrationCourt;
 
     /**
      * @var string|null Handelsregisternummer (german) - e.g. HRB 182428 B (optional)
      */
-    protected ?string $registrationNumber = null;
+    protected ?string $registrationNumber;
 
-    protected ?string $industrySector = null;
+    protected ?string $industrySector;
 
-    protected ?string $subIndustrySector = null;
+    protected ?string $subIndustrySector;
 
     /**
      * @var string|null number of employees in the company (optional)
      */
-    protected ?string $countOfEmployees = null;
+    protected ?string $countOfEmployees;
 
     protected bool $establishedCustomer = false;
 

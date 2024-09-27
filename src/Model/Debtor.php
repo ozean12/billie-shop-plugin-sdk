@@ -21,13 +21,13 @@ use Billie\Sdk\Model\Response\BankAccount;
  */
 class Debtor extends AbstractResponseModel
 {
-    protected ?string $name = null; // may be null on declined orders
+    protected ?string $name; // may be null on declined orders
 
-    protected ?Address $companyAddress = null; // may be null on declined orders
+    protected ?Address $companyAddress; // may be null on declined orders
 
-    protected ?Address $billingAddress = null;
+    protected ?Address $billingAddress;
 
-    protected ?DebtorExternalData $externalData = null;
+    protected ?DebtorExternalData $externalData;
 
-    protected ?BankAccount $bankAccount = null;
+    protected ?BankAccount $bankAccount;
 }

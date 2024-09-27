@@ -19,15 +19,8 @@ use Billie\Sdk\Model\Request\AbstractRequestModel;
 class GetCheckoutAuthorizationRequestModel extends AbstractRequestModel
 {
     protected static array $_additionalFieldMapping = [
-        'sessionUuid' => 'sessionId',
+        'sessionUuid' => false,
     ];
 
     protected string $sessionUuid;
-
-    protected function prepareValuesForGateway(array $data): array
-    {
-        unset($data['sessionUuid']);
-
-        return $data;
-    }
 }

@@ -27,17 +27,17 @@ class OrderPaymentMethod extends AbstractResponseModel
 {
     protected string $type;
 
-    protected ?string $iban = null;
+    protected ?string $iban;
 
-    protected ?string $bic = null;
+    protected ?string $bic;
 
-    protected ?string $bankName = null;
+    protected ?string $bankName;
 
-    protected ?string $mandateReference = null;
+    protected ?string $mandateReference;
 
-    protected ?DateTimeInterface $mandateExecutionDate = null;
+    protected ?DateTimeInterface $mandateExecutionDate;
 
-    protected ?string $creditorIdentification = null;
+    protected ?string $creditorIdentification;
 
     public function fromArray(array $data): AbstractModel
     {
