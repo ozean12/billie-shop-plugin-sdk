@@ -16,6 +16,8 @@ use Billie\Sdk\Exception\NotAllowedException;
 use Billie\Sdk\Exception\NotFoundException;
 use Billie\Sdk\Exception\UnexpectedServerResponse;
 use Billie\Sdk\Exception\UserNotAuthorizedException;
+use Billie\Sdk\Util\Logging;
+use Exception;
 use RuntimeException;
 
 class BillieClient
@@ -123,9 +125,10 @@ class BillieClient
             $response = json_decode($response, true);
         }
 
-        $response = is_array($response) ? $response : [];
-
         $curlInfo = curl_getinfo($ch);
+        $this->logRequestResponse($url, $method, $requestHeaders, $data, $response, $curlInfo);
+
+        $response = is_array($response) ? $response : [];
 
         // close connection
         curl_close($ch);
@@ -148,6 +151,46 @@ class BillieClient
                 // TODO catch wrong HTTP method
             default:
                 throw new UnexpectedServerResponse($curlInfo['http_code'], $response, $data);
+        }
+    }
+
+    /**
+     * @param mixed $response
+     */
+    private function logRequestResponse(string $url, string $method, array $requestHeaders, array $data, $response, array $curlInfo): void
+    {
+        try {
+            if (is_string($response)) {
+                if (strpos($response, '{') === 0) {
+                    $response = json_decode($response, true, 512, JSON_INVALID_UTF8_IGNORE | JSON_OBJECT_AS_ARRAY);
+                }
+            } elseif (is_object($response)) {
+                // response should never be an object - just to be safe.
+                $response = method_exists($response, '__toString') ? (string) $response : get_class($response);
+            }
+
+            $logContext = [
+                'request' => [
+                    'url' => $url,
+                    'method' => $method,
+                    'data' => $data,
+                ],
+                'response' => [
+                    'status' => $curlInfo['http_code'],
+                    'data' => $response,
+                ],
+            ];
+            if (Logging::isLogHeaders()) {
+                $logContext['request']['headers'] = $requestHeaders;
+            }
+
+            if ($curlInfo['http_code'] < 200 || $curlInfo['http_code'] > 299) {
+                Logging::error('API Request', $logContext);
+            } else {
+                Logging::debug('API Request', $logContext);
+            }
+        } catch (Exception $exception) {
+            // do nothing - just to make sure that logging does not break the response
         }
     }
 }

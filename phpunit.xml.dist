@@ -1,4 +1,6 @@
-<phpunit>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="tests/bootstrap.php">
     <testsuites>
         <testsuite name="acceptance">
             <directory>tests/Acceptance/Model</directory>
@@ -22,6 +24,7 @@
 
     <!--
     <php>
+        <env name="LOG_FILE" value="var/log/unit-tests-requests.log" force="true" />
         <env name="BILLIE_CLIENT_ID" value="<< INSERT YOUR CLIENT ID >>" force="true" />
         <env name="BILLIE_CLIENT_SECRET" value="<< INSERT YOUR CLIENT SECRET >>" force="true" />
     </php>

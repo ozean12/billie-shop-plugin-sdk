@@ -788,3 +788,36 @@ BillieClient manually to the request service:
 $isSandbox = true;
 $requestService->setClient(new \Billie\Sdk\HttpClient\BillieClient('YOUR-CLIENT-ID', 'YOUR-CLIENT-SECRET', $isSandbox));
 ```
+
+#### Logging
+
+You can enable logging for all API requests (we may extend this functionality to log additional events in the future).
+
+To activate logging, simply provide us with an instance of `\Psr\Log\LoggerInterface`. A commonly used logger is
+the [monolog/monolog](https://github.com/Seldaek/monolog) package.
+
+Please note that only loggers implementing the mentioned interface can be passed. If you are using a custom logger,
+ensure that it implements the LoggerInterface. Also, don't forget to install
+the [psr/log](https://github.com/php-fig/log) package if it’s not already included.
+
+**Important**: Do not configure a debug logger in production, as this will log all requests (successful and failed). If
+you only want to log failed requests, configure the logger to handle only ERROR level events.
+
+Example:
+
+```php
+$logFile = '/path/to/your/logfile.log';
+$logger = new \Monolog\Logger('name-for-the-logger');
+
+// handler for errors
+$handlerDebug = new \Monolog\Handler\StreamHandler('/path/to/your/log-file.debug.log', LogLevel::DEBUG);
+$logger->pushHandler($handlerDebug);
+
+// handler for debug-information
+$handlerError = new \Monolog\Handler\StreamHandler('/path/to/your/log-file.error.log', LogLevel::ERROR);
+$logger->pushHandler($handlerError);
+
+\Billie\Sdk\Util\Logging::setPsr3Logger($logger);
+// call this if you want to log the request-headers too
+\Billie\Sdk\Util\Logging::setLogHeaders(true);
+```
