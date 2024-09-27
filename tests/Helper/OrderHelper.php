@@ -23,10 +23,10 @@ class OrderHelper
     {
         $orderId = self::getUniqueOrderNumber($nameOfTest);
         $addressModel = (new Address())
-            ->setStreet('Charlottenstr.')
+            ->setStreet('Tannenweg')
             ->setHouseNumber('4')
-            ->setPostalCode('10969')
-            ->setCity('Berlin')
+            ->setPostalCode('77716')
+            ->setCity('Haslach im Kinzigtal')
             ->setCountryCode('DE');
 
         return (new CreateOrderRequestModel())
@@ -34,16 +34,16 @@ class OrderHelper
             ->setDebtor(
                 (new Debtor())
                     ->setMerchantCustomerId('BILLIE-00000001-1')
-                    ->setName('Billie GmbH')
+                    ->setName('Zeta Electronics Gold GmbH')
                     ->setCompanyAddress($addressModel)
                     ->setLegalForm('10001')
-                    ->setRegistrationNumber('1234567')
+                    ->setRegistrationNumber('HRB 934855')
                     ->setRegistrationCourt('Amtsgericht Charlottenburg')
                     ->setBillingAddress($addressModel)
             )
             ->setPerson(
                 (new Person())
-                    ->setMail('max.mustermann@musterfirma.de')
+                    ->setMail('max.mustermann@musterfirma.internal')
                     ->setSalutation('m')
                     ->setPhone('+4930120111111')
             )
