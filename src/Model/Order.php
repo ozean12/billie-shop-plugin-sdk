@@ -46,6 +46,11 @@ class Order extends AbstractResponseModel
     /**
      * @var string
      */
+    public const STATE_AUTHORIZED = 'authorized';
+
+    /**
+     * @var string
+     */
     public const STATE_SHIPPED = 'shipped';
 
     /**
