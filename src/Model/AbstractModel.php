@@ -52,14 +52,12 @@ abstract class AbstractModel
      */
     public function __call(string $name, ?array $arguments = [])
     {
-        $field = lcfirst(substr($name, 3));
-
-        if (strpos($name, 'set') === 0 && method_exists($this, 'set')) {
-            return $this->set($field, $arguments[0] ?? null);
+        if (preg_match('/^set(.+)$/', $name, $matches)) {
+            return $this->set(lcfirst($matches[1]), $arguments[0] ?? null);
         }
 
-        if (strpos($name, 'get') === 0 || strpos($name, 'is') === 0) {
-            return $this->get($field);
+        if (preg_match('/^(get|is)(.+)$/', $name, $matches)) {
+            return $this->get(lcfirst($matches[2]));
         }
 
         throw new BadMethodCallException('Method `' . $name . '` does not exists on `' . static::class . '`');
@@ -161,7 +159,7 @@ abstract class AbstractModel
         }
 
         $errorCollection = new InvalidFieldValueCollectionException();
-        foreach ($this->getObjectVars() as $field => $value) {
+        foreach ($this->getObjectVars(true) as $field => $value) {
             try {
                 $this->validateFieldValue($field, $value);
             } catch (InvalidFieldValueException $invalidFieldValueException) {
@@ -281,12 +279,18 @@ abstract class AbstractModel
         return array_filter($names, static fn (string $key): bool => strpos($key, '_') !== 0);
     }
 
-    private function getObjectVars(): array
+    private function getObjectVars(bool $includeNotFilledFields = false): array
     {
         $vars = [];
         foreach ($this->getPropertyNames() as $propertyName) {
             if (!(static::$_additionalFieldMapping[$propertyName] ?? true)) {
                 // field has been excluded
+                continue;
+            }
+
+            if (!$includeNotFilledFields && !isset($this->{$propertyName})) {
+                // only values, which has been set, should be included in the request.
+                // values, which has not been set and are required, should be already validated, and an exception should be thrown.
                 continue;
             }
 

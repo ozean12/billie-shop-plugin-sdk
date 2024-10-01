@@ -49,11 +49,11 @@ class CreateOrderRequestModel extends AbstractRequestModel
 
     protected Person $person;
 
-    protected ?string $comment = null;
+    protected ?string $comment;
 
-    protected ?string $externalCode = null;
+    protected ?string $externalCode;
 
-    protected ?Address $deliveryAddress = null;
+    protected ?Address $deliveryAddress;
 
     /**
      * @var LineItem[]
@@ -65,13 +65,6 @@ class CreateOrderRequestModel extends AbstractRequestModel
         $this->lineItems[] = $lineItem;
 
         return $this;
-    }
-
-    protected function prepareValuesForGateway(array $data): array
-    {
-        return array_merge($data, [
-            'line_items' => array_map(static fn (LineItem $item): array => $item->toArray(), $this->lineItems ?? []),
-        ]);
     }
 
     protected function getFieldValidations(): array

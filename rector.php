@@ -53,6 +53,9 @@ return static function (RectorConfig $rectorConfig): void {
         \Rector\TypeDeclaration\Rector\ClassMethod\ReturnAnnotationIncorrectNullableRector::class => [
             __DIR__ . '/src/Util/ResponseHelper.php'
         ],
+        \Rector\Php74\Rector\Property\RestoreDefaultNullToNullableTypePropertyRector::class => [
+            __DIR__ . '/src/Model/'
+        ]
     ]);
 
     $rectorConfig->ruleWithConfiguration(ConsistentPregDelimiterRector::class, [

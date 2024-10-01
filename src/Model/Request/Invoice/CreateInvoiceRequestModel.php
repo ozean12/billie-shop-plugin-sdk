@@ -52,7 +52,7 @@ class CreateInvoiceRequestModel extends AbstractRequestModel
     /**
      * @var LineItem[]|null
      */
-    protected ?array $lineItems = null;
+    protected ?array $lineItems;
 
     public function __construct()
     {
@@ -89,12 +89,5 @@ class CreateInvoiceRequestModel extends AbstractRequestModel
             'orders' => Validation::TYPE_STRING_REQUIRED . '[]',
             'lineItems' => '?' . LineItem::class . '[]',
         ];
-    }
-
-    protected function prepareValuesForGateway(array $data): array
-    {
-        return array_merge($data, [
-            'line_items' => array_map(static fn (LineItem $item): array => $item->toArray(), $this->lineItems ?? []),
-        ]);
     }
 }

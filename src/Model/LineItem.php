@@ -46,37 +46,37 @@ namespace Billie\Sdk\Model;
  */
 class LineItem extends AbstractModel
 {
-    protected ?string $externalId = null;
+    protected ?string $externalId;
 
-    protected ?string $title = null;
+    protected ?string $title;
 
-    protected ?string $description = null;
+    protected ?string $description;
 
-    protected ?int $quantity = null;
+    protected ?int $quantity;
 
-    protected ?string $category = null;
+    protected ?string $category;
 
-    protected ?string $brand = null;
+    protected ?string $brand;
 
-    protected ?string $gtin = null;
+    protected ?string $gtin;
 
-    protected ?string $mpn = null;
+    protected ?string $mpn;
 
-    protected ?string $productUrl = null;
+    protected ?string $productUrl;
 
-    protected ?string $imageUrl = null;
+    protected ?string $imageUrl;
 
-    protected ?string $type = null;
+    protected ?string $type;
 
-    protected ?string $quantityUnit = null;
+    protected ?string $quantityUnit;
 
-    protected ?float $taxRate = null;
+    protected ?float $taxRate;
 
-    protected ?float $totalDiscountAmount = null;
+    protected ?float $totalDiscountAmount;
 
-    protected ?float $unitPrice = null;
+    protected ?float $unitPrice;
 
-    protected ?Amount $amount = null;
+    protected ?Amount $amount;
 
     protected function getFieldValidations(): array
     {

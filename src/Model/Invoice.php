@@ -30,27 +30,27 @@ use DateTimeInterface;
  */
 class Invoice extends AbstractResponseModel
 {
-    protected ?string $uuid = null;
+    protected ?string $uuid;
 
-    protected ?string $number = null;
+    protected ?string $number;
 
-    protected ?string $state = null;
+    protected ?string $state;
 
-    protected ?float $payoutAmount = null;
+    protected ?float $payoutAmount;
 
-    protected ?Amount $amount = null;
+    protected ?Amount $amount;
 
-    protected ?float $outstandingAmount = null;
+    protected ?float $outstandingAmount;
 
-    protected ?float $pendingMerchantPaymentAmount = null;
+    protected ?float $pendingMerchantPaymentAmount;
 
-    protected ?float $pendingCancellationAmount = null;
+    protected ?float $pendingCancellationAmount;
 
-    protected ?float $feeAmount = null;
+    protected ?float $feeAmount;
 
-    protected ?float $feeRate = null;
+    protected ?float $feeRate;
 
-    protected ?DateTimeInterface $dueDate = null;
+    protected ?DateTimeInterface $dueDate;
 
-    protected ?DateTimeInterface $createdAt = null;
+    protected ?DateTimeInterface $createdAt;
 }

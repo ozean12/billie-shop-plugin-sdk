@@ -15,6 +15,10 @@ use Billie\Sdk\Util\ArrayHelper;
 
 class LineItem extends \Billie\Sdk\Model\LineItem
 {
+    protected static array $_additionalFieldMapping = [
+        'amount' => false,
+    ];
+
     /**
      * @deprecated do not use the constructor anymore. will be removed in the future
      */
@@ -28,14 +32,10 @@ class LineItem extends \Billie\Sdk\Model\LineItem
 
     protected function prepareValuesForGateway(array $data): array
     {
-        $data = array_merge(
+        return array_merge(
             parent::prepareValuesForGateway($data),
-            ArrayHelper::addPrefixToKeys($this->amount instanceof Amount ? $this->amount->toArray() : [], 'amount_')
+            ($this->amount ?? null) instanceof Amount ? ArrayHelper::addPrefixToKeys($this->amount->toArray(), 'amount_') : []
         );
-
-        unset($data['amount']);
-
-        return $data;
     }
 
     protected function getFieldValidations(): array

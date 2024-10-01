@@ -18,6 +18,10 @@ class OrderRequestModel extends AbstractRequestModel implements EntityRequestMod
 {
     protected string $uuid;
 
+    protected static array $_additionalFieldMapping = [
+        'uuid' => false,
+    ];
+
     public function __construct(string $uuid)
     {
         parent::__construct();
@@ -27,12 +31,5 @@ class OrderRequestModel extends AbstractRequestModel implements EntityRequestMod
     public function getBillieEntityId(): string
     {
         return $this->getUuid();
-    }
-
-    protected function prepareValuesForGateway(array $data): array
-    {
-        unset($data['uuid']);
-
-        return $data;
     }
 }

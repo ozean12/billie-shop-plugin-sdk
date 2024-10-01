@@ -10,37 +10,23 @@ declare(strict_types=1);
 
 namespace Billie\Sdk\Model;
 
+/**
+ * @method int|null getCode()
+ * @method string|null getName()
+ * @method string|null getRequiredField()
+ * @method bool isRequired()
+ */
 class LegalForm extends AbstractModel
 {
     protected static array $_additionalFieldMapping = [
         'requiredField' => 'required_input',
     ];
 
-    protected ?int $code = null;
+    protected ?int $code;
 
-    protected ?string $name = null;
+    protected ?string $name;
 
-    protected ?string  $requiredField = null;
+    protected ?string $requiredField;
 
     protected bool $required = false;
-
-    public function getCode(): ?int
-    {
-        return $this->code;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function getRequiredField(): ?string
-    {
-        return $this->requiredField;
-    }
-
-    public function isRequired(): bool
-    {
-        return $this->required;
-    }
 }

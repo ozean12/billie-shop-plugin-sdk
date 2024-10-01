@@ -32,7 +32,7 @@ class Address extends AbstractModel
 
     protected string $street;
 
-    protected ?string $houseNumber = null;
+    protected ?string $houseNumber;
 
     protected string $city;
 

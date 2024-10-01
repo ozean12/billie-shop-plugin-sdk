@@ -21,7 +21,7 @@ use Billie\Sdk\Model\Request\OrderRequestModel;
  */
 class UpdateOrderRequestModel extends OrderRequestModel
 {
-    protected ?string $externalCode = null;
+    protected ?string $externalCode;
 
-    protected ?Amount $amount = null;
+    protected ?Amount $amount;
 }
