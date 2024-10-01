@@ -15,7 +15,9 @@
     "phpstan/phpstan": "*",
     "rector/rector": "^0.16.0",
     "symplify/easy-coding-standard": "^11.3",
-    "jasny/phpdoc-parser": "^1.0"
+    "jasny/phpdoc-parser": "^1.0",
+    "monolog/monolog": ">=2.9",
+    "psr/log": "*"
   },
   "autoload": {
     "psr-4": { "Billie\\Sdk\\" : "src/" }
@@ -30,5 +32,8 @@
     ],
     "phpstan": "./vendor/bin/phpstan analyse -c './phpstan.neon'",
     "phpunit": "./vendor/bin/phpunit -c './phpunit.xml.dist'"
+  },
+  "suggest": {
+    "psr/log": "If a PSR-3 Logger is installed, you can enable logging for all Billie api requests. You can use all loggers which also implement PSR-3. e.g. monolog/monolog"
   }
 }
