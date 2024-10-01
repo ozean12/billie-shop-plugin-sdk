@@ -15,7 +15,7 @@ class WidgetHelper
     /**
      * @var string
      */
-    public const SANDBOX_URL = 'https://static-paella-sandbox.billie.io/checkout/billie-checkout.js';
+    public const SANDBOX_URL = 'https://static.paella-sandbox.billie.io/checkout/billie-checkout.js';
 
     /**
      * @var string
