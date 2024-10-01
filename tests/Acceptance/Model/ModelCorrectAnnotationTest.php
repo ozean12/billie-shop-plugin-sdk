@@ -26,7 +26,9 @@ class ModelCorrectAnnotationTest extends TestCase
     {
         $classReflection = (new ReflectionClass($class));
 
-        preg_match('/^(get|set)(.*)/', $methodName, $matches);
+        if (!preg_match('/^(get|set)(.*)/', $methodName, $matches)) {
+            return; // should never occur because data-provider does have the same filter.
+        }
 
         $propertyName = lcfirst($matches[2]);
         static::assertTrue($classReflection->hasProperty($propertyName), sprintf('property %s::%s should exist', $class, $propertyName));
