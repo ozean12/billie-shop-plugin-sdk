@@ -34,7 +34,7 @@ class LineItem extends \Billie\Sdk\Model\LineItem
     {
         return array_merge(
             parent::prepareValuesForGateway($data),
-            ($this->amount ?? null) instanceof Amount ? ArrayHelper::addPrefixToKeys($this->amount->toArray(), 'amount_') : []
+            ($this->amount ?? null) instanceof Amount ? ArrayHelper::addPrefixToKeys($this->amount->toArray($this->_validateOnSet), 'amount_') : []
         );
     }
 
