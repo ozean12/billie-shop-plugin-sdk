@@ -45,6 +45,7 @@ class GetOrderTest extends AbstractOrderRequest
         foreach ($expectedArray as $expectedKey => $expectedValue) {
             static::assertArrayHasKey($expectedKey, $actualArray);
             if (is_array($expectedValue)) {
+                self::assertIsArray($actualArray[$expectedKey] ?? null);
                 $this->compareArrays($expectedValue, $actualArray[$expectedKey]);
             } elseif ($expectedValue instanceof DateTime) {
                 static::assertEqualsWithDelta($expectedValue, $actualArray[$expectedKey], 10);
