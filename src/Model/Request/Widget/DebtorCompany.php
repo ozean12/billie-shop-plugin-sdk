@@ -38,7 +38,7 @@ class DebtorCompany extends AbstractRequestModel
     {
         return array_merge(
             $data,
-            ArrayHelper::addPrefixToKeys($this->address->toArray(), 'address_')
+            ArrayHelper::addPrefixToKeys($this->address->toArray($this->_validateOnSet), 'address_')
         );
     }
 }

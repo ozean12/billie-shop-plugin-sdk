@@ -187,4 +187,31 @@ class AbstractModelTest extends TestCase
             'property1' => 'value1',
         ], $model->toArray(false), 'array should be empty, because we did not pass any fields.');
     }
+
+    public function testIfDisabledNestedValidation(): void
+    {
+        $model = new class() extends AbstractModel {
+            protected AbstractModel $property;
+        };
+
+        $modelNested = new class() extends AbstractModel {
+            protected string $nestedProperty;
+
+            protected string $propertyWithDefaultValue = 'test-value';
+        };
+
+        $model->setValidateOnSet(false);
+        $model->__call('setProperty', [$modelNested]);
+
+        $data = $model->toArray(false);
+        self::assertIsArray($data);
+        self::assertEquals([
+            'property' => [
+                'property_with_default_value' => 'test-value',
+            ],
+        ], $data);
+
+        $this->expectException(InvalidFieldValueCollectionException::class);
+        $model->toArray();
+    }
 }

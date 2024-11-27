@@ -31,9 +31,9 @@ abstract class AbstractModel
      */
     protected static array $_additionalFieldMapping = [];
 
-    private bool $_readOnly = false;
+    protected bool $_validateOnSet = true;
 
-    private bool $_validateOnSet = true;
+    private bool $_readOnly = false;
 
     private bool $_modelHasBeenValidated = false;
 
@@ -143,9 +143,11 @@ abstract class AbstractModel
             $this->validateFields();
         }
 
+        $data = $this->_toArray();
+
         $this->_validateOnToArray = $prevValidateState;
 
-        return $this->_toArray();
+        return $data;
     }
 
     /**
@@ -252,7 +254,7 @@ abstract class AbstractModel
     private function convertObjectsRecursively($value)
     {
         if ($value instanceof self) {
-            return $value->toArray();
+            return $value->toArray($this->_validateOnToArray);
         } elseif ($value instanceof DateTimeInterface) {
             return $value->getTimestamp();
         } elseif (is_array($value)) {
