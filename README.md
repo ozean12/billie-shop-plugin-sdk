@@ -280,6 +280,39 @@ $requestModel
 $responseModel = $requestService->execute($requestModel);
 ```
 
+#### CreateHostedPaymentPageSessionRequest
+
+| 	                 | 	                                                                                      |
+|-------------------|----------------------------------------------------------------------------------------|
+| Api documentation | [Link](https://docs.billie.io/reference/create_hpp_checkout_session_v2)                |
+| Request service   | `\Billie\Sdk\Service\Request\CheckoutSession\CreateHostedPaymentPageSessionRequest`    |
+| Request model     | `\Billie\Sdk\Model\Request\CheckoutSession\CreateHostedPaymentPageSessionRequestModel` |
+| Response model    | `\Billie\Sdk\Model\Response\CreateHostedPaymentPageSessionResponseModel`               |
+
+Use this service initiate a new checkout-session with a hosted payment page. The customer has to complete the order on
+the returned url.
+
+__Usage__
+
+```php
+
+/** @var \Billie\Sdk\HttpClient\BillieClient $billieClient */
+
+$requestService = new \Billie\Sdk\Service\Request\CheckoutSession\CreateHostedPaymentPageSessionRequest($billieClient);
+$requestModel = new \Billie\Sdk\Model\Request\CheckoutSession\CreateHostedPaymentPageSessionRequestModel();
+$requestModel
+    ->setChannel('hpp_telesales')
+    ->setAmount(new \Billie\Sdk\Model\Amount())
+    ->setDuration(30)
+    ->setDebtorCompany(new \Billie\Sdk\Model\Request\CheckoutSession\HostedPaymentPage\DebtorCompany())
+    ->setDebtorPerson(new \Billie\Sdk\Model\Person())
+    ->addLineItem(new \Billie\Sdk\Model\LineItem())
+    ->setMerchantUrls(new \Billie\Sdk\Model\Request\CheckoutSession\HostedPaymentPage\MerchantUrls());
+  
+/** @var \Billie\Sdk\Model\Response\CreateHostedPaymentPageSessionResponseModel $responseModel */
+$responseModel = $requestService->execute($requestModel);
+```
+
 #### CreateOrderRequest
 
 | 	                 | 	                                                         |
